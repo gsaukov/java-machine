@@ -1,6 +1,5 @@
-package com.t24app.alertserver;
+package com.apps.alertserver;
 
-import com.apps.alertserver.AlertServer;
 import org.testng.annotations.Test;
 
 public class Querytest {
