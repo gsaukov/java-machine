@@ -31,9 +31,9 @@ class Consumer implements Runnable {
 
         }
 
-        System.out.println(this.getClass() + " Via " + task.getClass()
-                + " time (ms) " + (System.currentTimeMillis() - start)
-                + " Last Value " + lastValue);
+//        System.out.println(this.getClass() + " Via " + task.getClass()
+//                + " time (ms) " + (System.currentTimeMillis() - start)
+//                + " Last Value " + lastValue);
     }
 
 }

@@ -30,9 +30,9 @@ public class Producer implements Runnable {
             }
         }
 
-        System.out.println(this.getClass() + " via " + task.getClass()
-                + " time (ms) " + (System.currentTimeMillis() - start)
-                + " Last Number " + lastNumber);
+//        System.out.println(this.getClass() + " via " + task.getClass()
+//                + " time (ms) " + (System.currentTimeMillis() - start)
+//                + " Last Number " + lastNumber);
         while (!task.offer(-1l)) ;
     }
 
