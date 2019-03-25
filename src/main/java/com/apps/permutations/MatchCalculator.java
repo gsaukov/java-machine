@@ -11,7 +11,8 @@ import java.util.Map;
 
 public class MatchCalculator {
 
-    public static final Float magic24 = new Float("24");
+    public static final Float MAGIC_24 = new Float("24");
+    public static final int RANGE = 3;
 
     static String A = "30";
     static String B = "3";
@@ -21,7 +22,7 @@ public class MatchCalculator {
     static Map<Float, List<String>> results = new HashMap();
 
     public static void main(String[] args) throws Exception {
-        Permutations.init(new Object[]{ '+', '-', '*', '/' });
+        Permutations.init(new Object[]{ '+', '-', '*', '/' }, RANGE);
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("JavaScript");
         for (String c : Permutations.COMBINATIONS){
@@ -34,8 +35,8 @@ public class MatchCalculator {
             }
         }
 
-        if(results.containsKey(magic24)){
-            for(String s : results.get(magic24)){
+        if(results.containsKey(MAGIC_24)){
+            for(String s : results.get(MAGIC_24)){
                 System.out.println(s + " = 24");
             }
         }

@@ -34,7 +34,7 @@ public class Permutations {
         public void handle(Object[] snapshot);
     };
 
-    public static void init(Object[] chars) {
+    public static void init(Object[] chars, int range) {
         PermuteCallback callback = new PermuteCallback() {
 
             @Override
@@ -46,6 +46,6 @@ public class Permutations {
                 COMBINATIONS.add(combination);
             }
         };
-        permute(chars, 3, callback);
+        permute(chars, range, callback);
     }
 }
