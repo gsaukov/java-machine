@@ -12,7 +12,9 @@ public class LakesCalculator {
     public static List<List<Surface>> calculate(int[] arr) {
         TreeSet<Surface> surfaces = convert(arr);
         List<List<Surface>> lakes = new ArrayList<>();
-        buildLake(surfaces, lakes);
+        buildLakes(surfaces, lakes);
+        calculateLakeData(lakes);
+
         return lakes;
     }
 
@@ -24,7 +26,7 @@ public class LakesCalculator {
         return surfaces;
     }
 
-    private static void buildLake(NavigableSet<Surface> surfaces, List<List<Surface>> lakes) {
+    private static void buildLakes(NavigableSet<Surface> surfaces, List<List<Surface>> lakes) {
         NavigableSet<Surface> vertexes = getVertexes(surfaces);
         if (vertexes.size() < 2) {
             return;
@@ -36,8 +38,8 @@ public class LakesCalculator {
 
         lakes.add(new ArrayList<>(surfaces.subSet(lakeBounds.first(), true, lakeBounds.last(), true))); // highest lake with left to right borders
 
-        buildLake(surfaces.headSet(lakeBounds.first(), true), lakes); // everything on the left of highest lake go recursion DFS. Left will be calculated first.
-        buildLake(surfaces.tailSet(lakeBounds.last(), true), lakes); // everything on the the right of highest lake go recursion.
+        buildLakes(surfaces.headSet(lakeBounds.first(), true), lakes); // everything on the left of highest lake go recursion DFS. Left will be calculated first.
+        buildLakes(surfaces.tailSet(lakeBounds.last(), true), lakes); // everything on the the right of highest lake go recursion.
     }
 
     private static NavigableSet<Surface> getVertexes(NavigableSet<Surface> surfaces) {
@@ -61,6 +63,21 @@ public class LakesCalculator {
             vertex = surface;
         }
         return vertexes;
+    }
+
+    private static void calculateLakeData(List<List<Surface>> lakes) {
+        List<Lake> calculatedLakes = new ArrayList<>();
+        for(List<Surface> lake : lakes){
+            int leftBank = lake.get(0).val;
+            int rightBank = lake.get(lake.size() -1).val;
+            int seaLevel = leftBank < rightBank ? rightBank : leftBank;
+            int mirror;
+            int volume;
+            int[] depthes;
+
+
+
+        }
     }
 
 }

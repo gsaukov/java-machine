@@ -5,11 +5,20 @@ import java.util.Objects;
 public class Surface {
 
     public final int val, index;
-    public int depth;
 
-    public Surface(int val, int index) {
+    private int depth;
+
+    Surface(int val, int index) {
         this.val = val;
         this.index = index;
+    }
+
+    void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    public int getDepth() {
+        return depth;
     }
 
     @Override
