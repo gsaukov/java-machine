@@ -9,11 +9,11 @@ public class LakesCalculator {
 
     //TODO calculate depth, mirror, volume. Go 3d some day.
 
-    public static void main(String[] args) {
-        int[] arr = {2, 1, 2, 3, 4, 3, 3, 5, 5, 2, 3, 2, 7, 3, 5};
+    public static List<List<Surface>> calculate(int[] arr) {
         TreeSet<Surface> surfaces = convert(arr);
         List<List<Surface>> lakes = new ArrayList<>();
         buildLake(surfaces, lakes);
+        return lakes;
     }
 
     private static TreeSet<Surface> convert(int[] arr) {
@@ -29,14 +29,15 @@ public class LakesCalculator {
         if (vertexes.size() < 2) {
             return;
         }
-        TreeSet<Surface> lakeBounds = new TreeSet<>(new IndexComparator());
+
+        TreeSet<Surface> lakeBounds = new TreeSet<>(new IndexComparator()); //contains 2 highest vertexes
         lakeBounds.add(vertexes.pollFirst());
         lakeBounds.add(vertexes.pollFirst());
 
-        lakes.add(new ArrayList<>(surfaces.subSet(lakeBounds.first(), true, lakeBounds.last(), true)));
+        lakes.add(new ArrayList<>(surfaces.subSet(lakeBounds.first(), true, lakeBounds.last(), true))); // highest lake with left to right borders
 
-        buildLake(surfaces.headSet(lakeBounds.first(), true), lakes);
-        buildLake(surfaces.tailSet(lakeBounds.last(), true), lakes);
+        buildLake(surfaces.headSet(lakeBounds.first(), true), lakes); // everything on the left of highest lake go recursion DFS. Left will be calculated first.
+        buildLake(surfaces.tailSet(lakeBounds.last(), true), lakes); // everything on the the right of highest lake go recursion.
     }
 
     private static NavigableSet<Surface> getVertexes(NavigableSet<Surface> surfaces) {
@@ -45,20 +46,19 @@ public class LakesCalculator {
             return vertexes;
         }
         List<Surface> surfacesArray = new ArrayList<>(surfaces);
-        Surface vertex = new Surface(0, -1);
+        Surface vertex = new Surface(0, -1);// uncountable start
+        surfacesArray.add(vertex);// uncountable end
 
+        boolean goingUp = true;
         for (int i = 0; i < surfacesArray.size(); i++) {
             Surface surface = surfacesArray.get(i);
             if (vertex.val <= surface.val) {
-                vertex = surface;
-            } else {
+                goingUp = true;
+            } else if (goingUp) { //this will produce dry lakes on downhill ex: {2, 1, 1} will be removed during depth calculation.
                 vertexes.add(vertex);
-                vertex = surface;
+                goingUp = false;
             }
-
-            if(i == surfacesArray.size() - 1 && surface.val >= surfacesArray.get(i - 1).val) {
-                vertexes.add(vertex);
-            }
+            vertex = surface;
         }
         return vertexes;
     }

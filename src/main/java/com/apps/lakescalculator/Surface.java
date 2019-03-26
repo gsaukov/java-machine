@@ -4,7 +4,8 @@ import java.util.Objects;
 
 public class Surface {
 
-    public int val, index, depth;
+    public final int val, index;
+    public int depth;
 
     public Surface(int val, int index) {
         this.val = val;
