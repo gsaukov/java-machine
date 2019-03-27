@@ -9,13 +9,11 @@ public class LakesCalculator {
 
     //TODO calculate depth, mirror, volume. Go 3d some day.
 
-    public static List<List<Surface>> calculate(int[] arr) {
+    public static List<Lake> calculate(int[] arr) {
         TreeSet<Surface> surfaces = convert(arr);
         List<List<Surface>> lakes = new ArrayList<>();
         buildLakes(surfaces, lakes);
-        calculateLakeData(lakes);
-
-        return lakes;
+        return calculateLakeData(lakes);
     }
 
     private static TreeSet<Surface> convert(int[] arr) {
@@ -65,19 +63,66 @@ public class LakesCalculator {
         return vertexes;
     }
 
-    private static void calculateLakeData(List<List<Surface>> lakes) {
+    private static List<Lake> calculateLakeData(List<List<Surface>> lakes) {
         List<Lake> calculatedLakes = new ArrayList<>();
+
+        int aggregatedVolume = 0;
+        int aggregatedMirror = 0;
+        int overallMaxDepth = 0;
+        int overallMaxHeight = 0;
+
         for(List<Surface> lake : lakes){
             int leftBank = lake.get(0).val;
             int rightBank = lake.get(lake.size() -1).val;
-            int seaLevel = leftBank < rightBank ? rightBank : leftBank;
-            int mirror;
-            int volume;
-            int[] depthes;
-
-
+            int seaLevel = leftBank < rightBank ? leftBank : rightBank;
+            int maxHeight = leftBank < rightBank ? rightBank : leftBank;
+            int maxDepth = 0;
+            int mirror = 0;
+            int volume = 0;
+            for (Surface surface : lake) {
+                surface.depth = seaLevel > surface.val ? seaLevel - surface.val : 0;
+                volume += surface.depth;
+                aggregatedVolume += surface.depth;
+                if(surface.depth > 0){
+                    mirror += 1;
+                    aggregatedMirror += 1;
+                    if(surface.depth > maxDepth){
+                        maxDepth = surface.depth;
+                        if(surface.depth > overallMaxDepth){
+                            overallMaxDepth = surface.depth;
+                        }
+                    }
+                }
+                if(overallMaxHeight < maxHeight){
+                    overallMaxHeight = maxHeight;
+                }
+            }
+            if(volume > 0){// bye bye right downhill dry lake
+                calculatedLakes.add(new Lake.Builder()
+                        .withVolume(volume)
+                        .withMirror(mirror)
+                        .withSeaLevel(seaLevel)
+                        .withMaxDepth(maxDepth)
+                        .withMaxHeight(maxHeight)
+                        .withAverageArithmeticDepth((float)volume / mirror)
+                        .withFormFactor((float)mirror / volume)
+                        .withLakeSurface(lake)
+                        .build());
+            }
+        }
+        if(!calculatedLakes.isEmpty()){
+            calculatedLakes.add(new Lake.Builder()
+                    .withVolume(aggregatedVolume)
+                    .withMirror(aggregatedMirror)
+                    .withMaxDepth(overallMaxDepth)
+                    .withMaxHeight(overallMaxHeight)
+                    .withAverageArithmeticDepth((float)aggregatedVolume / aggregatedMirror)
+                    .withFormFactor((float)aggregatedMirror / aggregatedVolume)
+                    .setTotal(true)
+                    .build());
 
         }
+        return calculatedLakes;
     }
 
 }
