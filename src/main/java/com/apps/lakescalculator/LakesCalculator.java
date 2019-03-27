@@ -4,7 +4,11 @@ import java.util.*;
 
 public class LakesCalculator {
 
-    //TODO calculate depth, mirror, volume. Go 3d some day.
+    //TODO Go 3d some day.
+
+    // For dividing the surface array on to left, middle, right lakes, TreeSet and its tail/head/subset is better implementation
+    // than ArayList.sublist that has concurent modigfication exceptions https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html#subList-int-int-
+    // no inclusive split etc.
 
     public static List<Lake> calculate(int[] arr) {
         TreeSet<Surface> surfaces = convert(arr);
@@ -51,15 +55,15 @@ public class LakesCalculator {
             if (vertex.val < surface.val) {
                 goingUp = true;
             } else if (vertex.val == surface.val) {
-                //skip plato
+                continue; //skip plato
             } else if (goingUp) {
                 vertexes.add(vertex);
                 goingUp = false;
             }
             vertex = surface;
         }
-        Collections.sort(vertexes, new ValComparator());
-        return vertexes;
+        vertexes.sort(new ValComparator()); // at first i used TreeSet to store vertexes and it was beautiful, but wrong
+        return vertexes;                    // since it does not allow duplicates and we may have vertexes of the same height.
     }
 
     private static List<Lake> calculateLakeData(List<List<Surface>> lakes) {

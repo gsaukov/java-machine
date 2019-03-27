@@ -29,6 +29,12 @@ public class LakesCalculatorTestSimple {
     }
 
     @Test
+    public void simple_1_small_mountain_between_two() {
+        assertEquals(1, calculateNumberOfLakes(new int[]{0, 1, 2, 5, 6, 3, 5, 3, 6, 5, 2, 1}));
+    }
+
+
+    @Test
     public void simple_0_flat() {
         assertEquals(0, calculateNumberOfLakes(new int[]{1, 1, 1, 1, 1, 1, 1, 1}));
     }
