@@ -25,17 +25,14 @@ public class AppController {
     }
 
     @PostMapping("/")
-    public String newEntry(@RequestParam("surface") String surface, @RequestParam(name="visualization", defaultValue="false") boolean visualization) {
+    public String newEntry(@RequestParam("surface") String surface, Model model) {
         try{// cool error handling.
 
             List<Lake> lakes = calculator.calculate(parser.parse(surface));
             List<String> visualizations = new ArrayList<>();
-            if(visualization){
-                for(Lake lake : lakes){
-                    visualizations.add(visualizator.visualize(lake));
-                }
-            }
-            System.out.println();
+            model.addAttribute("lakes", lakes);
+
+
         } catch (Exception e){
 
         }

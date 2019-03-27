@@ -1,16 +1,17 @@
 package com.apps.lakescalculator.core;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Lake {
 
+    private final String id = UUID.randomUUID().toString();
     private final int volume;
     private final int mirror;
     private final int seaLevel;
     private final int maxHeight;
     private final int maxDepth;
     private final double averageArithmeticDepth;
-    private final double formFactor;
     private final boolean total;
     private final List<Surface> lakeSurface;
 
@@ -21,11 +22,13 @@ public class Lake {
         this.maxDepth = builder.maxDepth;
         this.lakeSurface = builder.lakeSurface;
         this.mirror = builder.mirror;
-        this.formFactor = builder.formFactor;
         this.maxHeight = builder.maxHeight;
         this.total = builder.total;
         this.averageArithmeticDepth = builder.averageArithmeticDepth;
+    }
 
+    public String getId() {
+        return id;
     }
 
     public int getVolume() {
@@ -52,10 +55,6 @@ public class Lake {
         return averageArithmeticDepth;
     }
 
-    public double getFormFactor() {
-        return formFactor;
-    }
-
     public boolean isTotal() {
         return total;
     }
@@ -71,7 +70,6 @@ public class Lake {
         private int maxHeight;
         private int maxDepth;
         private double averageArithmeticDepth;
-        private double formFactor;
         private boolean total;
         private List<Surface> lakeSurface;
 
@@ -107,11 +105,6 @@ public class Lake {
 
         public Builder withAverageArithmeticDepth(double averageArithmeticDepth) {
             this.averageArithmeticDepth = averageArithmeticDepth;
-            return this;
-        }
-
-        public Builder withFormFactor(double formFactor) {
-            this.formFactor = formFactor;
             return this;
         }
 

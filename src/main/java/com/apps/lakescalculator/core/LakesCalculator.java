@@ -108,7 +108,6 @@ public final class LakesCalculator {
                     .withMaxDepth(maxDepth)
                     .withMaxHeight(maxHeight)
                     .withAverageArithmeticDepth((float)volume / mirror)
-                    .withFormFactor((float)mirror / volume)
                     .withLakeSurface(lake)
                     .build());
         }
@@ -119,7 +118,6 @@ public final class LakesCalculator {
                     .withMaxDepth(totalMaxDepth)
                     .withMaxHeight(totalMaxHeight)
                     .withAverageArithmeticDepth((float)totalVolume / totalMirror)
-                    .withFormFactor((float)totalMirror / totalVolume)
                     .setTotal(true)
                     .build());
 
