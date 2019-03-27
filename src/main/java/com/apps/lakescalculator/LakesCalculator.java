@@ -46,11 +46,13 @@ public class LakesCalculator {
         Surface vertex = new Surface(0, -1);// uncountable start
         surfacesArray.add(vertex);// uncountable end
 
-        boolean goingUp = true;
+        boolean goingUp = false;
         for (Surface surface : surfacesArray) {
-            if (vertex.val <= surface.val) {
+            if (vertex.val < surface.val) {
                 goingUp = true;
-            } else if (goingUp) { //this will produce dry lakes on downhill ex: {2, 1, 1} will be removed during depth calculation.
+            } else if (vertex.val == surface.val) {
+                //skip plato
+            } else if (goingUp) {
                 vertexes.add(vertex);
                 goingUp = false;
             }
@@ -92,18 +94,16 @@ public class LakesCalculator {
                     }
                 }
             }
-            if(volume > 0){// bye bye right downhill dry lake
-                calculatedLakes.add(new Lake.Builder()
-                        .withVolume(volume)
-                        .withMirror(mirror)
-                        .withSeaLevel(seaLevel)
-                        .withMaxDepth(maxDepth)
-                        .withMaxHeight(maxHeight)
-                        .withAverageArithmeticDepth((float)volume / mirror)
-                        .withFormFactor((float)mirror / volume)
-                        .withLakeSurface(lake)
-                        .build());
-            }
+            calculatedLakes.add(new Lake.Builder()
+                    .withVolume(volume)
+                    .withMirror(mirror)
+                    .withSeaLevel(seaLevel)
+                    .withMaxDepth(maxDepth)
+                    .withMaxHeight(maxHeight)
+                    .withAverageArithmeticDepth((float)volume / mirror)
+                    .withFormFactor((float)mirror / volume)
+                    .withLakeSurface(lake)
+                    .build());
         }
         if(!calculatedLakes.isEmpty()){
             calculatedLakes.add(new Lake.Builder()
