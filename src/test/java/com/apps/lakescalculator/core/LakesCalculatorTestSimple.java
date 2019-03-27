@@ -1,4 +1,4 @@
-package com.apps.lakescalculator;
+package com.apps.lakescalculator.core;
 
 import org.testng.annotations.Test;
 

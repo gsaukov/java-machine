@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Lake Calculator Application</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+</head>
+<body>
+<pre>
+Hi
+
+<form action="/" method="post">
+    Hi! Put your coma separated lake integer that represent surface below!
+
+    <textarea name="surface" cols="70" rows="50"></textarea>
+
+
+    <input type="submit" value="submit"/>
+</form>
+
+    <span th:text="${status}"> </span>
+
+<span th:text="${frame}"> </span>
+
+</pre>
+
+<div id="app">{{ message }}</div>
+<script src="/js/main.js"></script>
+
+</body>
+</html>

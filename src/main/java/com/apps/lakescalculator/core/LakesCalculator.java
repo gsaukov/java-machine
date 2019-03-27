@@ -1,7 +1,10 @@
-package com.apps.lakescalculator;
+package com.apps.lakescalculator.core;
+
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public final class LakesCalculator {
 
     //TODO Go 3d some day.
