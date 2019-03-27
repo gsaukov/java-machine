@@ -8,6 +8,9 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class LakesCalculatorTestSimple {
 
+    private LakesCalculator calculator = new LakesCalculator();
+    private LakeVisualizator visualizator = new LakeVisualizator();
+
     @Test
     public void simple_3_same_lakes() {
         assertEquals(3, calculateNumberOfLakes(new int[] {2, 1, 2, 1, 2, 2, 1, 2}));
@@ -55,7 +58,10 @@ public class LakesCalculatorTestSimple {
     }
 
     private int calculateNumberOfLakes(int[] arr) {
-        List<Lake> lakes = LakesCalculator.calculate(arr);
+        List<Lake> lakes = calculator.calculate(arr);
+        for(Lake lake : lakes){
+            System.out.println(visualizator.visualize(lake));
+        }
         return lakes.size() == 0 ? 0 : lakes.size() - 1; //getting rid of total lake
     }
 }

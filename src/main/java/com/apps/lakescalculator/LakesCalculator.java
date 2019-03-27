@@ -2,7 +2,7 @@ package com.apps.lakescalculator;
 
 import java.util.*;
 
-public class LakesCalculator {
+public final class LakesCalculator {
 
     //TODO Go 3d some day.
 
@@ -10,14 +10,14 @@ public class LakesCalculator {
     // than ArayList.sublist that has concurent modigfication exceptions https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html#subList-int-int-
     // no inclusive split etc.
 
-    public static List<Lake> calculate(int[] arr) {
+    public List<Lake> calculate(int[] arr) {
         TreeSet<Surface> surfaces = convert(arr);
         List<List<Surface>> lakes = new ArrayList<>();
         buildLakes(surfaces, lakes);
         return calculateLakeData(lakes);
     }
 
-    private static TreeSet<Surface> convert(int[] arr) {
+    private TreeSet<Surface> convert(int[] arr) {
         TreeSet<Surface> surfaces = new TreeSet<>(new IndexComparator());
         for (int i = 0; i < arr.length; i++) {
             surfaces.add(new Surface(arr[i], i));
@@ -25,7 +25,7 @@ public class LakesCalculator {
         return surfaces;
     }
 
-    private static void buildLakes(NavigableSet<Surface> surfaces, List<List<Surface>> lakes) {
+    private void buildLakes(NavigableSet<Surface> surfaces, List<List<Surface>> lakes) {
         List<Surface> vertexes = getVertexes(surfaces);
         if (vertexes.size() < 2) {
             return;
@@ -41,7 +41,7 @@ public class LakesCalculator {
         buildLakes(surfaces.tailSet(lakeBounds.last(), true), lakes); // everything on the the right of highest lake go recursion.
     }
 
-    private static List<Surface> getVertexes(NavigableSet<Surface> surfaces) {
+    private List<Surface> getVertexes(NavigableSet<Surface> surfaces) {
         List<Surface> vertexes = new ArrayList<>();
         if (surfaces.size() <= 2) {
             return vertexes;
@@ -66,7 +66,7 @@ public class LakesCalculator {
         return vertexes;                    // since it does not allow duplicates and we may have vertexes of the same height.
     }
 
-    private static List<Lake> calculateLakeData(List<List<Surface>> lakes) {
+    private List<Lake> calculateLakeData(List<List<Surface>> lakes) {
         List<Lake> calculatedLakes = new ArrayList<>();
 
         int totalVolume = 0;
@@ -123,5 +123,4 @@ public class LakesCalculator {
         }
         return calculatedLakes;
     }
-
 }

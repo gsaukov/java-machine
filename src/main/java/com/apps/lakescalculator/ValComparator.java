@@ -2,7 +2,7 @@ package com.apps.lakescalculator;
 
 import java.util.Comparator;
 
-public class ValComparator implements Comparator<Surface> {
+final class ValComparator implements Comparator<Surface> {
 
     @Override
     public int compare(Surface surface1, Surface surface2) {

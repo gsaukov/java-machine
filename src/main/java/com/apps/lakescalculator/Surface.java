@@ -4,17 +4,13 @@ import java.util.Objects;
 
 public class Surface {
 
-    public final int val, index;
+    final int val, index;
 
     int depth;
 
     Surface(int val, int index) {
         this.val = val;
         this.index = index;
-    }
-
-    public int getDepth() {
-        return depth;
     }
 
     @Override

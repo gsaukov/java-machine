@@ -2,7 +2,7 @@ package com.apps.lakescalculator;
 
 import java.util.List;
 
-public class LakeVisualizator {
+public final class LakeVisualizator {
 
     public String visualize (Lake lake){
         List<Surface> surfaces = lake.getLakeSurface();
