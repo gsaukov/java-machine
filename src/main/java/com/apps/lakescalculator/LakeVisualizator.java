@@ -5,12 +5,11 @@ import java.util.List;
 public class LakeVisualizator {
 
     public String visualize (Lake lake){
-
-        if(lake.isTotal()){
+        List<Surface> surfaces = lake.getLakeSurface();
+        if(lake.isTotal() || surfaces == null || surfaces.isEmpty()){
             return "";
         }
 
-        List<Surface> surfaces = lake.getLakeSurface();
         int x = surfaces.size();
         int y = lake.getMaxHeight();
 
