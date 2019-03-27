@@ -1,9 +1,6 @@
 package com.apps.lakescalculator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NavigableSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class LakesCalculator {
 
@@ -25,14 +22,14 @@ public class LakesCalculator {
     }
 
     private static void buildLakes(NavigableSet<Surface> surfaces, List<List<Surface>> lakes) {
-        NavigableSet<Surface> vertexes = getVertexes(surfaces);
+        List<Surface> vertexes = getVertexes(surfaces);
         if (vertexes.size() < 2) {
             return;
         }
 
         TreeSet<Surface> lakeBounds = new TreeSet<>(new IndexComparator()); //contains 2 highest vertexes
-        lakeBounds.add(vertexes.pollFirst());
-        lakeBounds.add(vertexes.pollFirst());
+        lakeBounds.add(vertexes.get(0));
+        lakeBounds.add(vertexes.get(1));
 
         lakes.add(new ArrayList<>(surfaces.subSet(lakeBounds.first(), true, lakeBounds.last(), true))); // highest lake with left to right borders
 
@@ -40,8 +37,8 @@ public class LakesCalculator {
         buildLakes(surfaces.tailSet(lakeBounds.last(), true), lakes); // everything on the the right of highest lake go recursion.
     }
 
-    private static NavigableSet<Surface> getVertexes(NavigableSet<Surface> surfaces) {
-        TreeSet<Surface> vertexes = new TreeSet<>(new ValComparator());
+    private static List<Surface> getVertexes(NavigableSet<Surface> surfaces) {
+        List<Surface> vertexes = new ArrayList<>();
         if (surfaces.size() <= 2) {
             return vertexes;
         }
@@ -50,8 +47,7 @@ public class LakesCalculator {
         surfacesArray.add(vertex);// uncountable end
 
         boolean goingUp = true;
-        for (int i = 0; i < surfacesArray.size(); i++) {
-            Surface surface = surfacesArray.get(i);
+        for (Surface surface : surfacesArray) {
             if (vertex.val <= surface.val) {
                 goingUp = true;
             } else if (goingUp) { //this will produce dry lakes on downhill ex: {2, 1, 1} will be removed during depth calculation.
@@ -60,6 +56,7 @@ public class LakesCalculator {
             }
             vertex = surface;
         }
+        Collections.sort(vertexes, new ValComparator());
         return vertexes;
     }
 

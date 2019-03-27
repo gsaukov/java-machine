@@ -9,6 +9,11 @@ import static org.testng.AssertJUnit.assertEquals;
 public class LakesCalculatorTestSimple {
 
     @Test
+    public void simple_3_same_lakes() {
+        assertEquals(3, calculateNumberOfLakes(new int[] {2, 1, 2, 1, 2, 2, 1, 2}));
+    }
+
+    @Test
     public void simple_4_lakes() {                    //              1           1  1        5  2  3     2
         assertEquals(4, calculateNumberOfLakes(new int[] {2, 1, 2, 3, 4, 3, 3, 5, 5, 0, 3, 2, 7, 3, 5}));
     }

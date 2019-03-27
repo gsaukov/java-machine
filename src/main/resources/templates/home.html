@@ -1,5 +1,9 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
-<head><title>T24 Application</title></head>
+<head>
+    <title>T24 Application</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+</head>
 <body>
 <pre>
 
@@ -25,6 +29,9 @@
 <span th:text="${frame}"> </span>
 
 </pre>
+
+<div id="app">{{ message }}</div>
+<script src="/js/main.js"></script>
 
 </body>
 </html>
