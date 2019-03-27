@@ -4,54 +4,41 @@ import java.util.List;
 
 public class LakeVisualizator {
 
-    public static void visualize (Lake lake){
+    public String visualize (Lake lake){
 
         if(lake.isTotal()){
-            return;
+            return "";
         }
 
         List<Surface> surfaces = lake.getLakeSurface();
         int x = surfaces.size();
         int y = lake.getMaxHeight();
-        int g = lake.getSeaLevel() - lake.getMaxDepth();
 
-        char[][] array = new char[x][y];
-
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                array[i][j] = '.'; // fill air
-            }
-        }
+        char[][] array = new char[y][x];
 
         for (int j = 0; j < y; j++){
-            for(int i = 0; i < surfaces.size(); i++){
-                if(surfaces.get(i).val <= j){
-                    array[i][j] = '#';
+            for(int i = 0; i < x; i++){
+                if(surfaces.get(i).val > j){
+                    array[j][i] = '#'; // fill ground
+                } else if (surfaces.get(i).val + surfaces.get(i).depth > j){
+                    array[j][i] = '~'; // fill water
+                } else {
+                    array[j][i] = ' '; // fill air
                 }
             }
         }
 
+        return makeString(array, y, x);
+    }
 
-//        for (int i = 0; i < x; i++) {
-//            int val = surfaces.get(i).val;
-//            for (int j = 0; j < val; j++){
-//                array[i][j] = '#'; //fill ground
-//            }
-//        }
-//
-//        for (int i = 0; i < x; i++) {
-//            int depth = surfaces.get(i).depth;
-//            for (int j = g; j < depth; j++){
-//                array[i][j] = '.'; //fill water
-//            }
-//        }
-
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                System.out.print(array[i][j]); //demonstrate
+    private String makeString(char[][] arr, int y, int x){
+        StringBuilder sb = new StringBuilder();
+        for (int j = y - 1; j >= 0; j--) { //flip
+            for (int i = 0; i < x; i++) {
+                sb.append(arr[j][i]);
             }
-            System.out.println();
+            sb.append(System.lineSeparator());
         }
-
+        return sb.toString();
     }
 }
