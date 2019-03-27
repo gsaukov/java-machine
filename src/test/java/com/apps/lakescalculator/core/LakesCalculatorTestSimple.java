@@ -1,5 +1,6 @@
 package com.apps.lakescalculator.core;
 
+import com.apps.lakescalculator.controller.InputParser;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public class LakesCalculatorTestSimple {
 
     @Test
     public void simple_3_same_lakes() {
+//        InputParser parser = new InputParser();
+//        parser.parse("1222,2,1,1");
         assertEquals(3, calculateNumberOfLakes(new int[] {2, 1, 2, 1, 2, 2, 1, 2}));
     }
 

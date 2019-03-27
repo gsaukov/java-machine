@@ -9,13 +9,10 @@
 Hi
 
 <form action="/" method="post">
-    Hi! Put your coma separated lake integer that represent surface below!
-
-    <textarea name="surface" cols="70" rows="50"></textarea>
-
-
-    <input type="submit" value="submit"/>
+    Hi! Put your coma separated lake of integers that represent surface! <input type="submit" value="calculate"/> <input type="checkbox" name="visualization"> enable visualization?
+    <textarea name="surface" cols="120" rows="10" onkeyup="this.value = this.value.replace(/[^0-9,]/g,'').replace(/,+/g, ',')" ></textarea>
 </form>
+
 
     <span th:text="${status}"> </span>
 
