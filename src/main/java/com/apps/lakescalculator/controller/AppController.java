@@ -1,42 +1,44 @@
 package com.apps.lakescalculator.controller;
 
 import com.apps.lakescalculator.core.Lake;
-import com.apps.lakescalculator.core.LakeVisualizator;
-import com.apps.lakescalculator.core.LakesCalculator;
+import com.apps.lakescalculator.services.LakeCalculatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class AppController {
 
     private InputParser parser;
-    private LakesCalculator calculator;
-    private LakeVisualizator visualizator;
+    private LakeCalculatorService service;
 
     @GetMapping({"/"})
-    public String homePage(Model model) {
-
+    public String home(Model model) {
         return "lakecalculator";
     }
 
     @PostMapping("/")
-    public String newEntry(@RequestParam("surface") String surface, Model model) {
-        try{// cool error handling.
-
-            List<Lake> lakes = calculator.calculate(parser.parse(surface));
-            List<String> visualizations = new ArrayList<>();
+    public String calculator(@RequestParam("surface") String surface, Model model) {
+        try {// cool error handling.
+            List<Lake> lakes = service.calculate(parser.parse(surface));
             model.addAttribute("lakes", lakes);
-
-
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
         return "lakecalculator";
+    }
+
+    @GetMapping("/{id}")
+    public String visualizator(@PathVariable("id") String id, Model model) {
+        try {// cool error handling.
+            model.addAttribute("visualization", service.visualize(id));
+        } catch (Exception e) {
+
+        }
+        return "lakevisualization";
     }
 
     @Autowired
@@ -45,12 +47,7 @@ public class AppController {
     }
 
     @Autowired
-    public void setCalculator(LakesCalculator calculator) {
-        this.calculator = calculator;
-    }
-
-    @Autowired
-    public void setVisualizator(LakeVisualizator visualizator) {
-        this.visualizator = visualizator;
+    public void setService(LakeCalculatorService service) {
+        this.service = service;
     }
 }

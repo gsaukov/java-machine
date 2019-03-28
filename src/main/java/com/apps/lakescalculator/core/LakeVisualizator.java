@@ -10,7 +10,7 @@ public final class LakeVisualizator {
     public String visualize (Lake lake){
         List<Surface> surfaces = lake.getLakeSurface();
         if(lake.isTotal() || surfaces == null || surfaces.isEmpty()){
-            return "";
+            return "Only for premium users";
         }
 
         int x = surfaces.size();

@@ -1,6 +1,7 @@
 package com.apps.lakescalculator.core;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Lake {
@@ -61,6 +62,19 @@ public class Lake {
 
     public List<Surface> getLakeSurface() {
         return lakeSurface;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lake lake = (Lake) o;
+        return id.equals(lake.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public static final class Builder {
