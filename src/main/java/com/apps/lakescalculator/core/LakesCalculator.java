@@ -76,6 +76,7 @@ public final class LakesCalculator {
         int totalMirror = 0;
         int totalMaxDepth = 0;
         int totalMaxHeight = 0;
+        int totalMinSeaLevel = Integer.MAX_VALUE;
 
         for(List<Surface> lake : lakes){
             int leftBank = lake.get(0).val;
@@ -83,6 +84,7 @@ public final class LakesCalculator {
             int seaLevel = leftBank < rightBank ? leftBank : rightBank;
             int maxHeight = leftBank < rightBank ? rightBank : leftBank;
             totalMaxHeight = totalMaxHeight < maxHeight ? maxHeight : totalMaxHeight;
+            totalMinSeaLevel = totalMinSeaLevel > seaLevel ? seaLevel : totalMinSeaLevel;
             int maxDepth = 0;
             int mirror = 0;
             int volume = 0;
@@ -116,6 +118,7 @@ public final class LakesCalculator {
                     .withVolume(totalVolume)
                     .withMirror(totalMirror)
                     .withMaxDepth(totalMaxDepth)
+                    .withSeaLevel(totalMinSeaLevel)
                     .withMaxHeight(totalMaxHeight)
                     .withAverageArithmeticDepth((float)totalVolume / totalMirror)
                     .setTotal(true)

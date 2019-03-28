@@ -87,6 +87,13 @@ h2 a {
 	  background-color: #2C3446;
 }
 
+.container tr:last-child {
+    font-weight: 900;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #174605;
+}
+
 .container th {
 	  background-color: #1F2739;
 }
@@ -127,3 +134,33 @@ form {
   color:#A7A1AE;
   background-color:#1F2739;
 }
+
+textarea {
+    margin-top: 10px;
+    margin-left: 50px;
+    width: 900px;
+    height: 100px;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #323C50;
+    border-color: #FFFFFF;
+    border-image: none;
+    border-radius: 6px 6px 6px 6px;
+    border-style: none solid solid none;
+    border-width: medium 1px 1px medium;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    color: #A7A1AE;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    line-height: 1.4em;
+    padding: 5px 8px;
+    transition: background-color 0.2s ease 0s;
+}
+
+textarea:focus {
+    background: none repeat scroll 0 0 #FFFFFF;
+    outline-width: 0;
+}
+
