@@ -1,0 +1,27 @@
+server.port: 8081
+
+spring:
+  thymeleaf.cache: false
+  thymeleaf.enabled: true
+  thymeleaf.prefix: classpath:/templates/
+  thymeleaf.suffix: .html
+
+
+  profiles:
+    active: lakescalculator
+
+---
+########################################################################
+### FOLLOWING PROFILES REPRESENT APPLICATION SPECIFIC CONFIGURATION  ###
+### use run config -Dspring.profiles.active=bowlingcalculator        ###
+########################################################################
+spring:
+  profiles: bowlingcalculator
+
+---
+spring:
+  profiles: lakescalculator
+
+---
+spring:
+  profiles: t24app

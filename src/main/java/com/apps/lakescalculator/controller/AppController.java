@@ -26,7 +26,7 @@ public class AppController {
             List<Lake> lakes = service.calculate(parser.parse(surface));
             model.addAttribute("lakes", lakes);
         } catch (Exception e) {
-
+            return "lakecalculator";
         }
         return "lakecalculator";
     }
@@ -36,7 +36,7 @@ public class AppController {
         try {// cool error handling.
             model.addAttribute("visualization", service.visualize(id));
         } catch (Exception e) {
-
+            return "lakevisualization";
         }
         return "lakevisualization";
     }

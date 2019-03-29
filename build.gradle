@@ -25,6 +25,14 @@ dependencies {
     
 }
 
+bootJar {
+    mainClassName = 'com.apps.lakescalculator.LakesCalculatorApplication'
+}
+
+springBoot {
+    mainClassName = 'com.apps.lakescalculator.LakesCalculatorApplication'
+}
+
 task testng(type: Test) {
     useTestNG()
 }
