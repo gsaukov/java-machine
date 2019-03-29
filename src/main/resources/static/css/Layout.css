@@ -1,10 +1,5 @@
 /*
-	Side Navigation Menu V2, RWD
-	===================
-	License:
-	https://goo.gl/EaUPrt
-	===================
-	Author: @PableraShow
+    Table design @PableraShow
 
  */
 
@@ -168,3 +163,31 @@ pre {
   text-align: center;
 }
 
+input {padding:0px; border:2px solid #ccc;
+  width: 100px;
+  height: 30px;
+
+ display:inline-block;
+ padding:0.35em 1.2em;
+ border:0.1em solid #FFFFFF;
+ margin:0 0.3em 0.3em 0;
+ border-radius:0.12em;
+ box-sizing: border-box;
+ text-decoration:none;
+ text-align:center;
+ transition: all 0.2s;
+  border-image: none;
+  border-radius: 2px 2px 2px 2px;
+  font-size: 1em;
+
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.42em;
+  color:#A7A1AE;
+  background-color:#1F2739;
+}
+
+input:hover {
+  background-color:#FFFFFF;
+  color: #A7A1AE;
+}
