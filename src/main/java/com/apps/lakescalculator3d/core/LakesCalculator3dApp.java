@@ -25,10 +25,21 @@ public class LakesCalculator3dApp {
                                 {1, 2, 4, 4, 4, 4, 3, 1},
     };
 
+
+    static int[][] island =      {{5, 5, 5, 2, 2, 1, 1, 1},
+                                  {5, 2, 2, 5, 5, 5, 0, 0},
+                                  {5, 4, 1, 1, 1, 1, 5, 1},
+                                  {4, 5, 3, 5, 5, 0, 5, 5},
+                                  {1, 5, 1, 5, 5, 0, 2, 2},
+                                  {1, 5, 4, 1, 2, 4, 5, 0},
+                                  {1, 4, 5, 5, 5, 5, 1, 1},
+                                  {1, 2, 4, 4, 4, 4, 3, 1},
+    };
+
     public static void main(String[] args) throws Exception {
         RotateMatrix rotator = new RotateMatrix();
         LakesCalculator calculator = new LakesCalculator();
-        List<List<Surface>> surfacesX = converter(hole); // both lists keep the same surfaces however Y is rotated 90 degrees against X
+        List<List<Surface>> surfacesX = converter(island); // both lists keep the same surfaces however Y is rotated 90 degrees against X
         List<List<Surface>> surfacesY = rotator.rotateSurfaces(surfacesX);
         printSurface(surfacesX);
         printSurface(surfacesY);
