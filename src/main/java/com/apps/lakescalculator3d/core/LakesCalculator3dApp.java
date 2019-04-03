@@ -51,7 +51,7 @@ public class LakesCalculator3dApp {
         }
         List<Surface> balanceCandidates = calculateDepthes(surfacesX);
         printDepthes(surfacesX);
-        balanceDepthes(balanceCandidates, surfacesX);
+        balanceDepthes(balanceCandidates, surfacesX); // Balancing we need for non bulging lakes of 'V', 'S', 'O' or any other crazy form.
         printDepthes(surfacesX);
     }
 
