@@ -22,22 +22,14 @@ public class AppController {
 
     @PostMapping("/")
     public String calculator(@RequestParam("surface") String surface, Model model) {
-        try {// cool error handling.
-            List<Lake> lakes = service.calculate(parser.parse(surface));
-            model.addAttribute("lakes", lakes);
-        } catch (Exception e) {
-            return "lakecalculator";
-        }
+        List<Lake> lakes = service.calculate(parser.parse(surface));
+        model.addAttribute("lakes", lakes);
         return "lakecalculator";
     }
 
     @GetMapping("/{id}")
     public String visualizator(@PathVariable("id") String id, Model model) {
-        try {// cool error handling.
-            model.addAttribute("visualization", service.visualize(id));
-        } catch (Exception e) {
-            return "lakevisualization";
-        }
+        model.addAttribute("visualization", service.visualize(id));
         return "lakevisualization";
     }
 
