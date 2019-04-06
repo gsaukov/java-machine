@@ -1,10 +1,14 @@
-server.port: 8081
+server:
+  port: 8081
+  error.whitelabel.enabled: false
 
 spring:
   thymeleaf.cache: false
   thymeleaf.enabled: true
   thymeleaf.prefix: classpath:/templates/
   thymeleaf.suffix: .html
+  mvc.throw-exception-if-no-handler-found: true
+  resources.add-mappings: false
 
 
   profiles:

@@ -191,3 +191,10 @@ input:hover {
   background-color:#FFFFFF;
   color: #A7A1AE;
 }
+
+a:link {
+    color: #FB667A;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+}

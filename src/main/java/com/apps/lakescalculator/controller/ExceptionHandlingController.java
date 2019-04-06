@@ -3,27 +3,31 @@ package com.apps.lakescalculator.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@ControllerAdvice
 public class ExceptionHandlingController {
 
     @ResponseStatus(value= HttpStatus.NOT_FOUND)
-    @ExceptionHandler(Exception.class)
-    public String handleNotFound(Model model) {
-        return "lakecalculator";
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public String handleNotFound(NoHandlerFoundException e, Model model) {
+        model.addAttribute("errorCode", HttpStatus.NOT_FOUND.value());
+        model.addAttribute("errorMessage", "page: " + e.getRequestURL() + " was not found.");
+        return "errorlanding";
     }
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, Exception ex) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("exception", ex);
-        mav.addObject("url", req.getRequestURL());
-        mav.setViewName("error");
+        mav.addObject("errorCode", ex.getMessage());
+        mav.addObject("errorMessage", "Something went wrong.");
+        mav.setViewName("errorlanding");
         return mav;
     }
 }
