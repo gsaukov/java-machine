@@ -28,3 +28,7 @@ spring:
 ---
 spring:
   profiles: t24app
+
+---
+spring:
+  profiles: searchandpagination

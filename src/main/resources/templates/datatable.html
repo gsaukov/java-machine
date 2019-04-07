@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Data Table</title>
+    <link href="../static/css/Layout.css" th:href="@{/static/css/Layout.css}" rel="stylesheet" />
+</head>
+<body>
+
+<pre>
+
+<table class="container">
+    <thead>
+    <tr>
+
+        <th><h1>Id</h1></th>
+        <th><h1>Symbol</h1></th>
+        <th><h1>Account</h1></th>
+        <th><h1>Route</h1></th>
+        <th><h1>Val</h1></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${dataPage}">
+        <td th:text="${data.Id}"></td>
+        <td th:text="${data.Symbol}"></td>
+        <td th:text="${data.Account}"></td>
+        <td th:text="${data.Route}"></td>
+        <td th:text="${data.Val}"></td>
+    </tr>
+    <div th:if="${dataPage.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/(size=${dataPage.size}, page=${pageNumber})}"
+           th:text=${pageNumber}
+           th:class="${pageNumber==dataPage.number + 1} ? active"></a>
+    </div>
+    </tbody>
+</table>
+
+</body>
+</html>
