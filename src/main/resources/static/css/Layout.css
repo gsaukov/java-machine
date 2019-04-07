@@ -192,9 +192,11 @@ input:hover {
   color: #A7A1AE;
 }
 
-a:link {
+a {
     color: #FB667A;
     font-weight: 700;
-    text-transform: uppercase;
-    text-decoration: none;
+}
+
+#link-container {
+    text-align: center;
 }

@@ -27,7 +27,7 @@ public class AppController {
         return "lakecalculator";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/view/{id}")
     public String visualizator(@PathVariable("id") String id, Model model) {
         model.addAttribute("visualization", service.visualize(id));
         return "lakevisualization";
