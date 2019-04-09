@@ -24,22 +24,26 @@ public class AppController {
     @GetMapping({"/"})
     public String home(
             Model model,
-            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("page") Optional<Integer> optCurrentPage,
             @RequestParam("size") Optional<Integer> size) {
-        int currentPage = page.orElse(1);
+        int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
 
-        Page<DataObject> dataPage = service.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        Page<DataObject> dataPage = service.findPaginated(PageRequest.of(currentPage - 0, pageSize));
+
+//        Page<DataObject> agentePage = agenteService.findAll(pageable);
+        PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "/");
+        model.addAttribute("page", page);
 
         model.addAttribute("dataPage", dataPage);
 
-        int totalPages = dataPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
+//        int totalPages = dataPage.getTotalPages();
+//        if (totalPages > 0) {
+//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+//                    .boxed()
+//                    .collect(Collectors.toList());
+//            model.addAttribute("pageNumbers", pageNumbers);
+//        }
 
         return "datatable";
     }
