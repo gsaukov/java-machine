@@ -4,3 +4,13 @@ pluginManagement {
     }
 }
 rootProject.name = 't24-app'
+include 'alert-server'
+include 'bowling-calculator'
+include 'concurrency'
+include 'flood-fill'
+include 'lakes-calculator'
+include 'misc'
+include 'search-and-pagination'
+include 't24app'
+
+
