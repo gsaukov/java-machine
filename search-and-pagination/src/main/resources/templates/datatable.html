@@ -6,88 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="../static/css/custom.css" th:href="@{/static/css/custom.css}" rel="stylesheet" />
 
 </head>
 
 <body>
 
-<!-- Start your project here-->
-<table  class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-    <thead>
-    <tr>
+        <table  class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+            <thead>
+            <tr>
 
-        <th><h1>Id</h1></th>
-        <th><h1>Symbol</h1></th>
-        <th><h1>Account</h1></th>
-        <th><h1>Route</h1></th>
-        <th><h1>Val</h1></th>
+                <th><h1>Id</h1></th>
+                <th><h1>Symbol</h1></th>
+                <th><h1>Account</h1></th>
+                <th><h1>Route</h1></th>
+                <th><h1>Val</h1></th>
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="data : ${dataPage}">
-        <td th:text="${data.Id}"></td>
-        <td th:text="${data.Symbol}"></td>
-        <td th:text="${data.Account}"></td>
-        <td th:text="${data.Route}"></td>
-        <td th:text="${data.Val}"></td>
-    </tr>
-    </tbody>
-</table>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="data : ${dataPage}">
+                <td th:text="${data.Id}"></td>
+                <td th:text="${data.Symbol}"></td>
+                <td th:text="${data.Account}"></td>
+                <td th:text="${data.Route}"></td>
+                <td th:text="${data.Val}"></td>
+            </tr>
+            </tbody>
+        </table>
 
-<!--https://github.com/karelp90/control_asp-->
-<div class="row">
-<div class="col-sm-5">
-<div class="pagination"><p>Showing <span class="badge"
-th:text="${page.size * (page.number-1) + 1}"></span> to
-<span class="badge" th:text="${page.lastPage ? page.totalElements : page.size * (page.number-1)+ page.size}"></span> items out of
-<span class="badge"
-th:text="${page.totalElements}"></span>
-</p></div>
-</div>
+        <!--https://github.com/karelp90/control_asp-->
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="pagination"><p>Showing <span class="badge" th:text="${page.size * (page.number-1) + 1}"></span> to
+                <span class="badge" th:text="${page.lastPage ? page.totalElements : page.size * (page.number-1)+ page.size}"></span> items out of
+                <span class="badge" th:text="${page.totalElements}"></span></p>
+                </div>
+            </div>
 
-<div class="col-sm-7">
-    <!-- Pagination Bar -->
-    <div th:fragment='paginationbar'>
-        <div class="text-center">
-            <ul class='pagination pg-blue justify-content-center'>
-                <li th:class="${page.firstPage}?'disabled':''">
-                    <span class="page-link" th:if='${page.firstPage}'>← First</span>
-                    <a class="page-link" th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>←
-                        First</a>
-                </li>
-                <li class="page-item" th:class="${page.hasPreviousPage}? '' : 'disabled'">
-                    <span class="page-link" th:if='${not page.hasPreviousPage}'>«</span>
-                    <a class="page-link" th:if='${page.hasPreviousPage}'
-                       th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'
-                       title='Go to previous page'>«</a>
-                </li>
-                <li th:each='item : ${page.items}' th:class="${item.current}? 'page-item active' : 'page-item'">
-                    <span class="page-link" th:if='${item.current}' th:text='${item.number}'>1</span>
-                    <a class="page-link" th:if='${not item.current}'
-                       th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span
-                            th:text='${item.number}'>1</span></a>
-                </li>
-                <li class="page-item" th:class="${page.hasNextPage}? '' : 'disabled'">
-                    <span class="page-link" th:if='${not page.hasNextPage}'>»</span>
-                    <a class="page-link" th:if='${page.hasNextPage}'
-                       th:href='@{${page.url}(page=${page.number},size=${page.size})}'
-                       title='Go to next page'>»</a>
-                </li>
-                <li class="page-item" th:class="${page.lastPage}? 'disabled' : ''">
-                    <span class="page-link" th:if='${page.lastPage}' th:text="${'Last (' + page.totalPages + ') →'}"></span>
-                    <a class="page-link" th:if='${not page.lastPage}'
-                       th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}' th:text="${'Last (' + page.totalPages + ') →'}"></a>
-                </li>
-            </ul>
+            <div class="col-sm-7">
+                <!-- Pagination Bar -->
+                <div th:fragment='paginationbar'>
+                    <div class="text-center">
+                        <ul class='pagination pg-blue justify-content-center'>
+                            <li th:class="${page.firstPage}?'disabled':''">
+                                <span class="page-link" th:if='${page.firstPage}'>← First</span>
+                                <a class="page-link" th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>←
+                                    First</a>
+                            </li>
+                            <li class="page-item" th:class="${page.hasPreviousPage}? '' : 'disabled'">
+                                <span class="page-link" th:if='${not page.hasPreviousPage}'>«</span>
+                                <a class="page-link" th:if='${page.hasPreviousPage}'
+                                   th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'
+                                   title='Go to previous page'>«</a>
+                            </li>
+                            <li th:each='item : ${page.items}' th:class="${item.current}? 'page-item active' : 'page-item'">
+                                <span class="page-link" th:if='${item.current}' th:text='${item.number}'>1</span>
+                                <a class="page-link" th:if='${not item.current}'
+                                   th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span
+                                        th:text='${item.number}'>1</span></a>
+                            </li>
+                            <li class="page-item" th:class="${page.hasNextPage}? '' : 'disabled'">
+                                <span class="page-link" th:if='${not page.hasNextPage}'>»</span>
+                                <a class="page-link" th:if='${page.hasNextPage}'
+                                   th:href='@{${page.url}(page=${page.number},size=${page.size})}'
+                                   title='Go to next page'>»</a>
+                            </li>
+                            <li class="page-item" th:class="${page.lastPage}? 'disabled' : ''">
+                                <span class="page-link" th:if='${page.lastPage}' th:text="${'Last (' + page.totalPages + ') →'}"></span>
+                                <a class="page-link" th:if='${not page.lastPage}'
+                                   th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}' th:text="${'Last (' + page.totalPages + ') →'}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
-
-</div>
 
 
 <!-- Optional JavaScript -->
