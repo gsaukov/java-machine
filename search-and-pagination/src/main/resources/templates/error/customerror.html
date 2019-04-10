@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ERROR</title>
+    <link href="../../static/css/Layout.css" th:href="@{/static/css/Layout.css}" rel="stylesheet" />
+</head>
+<body>
+
+<h1 th:text="${errorCode}"> </h1>
+<h2 th:text="${errorMessage}"></h2>
+<div id="link-container">
+    <a href="/" th:href="@{/}">Back to Home Page</a>
+</div>
+
+</body>
+</html>
