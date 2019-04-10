@@ -1,0 +1,29 @@
+plugins {
+    id 'org.springframework.boot'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.apps'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.springframework.data:spring-data-commons'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.testng:testng:6.9.10'
+}
+
+task testng(type: Test) {
+    useTestNG()
+}
+
+check.dependsOn testng
