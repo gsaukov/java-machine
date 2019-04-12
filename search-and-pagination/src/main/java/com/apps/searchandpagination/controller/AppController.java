@@ -31,8 +31,23 @@ public class AppController {
         PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "/");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
+        return "home";
+    }
 
-        return "datatable";
+    @GetMapping({"getpage/"})
+    public String getPage(
+            Model model,
+            @RequestParam("page") Optional<Integer> optCurrentPage,
+            @RequestParam("size") Optional<Integer> size) {
+        int currentPage = optCurrentPage.orElse(0);
+        int pageSize = size.orElse(10);
+
+        Page<DataObject> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
+
+        PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "getpage/");
+        model.addAttribute("page", page);
+        model.addAttribute("dataPage", dataPage);
+        return "datatable :: datatable";
     }
 
     @Autowired
