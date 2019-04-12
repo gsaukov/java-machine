@@ -104,18 +104,12 @@
 
 <script>
     function getTable(pageNum, size) {
-        var url = 'http://localhost:8081/getpage';
+        var url = '/getpage';
         url = url + '/?page=' + pageNum + '&size=' + size;
         console.log("значение", url);
         $("#resultBlock").load(url);
     }
 </script>
-
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
 
 </body>
 </html>
