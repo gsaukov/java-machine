@@ -38,7 +38,6 @@
                 <span class="badge" th:text="${page.totalElements}"></span></p>
             </div>
         </div>
-        th:onclick="'getTable(\'' + ${page.url}(page=${page.totalPages - 1}&size=${page.size})+'\')'"
         <div class="col-sm-7">
             <!-- Pagination Bar -->
             <div th:fragment='paginationbar'>
