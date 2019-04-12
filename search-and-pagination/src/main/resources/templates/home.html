@@ -103,10 +103,9 @@
 
 
 <script>
-    function getTable(pageNum, size) {
-        var url = '/getpage';
-        url = url + '/?page=' + pageNum + '&size=' + size;
-        console.log("значение", url);
+    function getTable(urlParam, pageNum, size) {
+        var url = urlParam + '/?page=' + pageNum + '&size=' + size;
+        console.log("url", url);
         $("#resultBlock").load(url);
     }
 </script>

@@ -28,7 +28,7 @@ public class AppController {
 
         Page<DataObject> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
 
-        PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "/");
+        PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "home";
@@ -44,7 +44,7 @@ public class AppController {
 
         Page<DataObject> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
 
-        PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "getpage/");
+        PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "datatable :: datatable";
