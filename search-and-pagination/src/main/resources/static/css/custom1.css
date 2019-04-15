@@ -118,3 +118,26 @@
         margin-right: 0;
     }
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #4285f4;
+  color: #fff; }
+  .pagination .page-item.active .page-link:hover {
+    background-color: #4285f4; }
+
+.pagination .page-item.disabled .page-link {
+  color: #868e96; }
+
+.pagination .page-item .page-link {
+  color: #212529; }
+
+.pagination.pg-dark-grey .page-item.active .page-link {
+    background-color: #37474f; }
+.pagination.pg-dark-grey .page-item.active .page-link:hover {
+    background-color: #37474f; }

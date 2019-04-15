@@ -3,6 +3,10 @@
 </head>
 
 <body>
+<!--https://grid.layoutit.com/-->
+<!--http://animista.net/-->
+<!--https://gridbyexample.com-->
+<!--https://stackoverflow.com/questions/553402/how-to-fadeout-remove-a-div-in-jquery-->
 <!--//https://github.com/thymeleaf/thymeleaf/issues/355-->
 <!--https://www.baeldung.com/spring-thymeleaf-fragments-->
 <!--https://stackoverflow.com/questions/20982683/spring-mvc-3-2-thymeleaf-ajax-fragments-->
@@ -32,52 +36,7 @@
         </tr>
         </tbody>
     </table>
-    <div class="row">
-        <div class="col-sm-5">
-            <div class="pagination"><p>Showing <span class="badge" th:text="${page.size * (page.number-1) + 1}"> to </span>
-                <span class="badge" th:text="${page.lastPage ? page.totalElements : page.size * (page.number-1)+ page.size}"> items out of </span>
-                <span class="badge" th:text="${page.totalElements}"></span></p>
-            </div>
-        </div>
-        <div class="col-sm-7">
-            <!-- Pagination Bar -->
-            <div th:fragment='paginationbar'>
-                <div class="text-center">
-                    <ul class='pagination pg-blue justify-content-center'>
-                        <li th:class="${page.firstPage}? 'page-item disabled' : 'page-item'">
-                            <span class="page-link" th:if='${page.firstPage}'>← First</span>
-                            <a class="page-link" href="#" th:onclick="getTable([[${page.url}]],0,[[${page.size}]])"
-                               th:if='${not page.firstPage}' >← First</a>
-                        </li>
-                        <li th:class="${page.hasPreviousPage}? 'page-item' : 'page-item disabled'">
-                            <span class="page-link" th:if='${not page.hasPreviousPage}'>«</span>
-                            <a class="page-link" href="#" th:if='${page.hasPreviousPage}'
-                               th:onclick="getTable([[${page.url}]],[[${page.number-2}]],[[${page.size}]])"
-                               title='Go to previous page'>«</a>
-                        </li>
-                        <li th:each='item : ${page.items}' th:class="${item.current}? 'page-item active' : 'page-item'">
-                            <span class="page-link" th:if='${item.current}' th:text='${item.number}'>1</span>
-                            <a class="page-link" href="#" th:if='${not item.current}'
-                               th:onclick="getTable([[${page.url}]],[[${item.number-1}]],[[${page.size}]])"><span
-                               th:text='${item.number}'>1</span></a>
-                        </li>
-                        <li th:class="${page.hasNextPage}? 'page-item' : 'page-item disabled'">
-                            <span class="page-link" th:if='${not page.hasNextPage}'>»</span>
-                            <a class="page-link" href="#" th:if='${page.hasNextPage}'
-                               th:onclick="getTable([[${page.url}]],[[${page.number}]],[[${page.size}]])"
-                               title='Go to next page'>»</a>
-                        </li>
-                        <li th:class="${page.lastPage}? 'page-item disabled' : 'page-item'">
-                            <span class="page-link" th:if='${page.lastPage}' th:text="${'Last (' + page.totalPages + ') →'}"></span>
-                            <a class="page-link" href="#" th:if='${not page.lastPage}'
-                               th:onclick="getTable([[${page.url}]],[[${page.totalPages - 1}]],[[${page.size}]])"
-                               th:text="${'Last (' + page.totalPages + ') →'}"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div th:replace="paginationbar :: paginationbar (${page})"></div>
 </div>
 </body>
 </html>
