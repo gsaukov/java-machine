@@ -4,47 +4,52 @@
 
 <body>
 <div th:fragment="transactiondetails (${transaction})">
+    <hr>
     <div th:if='${transaction != null}'>
+        <button type="button" class="close" aria-label="Close" th:onclick="removeDetails([[${transaction.Id}]])">
+            <span aria-hidden="true">&times;</span>
+        </button>
         <div class="grid-container">
             <div>
                 <table class="key-value-table">
                     <tbody>
                     <tr>
                         <th>ID:</th>
-                        <td>73251875257</td>
+                        <td th:text="${transaction.Id}"></td>
                     </tr>
                     <tr>
                         <th>Email:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
+                        <td th:text="${transaction.Email}"></td>
                     </tr>
                     <tr>
                         <th>Name:</th>
-                        <td>John Doe</td>
+                        <td th:text="${transaction.FirstName}"></td>
                     </tr>
                     <tr>
-                        <th>Address:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
+                        <th>Last Name:</th>
+                        <td th:text="${transaction.LastName}"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div>    <table class="key-value-table">
+            <div>
+            <table class="key-value-table">
                 <tbody>
                 <tr>
-                    <th>ID:</th>
-                    <td>73251875257</td>
-                </tr>
-                <tr>
-                    <th>Email:</th>
-                    <td>123 Fake St. Albany NY, 12202</td>
-                </tr>
-                <tr>
-                    <th>Name:</th>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
                     <th>Address:</th>
-                    <td>123 Fake St. Albany NY, 12202</td>
+                    <td th:text="${transaction.Adress}"></td>
+                </tr>
+                <tr>
+                    <th>Group:</th>
+                    <td th:text="${transaction.Group}"></td>
+                </tr>
+                <tr>
+                    <th>Company:</th>
+                    <td th:text="${transaction.Company}"></td>
+                </tr>
+                <tr>
+                    <th>Domain:</th>
+                    <td th:text="${transaction.Domain}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -53,42 +58,20 @@
                 <table class="key-value-table">
                     <tbody>
                     <tr>
-                        <th>ID:</th>
-                        <td>73251875257</td>
+                        <th>Site:</th>
+                        <td th:text="${transaction.Site}"></td>
                     </tr>
                     <tr>
-                        <th>Email:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
+                        <th>System Use:</th>
+                        <td th:text="${transaction.SystemUse}"></td>
                     </tr>
                     <tr>
-                        <th>Name:</th>
-                        <td>John Doe</td>
+                        <th>Class:</th>
+                        <td th:text="${transaction.Clazz}"></td>
                     </tr>
                     <tr>
-                        <th>Address:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <table class="key-value-table">
-                    <tbody>
-                    <tr>
-                        <th>ID:</th>
-                        <td>73251875257</td>
-                    </tr>
-                    <tr>
-                        <th>Email:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
-                    </tr>
-                    <tr>
-                        <th>Name:</th>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <th>Address:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
+                        <th>Rate:</th>
+                        <td th:text="${transaction.Rate}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -97,20 +80,42 @@
                 <table class="key-value-table">
                     <tbody>
                     <tr>
-                        <th>ID:</th>
-                        <td>73251875257</td>
+                        <th>Education:</th>
+                        <td th:text="${transaction.Education}"></td>
                     </tr>
                     <tr>
-                        <th>Email:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
+                        <th>Title:</th>
+                        <td th:text="${transaction.Title}"></td>
                     </tr>
                     <tr>
-                        <th>Name:</th>
-                        <td>John Doe</td>
+                        <th>Qulifications:</th>
+                        <td th:text="${transaction.Qualifications}"></td>
                     </tr>
                     <tr>
-                        <th>Address:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
+                        <th>Absolute:</th>
+                        <td th:text="${transaction.Absolute}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="key-value-table">
+                    <tbody>
+                    <tr>
+                        <th>Citezenship:</th>
+                        <td th:text="${transaction.Citizenship}"></td>
+                    </tr>
+                    <tr>
+                        <th>Reference:</th>
+                        <td th:text="${transaction.Reference}"></td>
+                    </tr>
+                    <tr>
+                        <th>Report Id:</th>
+                        <td th:text="${transaction.ReportId}"></td>
+                    </tr>
+                    <tr>
+                        <th>Cash:</th>
+                        <td th:text="${transaction.Cash}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -118,20 +123,20 @@
             <div>    <table class="key-value-table">
                 <tbody>
                 <tr>
-                    <th>ID:</th>
-                    <td>73251875257</td>
+                    <th>Currency:</th>
+                    <td th:text="${transaction.Currency}"></td>
                 </tr>
                 <tr>
-                    <th>Email:</th>
-                    <td>123 Fake St. Albany NY, 12202</td>
+                    <th>IBAN:</th>
+                    <td th:text="${transaction.Iban}"></td>
                 </tr>
                 <tr>
-                    <th>Name:</th>
-                    <td>John Doe</td>
+                    <th>BIC</th>
+                    <td th:text="${transaction.Bic}"></td>
                 </tr>
                 <tr>
-                    <th>Address:</th>
-                    <td>123 Fake St. Albany NY, 12202</td>
+                    <th>Bank Name:</th>
+                    <td th:text="${transaction.BankName}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -140,20 +145,12 @@
                 <table class="key-value-table">
                     <tbody>
                     <tr>
-                        <th>ID:</th>
-                        <td>73251875257</td>
+                        <th>Sex:</th>
+                        <td th:text="${transaction.Sex}"></td>
                     </tr>
                     <tr>
-                        <th>Email:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
-                    </tr>
-                    <tr>
-                        <th>Name:</th>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <th>Address:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
+                        <th>MIX:</th>
+                        <td th:text="${transaction.Mix}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -162,20 +159,8 @@
                 <table class="key-value-table">
                     <tbody>
                     <tr>
-                        <th>ID:</th>
-                        <td>73251875257</td>
-                    </tr>
-                    <tr>
-                        <th>Email:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
-                    </tr>
-                    <tr>
-                        <th>Name:</th>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <th>Address:</th>
-                        <td>123 Fake St. Albany NY, 12202</td>
+                        <th>Details:</th>
+                        <td th:text="${transaction.Details}"></td>
                     </tr>
                     </tbody>
                 </table>

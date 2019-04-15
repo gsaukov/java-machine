@@ -28,7 +28,7 @@
         </thead>
         <tbody>
         <tr th:each="data : ${dataPage}">
-            <td th:text="${data.Id}" onclick='getDetails("details");'></td>
+            <td th:text="${data.Id}" th:onclick="getDetails('details', [[${data.Id}]])"></td>
             <td th:text="${data.Symbol}"></td>
             <td th:text="${data.Account}"></td>
             <td th:text="${data.Route}"></td>

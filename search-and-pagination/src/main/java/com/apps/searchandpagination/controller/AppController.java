@@ -2,6 +2,7 @@ package com.apps.searchandpagination.controller;
 
 import com.apps.searchandpagination.service.DataObject;
 import com.apps.searchandpagination.service.DataService;
+import com.apps.searchandpagination.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class AppController {
 
     private DataService service;
+    private TransactionService transactionService;
 
 
     @GetMapping({"/"})
@@ -50,15 +52,21 @@ public class AppController {
         return "datatable :: datatable";
     }
 
-    @GetMapping({"details"})
+    @GetMapping({"details/"})
     public String getDetails(
+            @RequestParam("detailId") String detailId,
             Model model) {
-        model.addAttribute("transaction", "transaction");
+        model.addAttribute("transaction", transactionService.getTransaction(detailId));
         return "transactiondetails :: transactiondetails";
     }
 
     @Autowired
     public void setService(DataService service) {
         this.service = service;
+    }
+
+    @Autowired
+    public void setService(TransactionService transactionService) {
+        this.transactionService = transactionService;
     }
 }
