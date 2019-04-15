@@ -50,6 +50,13 @@ public class AppController {
         return "datatable :: datatable";
     }
 
+    @GetMapping({"details"})
+    public String getDetails(
+            Model model) {
+        model.addAttribute("transaction", "transaction");
+        return "transactiondetails :: transactiondetails";
+    }
+
     @Autowired
     public void setService(DataService service) {
         this.service = service;
