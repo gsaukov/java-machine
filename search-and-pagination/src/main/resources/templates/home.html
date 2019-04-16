@@ -120,7 +120,7 @@
 
         var divElem = document.getElementById(detailId);
         if (divElem === null){
-            $('#detailsBlock').append("<div id=\"" + detailId + "\"><div th:insert=\"transactiondetails :: transactiondetails (${transaction})\"><\/div><\/div>");
+            $('#detailsBlock').append("<div id=\"" + detailId + "\"><\/div>");
             console.log("url", url);
             $(divId).load(url);
         }
