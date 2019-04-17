@@ -28,7 +28,11 @@
         </thead>
         <tbody>
         <tr th:each="data : ${dataPage}">
-            <td th:text="${data.Id}" th:onclick="getDetails('details', [[${data.Id}]])"></td>
+            <td>
+                <div class="details-link">
+                    <span class="hover hover-1" th:text="${data.Id}" th:onclick="getDetails('details', [[${data.Id}]])"/>
+                </div>
+            </td>
             <td th:text="${data.Symbol}"></td>
             <td th:text="${data.Account}"></td>
             <td th:text="${data.Route}"></td>
