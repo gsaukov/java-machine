@@ -8,12 +8,12 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
     <link href="../static/css/custom1.css" th:href="@{/static/css/custom1.css}" rel="stylesheet" />
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" ></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -86,48 +86,21 @@
                 <div class="col-lg-12" >
                     <div class="form-group">
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
-                        <a for="collapseOne" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">+ Not Jerky</a>
-
+                        <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">Form</a>
                         <div class="collapse" id="collapseOne" style="padding: 0;">
-                            <textarea class="form-control" rows="4" style="padding: 20px;">No padding on animated element. Padding on child.</textarea>
+                            <form action="/" method="post">
+                                <div class="row">
+                                    <div class="col-lg-12" >
+                                        <textarea rows="1"></textarea>
+                                        <input name="name" type="text" value="" size="90"/>
+                                        <input name="email" type="email" value="" size="50"/>
+                                        <input name="age" type="number" value="" size="5" />
+                                        <input type="submit" value="submit"/>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="form-group"> <a for="collapseTwo" data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">+ Jerky</a>
-
-                        <textarea type="text" class="form-control collapse" id="collapseTwo" rows="4" style="padding: 20px;">Padding on animated element</textarea>
-                    </div>
-
-<!--                    <p>-->
-<!--                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>-->
-<!--                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
-<!--                            Link with href-->
-<!--                        </a>-->
-<!--                        <button class="btn btn-primary" type="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">-->
-<!--                            Button with data-target-->
-<!--                        </button>-->
-<!--                    </p>-->
-<!--                    <div class="collapse" id="collapseExample">-->
-<!--                        <div class="card card-body">-->
-<!--                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div id="accordion">-->
-<!--                        <div class="card">-->
-<!--                            <div class="card-header" id="headingForm">-->
-<!--                                <h5 class="mb-0">-->
-<!--                                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>-->
-<!--                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">-->
-<!--                                        Collapsible Group Item #1-->
-<!--                                    </button>-->
-<!--                                </h5>-->
-<!--                            </div>-->
-<!--                            <div id="collapseForm" class="collapse show" aria-labelledby="headingForm" data-parent="#accordion">-->
-<!--                                <div class="card-body">-->
-<!--                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div id="resultBlock">
                         <div th:replace="datatable :: datatable (${dataPage}, ${page})"></div>
                     </div>
