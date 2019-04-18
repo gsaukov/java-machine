@@ -13,7 +13,7 @@
         <div class="col-sm-7">
             <!-- Pagination Bar -->
             <div class="text-center">
-                <ul class='pagination pg-dark-grey justify-content-center'>
+                <ul class='pagination pg-dark-grey justify-content-center  pagination-sm'>
                     <li th:class="${page.firstPage}? 'page-item disabled' : 'page-item'">
                         <span class="page-link" th:if='${page.firstPage}'>← First</span>
                         <a class="page-link" href="#" th:onclick="getTable([[${page.url}]],0,[[${page.size}]])"

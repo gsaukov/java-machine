@@ -3,6 +3,7 @@
 
 html body {
     background-color: #0b0e16;
+    color: #525a66;
 }
 
 
@@ -131,21 +132,21 @@ html body {
 }
 
 .pagination .page-item.active .page-link {
-  background-color: transparent;
+  background-color: #37474f;
   color: #fff; }
   .pagination .page-item.active .page-link:hover {
     background-color: #868e96; }
 
 .pagination .page-item.disabled .page-link {
-  color: white; }
+  color: #868e96; }
 
 .pagination .page-item .page-link {
-  color: royalblue; }
+  color: #212529; }
 
 .pagination.pg-dark-grey .page-item.active .page-link {
-    background-color: transparent; }
+    background-color: #37474f; }
 .pagination.pg-dark-grey .page-item.active .page-link:hover {
-    background-color: #868e96; }
+    background-color: #37474f; }
 
 .key-value-table {
     border-collapse: separate;
@@ -228,4 +229,23 @@ a {
 
 a:visited {
     color: royalblue;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+.btn-default{
+    margin-bottom: 15px;
+}
+
+.close {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+.close:not(:disabled):not(.disabled):focus,
+.close:not(:disabled):not(.disabled):hover {
+    color: #0056b3;
+    text-shadow: none;
 }
