@@ -87,6 +87,7 @@
                     <div class="form-group">
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                         <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">Form</a>
+                        <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="true" aria-controls="collapseTwo">Data</a>
                         <div class="collapse" id="collapseOne" style="padding: 0;">
                             <form action="/" method="post">
                                 <div class="row">
@@ -101,8 +102,10 @@
                             </form>
                         </div>
                     </div>
-                    <div id="resultBlock">
-                        <div th:replace="datatable :: datatable (${dataPage}, ${page})"></div>
+                    <div class="collapse" id="collapseTwo" style="padding: 0;">
+                        <div id="resultBlock">
+                            <div th:replace="datatable :: datatable (${dataPage}, ${page})"></div>
+                        </div>
                     </div>
                 </div>
             </div>

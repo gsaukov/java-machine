@@ -131,21 +131,21 @@ html body {
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #37474f;
+  background-color: transparent;
   color: #fff; }
   .pagination .page-item.active .page-link:hover {
     background-color: #868e96; }
 
 .pagination .page-item.disabled .page-link {
-  color: #868e96; }
+  color: white; }
 
 .pagination .page-item .page-link {
-  color: #212529; }
+  color: royalblue; }
 
 .pagination.pg-dark-grey .page-item.active .page-link {
-    background-color: #37474f; }
+    background-color: transparent; }
 .pagination.pg-dark-grey .page-item.active .page-link:hover {
-    background-color: #37474f; }
+    background-color: #868e96; }
 
 .key-value-table {
     border-collapse: separate;
@@ -191,18 +191,18 @@ html body {
 */
 
 /* animation left to right*/
-.details-link > span {
+.details-link > a {
   position: relative;
-  color: #fff;
+  /*color: #fff;*/
   text-decoration: none;
 }
 
-.details-link > span:hover {
-  color: #fff;
+.details-link > a:hover {
+  /*color: #fff;*/
   cursor: pointer;
 }
 
-.details-link > span:before {
+.details-link > a:before {
   content: "";
   position: absolute;
   width: 0%;
@@ -215,9 +215,17 @@ html body {
   -webkit-transition: width 0.3s ease;
 }
 
-.details-link > span:hover:before {
+.details-link > a:hover:before {
   visibility: visible;
   right: 0;
   width: 100%;
   left: 0;
+}
+
+a {
+    color: royalblue;
+}
+
+a:visited {
+    color: royalblue;
 }
