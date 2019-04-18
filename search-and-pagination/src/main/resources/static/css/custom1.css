@@ -1,6 +1,11 @@
 
 /* Toggle Styles */
 
+html body {
+    background-color: #0b0e16;
+}
+
+
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -145,6 +150,8 @@
 .key-value-table {
     border-collapse: separate;
     border-spacing: 10px 0px;
+    background-color: transparent;
+    color: #525a66;
 }
 
 .key-value-table th,td {
@@ -186,12 +193,12 @@
 /* animation left to right*/
 .details-link > span {
   position: relative;
-  color: #000;
+  color: #fff;
   text-decoration: none;
 }
 
 .details-link > span:hover {
-  color: #000;
+  color: #fff;
   cursor: pointer;
 }
 
@@ -202,7 +209,7 @@
   height: 1px;
   bottom: 0;
   left: 0;
-  background-color: #000;
+  background-color: #fff;
   visibility: hidden;
   transition: width 0.3s ease;
   -webkit-transition: width 0.3s ease;
