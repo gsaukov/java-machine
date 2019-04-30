@@ -3,7 +3,7 @@
 
 html body {
     background-color: #0b0e16;
-    color: #525a66;
+    color: #a1afc3;
 }
 
 
@@ -131,28 +131,33 @@ html body {
   grid-template-rows: 1fr;
 }
 
+.page-link {
+    color: royalblue;
+    background-color: #000;
+    border: 1px solid #323436;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #a1afc3;
+    background-color: #000;
+    border-color: #323436;
+}
+
+/*.pagination .page-item .page-link {*/
+/*    color: #0080ff;*/
+/*    background-color: #000;*/
+/*    border: 1px solid #323436;*/
+/*}*/
+
 .pagination .page-item.active .page-link {
   background-color: #37474f;
   color: #fff; }
-  .pagination .page-item.active .page-link:hover {
-    background-color: #868e96; }
-
-.pagination .page-item.disabled .page-link {
-  color: #868e96; }
-
-.pagination .page-item .page-link {
-  color: #212529; }
-
-.pagination.pg-dark-grey .page-item.active .page-link {
-    background-color: #37474f; }
-.pagination.pg-dark-grey .page-item.active .page-link:hover {
-    background-color: #37474f; }
 
 .key-value-table {
     border-collapse: separate;
     border-spacing: 10px 0px;
     background-color: transparent;
-    color: #525a66;
+    color: #a1afc3;
 }
 
 .key-value-table th,td {
@@ -240,7 +245,7 @@ a:hover {
 }
 
 .close {
-    color: #ffffff;
+    color: royalblue;
     text-shadow: none;
 }
 
@@ -248,4 +253,10 @@ a:hover {
 .close:not(:disabled):not(.disabled):hover {
     color: #0056b3;
     text-shadow: none;
+}
+
+hr{
+    border-top-color: #a1afc3;
+    border-top-style: solid;
+    border-top-width: 1px;
 }
