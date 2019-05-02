@@ -1,0 +1,18 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 1
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: partner
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
