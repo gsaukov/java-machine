@@ -1,6 +1,9 @@
 package com.apps.searchandpagination.service;
 
 import com.apps.reflection.RandomObjectFiller;
+import com.apps.searchandpagination.persistance.entity.MkData;
+import com.apps.searchandpagination.persistance.repository.MkDataRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -12,21 +15,28 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class DataService {
+public class MkDataService {
 
     private RandomObjectFiller filler = new RandomObjectFiller();
-    private List<DataObject> dataObjects = new ArrayList<>();
+    private List<MkData> dataObjects = new ArrayList<>();
 
-    public DataService() {
+    @Autowired
+    public void setMkDataRepository(MkDataRepository mkDataRepository) {
+        this.mkDataRepository = mkDataRepository;
+    }
+
+    private MkDataRepository mkDataRepository;
+
+    public MkDataService() {
         fillDataObjects();
     }
 
-    public Page<DataObject> findPaginated(Pageable pageable) {
+    public Page<MkData> findPaginated(Pageable pageable) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
 
-        List<DataObject> list;
+        List<MkData> list;
 
         if (dataObjects.size() < startItem) {
             list = Collections.emptyList();
@@ -35,8 +45,7 @@ public class DataService {
             list = dataObjects.subList(startItem, toIndex);
         }
 
-        Page<DataObject> dataPage
-                = new PageImpl<DataObject>(list, PageRequest.of(currentPage, pageSize), dataObjects.size());
+        Page<MkData> dataPage= new PageImpl<>(list, PageRequest.of(currentPage, pageSize), dataObjects.size());
 
         return dataPage;
     }
@@ -45,7 +54,9 @@ public class DataService {
     private void fillDataObjects() {
         for(int i = 0; i < 1000; i++){
             try {
-                dataObjects.add(filler.createAndFill(DataObject.class));
+                MkData mkData = filler.createAndFill(MkData.class);
+                dataObjects.add(mkData);
+//                mkDataRepository.save(mkData);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Import(DataSourceConfig.class)
-@EnableJpaRepositories
+@EnableJpaRepositories("com.apps.searchandpagination.persistance.repository")
 @ConfigurationProperties(prefix = "spring.datasource")
 public class EntityManagerConfig {
 

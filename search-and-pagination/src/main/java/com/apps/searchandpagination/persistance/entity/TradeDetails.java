@@ -1,34 +1,74 @@
-package com.apps.searchandpagination.service;
+package com.apps.searchandpagination.persistance.entity;
 
-public class Transaction {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "TRADE_DETAILS")
+public class TradeDetails {
+
+    @Id
+    @Column(name = "ID")
     private String id;
+    @Column(name = "EMAIL")
     private String email;
+    @Column(name = "FIRST_NAME")
     private String firstName;
+    @Column(name = "LAST_NAME")
     private String lastName;
-    private String adress;
+    @Column(name = "ADDRESS")
+    private String address;
+    @Column(name = "GROUP")
     private Integer group;
+    @Column(name = "COMPANY")
     private String company;
+    @Column(name = "DOMAIN")
     private String domain;
+    @Column(name = "SITE")
     private String site;
+    @Column(name = "SYSTEM_USE")
     private String systemUse;
+    @Column(name = "CLAZZ")
     private Integer clazz;
+    @Column(name = "RATE")
     private Integer rate;
+    @Column(name = "EDUCATION")
     private String education;
+    @Column(name = "TITLE")
     private String title;
+    @Column(name = "QUALIFICATIONS")
     private String qualifications;
+    @Column(name = "ABSOLUTE")
     private String absolute;
+    @Column(name = "CITIZENSHIP")
     private String citizenship;
+    @Column(name = "REFERENCE")
     private String reference;
+    @Column(name = "REPORT_ID")
     private String reportId;
+    @Column(name = "CASH")
     private String cash;
+    @Column(name = "CURRENCY")
     private String currency;
+    @Column(name = "IBAN")
     private String iban;
+    @Column(name = "BIC")
     private String bic;
+    @Column(name = "BANK_NAME")
     private String bankName;
+    @Column(name = "SEX")
     private String sex;
+    @Column(name = "MIX")
     private String mix;
+    @Lob
+    @Column(name = "DETAILS")
     private String details;
+
+    public TradeDetails() {
+    }
 
     public String getId() {
         return id;
@@ -62,12 +102,12 @@ public class Transaction {
         this.lastName = lastName;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Integer getGroup() {
@@ -245,6 +285,5 @@ public class Transaction {
     public void setDetails(String details) {
         this.details = details;
     }
-
 
 }

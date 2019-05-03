@@ -1,19 +1,117 @@
 databaseChangeLog:
 #samples https://github.com/liquibase/liquibase/tree/master/liquibase-core/src/test/resources/liquibase/parser/core/yaml:
+
   - changeSet:
-      id: 1
+      id: MK_DATA
       author: gsaukov
       changes:
         - createTable:
-            tableName: partner
+            tableName: MK_DATA
             columns:
               - column:
-                  name: id
-                  type: int
+                  name: ID
+                  type: varchar(32)
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
-                  type: varchar(255)
+                  name: SYMBOL
+                  type: varchar(32)
+              - column:
+                  name: ACCOUNT
+                  type: varchar(32)
+              - column:
+                  name: ROUTE
+                  type: varchar(32)
+              - column:
+                  name: VAL
+                  type: bigint
 
+  - changeSet:
+      id: TRADE_DETAILS
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: TRADE_DETAILS
+            columns:
+              - column:
+                  name: ID
+                  type: varchar(32)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: EMAIL
+                  type: varchar(255)
+              - column:
+                  name: FIRST_NAME
+                  type: varchar(64)
+              - column:
+                  name: LAST_NAME
+                  type: varchar(64)
+              - column:
+                  name: ADDRESS
+                  type: varchar(64)
+              - column:
+                  name: GROUP
+                  type: bigint
+              - column:
+                  name: COMPANY
+                  type: varchar(64)
+              - column:
+                  name: DOMAIN
+                  type: varchar(16)
+              - column:
+                  name: SITE
+                  type: varchar(255)
+              - column:
+                  name: SYSTEM_USE
+                  type: varchar(32)
+              - column:
+                  name: CLAZZ
+                  type: number(12)
+              - column:
+                  name: RATE
+                  type: number(3)
+              - column:
+                  name: EDUCATION
+                  type: varchar(64)
+              - column:
+                  name: TITLE
+                  type: varchar(32)
+              - column:
+                  name: QUALIFICATIONS
+                  type: varchar(128)
+              - column:
+                  name: ABSOLUTE
+                  type: varchar(10)
+              - column:
+                  name: CITIZENSHIP
+                  type: varchar(10)
+              - column:
+                  name: REPORT_ID
+                  type: varchar(32)
+              - column:
+                  name: CASH
+                  type: varchar(32)
+              - column:
+                  name: CURRENCY
+                  type: varchar(32)
+              - column:
+                  name: IBAN
+                  type: varchar(32)
+              - column:
+                  name: BIC
+                  type: varchar(32)
+              - column:
+                  name: BANK_NAME
+                  type: varchar(64)
+              - column:
+                  name: SEX
+                  type: varchar(32)
+              - column:
+                  name: MIX
+                  type: varchar(512)
+              - column:
+                  name: DETAILS
+                  type: clob

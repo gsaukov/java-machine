@@ -1,18 +1,19 @@
 package com.apps.searchandpagination.service;
 
 import com.apps.reflection.RandomObjectFiller;
+import com.apps.searchandpagination.persistance.entity.TradeDetails;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TransactionService {
+public class TradeDetailsService {
 
     private RandomObjectFiller filler = new RandomObjectFiller();
 
-    public Transaction getTransaction(String detailId) {
-        Transaction transaction = null;
+    public TradeDetails getTransaction(String detailId) {
+        TradeDetails transaction = null;
         try {
-            transaction = filler.createAndFill(Transaction.class);
+            transaction = filler.createAndFill(TradeDetails.class);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

@@ -1,8 +1,8 @@
 package com.apps.searchandpagination.controller;
 
-import com.apps.searchandpagination.service.DataObject;
-import com.apps.searchandpagination.service.DataService;
-import com.apps.searchandpagination.service.TransactionService;
+import com.apps.searchandpagination.persistance.entity.MkData;
+import com.apps.searchandpagination.service.MkDataService;
+import com.apps.searchandpagination.service.TradeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +16,8 @@ import java.util.Optional;
 @Controller
 public class AppController {
 
-    private DataService service;
-    private TransactionService transactionService;
+    private MkDataService service;
+    private TradeDetailsService transactionService;
 
 
     @GetMapping({"/"})
@@ -28,9 +28,9 @@ public class AppController {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
 
-        Page<DataObject> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
+        Page<MkData> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
 
-        PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "getpage");
+        PageWrapper<MkData> page = new PageWrapper<MkData>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "home";
@@ -44,9 +44,9 @@ public class AppController {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
 
-        Page<DataObject> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
+        Page<MkData> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
 
-        PageWrapper<DataObject> page = new PageWrapper<DataObject>(dataPage, "getpage");
+        PageWrapper<MkData> page = new PageWrapper<MkData>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "datatable :: datatable";
@@ -61,12 +61,12 @@ public class AppController {
     }
 
     @Autowired
-    public void setService(DataService service) {
+    public void setService(MkDataService service) {
         this.service = service;
     }
 
     @Autowired
-    public void setService(TransactionService transactionService) {
+    public void setService(TradeDetailsService transactionService) {
         this.transactionService = transactionService;
     }
 }
