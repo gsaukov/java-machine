@@ -35,7 +35,7 @@
                     </tr>
                     <tr>
                         <th>Group:</th>
-                        <td th:text="${transaction.Group}"></td>
+                        <td th:text="${transaction.GroupName}"></td>
                     </tr>
                     <tr>
                     <th>Company:</th>
@@ -95,7 +95,8 @@
                     </tr>
                     <tr>
                         <th>Reference:</th>
-                        <td th:text="${transaction.Reference}"></td>
+
+                        <td th:text="${#numbers.formatDecimal(transaction.Reference, 1, 8)}"></td>
                     </tr>
                     <tr>
                         <th>Report Id:</th>

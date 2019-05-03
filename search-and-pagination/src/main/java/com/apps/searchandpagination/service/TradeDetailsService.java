@@ -2,13 +2,36 @@ package com.apps.searchandpagination.service;
 
 import com.apps.reflection.RandomObjectFiller;
 import com.apps.searchandpagination.persistance.entity.TradeDetails;
+import com.apps.searchandpagination.persistance.repository.TradeDetailsRepository;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TradeDetailsService {
 
     private RandomObjectFiller filler = new RandomObjectFiller();
+
+    @Autowired
+    private TradeDetailsRepository tradeDetailsRepository;
+
+    public TradeDetailsService(TradeDetailsRepository tradeDetailsRepository) {
+        this.tradeDetailsRepository = tradeDetailsRepository;
+        fillDataObjects();
+    }
+
+    private void fillDataObjects() {
+        for(int i = 0; i < 1000; i++){
+            try {
+                TradeDetails tradeDetails = filler.createAndFill(TradeDetails.class);
+                tradeDetailsRepository.save(tradeDetails);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public TradeDetails getTransaction(String detailId) {
         TradeDetails transaction = null;

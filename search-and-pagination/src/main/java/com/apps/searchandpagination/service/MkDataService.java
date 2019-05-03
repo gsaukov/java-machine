@@ -21,13 +21,10 @@ public class MkDataService {
     private List<MkData> dataObjects = new ArrayList<>();
 
     @Autowired
-    public void setMkDataRepository(MkDataRepository mkDataRepository) {
-        this.mkDataRepository = mkDataRepository;
-    }
-
     private MkDataRepository mkDataRepository;
 
-    public MkDataService() {
+    public MkDataService(MkDataRepository mkDataRepository) {
+        this.mkDataRepository = mkDataRepository;
         fillDataObjects();
     }
 
@@ -50,13 +47,12 @@ public class MkDataService {
         return dataPage;
     }
 
-
     private void fillDataObjects() {
         for(int i = 0; i < 1000; i++){
             try {
                 MkData mkData = filler.createAndFill(MkData.class);
                 dataObjects.add(mkData);
-//                mkDataRepository.save(mkData);
+                mkDataRepository.save(mkData);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

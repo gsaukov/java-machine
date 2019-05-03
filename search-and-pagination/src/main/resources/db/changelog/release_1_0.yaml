@@ -53,14 +53,14 @@ databaseChangeLog:
                   name: ADDRESS
                   type: varchar(64)
               - column:
-                  name: GROUP
+                  name: GROUP_NAME
                   type: bigint
               - column:
                   name: COMPANY
                   type: varchar(64)
               - column:
                   name: DOMAIN
-                  type: varchar(16)
+                  type: varchar(32)
               - column:
                   name: SITE
                   type: varchar(255)
@@ -72,7 +72,7 @@ databaseChangeLog:
                   type: number(12)
               - column:
                   name: RATE
-                  type: number(3)
+                  type: number(12)
               - column:
                   name: EDUCATION
                   type: varchar(64)
@@ -84,10 +84,13 @@ databaseChangeLog:
                   type: varchar(128)
               - column:
                   name: ABSOLUTE
-                  type: varchar(10)
+                  type: varchar(32)
               - column:
                   name: CITIZENSHIP
-                  type: varchar(10)
+                  type: varchar(32)
+              - column:
+                  name: REFERENCE
+                  type: number(10,4)
               - column:
                   name: REPORT_ID
                   type: varchar(32)

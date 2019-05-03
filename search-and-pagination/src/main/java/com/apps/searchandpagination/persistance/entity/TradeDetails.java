@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "TRADE_DETAILS")
@@ -21,8 +22,8 @@ public class TradeDetails {
     private String lastName;
     @Column(name = "ADDRESS")
     private String address;
-    @Column(name = "GROUP")
-    private Integer group;
+    @Column(name = "GROUP_NAME")
+    private Integer groupName;
     @Column(name = "COMPANY")
     private String company;
     @Column(name = "DOMAIN")
@@ -46,7 +47,7 @@ public class TradeDetails {
     @Column(name = "CITIZENSHIP")
     private String citizenship;
     @Column(name = "REFERENCE")
-    private String reference;
+    private BigDecimal reference;
     @Column(name = "REPORT_ID")
     private String reportId;
     @Column(name = "CASH")
@@ -110,12 +111,12 @@ public class TradeDetails {
         this.address = address;
     }
 
-    public Integer getGroup() {
-        return group;
+    public Integer getGroupName() {
+        return groupName;
     }
 
-    public void setGroup(Integer group) {
-        this.group = group;
+    public void setGroupName(Integer groupName) {
+        this.groupName = groupName;
     }
 
     public String getCompany() {
@@ -206,11 +207,11 @@ public class TradeDetails {
         this.citizenship = citizenship;
     }
 
-    public String getReference() {
+    public BigDecimal getReference() {
         return reference;
     }
 
-    public void setReference(String reference) {
+    public void setReference(BigDecimal reference) {
         this.reference = reference;
     }
 
