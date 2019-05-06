@@ -1,7 +1,7 @@
 package com.apps.searchandpagination.controller;
 
-import com.apps.searchandpagination.persistance.entity.MkData;
-import com.apps.searchandpagination.service.MkDataService;
+import com.apps.searchandpagination.persistance.entity.TradeData;
+import com.apps.searchandpagination.service.TradeDataService;
 import com.apps.searchandpagination.service.TradeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +16,8 @@ import java.util.Optional;
 @Controller
 public class AppController {
 
-    private MkDataService service;
-    private TradeDetailsService transactionService;
+    private TradeDataService tradeDataService;
+    private TradeDetailsService tradeDetailsService;
 
 
     @GetMapping({"/"})
@@ -28,9 +28,9 @@ public class AppController {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
 
-        Page<MkData> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
+        Page<TradeData> dataPage = tradeDataService.findPaginated(PageRequest.of(currentPage, pageSize));
 
-        PageWrapper<MkData> page = new PageWrapper<MkData>(dataPage, "getpage");
+        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "home";
@@ -44,9 +44,9 @@ public class AppController {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
 
-        Page<MkData> dataPage = service.findPaginated(PageRequest.of(currentPage, pageSize));
+        Page<TradeData> dataPage = tradeDataService.findPaginated(PageRequest.of(currentPage, pageSize));
 
-        PageWrapper<MkData> page = new PageWrapper<MkData>(dataPage, "getpage");
+        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "datatable :: datatable";
@@ -56,17 +56,17 @@ public class AppController {
     public String getDetails(
             @RequestParam("detailId") String detailId,
             Model model) {
-        model.addAttribute("transaction", transactionService.getTransaction(detailId));
+        model.addAttribute("transaction", tradeDetailsService.getTransaction(detailId));
         return "transactiondetails :: transactiondetails";
     }
 
     @Autowired
-    public void setService(MkDataService service) {
-        this.service = service;
+    public void setTradeDataService(TradeDataService tradeDataService) {
+        this.tradeDataService = tradeDataService;
     }
 
     @Autowired
-    public void setService(TradeDetailsService transactionService) {
-        this.transactionService = transactionService;
+    public void setTradeDetailsService(TradeDetailsService transactionService) {
+        this.tradeDetailsService = transactionService;
     }
 }

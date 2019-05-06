@@ -11,8 +11,8 @@ import javax.persistence.Table;
 
 @Entity
 @Access(AccessType.FIELD)
-@Table(name = "MK_DATA")
-public class MkData {
+@Table(name = "TRADE_DATA")
+public class TradeData {
 
     @Id
     @Column(name = "ID")
@@ -27,7 +27,7 @@ public class MkData {
     @Column(name = "VAL")
     private int val;
 
-    public MkData() {
+    public TradeData() {
     }
 
     public String getId() {

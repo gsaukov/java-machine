@@ -2,11 +2,11 @@ databaseChangeLog:
 #samples https://github.com/liquibase/liquibase/tree/master/liquibase-core/src/test/resources/liquibase/parser/core/yaml:
 
   - changeSet:
-      id: MK_DATA
+      id: TRADE_DATA
       author: gsaukov
       changes:
         - createTable:
-            tableName: MK_DATA
+            tableName: TRADE_DATA
             columns:
               - column:
                   name: ID

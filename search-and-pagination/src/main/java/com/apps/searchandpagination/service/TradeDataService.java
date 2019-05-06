@@ -1,8 +1,8 @@
 package com.apps.searchandpagination.service;
 
 import com.apps.reflection.RandomObjectFiller;
-import com.apps.searchandpagination.persistance.entity.MkData;
-import com.apps.searchandpagination.persistance.repository.MkDataRepository;
+import com.apps.searchandpagination.persistance.entity.TradeData;
+import com.apps.searchandpagination.persistance.repository.TradeDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,25 +15,25 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class MkDataService {
+public class TradeDataService {
 
     private RandomObjectFiller filler = new RandomObjectFiller();
-    private List<MkData> dataObjects = new ArrayList<>();
+    private List<TradeData> dataObjects = new ArrayList<>();
 
     @Autowired
-    private MkDataRepository mkDataRepository;
+    private TradeDataRepository tradeDataRepository;
 
-    public MkDataService(MkDataRepository mkDataRepository) {
-        this.mkDataRepository = mkDataRepository;
+    public TradeDataService(TradeDataRepository tradeDataRepository) {
+        this.tradeDataRepository = tradeDataRepository;
         fillDataObjects();
     }
 
-    public Page<MkData> findPaginated(Pageable pageable) {
+    public Page<TradeData> findPaginated(Pageable pageable) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
 
-        List<MkData> list;
+        List<TradeData> list;
 
         if (dataObjects.size() < startItem) {
             list = Collections.emptyList();
@@ -42,7 +42,7 @@ public class MkDataService {
             list = dataObjects.subList(startItem, toIndex);
         }
 
-        Page<MkData> dataPage= new PageImpl<>(list, PageRequest.of(currentPage, pageSize), dataObjects.size());
+        Page<TradeData> dataPage= new PageImpl<>(list, PageRequest.of(currentPage, pageSize), dataObjects.size());
 
         return dataPage;
     }
@@ -50,9 +50,9 @@ public class MkDataService {
     private void fillDataObjects() {
         for(int i = 0; i < 1000; i++){
             try {
-                MkData mkData = filler.createAndFill(MkData.class);
-                dataObjects.add(mkData);
-                mkDataRepository.save(mkData);
+                TradeData tradeData = filler.createAndFill(TradeData.class);
+                dataObjects.add(tradeData);
+                tradeDataRepository.save(tradeData);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
