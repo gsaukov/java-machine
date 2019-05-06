@@ -24,6 +24,7 @@ public class ExceptionHandlingController{
     @ResponseStatus(value= HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, Exception e) {
+        e.printStackTrace();
         ModelAndView mav = new ModelAndView();
         mav.addObject("errorMessage", "Something went wrong.");
         mav.setViewName("error/customerror");

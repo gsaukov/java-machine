@@ -56,7 +56,7 @@ public class AppController {
     public String getDetails(
             @RequestParam("detailId") String detailId,
             Model model) {
-        model.addAttribute("transaction", tradeDetailsService.getTransaction(detailId));
+        model.addAttribute("transaction", tradeDetailsService.getTrade(detailId));
         return "transactiondetails :: transactiondetails";
     }
 

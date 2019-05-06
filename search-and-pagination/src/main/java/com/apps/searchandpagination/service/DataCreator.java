@@ -24,21 +24,21 @@ public class DataCreator {
 
     @PostConstruct
     private void postConstruct(){
-        fillObjects();
+        try {
+            fillObjects();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void fillObjects() {
+    private void fillObjects() throws IllegalAccessException, InstantiationException {
         for(int i = 0; i < 1000; i++){
-            try {
-                TradeDetails tradeDetails = filler.createAndFill(TradeDetails.class);
-                tradeDetails.setMix(getRandomWords(5));
-                tradeDetails.setDetails(getRandomWords(10));
-                tradeDetailsRepository.save(tradeDetails);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            TradeDetails tradeDetails = filler.createAndFill(TradeDetails.class);
+            tradeDetails.setMix(getRandomWords(5));
+            tradeDetails.setDetails(getRandomWords(10));
+            tradeDetailsRepository.save(tradeDetails);
         }
     }
 
@@ -50,18 +50,4 @@ public class DataCreator {
         }
         return res;
     }
-
-//    private void fillDataObjects() {
-//        for(int i = 0; i < 1000; i++){
-//            try {
-//                TradeData tradeData = filler.createAndFill(TradeData.class);
-//                dataObjects.add(tradeData);
-//                mkDataRepository.save(tradeData);
-//            } catch (InstantiationException e) {
-//                e.printStackTrace();
-//            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 }
