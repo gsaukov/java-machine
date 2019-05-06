@@ -41,6 +41,19 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: TRADE_DATA_ID
+                  type: varchar(32)
+              - addForeignKeyConstraint:
+                  baseColumnNames: person_id
+                  baseTableName: address
+                  constraintName: fk_address_person
+#                  deferrable: true
+#                  initiallyDeferred: true
+                  onDelete: CASCADE
+                  onUpdate: CASCADE
+                  referencedColumnNames: id
+                  referencedTableName: person
+              - column:
                   name: EMAIL
                   type: varchar(255)
               - column:

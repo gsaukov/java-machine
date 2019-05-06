@@ -1,10 +1,6 @@
 package com.apps.searchandpagination.persistance.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -14,6 +10,9 @@ public class TradeDetails {
     @Id
     @Column(name = "ID")
     private String id;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "TRADE_DATA_ID")
+    private TradeData tradeData;
     @Column(name = "EMAIL")
     private String email;
     @Column(name = "FIRST_NAME")
@@ -77,6 +76,14 @@ public class TradeDetails {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public TradeData getTradeData() {
+        return tradeData;
+    }
+
+    public void setTradeData(TradeData tradeData) {
+        this.tradeData = tradeData;
     }
 
     public String getEmail() {

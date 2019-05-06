@@ -17,20 +17,6 @@ public class TradeDetailsService {
 
     public TradeDetailsService(TradeDetailsRepository tradeDetailsRepository) {
         this.tradeDetailsRepository = tradeDetailsRepository;
-        fillDataObjects();
-    }
-
-    private void fillDataObjects() {
-        for(int i = 0; i < 1000; i++){
-            try {
-                TradeDetails tradeDetails = filler.createAndFill(TradeDetails.class);
-                tradeDetailsRepository.save(tradeDetails);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public TradeDetails getTransaction(String detailId) {
