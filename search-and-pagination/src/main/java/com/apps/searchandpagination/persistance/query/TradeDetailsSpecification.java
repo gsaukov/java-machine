@@ -26,7 +26,7 @@ public class TradeDetailsSpecification extends BasePredicate<TradeDetails> {
 //        };
 //
 //    }
-//
+//http://docs.jboss.org/hibernate/jpamodelgen/1.0/reference/en-US/html_single/#whatisit
 //    public void met(CriteriaBuilder builder){
 //
 //        CriteriaQuery<TradeDetails> query = builder.createQuery(TradeDetails.class);
