@@ -35,6 +35,7 @@ databaseChangeLog:
               - column:
                   name: DATE
                   type: dateTime
+
   - changeSet:
       id: TRADE_DETAILS
       author: gsaukov
