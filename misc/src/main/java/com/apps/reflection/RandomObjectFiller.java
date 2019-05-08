@@ -46,7 +46,7 @@ public class RandomObjectFiller {
         } else if(type.equals(LocalDateTime.class)) {
             return LocalDateTime.now();
         } else if(type.equals(String.class)) {
-            return RandomStringUtils.randomAlphanumeric(10).toUpperCase();
+            return RandomStringUtils.randomAlphanumeric(5, 20).toUpperCase();
         } else if(type.equals(BigInteger.class)){
             return BigInteger.valueOf(random.nextInt());
 //        } else if (type.equals(BigMoney.class)) {
