@@ -1,9 +1,10 @@
 package com.apps.reflection;
 
-//import org.joda.money.BigMoney;
-//import org.joda.money.CurrencyUnit;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -14,7 +15,7 @@ import java.util.Random;
 
 public class RandomObjectFiller {
 
-    private Random random = new Random();
+    private RandomUtils random = new RandomUtils();
 
     public <T> T createAndFill(Class<T> clazz) throws InstantiationException, IllegalAccessException {
         T instance = clazz.newInstance();
@@ -32,7 +33,7 @@ public class RandomObjectFiller {
         // example, so this list is not complete! Adapt this to your needs!
         if(type.isEnum()) {
             Object[] enumValues = type.getEnumConstants();
-            return enumValues[random.nextInt(enumValues.length)];
+            return enumValues[random.nextInt(0, enumValues.length)];
         } else if(type.equals(Integer.TYPE) || type.equals(Integer.class)) {
             return random.nextInt();
         } else if(type.equals(Long.TYPE) || type.equals(Long.class)) {
@@ -42,15 +43,15 @@ public class RandomObjectFiller {
         } else if(type.equals(Float.TYPE) || type.equals(Float.class)) {
             return random.nextFloat();
         } else if(type.equals(BigDecimal.class)) {
-            return new BigDecimal(random.nextDouble());
+            return new BigDecimal(random.nextDouble(0, 1000));
         } else if(type.equals(LocalDateTime.class)) {
             return LocalDateTime.now();
         } else if(type.equals(String.class)) {
             return RandomStringUtils.randomAlphanumeric(5, 20).toUpperCase();
         } else if(type.equals(BigInteger.class)){
             return BigInteger.valueOf(random.nextInt());
-//        } else if (type.equals(BigMoney.class)) {
-//            return BigMoney.of(CurrencyUnit.EUR, random.nextDouble());
+        } else if (type.equals(BigMoney.class)) {
+            return BigMoney.of(CurrencyUnit.EUR, random.nextDouble(0, 1000));
         } else if(type.equals(LocalDate.class)) {
             return LocalDate.now();
         } else if (!type.isPrimitive()) {

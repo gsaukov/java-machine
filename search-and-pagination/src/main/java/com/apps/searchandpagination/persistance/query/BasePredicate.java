@@ -11,19 +11,23 @@ public class BasePredicate <T> implements Specification<T> {
 
     private SearchCriteria criteria;
 
+    protected BasePredicate(SearchCriteria criteria){
+        this.criteria = criteria;
+    }
+
     @Override
     public Predicate toPredicate (Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
         if (criteria.getOperation().equalsIgnoreCase("=")) {
             return builder.equal(
-                    root.<String> get(criteria.getKey()), criteria.getValue().toString());
+                    root.get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation().equalsIgnoreCase(">")) {
             return builder.greaterThanOrEqualTo(
-                    root.<String> get(criteria.getKey()), criteria.getValue().toString());
+                    root.get(criteria.getKey()), criteria.getValue().toString());
         }
         else if (criteria.getOperation().equalsIgnoreCase("<")) {
             return builder.lessThanOrEqualTo(
-                    root.<String> get(criteria.getKey()), criteria.getValue().toString());
+                    root.get(criteria.getKey()), criteria.getValue().toString());
         }
         else if (criteria.getOperation().equalsIgnoreCase(":")) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
@@ -34,10 +38,6 @@ public class BasePredicate <T> implements Specification<T> {
             }
         }
         return null;
-    }
-
-    protected void setCriteria(SearchCriteria criteria){
-        this.criteria = criteria;
     }
 
 }

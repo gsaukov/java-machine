@@ -1,15 +1,23 @@
 package com.apps.searchandpagination.persistance.query;
 
+import javax.persistence.metamodel.SingularAttribute;
+
 public class SearchCriteria {
-    private String key;
+    private SingularAttribute key;
     private String operation;
     private Object value;
 
-    public String getKey() {
+    public SearchCriteria(SingularAttribute key, String operation, Object value) {
+        this.key = key;
+        this.operation = operation;
+        this.value = value;
+    }
+
+    public SingularAttribute getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(SingularAttribute key) {
         this.key = key;
     }
 

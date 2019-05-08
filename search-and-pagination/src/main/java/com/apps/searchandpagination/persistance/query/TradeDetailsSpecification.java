@@ -1,6 +1,7 @@
 package com.apps.searchandpagination.persistance.query;
 
 import com.apps.searchandpagination.persistance.entity.TradeDetails;
+import com.apps.searchandpagination.persistance.entity.TradeDetails_;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,8 +11,8 @@ import javax.persistence.criteria.Root;
 
 public class TradeDetailsSpecification extends BasePredicate<TradeDetails> {
 
-    protected TradeDetailsSpecification(SearchCriteria criteria) {
-//        super(criteria);
+    public TradeDetailsSpecification(SearchCriteria criteria) {
+        super(criteria);
     }
 
 //    public static Specification<TradeDetails> isLongTermCustomer() {
@@ -26,7 +27,7 @@ public class TradeDetailsSpecification extends BasePredicate<TradeDetails> {
 //        };
 //
 //    }
-//http://docs.jboss.org/hibernate/jpamodelgen/1.0/reference/en-US/html_single/#whatisit
+//
 //    public void met(CriteriaBuilder builder){
 //
 //        CriteriaQuery<TradeDetails> query = builder.createQuery(TradeDetails.class);

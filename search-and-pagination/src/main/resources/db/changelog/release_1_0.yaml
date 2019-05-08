@@ -26,7 +26,15 @@ databaseChangeLog:
               - column:
                   name: VAL
                   type: bigint
-
+              - column:
+                  name: AMOUNT
+                  type: number(10,4)
+              - column:
+                  name: CURRENCY
+                  type: varchar(32)
+              - column:
+                  name: DATE
+                  type: dateTime
   - changeSet:
       id: TRADE_DETAILS
       author: gsaukov
