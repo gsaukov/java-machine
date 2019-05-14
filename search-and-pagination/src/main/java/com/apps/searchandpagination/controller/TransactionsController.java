@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
-public class AppController {
+public class TransactionsController {
 
     private TradeDataService tradeDataService;
     private TradeDetailsService tradeDetailsService;
@@ -38,6 +38,22 @@ public class AppController {
 
     @GetMapping({"getpage/"})
     public String getPage(
+            Model model,
+            @RequestParam("page") Optional<Integer> optCurrentPage,
+            @RequestParam("size") Optional<Integer> size) {
+        int currentPage = optCurrentPage.orElse(0);
+        int pageSize = size.orElse(10);
+
+        Page<TradeData> dataPage = tradeDataService.findPaginated(PageRequest.of(currentPage, pageSize));
+
+        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
+        model.addAttribute("page", page);
+        model.addAttribute("dataPage", dataPage);
+        return "datatable :: datatable";
+    }
+
+    @GetMapping({"getTransactions/"})
+    public String getTransactions(
             Model model,
             @RequestParam("page") Optional<Integer> optCurrentPage,
             @RequestParam("size") Optional<Integer> size) {

@@ -1,13 +1,13 @@
-package com.apps.searchandpagination.persistance.query;
+package com.apps.searchandpagination.persistance.query.general;
 
 import javax.persistence.metamodel.SingularAttribute;
 
-public class SearchCriteria {
+public class SearchCriteria<T> {
     private SingularAttribute key;
     private String operation;
-    private Object value;
+    private T value;
 
-    public SearchCriteria(SingularAttribute key, String operation, Object value) {
+    public SearchCriteria(SingularAttribute key, String operation, T value) {
         this.key = key;
         this.operation = operation;
         this.value = value;
@@ -29,11 +29,11 @@ public class SearchCriteria {
         this.operation = operation;
     }
 
-    public Object getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(Object value) {
+    public void setValue(T value) {
         this.value = value;
     }
 }

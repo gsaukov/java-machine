@@ -1,13 +1,8 @@
-package com.apps.searchandpagination.persistance.query;
+package com.apps.searchandpagination.persistance.query.trade;
 
 import com.apps.searchandpagination.persistance.entity.TradeDetails;
-import com.apps.searchandpagination.persistance.entity.TradeDetails_;
-import org.springframework.data.jpa.domain.Specification;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import com.apps.searchandpagination.persistance.query.general.BasePredicate;
+import com.apps.searchandpagination.persistance.query.general.SearchCriteria;
 
 public class TradeDetailsSpecification extends BasePredicate<TradeDetails> {
 
