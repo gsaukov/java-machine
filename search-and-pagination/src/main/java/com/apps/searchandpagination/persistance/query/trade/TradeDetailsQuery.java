@@ -38,6 +38,7 @@ public class TradeDetailsQuery {
     }
 
     private Specification<TradeDetails> returnCandidates(TradeDetailsCriteria tradeDetailsCriteria) {
+// rewrite with query and null checks.
 
         return (root, query, builder) -> builder.and(
                 creatIn(builder, root.join(TradeDetails_.tradeData).get(TradeData_.id), tradeDetailsCriteria.getIds()),
