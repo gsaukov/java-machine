@@ -45,7 +45,7 @@ public class RandomObjectFiller {
         } else if(type.equals(BigDecimal.class)) {
             return new BigDecimal(random.nextDouble(0, 1000));
         } else if(type.equals(LocalDateTime.class)) {
-            return LocalDateTime.now();
+            return LocalDateTime.now().plusDays(random.nextInt(0, 10000)).minusDays(random.nextInt(0, 10000));
         } else if(type.equals(String.class)) {
             return RandomStringUtils.randomAlphanumeric(5, 20).toUpperCase();
         } else if(type.equals(BigInteger.class)){
@@ -53,7 +53,7 @@ public class RandomObjectFiller {
         } else if (type.equals(BigMoney.class)) {
             return BigMoney.of(CurrencyUnit.EUR, random.nextDouble(0, 1000));
         } else if(type.equals(LocalDate.class)) {
-            return LocalDate.now();
+            return LocalDate.now().plusDays(random.nextInt(0, 10000)).minusDays(random.nextInt(0, 10000));
         } else if (!type.isPrimitive()) {
             return createAndFill(type);
         }
