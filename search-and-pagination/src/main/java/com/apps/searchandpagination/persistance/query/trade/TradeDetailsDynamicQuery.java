@@ -10,10 +10,14 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.transaction.Transactional.TxType.REQUIRED;
+
 @Service
+@Transactional(REQUIRED)
 public class TradeDetailsDynamicQuery {
 
     @Autowired
@@ -27,6 +31,24 @@ public class TradeDetailsDynamicQuery {
         Root<TradeDetails> rootTradeDetails = queryTradeDetails.from(TradeDetails.class);
         Join<TradeDetails, TradeData> joinTradeData = rootTradeDetails.join(TradeDetails_.tradeData);
 
+        List<Predicate> predicates = createQueryTradesPredicates(tradeDetailsCriteria, builder, rootTradeDetails, joinTradeData);
+
+        queryTradeDetails.where(predicates.toArray(new Predicate[]{}));
+
+        long count = countQueryTrades(builder, predicates);
+
+        queryTradeDetails.orderBy(builder.asc(joinTradeData.get(TradeData_.date)));
+
+        TypedQuery query = entityManager.createQuery(queryTradeDetails);
+        query.setFirstResult(page.getPageNumber() * page.getPageSize());
+        query.setMaxResults(page.getPageSize());
+
+        return new PageImpl<>(query.getResultList(), page, count);
+    }
+
+    private List<Predicate> createQueryTradesPredicates(TradeDetailsCriteria tradeDetailsCriteria, CriteriaBuilder builder,
+                                                        Root<TradeDetails> rootTradeDetails,
+                                                        Join<TradeDetails, TradeData> joinTradeData) {
         List<Predicate> predicates = new ArrayList<>();
 
         if (tradeDetailsCriteria.getIds() != null && !tradeDetailsCriteria.getIds().isEmpty()) {
@@ -77,17 +99,7 @@ public class TradeDetailsDynamicQuery {
             predicates.add(builder.equal(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.currency), tradeDetailsCriteria.getAmountLess().getCurrencyUnit()));
         }
 
-        queryTradeDetails.where(predicates.toArray(new Predicate[]{}));
-
-        long count = countQueryTrades(builder, predicates);
-
-        queryTradeDetails.orderBy(builder.asc(joinTradeData.get(TradeData_.date)));
-
-        TypedQuery query = entityManager.createQuery(queryTradeDetails);
-        query.setFirstResult(page.getPageNumber() * page.getPageSize());
-        query.setMaxResults(page.getPageSize());
-
-        return new PageImpl<TradeDetails>(query.getResultList(), page, count);
+        return predicates;
     }
 
     private Predicate creatIn(CriteriaBuilder builder, Path path, List list){
@@ -97,11 +109,11 @@ public class TradeDetailsDynamicQuery {
     }
 
     private Long countQueryTrades(CriteriaBuilder builder, List<Predicate> predicates) {
-        CriteriaQuery<Long> cq = builder.createQuery(Long.class);
-        cq.select(builder.count(cq.from(TradeDetails.class).join(TradeDetails_.tradeData)));
-        entityManager.createQuery(cq);
-        cq.where(predicates.toArray(new Predicate[]{}));
-        return entityManager.createQuery(cq).getSingleResult();
+        CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
+        countQuery.select(builder.count(countQuery.from(TradeDetails.class).join(TradeDetails_.tradeData)));
+        entityManager.createQuery(countQuery);
+        countQuery.where(predicates.toArray(new Predicate[]{}));
+        return entityManager.createQuery(countQuery).getSingleResult();
     }
 
     public void setEntityManager(EntityManager entityManager) {
