@@ -28,7 +28,7 @@ public class TransactionsController {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
 
-        Page<TradeData> dataPage = tradeDataService.findPaginated(PageRequest.of(currentPage, pageSize));
+        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), Optional.empty());
 
         PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
         model.addAttribute("page", page);
@@ -44,23 +44,7 @@ public class TransactionsController {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
 
-        Page<TradeData> dataPage = tradeDataService.findPaginated(PageRequest.of(currentPage, pageSize));
-
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
-        model.addAttribute("page", page);
-        model.addAttribute("dataPage", dataPage);
-        return "datatable :: datatable";
-    }
-
-    @GetMapping({"getTransactions/"})
-    public String getTransactions(
-            Model model,
-            @RequestParam("page") Optional<Integer> optCurrentPage,
-            @RequestParam("size") Optional<Integer> size) {
-        int currentPage = optCurrentPage.orElse(0);
-        int pageSize = size.orElse(10);
-
-        Page<TradeData> dataPage = tradeDataService.findPaginated(PageRequest.of(currentPage, pageSize));
+        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), Optional.empty());
 
         PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
         model.addAttribute("page", page);

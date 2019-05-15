@@ -1,4 +1,4 @@
-package com.apps.searchandpagination.persistance.query.general;
+package com.apps.searchandpagination.persistance.query.samples;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -6,7 +6,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.Arrays;
 import java.util.Collection;
 
 public class BasePredicate <T> implements Specification<T> {

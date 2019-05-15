@@ -12,18 +12,10 @@ public class PageWrapper<T> {
     private int currentNumber;
     private String url;
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public PageWrapper(Page<T> page, String url){
         this.page = page;
         this.url = url;
-        items = new ArrayList<PageItem>();
+        items = new ArrayList<>();
 
         currentNumber = page.getNumber() + 1; //start from 1 to match page.page
 
@@ -47,6 +39,14 @@ public class PageWrapper<T> {
         for (int i = 0; i<size; i++){
             items.add(new PageItem(start+i, (start+i)==currentNumber));
         }
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public List<PageItem> getItems(){

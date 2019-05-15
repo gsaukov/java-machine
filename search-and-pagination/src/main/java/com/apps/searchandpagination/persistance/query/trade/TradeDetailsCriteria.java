@@ -8,6 +8,8 @@ import java.util.List;
 
 public class TradeDetailsCriteria {
 
+    public static final TradeDetailsCriteria EMPTY_CRITERIA = new TradeDetailsCriteria();
+
     private List<String> ids;
     private List<String> symbols;
     private List<String> accounts;

@@ -1,7 +1,6 @@
 package com.apps.searchandpagination.service;
 
 import com.apps.searchandpagination.persistance.entity.TradeDetails;
-import com.apps.searchandpagination.persistance.query.trade.TradeDetailsQuery;
 import com.apps.searchandpagination.persistance.repository.TradeDataRepository;
 import com.apps.searchandpagination.persistance.repository.TradeDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +15,11 @@ public class TradeDetailsService {
     @Autowired
     private TradeDataRepository tradeDataRepository;
 
-    @Autowired
-    private TradeDetailsQuery tradeDetailsQuery;
-
     public TradeDetailsService(TradeDetailsRepository tradeDetailsRepository) {
         this.tradeDetailsRepository = tradeDetailsRepository;
     }
 
     public TradeDetails getTrade(String detailId) {
-
-        tradeDetailsQuery.queryTrade(null);
         return tradeDetailsRepository.findByTradeData(tradeDataRepository.findById(detailId).get());
     }
 

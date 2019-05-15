@@ -1,4 +1,4 @@
-package com.apps.searchandpagination.persistance.query.general;
+package com.apps.searchandpagination.persistance.query.samples;
 
 import javax.persistence.metamodel.SingularAttribute;
 

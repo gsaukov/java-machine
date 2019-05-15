@@ -1,0 +1,111 @@
+package com.apps.searchandpagination.persistance.query.trade;
+
+import com.apps.searchandpagination.persistance.entity.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class TradeDetailsDynamicQuery {
+
+    @Autowired
+    private EntityManager entityManager;
+
+    public Page<TradeDetails> queryTrades(Pageable page, TradeDetailsCriteria tradeDetailsCriteria) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<TradeDetails> queryTradeDetails = builder.createQuery(TradeDetails.class);
+
+        Root<TradeDetails> rootTradeDetails = queryTradeDetails.from(TradeDetails.class);
+        Join<TradeDetails, TradeData> joinTradeData = rootTradeDetails.join(TradeDetails_.tradeData);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (tradeDetailsCriteria.getIds() != null && !tradeDetailsCriteria.getIds().isEmpty()) {
+            predicates.add(creatIn(builder, joinTradeData.get(TradeData_.id), tradeDetailsCriteria.getIds()));
+        }
+
+        if (tradeDetailsCriteria.getAccounts() != null && !tradeDetailsCriteria.getAccounts().isEmpty()) {
+            predicates.add(creatIn(builder, joinTradeData.get(TradeData_.account), tradeDetailsCriteria.getAccounts()));
+        }
+
+        if (tradeDetailsCriteria.getSymbols() != null && !tradeDetailsCriteria.getSymbols().isEmpty()) {
+            predicates.add(creatIn(builder, joinTradeData.get(TradeData_.symbol), tradeDetailsCriteria.getSymbols()));
+        }
+
+        if (tradeDetailsCriteria.getRoute() != null) {
+            predicates.add(builder.equal(joinTradeData.get(TradeData_.route), tradeDetailsCriteria.getRoute()));
+        }
+
+        if (tradeDetailsCriteria.getDateAfter() != null) {
+            predicates.add(builder.greaterThanOrEqualTo(joinTradeData.get(TradeData_.date), tradeDetailsCriteria.getDateAfter()));
+        }
+
+        if (tradeDetailsCriteria.getDateBefore() != null) {
+            predicates.add(builder.lessThanOrEqualTo(joinTradeData.get(TradeData_.date), tradeDetailsCriteria.getDateBefore()));
+        }
+
+        if (tradeDetailsCriteria.getIban() != null) {
+            predicates.add(builder.equal(rootTradeDetails.get(TradeDetails_.iban), tradeDetailsCriteria.getIban()));
+        }
+
+        if (tradeDetailsCriteria.getFirstName() != null) {
+            predicates.add(builder.like(builder.lower(rootTradeDetails.get(TradeDetails_.firstName)),
+                    "%" + tradeDetailsCriteria.getFirstName().toLowerCase() + "%"));
+        }
+
+        if (tradeDetailsCriteria.getLastName() != null) {
+            predicates.add(builder.like(builder.lower(rootTradeDetails.get(TradeDetails_.lastName)),
+                    "%" + tradeDetailsCriteria.getLastName().toLowerCase() + "%"));
+        }
+
+        if (tradeDetailsCriteria.getAmountGreater() != null) {
+            predicates.add(builder.greaterThanOrEqualTo(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.amount), tradeDetailsCriteria.getAmountGreater().getAmount()));
+            predicates.add(builder.equal(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.currency), tradeDetailsCriteria.getAmountGreater().getCurrencyUnit()));
+        }
+
+        if (tradeDetailsCriteria.getAmountLess() != null) {
+            predicates.add(builder.lessThanOrEqualTo(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.amount), tradeDetailsCriteria.getAmountLess().getAmount()));
+            predicates.add(builder.equal(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.currency), tradeDetailsCriteria.getAmountLess().getCurrencyUnit()));
+        }
+
+        queryTradeDetails.where(predicates.toArray(new Predicate[]{}));
+
+        long count = countQueryTrades(builder, predicates);
+
+        queryTradeDetails.orderBy(builder.asc(joinTradeData.get(TradeData_.date)));
+
+        TypedQuery query = entityManager.createQuery(queryTradeDetails);
+        query.setFirstResult(page.getPageNumber() * page.getPageSize());
+        query.setMaxResults(page.getPageSize());
+
+        return new PageImpl<TradeDetails>(query.getResultList(), page, count);
+    }
+
+    private Predicate creatIn(CriteriaBuilder builder, Path path, List list){
+        CriteriaBuilder.In in = builder.in(path);
+        list.forEach(i -> in.value(i));
+        return in;
+    }
+
+    private Long countQueryTrades(CriteriaBuilder builder, List<Predicate> predicates) {
+        CriteriaQuery<Long> cq = builder.createQuery(Long.class);
+        cq.select(builder.count(cq.from(TradeDetails.class).join(TradeDetails_.tradeData)));
+        entityManager.createQuery(cq);
+        cq.where(predicates.toArray(new Predicate[]{}));
+        return entityManager.createQuery(cq).getSingleResult();
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+}
