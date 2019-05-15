@@ -54,6 +54,8 @@ public class RandomObjectFiller {
             return BigMoney.of(CurrencyUnit.EUR, random.nextDouble(0, 1000));
         } else if(type.equals(LocalDate.class)) {
             return LocalDate.now().plusDays(random.nextInt(0, 10000)).minusDays(random.nextInt(0, 10000));
+        } else if(type.equals(CurrencyUnit.class)) {
+            return CurrencyUnit.EUR;
         } else if (!type.isPrimitive()) {
             return createAndFill(type);
         }

@@ -4,8 +4,6 @@ import org.joda.money.BigMoney;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -33,11 +31,8 @@ public class TradeData {
     @Column(name = "VAL")
     private int val;
     @Embedded
-    @AttributeOverrides(
-            { @AttributeOverride(name = "amount", column = @Column(name = "AMOUNT")),
-              @AttributeOverride(name = "currency", column = @Column(name = "CURRENCY")) })
-    private BigMoney amount;
-        @Column(name = "DATE")
+    private EmbeddableBigMoney amount;
+    @Column(name = "DATE")
     private LocalDateTime date;
 
     public TradeData() {
@@ -64,13 +59,12 @@ public class TradeData {
     }
 
     public BigMoney getAmount() {
-        return amount;
+        return BigMoney.of(amount.getCurrency(), amount.getAmount());
     }
 
     public LocalDateTime getDate() {
         return date;
     }
-
 
     public static enum Route {
         BUY,

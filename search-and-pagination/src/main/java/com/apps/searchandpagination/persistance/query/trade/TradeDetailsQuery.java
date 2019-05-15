@@ -1,9 +1,6 @@
 package com.apps.searchandpagination.persistance.query.trade;
 
-import com.apps.searchandpagination.persistance.entity.TradeData;
-import com.apps.searchandpagination.persistance.entity.TradeData_;
-import com.apps.searchandpagination.persistance.entity.TradeDetails;
-import com.apps.searchandpagination.persistance.entity.TradeDetails_;
+import com.apps.searchandpagination.persistance.entity.*;
 import com.apps.searchandpagination.persistance.query.general.BasePredicate;
 import com.apps.searchandpagination.persistance.query.general.SearchCriteria;
 import com.apps.searchandpagination.persistance.repository.TradeDetailsRepository;
@@ -12,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,25 +38,7 @@ public class TradeDetailsQuery {
     }
 
     public void queryTrade(TradeDetailsCriteria tradeDetailsCriteria) {
-        TradeDetailsCriteria cr = new TradeDetailsCriteria();
-        List<String> accs = new ArrayList<>();
-        accs.add("QJVQZTGVBOFMRP6OQHI");
-        accs.add("BTGUW");
-        accs.add("Z9KUI73CSM");
-        accs.add("V2RQ6ZG0WAGVC0");
-
-        List<String> symbs = new ArrayList<>();
-        symbs.add("9PWKA2Y2VPBBOHHHHK6");
-        symbs.add("HOVJXTUM2NWJZ3RKMX");
-        symbs.add("RD4SNZBM3MCIIV");
-        symbs.add("KGK0B");
-        cr.setAccounts(accs);
-
-        cr.setSymbols(symbs);
-
-        cr.setDateAfter(LocalDateTime.now());
-
-        createTransactionCriteriaQuery(cr);
+        queryTransactions(tradeDetailsCriteria);
         List<TradeDetails> results = tradeDetailsRepository.findAll(returnCandidates(tradeDetailsCriteria));
     }
 
@@ -82,7 +62,7 @@ public class TradeDetailsQuery {
                 builder.like(root.get(TradeDetails_.lastName), tradeDetailsCriteria.getLastName()));
     }
 
-    public List<TradeDetails> createTransactionCriteriaQuery(TradeDetailsCriteria tradeDetailsCriteria){
+    public List<TradeDetails> queryTransactions(TradeDetailsCriteria tradeDetailsCriteria){
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<TradeDetails> queryTradeDetails = builder.createQuery(TradeDetails.class);
@@ -131,18 +111,22 @@ public class TradeDetailsQuery {
         }
 
         if(tradeDetailsCriteria.getAmountGreater()!=null){
-            predicates.add(builder.greaterThanOrEqualTo(joinTradeData.get(TradeData_.amount), tradeDetailsCriteria.getAmountGreater()));
+            predicates.add(builder.greaterThanOrEqualTo(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.amount), tradeDetailsCriteria.getAmountGreater().getAmount()));
+            predicates.add(builder.equal(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.currency), tradeDetailsCriteria.getAmountGreater().getCurrencyUnit()));
         }
 
         if(tradeDetailsCriteria.getAmountLess()!=null){
-            predicates.add(builder.lessThanOrEqualTo(joinTradeData.get(TradeData_.amount), tradeDetailsCriteria.getAmountLess()));
+            predicates.add(builder.lessThanOrEqualTo(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.amount), tradeDetailsCriteria.getAmountLess().getAmount()));
+            predicates.add(builder.equal(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.currency), tradeDetailsCriteria.getAmountLess().getCurrencyUnit()));
         }
 
         queryTradeDetails.where(predicates.toArray(new Predicate[]{}));
 
-        return entityManager.createQuery(queryTradeDetails).getResultList();
-//        Predicate hasBirthday = builder.equal(root.get(TradeDetails_.firstName), "dfsf");
+        System.out.println(countTrades(predicates));
 
+        queryTradeDetails.orderBy(builder.asc(joinTradeData.get(TradeData_.date)));
+
+        return entityManager.createQuery(queryTradeDetails).getResultList();
     }
 
     private Predicate creatIn(CriteriaBuilder builder, Path path, List list){
@@ -150,6 +134,17 @@ public class TradeDetailsQuery {
         list.forEach(i -> in.value(i));
         return in;
     }
+
+    private Long countTrades(List<Predicate> predicates) {
+//        https://stackoverflow.com/questions/5349264/total-row-count-for-pagination-using-jpa-criteria-api
+//         builder.createQuery(TradeDetails.class);
+//        Root<TradeDetails> rootTradeDetails = queryTradeDetails.from(TradeDetails.class);
+//        Join<TradeDetails, TradeData> joinTradeData = rootTradeDetails.join(TradeDetails_.tradeData);
+//
+//        return entityManager.createQuery(cq).getSingleResult();
+        return null;
+    }
+
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -169,3 +164,22 @@ public class TradeDetailsQuery {
 //        cr.setSymbols(new ArrayList<>());
 //        cr.setFirstName("an");
 //        tradeDetailsRepository.findAll(returnCandidates(cr));
+
+
+//    TradeDetailsCriteria cr = new TradeDetailsCriteria();
+//    List<String> accs = new ArrayList<>();
+//        accs.add("QJVQZTGVBOFMRP6OQHI");
+//                accs.add("BTGUW");
+//                accs.add("Z9KUI73CSM");
+//                accs.add("V2RQ6ZG0WAGVC0");
+//
+//                List<String> symbs = new ArrayList<>();
+//        symbs.add("9PWKA2Y2VPBBOHHHHK6");
+//        symbs.add("HOVJXTUM2NWJZ3RKMX");
+//        symbs.add("RD4SNZBM3MCIIV");
+//        symbs.add("KGK0B");
+//        cr.setAccounts(accs);
+//
+//        cr.setSymbols(symbs);
+//
+//        cr.setDateAfter(LocalDateTime.now());
