@@ -12,18 +12,18 @@
             <fieldset>
                 <legend>Amount range</legend>
                 <label for="amountGreater">Min</label>
-                <input id="amountGreater" type="number" step="0.01" value="" size="7" min="0" onchange="document.getElementById('amountLess').min=this.value;"/>
+                <input id="amountGreater" type="number" step="0.01" value="" size="3" min="0" onchange="document.getElementById('amountLess').min=this.value;"/>
                 <label for="amountLess">Max</label>
-                <input id="amountLess" type="number" step="0.01" value="" size="7" min="document.getElementById('amountGreater').value"/>
+                <input id="amountLess" type="number" step="0.01" value="" size="3" min="document.getElementById('amountGreater').value"/>
                 <label for="currency">Currency</label>
                 <input id="currency" type="text" value="" size="3"/>
             </fieldset>
             <fieldset>
                 <legend>Date range</legend>
                 <label for="dateAfter">Min</label>
-                <input id="dateAfter" type="datetime-local" value="" size="15"/>
+                <input id="dateAfter" type="date" value="" onchange="document.getElementById('dateBefore').min=this.value;"/>
                 <label for="dateBefore">Max</label>
-                <input id="dateBefore" type="date" value="" size="15"/>
+                <input id="dateBefore" type="date" value="" min="document.getElementById('dateAfter').value" />
             </fieldset>
             <input id="iban" type="text" value="" size="15"/>
             <input id="firstName" type="text" value="" size="15"/>
