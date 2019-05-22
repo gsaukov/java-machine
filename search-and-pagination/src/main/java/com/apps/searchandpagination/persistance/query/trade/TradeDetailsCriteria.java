@@ -16,8 +16,8 @@ public class TradeDetailsCriteria {
     private TradeData.Route route;
     private BigMoney amountGreater;
     private BigMoney amountLess;
-    private LocalDateTime DateAfter;
-    private LocalDateTime DateBefore;
+    private LocalDateTime dateAfter;
+    private LocalDateTime dateBefore;
     private String iban;
     private String firstName;
     private String lastName;
@@ -72,19 +72,19 @@ public class TradeDetailsCriteria {
     }
 
     public LocalDateTime getDateAfter() {
-        return DateAfter;
+        return dateAfter;
     }
 
     public void setDateAfter(LocalDateTime dateAfter) {
-        DateAfter = dateAfter;
+        this.dateAfter = dateAfter;
     }
 
     public LocalDateTime getDateBefore() {
-        return DateBefore;
+        return dateBefore;
     }
 
     public void setDateBefore(LocalDateTime dateBefore) {
-        DateBefore = dateBefore;
+        this.dateBefore = dateBefore;
     }
 
     public String getIban() {
@@ -119,7 +119,7 @@ public class TradeDetailsCriteria {
         this.order = order;
     }
 
-    public static enum Order {
+    public enum Order {
         SYMBOL,
         DATE,
         AMOUNT
