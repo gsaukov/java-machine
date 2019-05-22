@@ -21,6 +21,7 @@ public class TradeDetailsCriteria {
     private String iban;
     private String firstName;
     private String lastName;
+    private Order order;
 
     public List<String> getIds() {
         return ids;
@@ -110,4 +111,17 @@ public class TradeDetailsCriteria {
         this.lastName = lastName;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public static enum Order {
+        SYMBOL,
+        DATE,
+        AMOUNT
+    }
 }

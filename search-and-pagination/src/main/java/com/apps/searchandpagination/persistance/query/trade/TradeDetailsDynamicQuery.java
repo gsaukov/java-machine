@@ -37,7 +37,7 @@ public class TradeDetailsDynamicQuery {
 
         long count = countQueryTrades(builder, predicates);
 
-        queryTradeDetails.orderBy(builder.asc(joinTradeData.get(TradeData_.date)));
+        addOrderBy(tradeDetailsCriteria, builder, queryTradeDetails,joinTradeData);
 
         TypedQuery query = entityManager.createQuery(queryTradeDetails);
         query.setFirstResult(page.getPageNumber() * page.getPageSize());
@@ -106,6 +106,27 @@ public class TradeDetailsDynamicQuery {
         CriteriaBuilder.In in = builder.in(path);
         list.forEach(i -> in.value(i));
         return in;
+    }
+
+    private void addOrderBy(TradeDetailsCriteria tradeDetailsCriteria, CriteriaBuilder builder,
+                            CriteriaQuery<TradeDetails> queryTradeDetails,
+                            Join<TradeDetails, TradeData> joinTradeData){
+        if(tradeDetailsCriteria.getOrder() == null){
+            queryTradeDetails.orderBy(builder.desc(joinTradeData.get(TradeData_.date)));
+            return;
+        }
+        switch (tradeDetailsCriteria.getOrder()){
+            case AMOUNT:
+                queryTradeDetails.orderBy(builder.desc(joinTradeData.get(TradeData_.amount)));
+                break;
+            case SYMBOL:
+                queryTradeDetails.orderBy(builder.asc(joinTradeData.get(TradeData_.symbol)));
+                break;
+            case DATE:
+            default:
+                queryTradeDetails.orderBy(builder.desc(joinTradeData.get(TradeData_.date)));
+                break;
+        }
     }
 
     private Long countQueryTrades(CriteriaBuilder builder, List<Predicate> predicates) {
