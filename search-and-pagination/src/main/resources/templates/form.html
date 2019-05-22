@@ -12,11 +12,15 @@
             <fieldset>
                 <legend>Amount range</legend>
                 <label for="amountGreater">Min</label>
-                <input id="amountGreater" type="number" step="0.01" value="" size="3" min="0" onchange="document.getElementById('amountLess').min=this.value;"/>
+                <input id="amountGreater" type="number" step="0.01" value="" size="3" min="0" onchange="document.getElementById('amountLess').min=this.value;" style="width: 7em"/>
                 <label for="amountLess">Max</label>
-                <input id="amountLess" type="number" step="0.01" value="" size="3" min="document.getElementById('amountGreater').value"/>
+                <input id="amountLess" type="number" step="0.01" value="" size="3" min="document.getElementById('amountGreater').value" style="width: 7em"/>
                 <label for="currency">Currency</label>
-                <input id="currency" type="text" value="" size="3"/>
+                <select id="currency">
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                    <option value="RUB">RUB</option>
+                </select>
             </fieldset>
             <fieldset>
                 <legend>Date range</legend>
