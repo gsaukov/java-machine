@@ -260,3 +260,26 @@ hr{
     border-top-style: solid;
     border-top-width: 1px;
 }
+
+[name=leftMerge] {
+  display: inline-block;
+  float: left;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+[name=middleMerge] {
+  display: inline-block;
+  float: left;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-left:0px;
+}
+[name=rightMerge] {
+  display: inline-block;
+  float: left;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-left:0px;
+}
