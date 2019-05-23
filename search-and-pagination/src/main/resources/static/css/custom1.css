@@ -261,6 +261,14 @@ hr{
     border-top-width: 1px;
 }
 
+form div {
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: left;
+    margin-right: 10px;
+}
+
 [name=leftMerge] {
   display: inline-block;
   float: left;
