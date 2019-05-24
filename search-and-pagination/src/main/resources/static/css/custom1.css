@@ -269,6 +269,11 @@ form div {
     margin-right: 10px;
 }
 
+form fieldset {
+    display:flex;
+    flex-direction: row;
+}
+
 [name=leftMerge] {
   display: inline-block;
   float: left;
