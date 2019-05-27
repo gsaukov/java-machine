@@ -266,12 +266,12 @@ hr{
     flex-direction: row;
     justify-content: left;
     align-items: stretch;
-    margin-right: 10px;
 }
 
 .column-container {
     display: flex;
     flex-direction: column;
+    min-width: 1400px;
 }
 
 [name=leftMerge] {
