@@ -3,7 +3,7 @@
 </head>
 
 <body>
-<div th:fragment="transactiondetails (${transaction})">
+<div th:fragment="tradedetails (${transaction})">
     <hr>
     <div th:if='${transaction != null}'>
         <button type="button" class="close" aria-label="Close" th:onclick="removeDetails([[${transaction.TradeData.Id}]])">

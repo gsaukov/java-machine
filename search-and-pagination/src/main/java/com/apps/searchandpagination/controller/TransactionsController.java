@@ -49,7 +49,7 @@ public class TransactionsController {
         PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
-        return "datatable :: datatable";
+        return "tradedatatable :: tradedatatable";
     }
 
     @GetMapping({"details/"})
@@ -57,7 +57,7 @@ public class TransactionsController {
             @RequestParam("detailId") String detailId,
             Model model) {
         model.addAttribute("transaction", tradeDetailsService.getTrade(detailId));
-        return "transactiondetails :: transactiondetails";
+        return "tradedetails :: tradedetails";
     }
 
     @Autowired

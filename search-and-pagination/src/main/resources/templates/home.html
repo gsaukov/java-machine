@@ -62,12 +62,12 @@
                     </div>
                     <div class="collapse" id="collapseOne">
                         <div id="formBlock">
-                            <div th:replace="form :: form"></div>
+                            <div th:replace="tradeform :: tradeform"></div>
                         </div>
                     </div>
                     <div class="collapse show" id="collapseTwo" style="padding: 0;">
                         <div id="resultBlock">
-                            <div th:replace="datatable :: datatable (${dataPage}, ${page})"></div>
+                            <div th:replace="tradedatatable :: tradedatatable (${dataPage}, ${page})"></div>
                         </div>
                     </div>
                 </div>
