@@ -58,13 +58,13 @@
                     <fieldset class="form-group">
                         <legend>Customer </legend>
                         <div class="row-container">
-                            <input id="iban" type="text" placeholder="Iban" class="form-control" style="width: 20em; min-width: 8em; margin-right: 10px;"/>
-                            <input id="firstName" type="text" placeholder="First Name" name="leftMerge" class="form-control" style="width: 15em; min-width: 10em;"/>
+                            <input id="iban" type="text" placeholder="Iban" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
+                            <input id="firstName" type="text" placeholder="First Name" name="leftMerge" class="form-control" style="width: 13em; min-width: 10em;"/>
                             <select id="signFirstName" name="rightMerge" class="form-control" style="width: 4em; margin-right: 10px;">
                                 <option value="=">=</option>
                                 <option value="%">%</option>
                             </select>
-                            <input id="lastName" type="text" placeholder="Last Name" name="leftMerge" class="form-control" style="width: 15em; min-width: 10em;"/>
+                            <input id="lastName" type="text" placeholder="Last Name" name="leftMerge" class="form-control" style="width: 13em; min-width: 10em;"/>
                             <select id="signLastName" name="rightMerge" class="form-control" style="width: 4em; margin-right: 10px;">
                                 <option value="=">=</option>
                                 <option value="%">%</option>
@@ -72,12 +72,20 @@
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
-                        <legend>Order </legend>
+                        <legend>Result Order and Size</legend>
                         <div class="row-container">
                             <select id="order" class="form-control" style="width: 8em; margin-right: 10px;">
                                 <option value="DATE">DATE</option>
                                 <option value="SYMBOL">SYMBOL</option>
                                 <option value="AMOUNT">AMOUNT</option>
+                            </select>
+                            <select id="itemsPerPage" class="form-control" style="width: 5em; margin-right: 10px;">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="200">500</option>
                             </select>
                             <input type="submit" value="submit" class="btn btn-default" style="width: 7em;"/>
                         </div>
