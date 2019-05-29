@@ -20,7 +20,9 @@ public class TradeDetailsCriteria {
     private LocalDateTime dateBefore;
     private String iban;
     private String firstName;
+    private ComparisonType firstNameComparisonType;
     private String lastName;
+    private ComparisonType lastNameComparisonType;
     private Order order;
 
     public List<String> getIds() {
@@ -102,6 +104,14 @@ public class TradeDetailsCriteria {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+    
+    public ComparisonType getFirstNameComparisonType() {
+        return firstNameComparisonType;
+    }
+
+    public void setFirstNameComparisonType(ComparisonType firstNameComparisonType) {
+        this.firstNameComparisonType = firstNameComparisonType;
+    }
 
     public String getLastName() {
         return lastName;
@@ -109,6 +119,14 @@ public class TradeDetailsCriteria {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public ComparisonType getLastNameComparisonType() {
+        return lastNameComparisonType;
+    }
+
+    public void setLastNameComparisonType(ComparisonType lastNameComparisonType) {
+        this.lastNameComparisonType = lastNameComparisonType;
     }
 
     public Order getOrder() {
@@ -123,5 +141,10 @@ public class TradeDetailsCriteria {
         SYMBOL,
         DATE,
         AMOUNT
+    }
+
+    public enum ComparisonType {
+        EQUAL,
+        LIKE
     }
 }

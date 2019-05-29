@@ -80,13 +80,23 @@ public class TradeDetailsDynamicQuery {
         }
 
         if (tradeDetailsCriteria.getFirstName() != null) {
-            predicates.add(builder.like(builder.lower(rootTradeDetails.get(TradeDetails_.firstName)),
-                    "%" + tradeDetailsCriteria.getFirstName().toLowerCase() + "%"));
+            if(TradeDetailsCriteria.ComparisonType.LIKE.equals(tradeDetailsCriteria.getFirstNameComparisonType())){
+                predicates.add(builder.like(builder.lower(rootTradeDetails.get(TradeDetails_.firstName)),
+                    tradeDetailsCriteria.getFirstName().toLowerCase()));
+            } else {
+                predicates.add(builder.equal(rootTradeDetails.get(TradeDetails_.firstName),
+                        tradeDetailsCriteria.getFirstName()));
+            }
         }
 
         if (tradeDetailsCriteria.getLastName() != null) {
-            predicates.add(builder.like(builder.lower(rootTradeDetails.get(TradeDetails_.lastName)),
-                    "%" + tradeDetailsCriteria.getLastName().toLowerCase() + "%"));
+            if(TradeDetailsCriteria.ComparisonType.LIKE.equals(tradeDetailsCriteria.getLastNameComparisonType())){
+                predicates.add(builder.like(builder.lower(rootTradeDetails.get(TradeDetails_.lastName)),
+                        tradeDetailsCriteria.getLastName().toLowerCase()));
+            } else {
+                predicates.add(builder.equal(rootTradeDetails.get(TradeDetails_.lastName),
+                        tradeDetailsCriteria.getLastName()));
+            }
         }
 
         if (tradeDetailsCriteria.getAmountGreater() != null) {
