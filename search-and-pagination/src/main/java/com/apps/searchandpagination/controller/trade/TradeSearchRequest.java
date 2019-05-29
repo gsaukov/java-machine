@@ -1,4 +1,4 @@
-package com.apps.searchandpagination.controller;
+package com.apps.searchandpagination.controller.trade;
 
 public class TradeSearchRequest {
     private String ids;

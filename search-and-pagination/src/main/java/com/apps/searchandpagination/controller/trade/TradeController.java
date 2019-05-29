@@ -1,9 +1,10 @@
-package com.apps.searchandpagination.controller;
+package com.apps.searchandpagination.controller.trade;
 
+import com.apps.searchandpagination.controller.PageWrapper;
 import com.apps.searchandpagination.persistance.entity.TradeData;
-import com.apps.searchandpagination.service.TradeDataService;
-import com.apps.searchandpagination.service.TradeDetailsService;
-import com.apps.searchandpagination.service.TradeSearchConverter;
+import com.apps.searchandpagination.service.trade.TradeDataService;
+import com.apps.searchandpagination.service.trade.TradeDetailsService;
+import com.apps.searchandpagination.service.trade.TradeSearchConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,7 +42,7 @@ public class TradeController {
     @PostMapping("/tradesearch")
     public String newEntry(@ModelAttribute TradeSearchRequest request) {
         tradeSearchConverter.convert(request);
-        return "tradedatatable :: tradedatatable";
+        return "trade/tradedatatable :: tradedatatable";
     }
 
     @GetMapping({"getpage/"})
@@ -57,7 +58,7 @@ public class TradeController {
         PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
-        return "tradedatatable :: tradedatatable";
+        return "trade/tradedatatable :: tradedatatable";
     }
 
     @GetMapping({"details/"})
@@ -65,7 +66,7 @@ public class TradeController {
             @RequestParam("detailId") String detailId,
             Model model) {
         model.addAttribute("transaction", tradeDetailsService.getTrade(detailId));
-        return "tradedetails :: tradedetails";
+        return "trade/tradedetails :: tradedetails";
     }
 
     @Autowired

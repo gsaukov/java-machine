@@ -66,7 +66,7 @@ public class TradeData {
         return date;
     }
 
-    public static enum Route {
+    public enum Route {
         BUY,
         SELL;
     }

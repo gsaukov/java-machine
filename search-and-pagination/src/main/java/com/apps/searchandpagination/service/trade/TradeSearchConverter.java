@@ -1,6 +1,6 @@
-package com.apps.searchandpagination.service;
+package com.apps.searchandpagination.service.trade;
 
-import com.apps.searchandpagination.controller.TradeSearchRequest;
+import com.apps.searchandpagination.controller.trade.TradeSearchRequest;
 import com.apps.searchandpagination.persistance.entity.TradeData;
 import com.apps.searchandpagination.persistance.query.trade.TradeDetailsCriteria;
 import org.joda.money.BigMoney;
@@ -8,12 +8,18 @@ import org.joda.money.CurrencyUnit;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class TradeSearchConverter {
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
     public TradeDetailsCriteria convert(TradeSearchRequest request){
         TradeDetailsCriteria criteria = new TradeDetailsCriteria();
@@ -24,8 +30,8 @@ public class TradeSearchConverter {
         criteria.setRoute(pasrseRoute(request.getRoute()));
         criteria.setAmountGreater(pasrseBigMoney(request.getAmountGreater(), request.getCurrency()));
         criteria.setAmountLess(pasrseBigMoney(request.getAmountLess(), request.getCurrency()));
-//        criteria.setDateAfter(String dateAfter);
-//        criteria.setDateBefore(String dateBefore);
+        criteria.setDateAfter(parseDate(request.getDateAfter()));
+        criteria.setDateBefore(parseDate(request.getDateBefore()));
         criteria.setIban(request.getIban());
         criteria.setFirstName(request.getFirstName());
         criteria.setFirstNameComparisonType(pasrseComparisonType(request.getFirstNameComparisonType()));
@@ -36,28 +42,28 @@ public class TradeSearchConverter {
     }
 
     private List<String> parseIn(String input){
-        if(input == null){
+        if(input == null || input.isEmpty()){
             return null;
         }
         return Arrays.stream(input.split(",")).map(String::trim).collect(Collectors.toList());
     }
 
     private TradeData.Route pasrseRoute(String input){
-        if(input == null){
+        if(input == null || input.isEmpty()){
             return null;
         }
         return TradeData.Route.valueOf(input);
     }
 
     private BigMoney pasrseBigMoney(String input, String currency){
-        if(input == null){
+        if(input == null || input.isEmpty()){
             return null;
         }
-        return BigMoney.of(CurrencyUnit.of(input), new BigDecimal(currency));
+        return BigMoney.of(CurrencyUnit.of(currency), new BigDecimal(input));
     }
 
     private TradeDetailsCriteria.ComparisonType pasrseComparisonType(String input){
-        if(input == null){
+        if(input == null || input.isEmpty()){
             return null;
         } else if (input.equals("%")){
             return TradeDetailsCriteria.ComparisonType.LIKE;
@@ -67,10 +73,17 @@ public class TradeSearchConverter {
     }
 
     private TradeDetailsCriteria.Order pasrseOrder(String input){
-        if(input == null){
+        if(input == null || input.isEmpty()){
             return null;
         }
         return TradeDetailsCriteria.Order.valueOf(input);
+    }
+
+    private LocalDateTime parseDate(String input){
+        if(input == null || input.isEmpty()){
+            return null;
+        }
+        return LocalDate.parse(input, formatter).atStartOfDay();
     }
 }
 

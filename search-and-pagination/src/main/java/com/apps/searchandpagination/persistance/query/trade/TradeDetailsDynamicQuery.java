@@ -6,12 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static javax.transaction.Transactional.TxType.REQUIRED;
@@ -51,35 +53,35 @@ public class TradeDetailsDynamicQuery {
                                                         Join<TradeDetails, TradeData> joinTradeData) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if (tradeDetailsCriteria.getIds() != null && !tradeDetailsCriteria.getIds().isEmpty()) {
+        if (isNotEmpty(tradeDetailsCriteria.getIds())) {
             predicates.add(creatIn(builder, joinTradeData.get(TradeData_.id), tradeDetailsCriteria.getIds()));
         }
 
-        if (tradeDetailsCriteria.getAccounts() != null && !tradeDetailsCriteria.getAccounts().isEmpty()) {
+        if (isNotEmpty(tradeDetailsCriteria.getAccounts())) {
             predicates.add(creatIn(builder, joinTradeData.get(TradeData_.account), tradeDetailsCriteria.getAccounts()));
         }
 
-        if (tradeDetailsCriteria.getSymbols() != null && !tradeDetailsCriteria.getSymbols().isEmpty()) {
+        if (isNotEmpty(tradeDetailsCriteria.getSymbols())) {
             predicates.add(creatIn(builder, joinTradeData.get(TradeData_.symbol), tradeDetailsCriteria.getSymbols()));
         }
 
-        if (tradeDetailsCriteria.getRoute() != null) {
+        if (isNotEmpty(tradeDetailsCriteria.getRoute())) {
             predicates.add(builder.equal(joinTradeData.get(TradeData_.route), tradeDetailsCriteria.getRoute()));
         }
 
-        if (tradeDetailsCriteria.getDateAfter() != null) {
+        if (isNotEmpty(tradeDetailsCriteria.getDateAfter())) {
             predicates.add(builder.greaterThanOrEqualTo(joinTradeData.get(TradeData_.date), tradeDetailsCriteria.getDateAfter()));
         }
 
-        if (tradeDetailsCriteria.getDateBefore() != null) {
+        if (isNotEmpty(tradeDetailsCriteria.getDateBefore())) {
             predicates.add(builder.lessThanOrEqualTo(joinTradeData.get(TradeData_.date), tradeDetailsCriteria.getDateBefore()));
         }
 
-        if (tradeDetailsCriteria.getIban() != null) {
+        if (isNotEmpty(tradeDetailsCriteria.getIban())) {
             predicates.add(builder.equal(rootTradeDetails.get(TradeDetails_.iban), tradeDetailsCriteria.getIban()));
         }
 
-        if (tradeDetailsCriteria.getFirstName() != null) {
+        if (isNotEmpty(tradeDetailsCriteria.getFirstName())) {
             if(TradeDetailsCriteria.ComparisonType.LIKE.equals(tradeDetailsCriteria.getFirstNameComparisonType())){
                 predicates.add(builder.like(builder.lower(rootTradeDetails.get(TradeDetails_.firstName)),
                     tradeDetailsCriteria.getFirstName().toLowerCase()));
@@ -89,7 +91,7 @@ public class TradeDetailsDynamicQuery {
             }
         }
 
-        if (tradeDetailsCriteria.getLastName() != null) {
+        if (isNotEmpty(tradeDetailsCriteria.getLastName())) {
             if(TradeDetailsCriteria.ComparisonType.LIKE.equals(tradeDetailsCriteria.getLastNameComparisonType())){
                 predicates.add(builder.like(builder.lower(rootTradeDetails.get(TradeDetails_.lastName)),
                         tradeDetailsCriteria.getLastName().toLowerCase()));
@@ -99,12 +101,12 @@ public class TradeDetailsDynamicQuery {
             }
         }
 
-        if (tradeDetailsCriteria.getAmountGreater() != null) {
+        if (isNotEmpty(tradeDetailsCriteria.getAmountGreater())) {
             predicates.add(builder.greaterThanOrEqualTo(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.amount), tradeDetailsCriteria.getAmountGreater().getAmount()));
             predicates.add(builder.equal(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.currency), tradeDetailsCriteria.getAmountGreater().getCurrencyUnit()));
         }
 
-        if (tradeDetailsCriteria.getAmountLess() != null) {
+        if (isNotEmpty(tradeDetailsCriteria.getAmountLess())) {
             predicates.add(builder.lessThanOrEqualTo(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.amount), tradeDetailsCriteria.getAmountLess().getAmount()));
             predicates.add(builder.equal(joinTradeData.get(TradeData_.amount).get(EmbeddableBigMoney_.currency), tradeDetailsCriteria.getAmountLess().getCurrencyUnit()));
         }
@@ -145,6 +147,18 @@ public class TradeDetailsDynamicQuery {
         entityManager.createQuery(countQuery);
         countQuery.where(predicates.toArray(new Predicate[]{}));
         return entityManager.createQuery(countQuery).getSingleResult();
+    }
+
+    public static boolean isNotEmpty(final Collection< ? > o) {
+        return o != null && !o.isEmpty();
+    }
+
+    public static boolean isNotEmpty(final String o) {
+        return o != null && !o.isEmpty();
+    }
+
+    public static boolean isNotEmpty(Object o) {
+        return o != null;
     }
 
     public void setEntityManager(EntityManager entityManager) {

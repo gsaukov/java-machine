@@ -1,4 +1,4 @@
-package com.apps.searchandpagination.service;
+package com.apps.searchandpagination.service.trade;
 
 import com.apps.searchandpagination.persistance.entity.TradeData;
 import com.apps.searchandpagination.persistance.entity.TradeDetails;
