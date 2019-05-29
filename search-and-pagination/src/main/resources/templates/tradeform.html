@@ -37,9 +37,9 @@
                                 <option value="BUY">BUY</option>
                                 <option value="SELL">SELL</option>
                             </select>
-                            <input id="amountGreater" th:field="*{amountGreater}"  placeholder="Min" type="number" name="leftMerge" step="0.01"  min="0" class="form-control" onchange="document.getElementById('amountLess').min=this.value;" style="width: 7em"/>
-                            <input id="amountLess" th:field="*{amountLess}"  placeholder="Max" type="number" name="middleMerge" step="0.01" class="form-control" onchange="if (document.getElementById('amountGreater').value > 0) {this.min=document.getElementById('amountGreater').value} else {this.min=0}" style="width: 7em"/>
-                            <select id="currency" th:field="*{currency}"  name="rightMerge" class="form-control" style="width: 6em">
+                            <input id="amountGreater" th:field="*{amountGreater}" placeholder="Min" type="number" step="0.01"  min="0" class="form-control leftMerge" onchange="document.getElementById('amountLess').min=this.value;" style="width: 7em"/>
+                            <input id="amountLess" th:field="*{amountLess}" placeholder="Max" type="number" step="0.01" class="form-control middleMerge" onchange="if (document.getElementById('amountGreater').value > 0) {this.min=document.getElementById('amountGreater').value} else {this.min=0}" style="width: 7em"/>
+                            <select id="currency" th:field="*{currency}" class="form-control rightMerge" style="width: 6em">
                                 <option value="EUR">EUR</option>
                                 <option value="USD">USD</option>
                                 <option value="RUB">RUB</option>
@@ -51,21 +51,21 @@
                     <fieldset class="form-group">
                         <legend>Date range</legend>
                         <div class="row-container">
-                            <input id="dateAfter" th:field="*{dateAfter}" placeholder="Min" name="leftMerge" type="text" class="form-control" onchange="document.getElementById('dateBefore').min=this.value;" onfocus="(this.type='date')" onblur="if (this.value == '') {this.type='text'};" style="width: 10em"/>
-                            <input id="dateBefore" th:field="*{dateBefore}" placeholder="Max" name="rightMerge" type="text" class="form-control" onchange="this.min=document.getElementById('dateAfter').value;" onfocus="(this.type='date')" onblur="if (this.value == '') {this.type='text'};" style="width: 10em; margin-right: 10px;"/>
+                            <input id="dateAfter" th:field="*{dateAfter}" placeholder="Min" type="text" class="form-control leftMerge" onchange="document.getElementById('dateBefore').min=this.value;" onfocus="(this.type='date')" onblur="if (this.value == '') {this.type='text'};" style="width: 10em"/>
+                            <input id="dateBefore" th:field="*{dateBefore}" placeholder="Max" type="text" class="form-control rightMerge" onchange="this.min=document.getElementById('dateAfter').value;" onfocus="(this.type='date')" onblur="if (this.value == '') {this.type='text'};" style="width: 10em; margin-right: 10px;"/>
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
                         <legend>Customer </legend>
                         <div class="row-container">
                             <input id="iban" th:field="*{iban}" type="text" placeholder="Iban" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
-                            <input id="firstName" th:field="*{firstName}" type="text" placeholder="First Name" name="leftMerge" class="form-control" style="width: 13em; min-width: 10em;"/>
-                            <select id="firstNameComparisonType" th:field="*{firstNameComparisonType}" name="rightMerge" class="form-control" style="width: 4em; margin-right: 10px;">
+                            <input id="firstName" th:field="*{firstName}" type="text" placeholder="First Name" class="form-control leftMerge" style="width: 13em; min-width: 10em;"/>
+                            <select id="firstNameComparisonType" th:field="*{firstNameComparisonType}" class="form-control rightMerge" style="width: 4em; margin-right: 10px;">
                                 <option value="=">=</option>
                                 <option value="%">%</option>
                             </select>
-                            <input id="lastName" th:field="*{lastName}" type="text" placeholder="Last Name" name="leftMerge" class="form-control" style="width: 13em; min-width: 10em;"/>
-                            <select id="lastNameComparisonType" th:field="*{lastNameComparisonType}" name="rightMerge" class="form-control" style="width: 4em; margin-right: 10px;">
+                            <input id="lastName" th:field="*{lastName}" type="text" placeholder="Last Name" class="form-control leftMerge" style="width: 13em; min-width: 10em;"/>
+                            <select id="lastNameComparisonType" th:field="*{lastNameComparisonType}" class="form-control rightMerge" style="width: 4em; margin-right: 10px;">
                                 <option value="=">=</option>
                                 <option value="%">%</option>
                             </select>
