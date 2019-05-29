@@ -2,6 +2,7 @@ package com.apps.searchandpagination.controller.trade;
 
 import com.apps.searchandpagination.controller.PageWrapper;
 import com.apps.searchandpagination.persistance.entity.TradeData;
+import com.apps.searchandpagination.persistance.query.trade.TradeDetailsCriteria;
 import com.apps.searchandpagination.service.trade.TradeDataService;
 import com.apps.searchandpagination.service.trade.TradeDetailsService;
 import com.apps.searchandpagination.service.trade.TradeSearchConverter;
@@ -40,9 +41,14 @@ public class TradeController {
     }
 
     @PostMapping("/tradesearch")
-    public String newEntry(@ModelAttribute TradeSearchRequest request) {
-        tradeSearchConverter.convert(request);
-        return "trade/tradedatatable :: tradedatatable";
+    public String newEntry(Model model, @ModelAttribute TradeSearchRequest request) {
+        TradeDetailsCriteria criteria = tradeSearchConverter.convert(request);
+        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(1, Integer.valueOf(request.getItemsSize())), Optional.of(criteria));
+        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
+        model.addAttribute("page", page);
+        model.addAttribute("dataPage", dataPage);
+        model.addAttribute("tradeSearchRequest", new TradeSearchRequest());
+        return "home";
     }
 
     @GetMapping({"getpage/"})
