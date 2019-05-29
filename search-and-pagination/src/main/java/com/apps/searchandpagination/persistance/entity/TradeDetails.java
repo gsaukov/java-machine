@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Access(AccessType.FIELD)
 @Table(name = "TRADE_DETAILS")
 public class TradeDetails {
 

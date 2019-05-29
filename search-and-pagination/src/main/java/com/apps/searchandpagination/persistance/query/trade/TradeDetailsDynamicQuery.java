@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.apache.commons.lang3.ArrayUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -37,15 +36,16 @@ public class TradeDetailsDynamicQuery {
 
         queryTradeDetails.where(predicates.toArray(new Predicate[]{}));
 
-        long count = countQueryTrades(builder, predicates);
+        addOrderBy(tradeDetailsCriteria, builder, queryTradeDetails, joinTradeData);
 
-        addOrderBy(tradeDetailsCriteria, builder, queryTradeDetails,joinTradeData);
-
-        TypedQuery query = entityManager.createQuery(queryTradeDetails);
+        TypedQuery<TradeDetails> query = entityManager.createQuery(queryTradeDetails);
         query.setFirstResult(page.getPageNumber() * page.getPageSize());
         query.setMaxResults(page.getPageSize());
 
-        return new PageImpl<>(query.getResultList(), page, count);
+        List<TradeDetails> res = query.getResultList();
+        long count = countQueryTrades(tradeDetailsCriteria, builder);
+
+        return new PageImpl<>(res, page, count);
     }
 
     private List<Predicate> createQueryTradesPredicates(TradeDetailsCriteria tradeDetailsCriteria, CriteriaBuilder builder,
@@ -141,7 +141,11 @@ public class TradeDetailsDynamicQuery {
         }
     }
 
-    private Long countQueryTrades(CriteriaBuilder builder, List<Predicate> predicates) {
+    private Long countQueryTrades(TradeDetailsCriteria tradeDetailsCriteria, CriteriaBuilder builder) {
+        CriteriaQuery<TradeDetails> queryTradeDetails = builder.createQuery(TradeDetails.class);
+        Root<TradeDetails> rootTradeDetails = queryTradeDetails.from(TradeDetails.class);
+        Join<TradeDetails, TradeData> joinTradeData = rootTradeDetails.join(TradeDetails_.tradeData);
+        List<Predicate> predicates = createQueryTradesPredicates(tradeDetailsCriteria, builder, rootTradeDetails, joinTradeData);
         CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
         countQuery.select(builder.count(countQuery.from(TradeDetails.class).join(TradeDetails_.tradeData)));
         entityManager.createQuery(countQuery);

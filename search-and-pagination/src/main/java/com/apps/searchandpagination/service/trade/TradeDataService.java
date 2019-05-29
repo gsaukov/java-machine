@@ -31,8 +31,14 @@ public class TradeDataService {
     public Page<TradeData> findTrades(Pageable page, Optional<TradeDetailsCriteria> criteria) {
         Page<TradeDetails> tradeDetails = tradeDetailsDynamicQuery.queryTrades(page, criteria.orElse(TradeDetailsCriteria.EMPTY_CRITERIA));
         List<TradeData> tradeData = new ArrayList<>();
+        if(!tradeDetails.getContent().isEmpty() && tradeDetails.getContent().get(0).getClass().isAssignableFrom(TradeData.class)){
+//            (TradeDetails)tradeDetails.getContent().get(0)
+//            tradeData = tradeDetails.getContent().stream().map(t -> (TradeData) t);
+        } else {
+            tradeDetails.getContent().stream().forEach(t -> tradeData.add(t.getTradeData()));
+        }
 
-        tradeDetails.getContent().stream().forEach(t -> tradeData.add(t.getTradeData()));
+
         return new PageImpl<>(tradeData, page, tradeDetails.getTotalElements());
     }
 
