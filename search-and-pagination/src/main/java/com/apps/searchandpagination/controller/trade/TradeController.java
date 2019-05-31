@@ -43,12 +43,11 @@ public class TradeController {
     @PostMapping("/tradesearch")
     public String newEntry(Model model, @ModelAttribute TradeSearchRequest request) {
         TradeDetailsCriteria criteria = tradeSearchConverter.convert(request);
-        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(1, Integer.valueOf(request.getItemsSize())), Optional.of(criteria));
+        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(0, Integer.valueOf(request.getItemsSize())), Optional.of(criteria));
         PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
-        model.addAttribute("tradeSearchRequest", new TradeSearchRequest());
-        return "home";
+        return "trade/tradedatatable :: tradedatatable";
     }
 
     @GetMapping({"getpage/"})

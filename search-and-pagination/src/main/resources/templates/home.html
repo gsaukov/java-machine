@@ -85,11 +85,32 @@
     });
 </script>
 
+
 <script>
-    function submitForm(form) {
-        $("#resultBlock").innerHTML = form.submit();
-    }
+    $('#tradeform').submit(function() {
+        $.ajax({
+                data: $(this).serialize(),
+                type: $(this).attr('method'),
+                url: $(this).attr('action'),
+                success: function(response) {
+                    <!--console.log("response", response);-->
+                    $('#tradedatatable').replaceWith(response);
+                }
+        });
+        return false;
+    });
 </script>
+
+
+<!--<script>-->
+    <!--function submitForm(form, event) {-->
+        <!--&lt;!&ndash;console.log("form", form);&ndash;&gt;-->
+        <!--event.preventDefault();-->
+        <!--var data = form.submit();-->
+        <!--$("#tradedatatable").html(data);-->
+        <!--return false;-->
+    <!--}-->
+<!--</script>-->
 
 <script>
     function getTable(urlParam, pageNum, size) {
