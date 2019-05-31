@@ -18,7 +18,7 @@
 
 <body>
     <div th:fragment="tradeform">
-        <form action="#" th:action="@{/tradesearch}" th:object="${tradeSearchRequest}" method="post">
+        <form id="tradeform" action="#" th:action="@{/tradesearch}" th:object="${tradeSearchRequest}" method="post">
             <div class="column-container">
                 <div class="row-container">
                     <fieldset class="form-group">
@@ -87,7 +87,7 @@
                                 <option value="200">200</option>
                                 <option value="200">500</option>
                             </select>
-                            <input type="submit" value="submit" class="btn btn-default" style="width: 6em;"/>
+                            <input type="submit" value="submit" onClick="submitForm(this.form)" class="btn btn-default" style="width: 6em;"/>
                         </div>
                     </fieldset>
                 </div>
