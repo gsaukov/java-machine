@@ -3,6 +3,7 @@ package com.apps.searchandpagination.controller.trade;
 import com.apps.searchandpagination.controller.PageWrapper;
 import com.apps.searchandpagination.persistance.entity.TradeData;
 import com.apps.searchandpagination.persistance.query.trade.TradeDetailsCriteria;
+import com.apps.searchandpagination.service.SearchKeeper;
 import com.apps.searchandpagination.service.trade.TradeDataService;
 import com.apps.searchandpagination.service.trade.TradeDetailsService;
 import com.apps.searchandpagination.service.trade.TradeSearchConverter;
@@ -21,7 +22,7 @@ public class TradeController {
     private TradeDataService tradeDataService;
     private TradeDetailsService tradeDetailsService;
     private TradeSearchConverter tradeSearchConverter;
-
+    private SearchKeeper searchKeeper;
 
     @GetMapping({"/"})
     public String home(
@@ -33,7 +34,7 @@ public class TradeController {
 
         Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), Optional.empty());
 
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
+        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(Optional.empty()));
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         model.addAttribute("tradeSearchRequest", new TradeSearchRequest());
@@ -42,25 +43,26 @@ public class TradeController {
 
     @PostMapping("/tradesearch")
     public String newEntry(Model model, @ModelAttribute TradeSearchRequest request) {
-        TradeDetailsCriteria criteria = tradeSearchConverter.convert(request);
-        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(0, Integer.valueOf(request.getItemsSize())), Optional.of(criteria));
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
+        Optional<TradeDetailsCriteria> criteria = tradeSearchConverter.convert(request);
+        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(0, Integer.valueOf(request.getItemsSize())), criteria);
+        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(criteria));
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "trade/tradedatatable :: tradedatatable";
     }
 
-    @GetMapping({"getpage/"})
+    @GetMapping({"tradesearchpage/"})
     public String getPage(
             Model model,
+            @RequestParam("searchid") String searchId,
             @RequestParam("page") Optional<Integer> optCurrentPage,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
+        Optional<TradeDetailsCriteria> criteria = searchKeeper.getSearchCriteria(searchId);
+        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), criteria);
 
-        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), Optional.empty());
-
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, "getpage");
+        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(criteria));
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "trade/tradedatatable :: tradedatatable";
@@ -72,6 +74,15 @@ public class TradeController {
             Model model) {
         model.addAttribute("transaction", tradeDetailsService.getTrade(detailId));
         return "trade/tradedetails :: tradedetails";
+    }
+
+    private String constructUrl(Optional<TradeDetailsCriteria> criteria){
+        if(!criteria.isPresent()){
+            return "tradesearchpage/?searchid=";
+        } else {
+            String searchId = searchKeeper.addSearchCriteria(criteria.get());
+            return "tradesearchpage/?searchid=" + searchId;
+        }
     }
 
     @Autowired
@@ -87,5 +98,10 @@ public class TradeController {
     @Autowired
     public void setTradeSearchConverter(TradeSearchConverter tradeSearchConverter) {
         this.tradeSearchConverter = tradeSearchConverter;
+    }
+
+    @Autowired
+    public void setSearchKeeper(SearchKeeper searchKeeper) {
+        this.searchKeeper = searchKeeper;
     }
 }

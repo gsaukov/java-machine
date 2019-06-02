@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +22,7 @@ public class TradeSearchConverter {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
-    public TradeDetailsCriteria convert(TradeSearchRequest request){
+    public Optional<TradeDetailsCriteria> convert(TradeSearchRequest request){
         TradeDetailsCriteria criteria = new TradeDetailsCriteria();
 
         criteria.setIds(parseIn(request.getIds()));
@@ -38,7 +39,7 @@ public class TradeSearchConverter {
         criteria.setLastName(request.getLastName());
         criteria.setLastNameComparisonType(pasrseComparisonType(request.getFirstNameComparisonType()));
         criteria.setOrder(pasrseOrder(request.getOrder()));
-        return criteria;
+        return Optional.of(criteria);
     }
 
     private List<String> parseIn(String input){

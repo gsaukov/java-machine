@@ -114,7 +114,7 @@
 
 <script>
     function getTable(urlParam, pageNum, size) {
-        var url = urlParam + '/?page=' + pageNum + '&size=' + size;
+        var url = urlParam + '&page=' + pageNum + '&size=' + size;
         console.log("url", url);
         $("#resultBlock").load(url);
     }
