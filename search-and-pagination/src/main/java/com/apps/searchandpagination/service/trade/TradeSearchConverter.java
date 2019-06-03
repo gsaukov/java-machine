@@ -37,7 +37,7 @@ public class TradeSearchConverter {
         criteria.setFirstName(request.getFirstName());
         criteria.setFirstNameComparisonType(pasrseComparisonType(request.getFirstNameComparisonType()));
         criteria.setLastName(request.getLastName());
-        criteria.setLastNameComparisonType(pasrseComparisonType(request.getFirstNameComparisonType()));
+        criteria.setLastNameComparisonType(pasrseComparisonType(request.getLastNameComparisonType()));
         criteria.setOrder(pasrseOrder(request.getOrder()));
         return Optional.of(criteria);
     }

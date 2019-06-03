@@ -142,13 +142,11 @@ public class TradeDetailsDynamicQuery {
     }
 
     private Long countQueryTrades(TradeDetailsCriteria tradeDetailsCriteria, CriteriaBuilder builder) {
-        CriteriaQuery<TradeDetails> queryTradeDetails = builder.createQuery(TradeDetails.class);
-        Root<TradeDetails> rootTradeDetails = queryTradeDetails.from(TradeDetails.class);
-        Join<TradeDetails, TradeData> joinTradeData = rootTradeDetails.join(TradeDetails_.tradeData);
-        List<Predicate> predicates = createQueryTradesPredicates(tradeDetailsCriteria, builder, rootTradeDetails, joinTradeData);
         CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
-        countQuery.select(builder.count(countQuery.from(TradeDetails.class).join(TradeDetails_.tradeData)));
-        entityManager.createQuery(countQuery);
+        Root<TradeDetails> rootTradeDetails = countQuery.from(TradeDetails.class);
+        Join<TradeDetails, TradeData> joinTradeData = rootTradeDetails.join(TradeDetails_.tradeData);
+        countQuery.select(builder.count(joinTradeData));
+        List<Predicate> predicates = createQueryTradesPredicates(tradeDetailsCriteria, builder, rootTradeDetails, joinTradeData);
         countQuery.where(predicates.toArray(new Predicate[]{}));
         return entityManager.createQuery(countQuery).getSingleResult();
     }

@@ -114,6 +114,7 @@
 
 <script>
     function getTable(urlParam, pageNum, size) {
+        window.event.preventDefault();
         var url = urlParam + '&page=' + pageNum + '&size=' + size;
         console.log("url", url);
         $("#resultBlock").load(url);
@@ -122,6 +123,7 @@
 
 <script>
     function getDetails(urlParam, detailId) {
+        window.event.preventDefault();
         var url = urlParam + '/?detailId=' + detailId;
         var divId = "#" + detailId;
         console.log("divId", divId);
