@@ -23,6 +23,7 @@ dependencies {
     compile 'org.springframework.data:spring-data-commons'
     compile group: 'com.h2database', name: 'h2'
     compile group: 'org.joda', name: 'joda-money', version: '1.0.1'
+    compile 'fr.dudie:nominatim-api:3.3'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.testng:testng:6.9.10'

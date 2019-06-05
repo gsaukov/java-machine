@@ -1,8 +1,8 @@
-<!--https://openlayers.org/en/latest/examples/-->
-<!--https://tsauerwein.github.io/ol3/mapbox-gl-js/examples/-->
+// https://openlayers.org/en/latest/examples/
+// https://tsauerwein.github.io/ol3/mapbox-gl-js/examples/
 
 var iconFeature = new ol.Feature({
-  geometry: new ol.geom.Point(ol.proj.transform([8.43609, 47.35387], 'EPSG:4326', 'EPSG:900913')),
+  geometry: new ol.geom.Point(ol.proj.transform([-1.2120773, 48.1224966], 'EPSG:4326', 'EPSG:900913')),
   name: 'Null Island',
   population: 4000,
   rainfall: 500
@@ -42,13 +42,19 @@ var osmLayer = new ol.layer.Tile({
 var map = new ol.Map({
     // устанавливает вид на заданное место и масштаб
     view: new ol.View({
-        center: ol.proj.transform([8.43609, 47.35387], 'EPSG:4326', 'EPSG:900913'),
+        center: ol.proj.transform([-1.2120773, 48.1224966], 'EPSG:4326', 'EPSG:900913'),
         zoom: 18
     }),
 
     layers: [osmLayer, vectorLayer],
     target: 'map'
 });
+// disable zoom
+map.getInteractions().forEach(function(interaction) {
+    if (interaction instanceof ol.interaction.MouseWheelZoom) {
+        interaction.setActive(false);
+    }
+}, this);
 
 var element = document.getElementById('popup');
 
@@ -98,7 +104,7 @@ map.on('pointermove', function(evt) {
   map.getTargetElement().style.cursor =
       map.hasFeatureAtPixel(evt.pixel) ? 'pointer' : '';
 
-  if (e.dragging) {
+  if (evt.dragging) {
     $(element).popover('dispose');
     return;
   }
