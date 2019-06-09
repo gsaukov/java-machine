@@ -1,6 +1,8 @@
 package com.apps.searchandpagination.service;
 
 import com.apps.reflection.RandomObjectFiller;
+import com.apps.searchandpagination.cassandra.entity.AddressData;
+import com.apps.searchandpagination.cassandra.repository.AddressDataRepository;
 import com.apps.searchandpagination.persistance.entity.TradeData;
 import com.apps.searchandpagination.persistance.entity.TradeDetails;
 import com.apps.searchandpagination.persistance.repository.TradeDataRepository;
@@ -17,15 +19,19 @@ public class DataCreator {
     private RandomObjectFiller filler = new RandomObjectFiller();
 
     @Autowired
-    private TradeDataRepository mkDataRepository;
+    private TradeDataRepository tradeDataRepository;
 
     @Autowired
     private TradeDetailsRepository tradeDetailsRepository;
+
+    @Autowired
+    private AddressDataRepository addressDataRepository;
 
     @PostConstruct
     private void postConstruct(){
         try {
             fillObjects();
+            fillCassandra();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -49,5 +55,12 @@ public class DataCreator {
             res += " ";
         }
         return res;
+    }
+
+    private void fillCassandra() throws IllegalAccessException, InstantiationException {
+        for(int i = 0; i < 100; i++){
+            AddressData addressData = filler.createAndFill(AddressData.class);
+            addressDataRepository.save(addressData);
+        }
     }
 }

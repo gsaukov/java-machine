@@ -7,11 +7,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Random;
+import java.util.*;
 
 public class RandomObjectFiller {
 
@@ -21,14 +22,13 @@ public class RandomObjectFiller {
         T instance = clazz.newInstance();
         for(Field field: clazz.getDeclaredFields()) {
             field.setAccessible(true);
-            Object value = getRandomValueForField(field);
+            Object value = getRandomValueForField(field, field.getType());
             field.set(instance, value);
         }
         return instance;
     }
 
-    private Object getRandomValueForField(Field field) throws InstantiationException, IllegalAccessException  {
-        Class<?> type = field.getType();
+    private Object getRandomValueForField(Field field, Class<?> type) throws InstantiationException, IllegalAccessException  {
         // Note that we must handle the different types here! This is just an
         // example, so this list is not complete! Adapt this to your needs!
         if(type.isEnum()) {
@@ -56,10 +56,36 @@ public class RandomObjectFiller {
             return LocalDate.now().plusDays(random.nextInt(0, 10000)).minusDays(random.nextInt(0, 10000));
         } else if(type.equals(CurrencyUnit.class)) {
             return CurrencyUnit.EUR;
+        } else if(type.isAssignableFrom(List.class)) {
+            return createAndFillList(field);
+        } else if(type.isAssignableFrom(HashMap.class)) {
+            return createAndFillMap(field);
         } else if (!type.isPrimitive()) {
             return createAndFill(type);
         }
         return createAndFill(type);
+    }
+
+    private Collection createAndFillList(Field field) throws IllegalAccessException, InstantiationException {
+        ParameterizedType integerListType = (ParameterizedType) field.getGenericType();
+        Class<?> value = (Class<?>) integerListType.getActualTypeArguments()[0];
+        List<Object> res = new ArrayList<>();
+        for (int i = 0; i < random.nextInt(0, 20); i++){
+            res.add(getRandomValueForField(null, value));
+        }
+        return res;
+    }
+
+    private HashMap createAndFillMap(Field field) throws IllegalAccessException, InstantiationException {
+        ParameterizedType integerListType = (ParameterizedType) field.getGenericType();
+        Class<?> key = (Class<?>) integerListType.getActualTypeArguments()[0];
+        Class<?> value = (Class<?>) integerListType.getActualTypeArguments()[1];
+
+        HashMap<Object, Object> res = new HashMap<>();
+        for (int i = 0; i < random.nextInt(0, 20); i++){
+            res.put(getRandomValueForField(null, key), getRandomValueForField(null, value));
+        }
+        return res;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.apps.searchandpagination.controller.trade;
 
+import com.apps.searchandpagination.cassandra.repository.AddressDataRepository;
 import com.apps.searchandpagination.controller.PageWrapper;
 import com.apps.searchandpagination.persistance.entity.TradeData;
 import com.apps.searchandpagination.persistance.query.trade.TradeDetailsCriteria;
@@ -23,6 +24,7 @@ public class TradeController {
     private TradeDetailsService tradeDetailsService;
     private TradeSearchConverter tradeSearchConverter;
     private SearchKeeper searchKeeper;
+    private AddressDataRepository addressDataRepository;
 
     @GetMapping({"/"})
     public String home(
@@ -103,5 +105,10 @@ public class TradeController {
     @Autowired
     public void setSearchKeeper(SearchKeeper searchKeeper) {
         this.searchKeeper = searchKeeper;
+    }
+
+    @Autowired
+    public void setAddressDataRepository(AddressDataRepository addressDataRepository) {
+        this.addressDataRepository = addressDataRepository;
     }
 }
