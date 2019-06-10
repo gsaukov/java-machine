@@ -9,9 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
-import org.springframework.data.cassandra.core.mapping.BasicCassandraMappingContext;
-import org.springframework.data.cassandra.core.mapping.CassandraMappingContext;
-
 import java.io.IOException;
 
 //https://shermandigital.com/blog/designing-a-cassandra-data-model/
@@ -55,27 +52,27 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
         CassandraClusterFactoryBean cluster =
                 new CassandraClusterFactoryBean();
         cluster.setContactPoints("127.0.0.1");
-        cluster.setPort(9142);
+        cluster.setPort(9042);
         return cluster;
     }
 
 
     public void startCassandraEmbedded() {
-        try {
-            EmbeddedCassandraServerHelper.startEmbeddedCassandra();
-            Cluster cluster = Cluster.builder().addContactPoints("127.0.0.1").withPort(9142).build();
-            Session session = cluster.connect();
-            session.execute(KEYSPACE_CREATION_QUERY);
-            session.execute(KEYSPACE_ACTIVATE_QUERY);
-            session.execute(KEYSPACE_CREATE_ADDRESS_DATA);
-        } catch (TTransportException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            EmbeddedCassandraServerHelper.startEmbeddedCassandra();
+//        } catch (TTransportException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ConfigurationException e) {
+//            e.printStackTrace();
+//        }
+        Cluster cluster = Cluster.builder().addContactPoints("127.0.0.1").withPort(9042).build();
+        Session session = cluster.connect();
+        session.execute(KEYSPACE_CREATION_QUERY);
+        session.execute(KEYSPACE_ACTIVATE_QUERY);
+        session.execute(KEYSPACE_CREATE_ADDRESS_DATA);
     }
 }

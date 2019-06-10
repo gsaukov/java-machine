@@ -15,7 +15,7 @@ spring:
 #spring:changelog-master.yaml
 #  profiles: h2
   datasource:
-    url: jdbc:h2:mem:spDb;MODE=Oracle
+    url: jdbc:h2:file:./data/db/spDb;MODE=Oracle
     username: sa
     password:
     type:
