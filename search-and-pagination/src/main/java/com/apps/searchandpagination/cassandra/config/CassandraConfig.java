@@ -29,7 +29,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
             "            osm_type text, " +
             "            osm_id text, " +
             "            bounding_box map<text, double>, " +
-            "            polygon_points map<text, double>, " +
+            "            polygon_points frozen list<map <text, double>>, " +
             "            display_name text, " +
             "            element_class text, " +
             "            element_type text, " +
@@ -51,6 +51,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
         startCassandraEmbedded();
         CassandraClusterFactoryBean cluster =
                 new CassandraClusterFactoryBean();
+        //can be more than one contact point
         cluster.setContactPoints("127.0.0.1");
         cluster.setPort(9042);
         return cluster;
@@ -69,10 +70,10 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 //        } catch (ConfigurationException e) {
 //            e.printStackTrace();
 //        }
-        Cluster cluster = Cluster.builder().addContactPoints("127.0.0.1").withPort(9042).build();
-        Session session = cluster.connect();
-        session.execute(KEYSPACE_CREATION_QUERY);
-        session.execute(KEYSPACE_ACTIVATE_QUERY);
-        session.execute(KEYSPACE_CREATE_ADDRESS_DATA);
+//        Cluster cluster = Cluster.builder().addContactPoints("127.0.0.1").withPort(9042).build();
+//        Session session = cluster.connect();
+//        session.execute(KEYSPACE_CREATION_QUERY);
+//        session.execute(KEYSPACE_ACTIVATE_QUERY);
+//        session.execute(KEYSPACE_CREATE_ADDRESS_DATA);
     }
 }

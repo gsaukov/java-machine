@@ -4,6 +4,7 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.util.List;
 import java.util.Map;
 
 @Table("address_data")
@@ -25,7 +26,7 @@ public class AddressData {
     private Map<String, Double> boundingBox;
 
     @Column("polygon_points")
-    private Map<String, Double> polygonPoints;
+    private List<Map<String, Double>> polygonPoints;
 
     @Column("display_name")
     private String displayName;
@@ -94,11 +95,11 @@ public class AddressData {
         this.boundingBox = boundingBox;
     }
 
-    public Map<String, Double> getPolygonPoints() {
+    public List<Map<String, Double>> getPolygonPoints() {
         return polygonPoints;
     }
 
-    public void setPolygonPoints(Map<String, Double> polygonPoints) {
+    public void setPolygonPoints(List<Map<String, Double>> polygonPoints) {
         this.polygonPoints = polygonPoints;
     }
 
@@ -189,7 +190,7 @@ public class AddressData {
         private String osmType;
         private String osmId;
         private Map<String, Double> boundingBox;
-        private Map<String, Double> polygonPoints;
+        private List<Map<String, Double>> polygonPoints;
         private String displayName;
         private String elementClass;
         private String elementType;
@@ -224,7 +225,7 @@ public class AddressData {
             return this;
         }
 
-        public Builder withPolygonPoints(Map<String, Double> polygonPoints) {
+        public Builder withPolygonPoints(List<Map<String, Double>> polygonPoints) {
             this.polygonPoints = polygonPoints;
             return this;
         }

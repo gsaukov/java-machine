@@ -83,11 +83,7 @@ public class AddressDataKey {
         private double longitude;
         private double latitude;
 
-        private Builder() {
-        }
-
-        public static Builder anAdressDataKey() {
-            return new Builder();
+        public Builder() {
         }
 
         public Builder withAddressId(String addressId) {
