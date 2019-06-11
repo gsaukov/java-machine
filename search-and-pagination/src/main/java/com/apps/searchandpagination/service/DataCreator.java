@@ -40,11 +40,13 @@ public class DataCreator {
     }
 
     private void fillObjects() throws IllegalAccessException, InstantiationException {
-        for(int i = 0; i < 1000; i++){
-            TradeDetails tradeDetails = filler.createAndFill(TradeDetails.class);
-            tradeDetails.setMix(getRandomWords(5));
-            tradeDetails.setDetails(getRandomWords(10));
-            tradeDetailsRepository.save(tradeDetails);
+        if(tradeDetailsRepository.count() == 0){
+            for(int i = 0; i < 1000; i++){
+                TradeDetails tradeDetails = filler.createAndFill(TradeDetails.class);
+                tradeDetails.setMix(getRandomWords(5));
+                tradeDetails.setDetails(getRandomWords(10));
+                tradeDetailsRepository.save(tradeDetails);
+            }
         }
     }
 
@@ -58,9 +60,11 @@ public class DataCreator {
     }
 
     private void fillCassandra() throws IllegalAccessException, InstantiationException {
-        for(int i = 0; i < 100; i++){
-            AddressData addressData = filler.createAndFill(AddressData.class);
-            addressDataRepository.save(addressData);
+        if(addressDataRepository.count() == 0){
+            for(int i = 0; i < 100; i++){
+                AddressData addressData = filler.createAndFill(AddressData.class);
+                addressDataRepository.save(addressData);
+            }
         }
     }
 }
