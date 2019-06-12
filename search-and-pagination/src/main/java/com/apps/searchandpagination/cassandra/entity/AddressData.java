@@ -25,6 +25,7 @@ public class AddressData {
     @Column("bounding_box")
     private Map<String, Double> boundingBox;
 
+//    https://www.programcreek.com/java-api-examples/?code=Just-Fun/spring-data-examples/spring-data-examples-master/cassandra/example/src/main/java/example/springdata/cassandra/convert/ConverterConfiguration.java
 //    https://stackoverflow.com/questions/50064970/map-of-maps-in-cassandra-without-using-custom-codec-possible
     @Column("polygon_points")
     private List<Map<String, Double>> polygonPoints;
