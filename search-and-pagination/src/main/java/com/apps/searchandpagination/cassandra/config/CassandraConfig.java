@@ -69,12 +69,12 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 //        } catch (ConfigurationException e) {
 //            e.printStackTrace();
 //        }
-        Cluster cluster = Cluster.builder().addContactPoints("127.0.0.1").withPort(9042).build();
-        Session session = cluster.connect();
-        session.execute(KEYSPACE_CREATION_QUERY);
+//        Cluster cluster = Cluster.builder().addContactPoints("127.0.0.1").withPort(9042).build();
+//        Session session = cluster.connect();
+//        session.execute(KEYSPACE_CREATION_QUERY);
 //        session.execute("DROP TABLE IF EXISTS geoKeySpace.address_data");
-        session.execute(KEYSPACE_ACTIVATE_QUERY);
-        session.execute(KEYSPACE_CREATE_TYPE_POLYGON);
-        session.execute(KEYSPACE_CREATE_ADDRESS_DATA);
+//        session.execute(KEYSPACE_ACTIVATE_QUERY);
+//        session.execute(KEYSPACE_CREATE_TYPE_POLYGON);
+//        session.execute(KEYSPACE_CREATE_ADDRESS_DATA);
     }
 }

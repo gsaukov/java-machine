@@ -1,6 +1,5 @@
 package com.apps.searchandpagination.controller.trade;
 
-import com.apps.searchandpagination.cassandra.repository.AddressDataRepository;
 import com.apps.searchandpagination.controller.PageWrapper;
 import com.apps.searchandpagination.persistance.entity.TradeData;
 import com.apps.searchandpagination.persistance.query.trade.TradeDetailsCriteria;
@@ -24,7 +23,6 @@ public class TradeController {
     private TradeDetailsService tradeDetailsService;
     private TradeSearchConverter tradeSearchConverter;
     private SearchKeeper searchKeeper;
-    private AddressDataRepository addressDataRepository;
 
     @GetMapping({"/"})
     public String home(
@@ -44,7 +42,7 @@ public class TradeController {
     }
 
     @PostMapping("/tradesearch")
-    public String newEntry(Model model, @ModelAttribute TradeSearchRequest request) {
+    public String tradeSearch (Model model, @ModelAttribute TradeSearchRequest request) {
         Optional<TradeDetailsCriteria> criteria = tradeSearchConverter.convert(request);
         Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(0, Integer.valueOf(request.getItemsSize())), criteria);
         PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(criteria));
@@ -54,7 +52,7 @@ public class TradeController {
     }
 
     @GetMapping({"tradesearchpage/"})
-    public String getPage(
+    public String getTradeSearchPage(
             Model model,
             @RequestParam("searchid") String searchId,
             @RequestParam("page") Optional<Integer> optCurrentPage,
@@ -107,8 +105,4 @@ public class TradeController {
         this.searchKeeper = searchKeeper;
     }
 
-    @Autowired
-    public void setAddressDataRepository(AddressDataRepository addressDataRepository) {
-        this.addressDataRepository = addressDataRepository;
-    }
 }
