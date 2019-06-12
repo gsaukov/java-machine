@@ -60,6 +60,7 @@ public class DataCreator {
     }
 
     private void fillCassandra() throws IllegalAccessException, InstantiationException {
+        addressDataRepository.findAll();
         if(addressDataRepository.count() == 0){
             for(int i = 0; i < 100; i++){
                 AddressData addressData = filler.createAndFill(AddressData.class);

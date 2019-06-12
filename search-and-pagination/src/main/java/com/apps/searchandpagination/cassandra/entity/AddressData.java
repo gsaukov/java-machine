@@ -1,8 +1,5 @@
 package com.apps.searchandpagination.cassandra.entity;
 
-import com.datastax.driver.core.DataType;
-import com.datastax.driver.mapping.annotations.FrozenValue;
-import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
@@ -28,12 +25,8 @@ public class AddressData {
     @Column("bounding_box")
     private Map<String, Double> boundingBox;
 
-//    https://www.programcreek.com/java-api-examples/?code=Just-Fun/spring-data-examples/spring-data-examples-master/cassandra/example/src/main/java/example/springdata/cassandra/convert/ConverterConfiguration.java
-//    https://stackoverflow.com/questions/50064970/map-of-maps-in-cassandra-without-using-custom-codec-possible
     @Column("polygon_points")
-//    @CassandraType(type = DataType.Name.LIST, typeArguments = {DataType.Name.MAP})
-    @FrozenValue
-    private List<Map<String, Double>> polygonPoints;
+    private List<Polygon> polygonPoints;
 
     @Column("display_name")
     private String displayName;
@@ -102,11 +95,11 @@ public class AddressData {
         this.boundingBox = boundingBox;
     }
 
-    public List<Map<String, Double>> getPolygonPoints() {
+    public List<Polygon> getPolygonPoints() {
         return polygonPoints;
     }
 
-    public void setPolygonPoints(List<Map<String, Double>> polygonPoints) {
+    public void setPolygonPoints(List<Polygon> polygonPoints) {
         this.polygonPoints = polygonPoints;
     }
 
@@ -197,7 +190,7 @@ public class AddressData {
         private String osmType;
         private String osmId;
         private Map<String, Double> boundingBox;
-        private List<Map<String, Double>> polygonPoints;
+        private List<Polygon> polygonPoints;
         private String displayName;
         private String elementClass;
         private String elementType;
@@ -232,7 +225,7 @@ public class AddressData {
             return this;
         }
 
-        public Builder withPolygonPoints(List<Map<String, Double>> polygonPoints) {
+        public Builder withPolygonPoints(List<Polygon> polygonPoints) {
             this.polygonPoints = polygonPoints;
             return this;
         }

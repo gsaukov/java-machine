@@ -2,6 +2,7 @@ package com.apps.searchandpagination.cassandra.converter;
 
 import com.apps.searchandpagination.cassandra.entity.AddressData;
 import com.apps.searchandpagination.cassandra.entity.AddressDataKey;
+import com.apps.searchandpagination.cassandra.entity.Polygon;
 import fr.dudie.nominatim.model.Address;
 import fr.dudie.nominatim.model.BoundingBox;
 import fr.dudie.nominatim.model.PolygonPoint;
@@ -69,15 +70,13 @@ public class AddressConverter {
         }
     }
 
-    private static List<Map<String, Double>> toPolygonPoints(Address address) {
+    private static List<Polygon> toPolygonPoints(Address address) {
         if(address.getPolygonPoints() == null){
             return null;
         } else {
-            List<Map<String, Double>> res = new ArrayList<>();
+            List<Polygon> res = new ArrayList<>();
             for(PolygonPoint polygonPoint : address.getPolygonPoints()){
-                Map<String, Double> map = new HashMap<>();
-                map.put("Latitude", polygonPoint.getLatitude());
-                map.put("Longitude", polygonPoint.getLongitude());
+                res.add(new Polygon(polygonPoint.getLatitude(), polygonPoint.getLongitude()));
             }
             return res;
         }

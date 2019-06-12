@@ -2,14 +2,11 @@ package com.apps.searchandpagination.cassandra.config;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
-import org.apache.cassandra.exceptions.ConfigurationException;
-import org.apache.thrift.transport.TTransportException;
-import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
-import java.io.IOException;
+
 
 //https://shermandigital.com/blog/designing-a-cassandra-data-model/
 //https://stackoverflow.com/questions/24949676/difference-between-partition-key-composite-key-and-clustering-key-in-cassandra
@@ -29,7 +26,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
             "            osm_type text, " +
             "            osm_id text, " +
             "            bounding_box map<text, double>, " +
-            "            polygon_points frozen <list <map <text, double>>>, " +
+            "            polygon_points list <frozen <polygon>>, " +
             "            display_name text, " +
             "            element_class text, " +
             "            element_type text, " +
@@ -40,6 +37,8 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
             "            wkt text, " +
             "            PRIMARY KEY ((address_id, account_id, longitude, latitude)) " +
             ");";
+
+    public static final String KEYSPACE_CREATE_TYPE_POLYGON = "CREATE TYPE IF NOT EXISTS polygon (latitude double, longitude double);";
 
     @Override
     protected String getKeyspaceName() {
@@ -73,8 +72,9 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
         Cluster cluster = Cluster.builder().addContactPoints("127.0.0.1").withPort(9042).build();
         Session session = cluster.connect();
         session.execute(KEYSPACE_CREATION_QUERY);
-        session.execute("DROP TABLE  geoKeySpace.address_data");
+//        session.execute("DROP TABLE IF EXISTS geoKeySpace.address_data");
         session.execute(KEYSPACE_ACTIVATE_QUERY);
+        session.execute(KEYSPACE_CREATE_TYPE_POLYGON);
         session.execute(KEYSPACE_CREATE_ADDRESS_DATA);
     }
 }
