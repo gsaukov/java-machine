@@ -1,6 +1,7 @@
 package com.apps.searchandpagination.cassandra.entity;
 
 import com.datastax.driver.core.DataType;
+import com.datastax.driver.mapping.annotations.FrozenValue;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -30,7 +31,8 @@ public class AddressData {
 //    https://www.programcreek.com/java-api-examples/?code=Just-Fun/spring-data-examples/spring-data-examples-master/cassandra/example/src/main/java/example/springdata/cassandra/convert/ConverterConfiguration.java
 //    https://stackoverflow.com/questions/50064970/map-of-maps-in-cassandra-without-using-custom-codec-possible
     @Column("polygon_points")
-    @CassandraType(type = DataType.Name.LIST, typeArguments = {DataType.Name.MAP})
+//    @CassandraType(type = DataType.Name.LIST, typeArguments = {DataType.Name.MAP})
+    @FrozenValue
     private List<Map<String, Double>> polygonPoints;
 
     @Column("display_name")
