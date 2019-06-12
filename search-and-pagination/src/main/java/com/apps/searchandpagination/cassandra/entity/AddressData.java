@@ -25,6 +25,7 @@ public class AddressData {
     @Column("bounding_box")
     private Map<String, Double> boundingBox;
 
+//    https://stackoverflow.com/questions/50064970/map-of-maps-in-cassandra-without-using-custom-codec-possible
     @Column("polygon_points")
     private List<Map<String, Double>> polygonPoints;
 
