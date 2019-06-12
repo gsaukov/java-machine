@@ -5,9 +5,11 @@ import org.joda.money.CurrencyUnit;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -57,27 +59,41 @@ public class RandomObjectFiller {
         } else if(type.equals(CurrencyUnit.class)) {
             return CurrencyUnit.EUR;
         } else if(type.isAssignableFrom(List.class)) {
-            return createAndFillList(field);
+            return createAndFillList(field.getGenericType());
         } else if(type.isAssignableFrom(HashMap.class)) {
-            return createAndFillMap(field);
+            return createAndFillMap(field.getGenericType());
         } else if (!type.isPrimitive()) {
             return createAndFill(type);
         }
         return createAndFill(type);
     }
 
-    private Collection createAndFillList(Field field) throws IllegalAccessException, InstantiationException {
-        ParameterizedType integerListType = (ParameterizedType) field.getGenericType();
-        Class<?> value = (Class<?>) integerListType.getActualTypeArguments()[0];
+    private Collection createAndFillList(Type genericType) throws IllegalAccessException, InstantiationException {
+        ParameterizedType integerListType = (ParameterizedType) genericType;
+        Type type = integerListType.getActualTypeArguments()[0];
         List<Object> res = new ArrayList<>();
+
+        if(type instanceof ParameterizedType){
+            Class<?> parameterizedType = ((ParameterizedTypeImpl) type).getRawType();
+            if(parameterizedType.isAssignableFrom(List.class)) {
+                return createAndFillList(type);
+            } else if(parameterizedType.isAssignableFrom(HashMap.class)) {
+                res.add(createAndFillMap(type));
+                return res;
+            }
+        }
+
+        Class<?> value = (Class<?>) type;
+
+
         for (int i = 0; i < random.nextInt(0, 20); i++){
             res.add(getRandomValueForField(null, value));
         }
         return res;
     }
 
-    private HashMap createAndFillMap(Field field) throws IllegalAccessException, InstantiationException {
-        ParameterizedType integerListType = (ParameterizedType) field.getGenericType();
+    private HashMap createAndFillMap(Type genericType) throws IllegalAccessException, InstantiationException {
+        ParameterizedType integerListType = (ParameterizedType) genericType;
         Class<?> key = (Class<?>) integerListType.getActualTypeArguments()[0];
         Class<?> value = (Class<?>) integerListType.getActualTypeArguments()[1];
 
