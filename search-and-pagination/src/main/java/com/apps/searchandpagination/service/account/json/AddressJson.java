@@ -1,21 +1,18 @@
-package com.apps.searchandpagination.persistance.entity;
+package com.apps.searchandpagination.service.account.json;
 
-public class AccountAddress {
-    private String accountId;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Map;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class AddressJson {
     private String street;
     private String city;
     private String state;
     private String postalCode;
     private Double longitude;
     private Double latitude;
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
 
     public String getStreet() {
         return street;
@@ -63,5 +60,21 @@ public class AccountAddress {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    @JsonProperty("coordinates")
+    private void unpackNameFromNestedObject(Map<String, Double> coordinates) {
+        longitude = coordinates.get("lng");
+        latitude = coordinates.get("lat");
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(" ").append(street);
+        sb.append(" ").append(city);
+        sb.append(" ").append(state);
+        sb.append(" ").append(postalCode);
+        return sb.toString();
     }
 }

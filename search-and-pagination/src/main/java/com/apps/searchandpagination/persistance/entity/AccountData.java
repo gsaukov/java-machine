@@ -1,7 +1,8 @@
 package com.apps.searchandpagination.persistance.entity;
 
-public class AccountData {
+import java.util.List;
 
+public class AccountData {
     private String accountId;
     private String limitations;
     private String firstName;
@@ -12,7 +13,7 @@ public class AccountData {
     private String organization;
     private String phone;
     private String referenceID;
-    private String address;
+    private List<AccountAddress> addresses;
     private String verifiedforACH;
     private String eCheck;
     private String payments;
