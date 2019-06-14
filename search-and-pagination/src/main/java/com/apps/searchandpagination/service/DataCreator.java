@@ -29,14 +29,14 @@ public class DataCreator {
 
     @PostConstruct
     private void postConstruct(){
-        try {
-            fillObjects();
-            fillCassandra();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            fillObjects();
+//            fillCassandra();
+//        } catch (InstantiationException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void fillObjects() throws IllegalAccessException, InstantiationException {

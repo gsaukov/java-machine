@@ -52,16 +52,6 @@ databaseChangeLog:
               - column:
                   name: TRADE_DATA_ID
                   type: varchar(32)
-              - addForeignKeyConstraint:
-                  baseColumnNames: person_id
-                  baseTableName: address
-                  constraintName: fk_address_person
-#                  deferrable: true
-#                  initiallyDeferred: true
-                  onDelete: CASCADE
-                  onUpdate: CASCADE
-                  referencedColumnNames: id
-                  referencedTableName: person
               - column:
                   name: EMAIL
                   type: varchar(255)
@@ -140,3 +130,144 @@ databaseChangeLog:
               - column:
                   name: DETAILS
                   type: clob
+
+  - changeSet:
+      id: ACCOUNT_ADDRESS
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: ACCOUNT_ADDRESS
+            columns:
+              - column:
+                  name: ADDRESS_ID
+                  type: varchar(32)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: ACCOUNT_ID
+                  type: varchar(32)
+              - addForeignKeyConstraint:
+                  baseColumnNames: ACCOUNT_ID
+                  baseTableName: ACCOUNT_ADDRESS
+                  constraintName: FK_ACCOUNT_ADDRESS_ACCOUNT_DATA
+                  onDelete: CASCADE
+                  onUpdate: CASCADE
+                  referencedColumnNames: ACCOUNT_ID
+                  referencedTableName: ACCOUNT_DATA
+              - column:
+                  name: STREET
+                  type: varchar(128)
+              - column:
+                  name: CITY
+                  type: varchar(128)
+              - column:
+                  name: STATE
+                  type: varchar(128)
+              - column:
+                  name: POSTAL_CODE
+                  type: varchar(32)
+              - column:
+                  name: LONGITUDE
+                  type: double
+              - column:
+                  name: LATITUDE
+                  type: double
+
+  - changeSet:
+      id: ACCOUNT_DATA
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: ACCOUNT_DATA
+            columns:
+              - column:
+                  name: ACCOUNT_ID
+                  type: varchar(32)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: FIRST_NAME
+                  type: varchar(128)
+              - column:
+                  name: LAST_NAME
+                  type: varchar(128)
+              - column:
+                  name: GENDER
+                  type: varchar(32)
+              - column:
+                  name: EMAIL
+                  type: varchar(128)
+              - column:
+                  name: ORGANIZATION
+                  type: varchar(128)
+              - column:
+                  name: PHONE
+                  type: varchar(128)
+              - column:
+                  name: OCCUPATION
+                  type: varchar(128)
+              - column:
+                  name: LIMITATIONS
+                  type: bit
+              - column:
+                  name: VERIFIED_FOR_ACH
+                  type: bit
+              - column:
+                  name: PAYMENTS
+                  type: varchar(128)
+              - column:
+                  name: VAT_NUMBER
+                  type: varchar(128)
+              - column:
+                  name: LIMIT_AMOUNT
+                  type: number(10,4)
+              - column:
+                  name: LIMIT_CURRENCY
+                  type: varchar(32)
+              - column:
+                  name: CREATION_DATE
+                  type: dateTime
+
+
+  - changeSet:
+      id: FK_TRADE_DATA_ACCOUNT_DATA
+      author: gsaukov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: ACCOUNT
+            baseTableName: TRADE_DATA
+            constraintName: FK_TRADE_DATA_ACCOUNT_DATA
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: ACCOUNT_ID
+            referencedTableName: ACCOUNT_DATA
+
+  - changeSet:
+      id: FK_TRADE_DETAILS_TRADE_DATA
+      author: gsaukov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: TRADE_DATA_ID
+            baseTableName: TRADE_DETAILS
+            constraintName: FK_TRADE_DETAILS_TRADE_DATA
+            #                  deferrable: true
+            #                  initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: ID
+            referencedTableName: TRADE_DATA
+
+  - changeSet:
+      id: FK_ACCOUNT_ADDRESS_ACCOUNT_DATA
+      author: gsaukov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: ACCOUNT_ID
+            baseTableName: ACCOUNT_ADDRESS
+            constraintName: FK_ACCOUNT_ADDRESS_ACCOUNT_DATA
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: ACCOUNT_ID
+            referencedTableName: ACCOUNT_DATA
