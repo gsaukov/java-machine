@@ -147,14 +147,6 @@ databaseChangeLog:
               - column:
                   name: ACCOUNT_ID
                   type: varchar(32)
-              - addForeignKeyConstraint:
-                  baseColumnNames: ACCOUNT_ID
-                  baseTableName: ACCOUNT_ADDRESS
-                  constraintName: FK_ACCOUNT_ADDRESS_ACCOUNT_DATA
-                  onDelete: CASCADE
-                  onUpdate: CASCADE
-                  referencedColumnNames: ACCOUNT_ID
-                  referencedTableName: ACCOUNT_DATA
               - column:
                   name: STREET
                   type: varchar(128)

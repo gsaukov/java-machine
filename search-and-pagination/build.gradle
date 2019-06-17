@@ -20,7 +20,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-task', version: '2.1.2.RELEASE'
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-task-core', version: '2.1.2.RELEASE'
+//    compile group: 'org.springframework.cloud', name: 'spring-cloud-task-core', version: '2.1.2.RELEASE'
 //    compile group: 'org.springframework.boot', name: 'spring-boot-starter-batch', version: '2.1.5.RELEASE'
     compile group: 'javax.persistence', name: 'javax.persistence-api'
     compile 'org.springframework.data:spring-data-commons'

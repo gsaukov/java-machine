@@ -7,7 +7,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
+import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
+
 @Component
+@Transactional(REQUIRES_NEW)
 public class DataCreationTrade {
 
     private RandomObjectFiller filler = new RandomObjectFiller();

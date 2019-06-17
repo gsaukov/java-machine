@@ -2,15 +2,7 @@ package com.apps.searchandpagination.persistance.entity;
 
 import org.joda.money.BigMoney;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -64,6 +56,34 @@ public class TradeData {
 
     public LocalDateTime getDate() {
         return date;
+    }
+
+    public void setTradeDataId(String tradeDataId) {
+        this.tradeDataId = tradeDataId;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public void setVal(int val) {
+        this.val = val;
+    }
+
+    public void setAmount(EmbeddableBigMoney amount) {
+        this.amount = amount;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public enum Route {

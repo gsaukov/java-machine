@@ -17,6 +17,14 @@ public class EmbeddableBigMoney {
     @Column(name = "AMOUNT")
     private BigDecimal amount;
 
+    public EmbeddableBigMoney(CurrencyUnit currency, BigDecimal amount) {
+        this.currency = currency;
+        this.amount = amount;
+    }
+
+    public EmbeddableBigMoney() {
+    }
+
     public CurrencyUnit getCurrency() {
         return currency;
     }
