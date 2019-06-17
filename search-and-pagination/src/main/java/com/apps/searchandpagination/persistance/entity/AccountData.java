@@ -72,4 +72,126 @@ public class AccountData {
     @Column(name = "CREATION_DATE")
     private LocalDateTime creationDate;
 
+    public AccountData() {
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public List<AccountAddress> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AccountAddress> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Boolean getLimitations() {
+        return limitations;
+    }
+
+    public void setLimitations(Boolean limitations) {
+        this.limitations = limitations;
+    }
+
+    public Boolean getVerifiedforACH() {
+        return verifiedforACH;
+    }
+
+    public void setVerifiedforACH(Boolean verifiedforACH) {
+        this.verifiedforACH = verifiedforACH;
+    }
+
+    public String getPayments() {
+        return payments;
+    }
+
+    public void setPayments(String payments) {
+        this.payments = payments;
+    }
+
+    public Integer getVatNumber() {
+        return vatNumber;
+    }
+
+    public void setVatNumber(Integer vatNumber) {
+        this.vatNumber = vatNumber;
+    }
+
+    public EmbeddableBigMoney getMaximumLimit() {
+        return maximumLimit;
+    }
+
+    public void setMaximumLimit(EmbeddableBigMoney maximumLimit) {
+        this.maximumLimit = maximumLimit;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
 }

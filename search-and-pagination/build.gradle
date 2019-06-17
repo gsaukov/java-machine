@@ -49,6 +49,14 @@ sourceSets {
     }
 }
 
+bootJar {
+    mainClassName = 'com.apps.searchandpagination.SearchDataApplication'
+}
+
+springBoot {
+    mainClassName = 'com.apps.searchandpagination.SearchDataApplication'
+}
+
 tasks.withType(JavaCompile) {
     options.annotationProcessorGeneratedSourcesDirectory = file("src/generated/java")
 }

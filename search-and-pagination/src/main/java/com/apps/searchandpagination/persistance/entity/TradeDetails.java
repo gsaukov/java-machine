@@ -10,7 +10,7 @@ public class TradeDetails {
 
     @Id
     @Column(name = "ID")
-    private String id;
+    private String tradeDetailsId;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "TRADE_DATA_ID")
     private TradeData tradeData;
@@ -71,12 +71,12 @@ public class TradeDetails {
     public TradeDetails() {
     }
 
-    public String getId() {
-        return id;
+    public String getTradeDetailsId() {
+        return tradeDetailsId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTradeDetailsId(String tradeDetailsId) {
+        this.tradeDetailsId = tradeDetailsId;
     }
 
     public TradeData getTradeData() {

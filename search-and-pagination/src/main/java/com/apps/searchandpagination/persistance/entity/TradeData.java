@@ -20,11 +20,11 @@ public class TradeData {
 
     @Id
     @Column(name = "ID")
-    private String id;
+    private String tradeDataId;
     @Column(name = "SYMBOL")
     private String symbol;
     @Column(name = "ACCOUNT")
-    private String account;
+    private String accountId;
     @Enumerated(EnumType.STRING)
     @Column(name = "ROUTE")
     private Route route;
@@ -38,16 +38,16 @@ public class TradeData {
     public TradeData() {
     }
 
-    public String getId() {
-        return id;
+    public String getTradeDataId() {
+        return tradeDataId;
     }
 
     public String getSymbol() {
         return symbol;
     }
 
-    public String getAccount() {
-        return account;
+    public String getAccountId() {
+        return accountId;
     }
 
     public Route getRoute() {

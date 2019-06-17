@@ -83,8 +83,8 @@ public class TradeDetailsSpecification extends BasePredicate<TradeDetails> {
 // rewrite with query and null checks.
 
         return (root, query, builder) -> builder.and(
-                creatIn(builder, root.join(TradeDetails_.tradeData).get(TradeData_.id), tradeDetailsCriteria.getIds()),
-                creatIn(builder, root.join(TradeDetails_.tradeData).get(TradeData_.account), tradeDetailsCriteria.getAccounts()),
+                creatIn(builder, root.join(TradeDetails_.tradeData).get(TradeData_.tradeDataId), tradeDetailsCriteria.getIds()),
+                creatIn(builder, root.join(TradeDetails_.tradeData).get(TradeData_.accountId), tradeDetailsCriteria.getAccounts()),
                 creatIn(builder, root.join(TradeDetails_.tradeData).get(TradeData_.symbol), tradeDetailsCriteria.getSymbols()),
 //                builder.in(root.join(TradeDetails_.tradeData).get(TradeData_.id)).in(tradeDetailsCriteria.getIds()),
 //                builder.in(root.join(TradeDetails_.tradeData).get(TradeData_.account)).in(tradeDetailsCriteria.getAccounts()),

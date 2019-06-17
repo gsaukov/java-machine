@@ -54,11 +54,11 @@ public class TradeDetailsDynamicQuery {
         List<Predicate> predicates = new ArrayList<>();
 
         if (isNotEmpty(tradeDetailsCriteria.getIds())) {
-            predicates.add(creatIn(builder, joinTradeData.get(TradeData_.id), tradeDetailsCriteria.getIds()));
+            predicates.add(creatIn(builder, joinTradeData.get(TradeData_.tradeDataId), tradeDetailsCriteria.getIds()));
         }
 
         if (isNotEmpty(tradeDetailsCriteria.getAccounts())) {
-            predicates.add(creatIn(builder, joinTradeData.get(TradeData_.account), tradeDetailsCriteria.getAccounts()));
+            predicates.add(creatIn(builder, joinTradeData.get(TradeData_.accountId), tradeDetailsCriteria.getAccounts()));
         }
 
         if (isNotEmpty(tradeDetailsCriteria.getSymbols())) {
