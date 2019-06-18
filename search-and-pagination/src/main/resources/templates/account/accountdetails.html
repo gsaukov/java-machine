@@ -9,7 +9,7 @@
         <button type="button" class="close" aria-label="Close" th:onclick="removeDetails([[${accountdata.accountId}]])">
             <span aria-hidden="true">&times;</span>
         </button>
-        <div class="grid-container">
+        <div class="grid-container" style="display: grid; grid-template-columns: 1fr 1fr 1fr 700px; grid-template-rows: 1fr;">
             <div>
                 <table class="key-value-table">
                     <tbody>
@@ -29,13 +29,27 @@
                         <th>Gender:</th>
                         <td th:text="${accountdata.gender}"></td>
                     </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="key-value-table">
+                    <tbody>
                     <tr>
                         <th>Email:</th>
                         <td th:text="${accountdata.email}"></td>
                     </tr>
                     <tr>
-                    <th>Organization:</th>
+                        <th>Organization:</th>
                         <td th:text="${accountdata.organization}"></td>
+                    </tr>
+                    <tr>
+                        <th>Creation:</th>
+                        <td th:text="${accountdata.creationDate}"></td>
+                    </tr>
+                    <tr>
+                        <th>Vat Number:</th>
+                        <td th:text="${accountdata.vatNumber}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -56,33 +70,25 @@
                         <td th:text="${accountdata.payments}"></td>
                     </tr>
                     <tr>
-                        <th>Vat Number:</th>
-                        <td th:text="${accountdata.vatNumber}"></td>
-                    </tr>
-                    <tr>
                         <th>Limit:</th>
                         <td th:text="${accountdata.maximumLimit}"></td>
-                    </tr>
-                    <tr>
-                        <th>Creation:</th>
-                        <td th:text="${accountdata.creationDate}"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div>
                 <table class="key-value-table">
-                    <tbody>
-                    <tr>
-                        <th>Phone:</th>
-                        <td th:text="${accountdata.phone}"></td>
-                    </tr>
-<!--                    <tr th:each="address : ${accountdata.addresses}">-->
-<!--                        <tr>-->
-<!--                            <th th:text="'Address id ' + ${address.addressId} + ':'"></th>-->
-<!--                            <td th:text="${address.street} + ' ' + ${address.city} + ' ' + ${address.state} + ' ' + ${address.postalCode}"></td>-->
-<!--                        </tr>-->
-<!--                    </tr>-->
+                    <tbody th:with="addresses = ${accountdata.addresses}">
+                        <tr>
+                            <th>Phone:</th>
+                            <td th:text="${accountdata.phone}"></td>
+                        </tr>
+                        <tr th:each="address : ${addresses}">
+                            <th th:text="'Address id ' + ${address.addressId} + ':'"></th>
+                            <td th:text="${address.street} + ' ' + ${address.city} + ' ' + ${address.state} + ' ' + ${address.postalCode}" ></td>
+                            <td> hi there friend <i class="fa-map-marker"></i></td>
+                            <i class="fa-map-marker"></i>
+                        </tr>
                     </tbody>
                 </table>
             </div>

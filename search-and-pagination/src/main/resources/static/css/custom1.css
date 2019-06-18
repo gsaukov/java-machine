@@ -125,12 +125,6 @@ html body {
     }
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 700px;
-  grid-template-rows: 1fr;
-}
-
 .page-link {
     color: royalblue;
     background-color: #000;

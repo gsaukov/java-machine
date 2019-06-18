@@ -2,19 +2,9 @@ package com.apps.searchandpagination.persistance.entity;
 
 import org.joda.money.BigMoney;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -48,7 +38,7 @@ public class AccountData {
     private String occupation;
 
     @JoinColumn(name = "ACCOUNT_ID")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<AccountAddress> addresses;
 
     @Column(name = "LIMITATIONS")
@@ -179,8 +169,8 @@ public class AccountData {
         this.vatNumber = vatNumber;
     }
 
-    public EmbeddableBigMoney getMaximumLimit() {
-        return maximumLimit;
+    public BigMoney getMaximumLimit() {
+        return BigMoney.of(maximumLimit.getCurrency(), maximumLimit.getAmount());
     }
 
     public void setMaximumLimit(EmbeddableBigMoney maximumLimit) {
