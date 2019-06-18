@@ -1,0 +1,93 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+
+<body>
+<div th:fragment="accountdetails (${accountdata})">
+    <hr>
+    <div th:if='${accountdata != null}'>
+        <button type="button" class="close" aria-label="Close" th:onclick="removeDetails([[${accountdata.accountId}]])">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="grid-container">
+            <div>
+                <table class="key-value-table">
+                    <tbody>
+                    <tr>
+                        <th>ID:</th>
+                        <td th:text="${accountdata.accountId}"></td>
+                    </tr>
+                    <tr>
+                        <th>First Name:</th>
+                        <td th:text="${accountdata.firstName}"></td>
+                    </tr>
+                    <tr>
+                        <th>Last Name:</th>
+                        <td th:text="${accountdata.lastName}"></td>
+                    </tr>
+                    <tr>
+                        <th>Gender:</th>
+                        <td th:text="${accountdata.gender}"></td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td th:text="${accountdata.email}"></td>
+                    </tr>
+                    <tr>
+                    <th>Organization:</th>
+                        <td th:text="${accountdata.organization}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="key-value-table">
+                    <tbody>
+                    <tr>
+                        <th>Limitations:</th>
+                        <td th:text="${accountdata.limitations}"></td>
+                    </tr>
+                    <tr>
+                        <th>ACH:</th>
+                        <td th:text="${accountdata.verifiedforACH}"></td>
+                    </tr>
+                    <tr>
+                        <th>Payments:</th>
+                        <td th:text="${accountdata.payments}"></td>
+                    </tr>
+                    <tr>
+                        <th>Vat Number:</th>
+                        <td th:text="${accountdata.vatNumber}"></td>
+                    </tr>
+                    <tr>
+                        <th>Limit:</th>
+                        <td th:text="${accountdata.maximumLimit}"></td>
+                    </tr>
+                    <tr>
+                        <th>Creation:</th>
+                        <td th:text="${accountdata.creationDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="key-value-table">
+                    <tbody>
+                    <tr>
+                        <th>Phone:</th>
+                        <td th:text="${accountdata.phone}"></td>
+                    </tr>
+<!--                    <tr th:each="address : ${accountdata.addresses}">-->
+<!--                        <tr>-->
+<!--                            <th th:text="'Address id ' + ${address.addressId} + ':'"></th>-->
+<!--                            <td th:text="${address.street} + ' ' + ${address.city} + ' ' + ${address.state} + ' ' + ${address.postalCode}"></td>-->
+<!--                        </tr>-->
+<!--                    </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

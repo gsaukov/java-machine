@@ -21,7 +21,7 @@ public class AddressResolver {
     public static void main(String args[]) throws IOException {
         AddressResolver resolver = new AddressResolver();
         DataCreationAddress dataCreation = new DataCreationAddress();
-        List<AddressJson> addressJsons = dataCreation.resolveAddressFromFile();
+        List<AddressJson> addressJsons = dataCreation.resolveJsonAddressFromFile();
         resolver.query(addressJsons);
     }
 

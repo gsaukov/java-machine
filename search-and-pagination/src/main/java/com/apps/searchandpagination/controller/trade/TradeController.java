@@ -68,7 +68,7 @@ public class TradeController {
         return "trade/tradedatatable :: tradedatatable";
     }
 
-    @GetMapping({"details/"})
+    @GetMapping({"tradedetails/"})
     public String getDetails(
             @RequestParam("detailId") String detailId,
             Model model) {

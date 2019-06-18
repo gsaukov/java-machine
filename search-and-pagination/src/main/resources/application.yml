@@ -32,4 +32,4 @@ logging.level.org.springframework: DEBUG
 logging.level.org.hibernate: ERROR
 
 data-creation:
-  address-repository: classpath:db/addresses-us-all.json #use file: to specify absolute/relative location on the file system.
+  address-store: classpath:db/addresses-us-all.json #use file: to specify absolute/relative location on the file system.

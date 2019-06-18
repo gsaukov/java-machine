@@ -15,15 +15,15 @@ public class TradeDetailsService {
     @Autowired
     private TradeDataRepository tradeDataRepository;
 
-    public TradeDetailsService(TradeDetailsRepository tradeDetailsRepository) {
-        this.tradeDetailsRepository = tradeDetailsRepository;
-    }
-
     public TradeDetails getTrade(String detailId) {
         return tradeDetailsRepository.findByTradeData(tradeDataRepository.findById(detailId).get());
     }
 
     public void setTradeDataRepository(TradeDataRepository tradeDataRepository) {
         this.tradeDataRepository = tradeDataRepository;
+    }
+
+    public void setTradeDetailsService(TradeDetailsRepository tradeDetailsRepository) {
+        this.tradeDetailsRepository = tradeDetailsRepository;
     }
 }

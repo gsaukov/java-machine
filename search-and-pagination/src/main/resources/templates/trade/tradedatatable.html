@@ -35,11 +35,15 @@
         <tr th:each="data : ${dataPage}">
             <td>
                 <div class="details-link">
-                    <a href="#" class="hover hover-1" th:text="${data.TradeDataId}" th:onclick="getDetails('details', [[${data.TradeDataId}]])"/>
+                    <a href="#" class="hover hover-1" th:text="${data.TradeDataId}" th:onclick="getDetails('tradedetails', [[${data.TradeDataId}]])"/>
                 </div>
             </td>
             <td th:text="${data.Symbol}"></td>
-            <td th:text="${data.AccountId}"></td>
+            <td>
+                <div class="details-link">
+                    <a href="#" class="hover hover-1" th:text="${data.AccountId}" th:onclick="getDetails('accountdetails', [[${data.AccountId}]])"/>
+                </div>
+            </td>
             <td th:text="${data.Route}"></td>
             <td th:text="${data.Val}"></td>
             <td th:text="${data.Amount}"></td>

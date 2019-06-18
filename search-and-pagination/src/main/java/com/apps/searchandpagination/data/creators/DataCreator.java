@@ -12,8 +12,6 @@ public class DataCreator {
     @Autowired
     private DataCreationAccount dataCreationAccount;
     @Autowired
-    private DataCreationAddress dataCreationAddress;
-    @Autowired
     private DataCreationTrade dataCreationTrade;
 
     public void createData(){

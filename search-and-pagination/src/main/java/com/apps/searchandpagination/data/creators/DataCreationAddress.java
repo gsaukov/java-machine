@@ -3,7 +3,9 @@ package com.apps.searchandpagination.data.creators;
 import com.apps.reflection.RandomObjectFiller;
 import com.apps.searchandpagination.cassandra.entity.AddressData;
 import com.apps.searchandpagination.cassandra.repository.AddressDataRepository;
+import com.apps.searchandpagination.persistance.converters.AccountAddressConverter;
 import com.apps.searchandpagination.persistance.converters.JsonUtils;
+import com.apps.searchandpagination.persistance.entity.AccountAddress;
 import com.apps.searchandpagination.service.account.json.AddressJson;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,29 +21,37 @@ import java.util.List;
 
 
 @Component
-@ConfigurationProperties(prefix = "data-creation.address-repository")
+@ConfigurationProperties(prefix = "data-creation")
 public class DataCreationAddress {
 
-    private Resource addressRepository;
+    private Resource addressStore;
 
     private RandomObjectFiller filler = new RandomObjectFiller();
 
     @Autowired
     private AddressDataRepository addressDataRepository;
 
-    private void createData() throws IllegalAccessException, InstantiationException {
-        if(addressDataRepository.count() == 0){
-            for(int i = 0; i < 100; i++){
-                AddressData addressData = filler.createAndFill(AddressData.class);
-                addressDataRepository.save(addressData);
-            }
+    public void createData() throws IllegalAccessException, InstantiationException {
+        for(int i = 0; i < 1000; i++){
+            AddressData addressData = filler.createAndFill(AddressData.class);
+            addressDataRepository.save(addressData);
         }
     }
 
-    public List<AddressJson> resolveAddressFromFile(){
+    public List<AccountAddress> resolveAddressFromFile(){
+        List<AccountAddress> accountAddresses = new ArrayList<>();
+        AccountAddressConverter converter = new AccountAddressConverter();
+        List<AddressJson> addressJsons = resolveJsonAddressFromFile();
+        for(AddressJson addressJson : addressJsons){
+            accountAddresses.add(converter.convert(addressJson));
+        }
+        return accountAddresses;
+    }
+
+    public List<AddressJson> resolveJsonAddressFromFile(){
         List<AddressJson> addressJsons = new ArrayList<>();
         try {
-            String content = new String(Files.readAllBytes(addressRepository.getFile().toPath()));
+            String content = new String(Files.readAllBytes(addressStore.getFile().toPath()));
             addressJsons = JsonUtils.fromJson(content, new TypeReference<List<AddressJson>>(){});
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,8 +59,8 @@ public class DataCreationAddress {
         return addressJsons;
     }
 
-    public void setAddressRepo(String addressRepository) {
-        this.addressRepository = new PathMatchingResourcePatternResolver().getResource(addressRepository);
+    public void setAddressStore(String addressStore) {
+        this.addressStore = new PathMatchingResourcePatternResolver().getResource(addressStore);
     }
 
 }
