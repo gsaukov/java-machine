@@ -6,10 +6,8 @@
 <div th:fragment="accountdetails (${accountdata})">
     <hr>
     <div th:if='${accountdata != null}'>
-        <button type="button" class="close" aria-label="Close" th:onclick="removeDetails([[${accountdata.accountId}]])">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="grid-container" style="display: grid; grid-template-columns: 350px 1fr 1fr 700px; grid-template-rows: 1fr;">
+        <a href="#" class="btn btn-default btn-close" th:onclick="removeDetails([[${accountdata.accountId}]])">&times;</a>
+        <div class="grid-container" style="z-index: -1; display: grid; grid-template-columns: 350px 1fr 1fr 700px; grid-template-rows: 1fr;">
             <div>
                 <table class="key-value-table">
                     <tbody>

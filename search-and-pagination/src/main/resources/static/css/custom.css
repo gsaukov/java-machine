@@ -238,15 +238,14 @@ a:hover {
     margin-bottom: 15px;
 }
 
-.close {
-    color: royalblue;
-    text-shadow: none;
-}
-
-.close:not(:disabled):not(.disabled):focus,
-.close:not(:disabled):not(.disabled):hover {
-    color: #0056b3;
-    text-shadow: none;
+.btn-close {
+    opacity: 0.99;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 3px;
+    padding: 3px;
 }
 
 hr{
