@@ -84,7 +84,11 @@
                         <tr th:each="address : ${addresses}">
                             <th th:text="'Address ' + ${address.addressId} + ':'"></th>
                             <td th:text="${address.street} + ' ' + ${address.city} + ' ' + ${address.state} + ' ' + ${address.postalCode}" ></td>
-                            <td><a href="#map-maprker" class="btn btn-default" style="margin: 0; padding: 0;"><i class="fas fa-map-marker-alt" ></i></a></td>
+                            <td>
+                                <a href="#" class="btn btn-default" th:onclick="new AddressMap([[${address.addressId}]], [[${accountdata.firstName} + ' ' + ${accountdata.lastName}]], [[${address.latitude}]], [[${address.longitude}]]);" style="margin: 0; padding: 0;">
+                                    <i class="fas fa-map-marker-alt" ></i>
+                                </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
