@@ -37,7 +37,7 @@
     <a href="#">Dashboard</a>
     </li>
     <li>
-    <a href="#">Shortcuts</a>
+    <a href="#" onclick="new AddressMap('aa', 'aadd', 48.1224966, -1.2120773)">Accounts</a>
     </li>
     <li>
     <a href="#">Overview</a>
@@ -63,21 +63,13 @@
             <div class="row">
                 <div class="col-lg-12" >
                     <div class="row">
-<!--                        <a href="#" class="btn btn-default" onclick="new AddressMap('aa', 'aadd', 48.1224966, -1.2120773)" style="margin: 0; padding: 0;">-->
-<!--                            <i class="fas fa-map-marker-alt" ></i>-->
-<!--                        </a>-->
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                         <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
                         <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
                     </div>
-                    <div class="collapse" id="collapseOne">
-                        <div id="formBlock">
-                            <div th:replace="trade/tradeform :: tradeform"></div>
-                        </div>
-                    </div>
-                    <div class="collapse show" id="collapseTwo" style="padding: 0;">
-                        <div id="resultBlock">
-                            <div th:replace="trade/tradedatatable :: tradedatatable (${dataPage}, ${page})"></div>
+                    <div id="homeBlock">
+                        <div th:fragment="home(file, fragment)">
+                            <div th:replace="${file} :: ${fragment}"></div>
                         </div>
                     </div>
                 </div>
@@ -90,34 +82,12 @@
 
 <script src="../static/js/AddressMap.js"></script>
 
-<!--<script>-->
-    <!--var lat            = 47.35387;-->
-    <!--var lon            = 8.43609;-->
-    <!--var zoom           = 18;-->
-
-    <!--var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984-->
-    <!--var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection-->
-    <!--var position       = new OpenLayers.LonLat(lon, lat).transform( fromProjection, toProjection);-->
-
-    <!--map = new OpenLayers.Map("Map1");-->
-
-    <!--var mapnik         = new OpenLayers.Layer.OSM();-->
-    <!--map.addLayer(mapnik);-->
-
-    <!--var markers = new OpenLayers.Layer.Markers( "Markers" );-->
-    <!--map.addLayer(markers);-->
-    <!--markers.addMarker(new OpenLayers.Marker(position));-->
-
-    <!--map.setCenter(position, zoom);-->
-<!--</script>-->
-
 <script>
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
 </script>
-
 
 <script>
     $('#tradeform').submit(function() {
@@ -134,16 +104,18 @@
     });
 </script>
 
-
 <!--<script>-->
-    <!--function submitForm(form, event) {-->
-        <!--&lt;!&ndash;console.log("form", form);&ndash;&gt;-->
-        <!--event.preventDefault();-->
-        <!--var data = form.submit();-->
-        <!--$("#tradedatatable").html(data);-->
-        <!--return false;-->
-    <!--}-->
+    <!--window.onload = function() {-->
+        <!--getHome('/');-->
+    <!--};-->
 <!--</script>-->
+
+<script>
+    function getHome(urlParam) {
+        window.event.preventDefault();
+        $("#homeBlock").load(url);
+    }
+</script>
 
 <script>
     function getTable(urlParam, pageNum, size) {

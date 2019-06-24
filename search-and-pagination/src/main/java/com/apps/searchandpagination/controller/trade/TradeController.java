@@ -38,6 +38,8 @@ public class TradeController {
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         model.addAttribute("tradeSearchRequest", new TradeSearchRequest());
+        model.addAttribute("file", "trade/tradehome");
+        model.addAttribute("fragment", "tradehome");
         return "home";
     }
 
@@ -59,7 +61,7 @@ public class TradeController {
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
-        Optional<TradeDetailsCriteria> criteria = searchKeeper.getSearchCriteria(searchId);
+        Optional<TradeDetailsCriteria> criteria = searchKeeper.getTradeSearchCriteria(searchId);
         Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), criteria);
 
         PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(criteria));

@@ -1,6 +1,9 @@
 package com.apps.searchandpagination.controller.account;
 
 import com.apps.searchandpagination.controller.PageWrapper;
+import com.apps.searchandpagination.persistance.entity.AccountData;
+import com.apps.searchandpagination.persistance.query.account.AccountDataCriteria;
+import com.apps.searchandpagination.service.SearchKeeper;
 import com.apps.searchandpagination.service.account.AccountDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,8 +18,8 @@ import java.util.Optional;
 @Controller
 public class AccountController {
 
-    @Autowired
     private AccountDataService accountDataService;
+    private SearchKeeper searchKeeper;
 
     @GetMapping({"accountdetails/"})
     public String getDetails(
@@ -27,19 +30,37 @@ public class AccountController {
     }
 
     @GetMapping({"accountdatatable/"})
-    public String home(
+    public String accountDataTable(
             Model model,
             @RequestParam("page") Optional<Integer> optCurrentPage,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = optCurrentPage.orElse(0);
         int pageSize = size.orElse(10);
 
-        Page<TradeData> dataPage = accountDataService.findTrades(PageRequest.of(currentPage, pageSize), Optional.empty());
+        Page<AccountData> dataPage = accountDataService.findAccounts(PageRequest.of(currentPage, pageSize), Optional.empty());
 
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(Optional.empty()));
+        PageWrapper<AccountData> page = new PageWrapper<>(dataPage, constructUrl(Optional.empty()));
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
-        model.addAttribute("tradeSearchRequest", new TradeSearchRequest());
-        return "home";
+        return "account/accountdatatable :: accountdatatable";
+    }
+
+    private String constructUrl(Optional<AccountDataCriteria> criteria){
+        if(!criteria.isPresent()){
+            return "accountdatatable/?searchid=";
+        } else {
+            String searchId = searchKeeper.addSearchCriteria(criteria.get());
+            return "accountdatatable/?searchid=" + searchId;
+        }
+    }
+
+    @Autowired
+    public void setAccountDataService(AccountDataService accountDataService) {
+        this.accountDataService = accountDataService;
+    }
+
+    @Autowired
+    public void setSearchKeeper(SearchKeeper searchKeeper) {
+        this.searchKeeper = searchKeeper;
     }
 }

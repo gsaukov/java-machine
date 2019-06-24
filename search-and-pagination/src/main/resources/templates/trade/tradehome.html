@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+
+<body>
+    <div th:fragment="tradehome">
+        <div class="collapse" id="collapseOne">
+            <div id="formBlock">
+                <div th:replace="trade/tradeform :: tradeform"></div>
+            </div>
+        </div>
+        <div class="collapse show" id="collapseTwo" style="padding: 0;">
+            <div id="resultBlock">
+                <div th:replace="trade/tradedatatable :: tradedatatable (${dataPage}, ${page})"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
