@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+
+<body>
+<div id="tradedatatable" th:fragment="tradedatatable (dataPage, page)">
+    <table  class="table table-striped table-bordered table-sm table-dark" cellspacing="0" width="100%" style="min-width: 1400px" >
+        <thead>
+        <tr>
+
+            <th><h1>Id</h1></th>
+            <th><h1>Symbol</h1></th>
+            <th><h1>Account</h1></th>
+            <th><h1>Route</h1></th>
+            <th><h1>Val</h1></th>
+            <th><h1>Amount</h1></th>
+            <th><h1>Date</h1></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${dataPage}">
+            <td>
+                <div class="details-link">
+                    <a href="#" class="hover hover-1" th:text="${data.TradeDataId}" th:onclick="getDetails('tradedetails', [[${data.TradeDataId}]])"/>
+                </div>
+            </td>
+            <td th:text="${data.Symbol}"></td>
+            <td>
+                <div class="details-link">
+                    <a href="#" class="hover hover-1" th:text="${data.AccountId}" th:onclick="getDetails('accountdetails', [[${data.AccountId}]])"/>
+                </div>
+            </td>
+            <td th:text="${data.Route}"></td>
+            <td th:text="${data.Val}"></td>
+            <td th:text="${data.Amount}"></td>
+            <td th:text="${data.Date}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:replace="paginationbar :: paginationbar (${page})"></div>
+</div>
+</body>
+</html>
