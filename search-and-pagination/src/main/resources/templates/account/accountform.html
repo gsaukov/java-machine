@@ -1,0 +1,85 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="../static/css/bootstrap.min.css" th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+    <link href="../static/css/font-awesome.css" th:href="@{/static/css/font-awesome.css}" rel="stylesheet">
+    <link href="../static/css/custom.css" th:href="@{/static/css/custom.css}" rel="stylesheet" />
+    <link href="../static/css/fontelloembedded.css" th:href="@{/static/css/fontelloembedded.css}" rel="stylesheet" />
+    <link href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" rel="stylesheet" >
+
+
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/popper.min.js" ></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.min.js"></script>
+    <script src="https://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+</head>
+
+<body>
+    <div th:fragment="accountform">
+        <form id="accountform" action="#" th:action="@{/accountsearch}" th:object="${accountSearchRequest}" method="post">
+            <div class="column-container">
+                <div class="row-container">
+                    <fieldset class="form-group">
+                        <legend>Accounts and addresses</legend>
+                        <div class="row-container">
+                            <textarea id="accounts" th:field="*{accounts}" placeholder="Accounts comma separated" class="form-control" style="height: 3em; width: 22em; margin-right: 10px;"></textarea>
+                            <textarea id="addresses" th:field="*{addresses}" placeholder="Addresses comma separated" class="form-control" style="height: 3em; width: 22em; margin-right: 10px;"></textarea>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <legend>Account data</legend>
+                        <div class="row-container">
+                            <input id="email" th:field="*{email}" type="text" placeholder="Email" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
+                            <input id="firstName" th:field="*{firstName}" type="text" placeholder="First Name" class="form-control leftMerge" style="width: 13em; min-width: 10em;"/>
+                            <select id="firstNameComparisonType" th:field="*{firstNameComparisonType}" class="form-control rightMerge" style="width: 4em; margin-right: 10px;">
+                                <option value="=">=</option>
+                                <option value="%">%</option>
+                            </select>
+                            <input id="lastName" th:field="*{lastName}" type="text" placeholder="Last Name" class="form-control leftMerge" style="width: 13em; min-width: 10em;"/>
+                            <select id="lastNameComparisonType" th:field="*{lastNameComparisonType}" class="form-control rightMerge" style="width: 4em; margin-right: 10px;">
+                                <option value="=">=</option>
+                                <option value="%">%</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="row-container">
+                    <fieldset class="form-group">
+                        <legend>Address data</legend>
+                        <div class="row-container">
+                            <input id="city" th:field="*{city}" type="text" placeholder="City" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
+                            <input id="state" th:field="*{state}" type="text" placeholder="State" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
+                            <input id="postalCode" th:field="*{postalCode}" type="text" placeholder="Postal Code" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <legend>Result Order and Size</legend>
+                        <div class="row-container">
+                            <select id="order" th:field="*{order}" class="form-control" style="width: 8em; margin-right: 10px;">
+                                <option value="ACCOUNT">ACCOUNT</option>
+                                <option value="CITY">CITY</option>
+                                <option value="LAST_NAME">LAST NAME</option>
+                            </select>
+                            <select id="itemsSize" th:field="*{itemsSize}" class="form-control" style="width: 5em; margin-right: 10px;">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                            </select>
+                            <input type="submit" value="submit" onClick="submitForm(event, 'accountform', 'accountdatatable');" class="btn btn-default" style="width: 6em;"/>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -90,18 +90,20 @@
 </script>
 
 <script>
-    $('#tradeform').submit(function() {
+    function submitForm(e, formId, targetId) {
+        var form = document.getElementById(formId)
+        var table = document.getElementById(targetId)
+        e.preventDefault();
         $.ajax({
-                data: $(this).serialize(),
-                type: $(this).attr('method'),
-                url: $(this).attr('action'),
+                data: $(form).serialize(),
+                type: $(form).attr('method'),
+                url: $(form).attr('action'),
                 success: function(response) {
                     <!--console.log("response", response);-->
-                    $('#tradedatatable').replaceWith(response);
-                }
-        });
-        return false;
-    });
+                    $(table).replaceWith(response);
+                    }
+                });
+    }
 </script>
 
 <script>
