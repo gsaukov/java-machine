@@ -43,6 +43,23 @@ public class TradeController {
         return "home";
     }
 
+    @GetMapping({"tradehome/"})
+    public String tradeHome(
+            Model model,
+            @RequestParam("page") Optional<Integer> optCurrentPage,
+            @RequestParam("size") Optional<Integer> size) {
+        int currentPage = optCurrentPage.orElse(0);
+        int pageSize = size.orElse(10);
+
+        Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), Optional.empty());
+
+        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(Optional.empty()));
+        model.addAttribute("page", page);
+        model.addAttribute("dataPage", dataPage);
+        model.addAttribute("tradeSearchRequest", new TradeSearchRequest());
+        return "trade/tradehome :: tradehome";
+    }
+
     @PostMapping("/tradesearch")
     public String tradeSearch (Model model, @ModelAttribute TradeSearchRequest request) {
         Optional<TradeDetailsCriteria> criteria = tradeSearchConverter.convert(request);

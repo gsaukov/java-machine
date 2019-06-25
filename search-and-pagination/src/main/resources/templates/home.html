@@ -37,10 +37,10 @@
     <a href="#">Dashboard</a>
     </li>
     <li>
-    <a href="#" onclick="new AddressMap('aa', 'aadd', 48.1224966, -1.2120773)">Accounts</a>
+    <a href="#" onclick="getHome('accounthome/')">Accounts</a>
     </li>
     <li>
-    <a href="#">Overview</a>
+    <a href="#" onclick="getHome('tradehome/')">Trades</a>
     </li>
     <li>
     <a href="#">Events</a>
@@ -104,16 +104,11 @@
     });
 </script>
 
-<!--<script>-->
-    <!--window.onload = function() {-->
-        <!--getHome('/');-->
-    <!--};-->
-<!--</script>-->
-
 <script>
     function getHome(urlParam) {
         window.event.preventDefault();
-        $("#homeBlock").load(url);
+        $("#wrapper").toggleClass("toggled");
+        $("#homeBlock").load(urlParam);
     }
 </script>
 

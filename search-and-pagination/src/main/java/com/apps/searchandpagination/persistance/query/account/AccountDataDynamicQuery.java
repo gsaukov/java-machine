@@ -36,6 +36,7 @@ public class AccountDataDynamicQuery {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<AccountData> queryAccountData = builder.createQuery(AccountData.class);
+        queryAccountData.distinct(true);
 
         Root<AccountData> rootAccountData = queryAccountData.from(AccountData.class);
         Join<AccountData, AccountAddress> joinAccountAddress = rootAccountData.join(AccountData_.addresses);
@@ -140,7 +141,7 @@ public class AccountDataDynamicQuery {
         CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
         Root<AccountData> rootAccountData = countQuery.from(AccountData.class);
         Join<AccountData, AccountAddress> joinAccountAddress = rootAccountData.join(AccountData_.addresses);
-        countQuery.select(builder.count(joinAccountAddress));
+        countQuery.select(builder.countDistinct(rootAccountData));
         List<Predicate> predicates = createQueryAccountsPredicates(accountDataCriteria, builder, rootAccountData, joinAccountAddress);
         countQuery.where(predicates.toArray(new Predicate[]{}));
         return entityManager.createQuery(countQuery).getSingleResult();

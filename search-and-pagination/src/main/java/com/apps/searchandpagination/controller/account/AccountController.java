@@ -29,6 +29,22 @@ public class AccountController {
         return "account/accountdetails :: accountdetails";
     }
 
+    @GetMapping({"accounthome/"})
+    public String accountHome(
+            Model model,
+            @RequestParam("page") Optional<Integer> optCurrentPage,
+            @RequestParam("size") Optional<Integer> size) {
+        int currentPage = optCurrentPage.orElse(0);
+        int pageSize = size.orElse(10);
+
+        Page<AccountData> dataPage = accountDataService.findAccounts(PageRequest.of(currentPage, pageSize), Optional.empty());
+
+        PageWrapper<AccountData> page = new PageWrapper<>(dataPage, constructUrl(Optional.empty()));
+        model.addAttribute("page", page);
+        model.addAttribute("dataPage", dataPage);
+        return "account/accounthome :: accounthome";
+    }
+
     @GetMapping({"accountdatatable/"})
     public String accountDataTable(
             Model model,

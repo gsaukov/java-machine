@@ -9,31 +9,23 @@
         <tr>
 
             <th><h1>Id</h1></th>
-            <th><h1>Symbol</h1></th>
-            <th><h1>Account</h1></th>
-            <th><h1>Route</h1></th>
-            <th><h1>Val</h1></th>
-            <th><h1>Amount</h1></th>
-            <th><h1>Date</h1></th>
+            <th><h1>Name</h1></th>
+            <th><h1>Email</h1></th>
+            <th><h1>Phone</h1></th>
+            <th><h1>Registration</h1></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="data : ${dataPage}">
             <td>
                 <div class="details-link">
-                    <a href="#" class="hover hover-1" th:text="${data.TradeDataId}" th:onclick="getDetails('tradedetails', [[${data.TradeDataId}]])"/>
+                    <a href="#" class="hover hover-1" th:text="${data.accountId}" th:onclick="getDetails('accountdetails', [[${data.accountId}]])"/>
                 </div>
             </td>
-            <td th:text="${data.Symbol}"></td>
-            <td>
-                <div class="details-link">
-                    <a href="#" class="hover hover-1" th:text="${data.AccountId}" th:onclick="getDetails('accountdetails', [[${data.AccountId}]])"/>
-                </div>
-            </td>
-            <td th:text="${data.Route}"></td>
-            <td th:text="${data.Val}"></td>
-            <td th:text="${data.Amount}"></td>
-            <td th:text="${data.Date}"></td>
+            <td th:text="${data.firstName} + ' ' + ${data.lastName}"></td>
+            <td th:text="${data.email}"></td>
+            <td th:text="${data.phone}"></td>
+            <td th:text="${data.creationDate}"></td>
         </tr>
         </tbody>
     </table>
