@@ -25,6 +25,8 @@ public class AccountController {
     private AccountDataService accountDataService;
     private SearchKeeper searchKeeper;
 
+    private final String DEFAULT_ACCOUNT_DATA_TABLE_ID = "accountdatatable";
+
     @GetMapping({"accountdetails/"})
     public String getDetails(
             @RequestParam("detailId") String accountId,
@@ -43,7 +45,7 @@ public class AccountController {
 
         Page<AccountData> dataPage = accountDataService.findAccounts(PageRequest.of(currentPage, pageSize), Optional.empty());
 
-        PageWrapper<AccountData> page = new PageWrapper<>(dataPage, constructUrl(Optional.empty()));
+        PageWrapper<AccountData> page = new PageWrapper<>(dataPage, constructUrl(Optional.empty()), DEFAULT_ACCOUNT_DATA_TABLE_ID);
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         model.addAttribute("accountSearchRequest", new  AccountSearchRequest());
@@ -62,7 +64,7 @@ public class AccountController {
         Optional<AccountDataCriteria> criteria = searchKeeper.getAccountSearchCriteria(searchId);
         Page<AccountData> dataPage = accountDataService.findAccounts(PageRequest.of(currentPage, pageSize), criteria);
 
-        PageWrapper<AccountData> page = new PageWrapper<>(dataPage, constructUrl(Optional.empty()));
+        PageWrapper<AccountData> page = new PageWrapper<>(dataPage, constructUrl(Optional.empty()), DEFAULT_ACCOUNT_DATA_TABLE_ID);
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "account/accountdatatable :: accountdatatable";
@@ -72,7 +74,7 @@ public class AccountController {
     public String accountSearch (Model model, @ModelAttribute AccountSearchRequest request) {
         Optional<AccountDataCriteria> criteria = accountSearchConverter.convert(request);
         Page<AccountData> dataPage = accountDataService.findAccounts(PageRequest.of(0, Integer.valueOf(request.getItemsSize())), criteria);
-        PageWrapper<AccountData> page = new PageWrapper<>(dataPage, constructUrl(criteria));
+        PageWrapper<AccountData> page = new PageWrapper<>(dataPage, constructUrl(criteria), DEFAULT_ACCOUNT_DATA_TABLE_ID);
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "account/accountdatatable :: accountdatatable";

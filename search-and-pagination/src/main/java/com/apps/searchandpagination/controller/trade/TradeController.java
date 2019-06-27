@@ -24,6 +24,8 @@ public class TradeController {
     private TradeSearchConverter tradeSearchConverter;
     private SearchKeeper searchKeeper;
 
+    private final String DEFAULT_TRADE_DATA_TABLE_ID = "tradedatatable";
+
     @GetMapping({"/"})
     public String home(
             Model model,
@@ -34,7 +36,7 @@ public class TradeController {
 
         Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), Optional.empty());
 
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(Optional.empty()));
+        PageWrapper<TradeData> page = new PageWrapper<>(dataPage, constructUrl(Optional.empty()), DEFAULT_TRADE_DATA_TABLE_ID);
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         model.addAttribute("tradeSearchRequest", new TradeSearchRequest());
@@ -53,7 +55,7 @@ public class TradeController {
 
         Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), Optional.empty());
 
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(Optional.empty()));
+        PageWrapper<TradeData> page = new PageWrapper<>(dataPage, constructUrl(Optional.empty()), DEFAULT_TRADE_DATA_TABLE_ID);
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         model.addAttribute("tradeSearchRequest", new TradeSearchRequest());
@@ -64,7 +66,7 @@ public class TradeController {
     public String tradeSearch (Model model, @ModelAttribute TradeSearchRequest request) {
         Optional<TradeDetailsCriteria> criteria = tradeSearchConverter.convert(request);
         Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(0, Integer.valueOf(request.getItemsSize())), criteria);
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(criteria));
+        PageWrapper<TradeData> page = new PageWrapper<>(dataPage, constructUrl(criteria), constructTableId(criteria));
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "trade/tradedatatable :: tradedatatable";
@@ -81,7 +83,7 @@ public class TradeController {
         Optional<TradeDetailsCriteria> criteria = searchKeeper.getTradeSearchCriteria(searchId);
         Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(currentPage, pageSize), criteria);
 
-        PageWrapper<TradeData> page = new PageWrapper<TradeData>(dataPage, constructUrl(criteria));
+        PageWrapper<TradeData> page = new PageWrapper<>(dataPage, constructUrl(criteria), constructTableId(criteria));
         model.addAttribute("page", page);
         model.addAttribute("dataPage", dataPage);
         return "trade/tradedatatable :: tradedatatable";
@@ -101,6 +103,14 @@ public class TradeController {
         } else {
             String searchId = searchKeeper.addSearchCriteria(criteria.get());
             return "tradesearchpage/?searchid=" + searchId;
+        }
+    }
+
+    private String constructTableId(Optional<TradeDetailsCriteria> criteria){
+        if(!criteria.isPresent() || criteria.get().getTableId() == null){
+            return DEFAULT_TRADE_DATA_TABLE_ID;
+        } else {
+            return criteria.get().getTableId();
         }
     }
 

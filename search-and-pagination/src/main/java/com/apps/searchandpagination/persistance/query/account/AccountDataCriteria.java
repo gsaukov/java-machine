@@ -108,7 +108,6 @@ public class AccountDataCriteria {
 
     public enum Order {
         ACCOUNT,
-        CITY,
         LAST_NAME
     }
 

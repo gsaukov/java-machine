@@ -1,6 +1,7 @@
 package com.apps.searchandpagination.controller.trade;
 
 public class TradeSearchRequest {
+    private String tableId;
     private String ids;
     private String symbols;
     private String accounts;
@@ -17,6 +18,14 @@ public class TradeSearchRequest {
     private String lastNameComparisonType;
     private String itemsSize;
     private String order;
+
+    public String getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
+    }
 
     public String getIds() {
         return ids;

@@ -16,31 +16,31 @@
                 <ul class='pagination pg-dark-grey justify-content-center  pagination-sm'>
                     <li th:class="${page.firstPage}? 'page-item disabled' : 'page-item'">
                         <span class="page-link" th:if='${page.firstPage}'>← First</span>
-                        <a class="page-link" href="#" th:onclick="getTable([[${page.url}]],0,[[${page.size}]])"
+                        <a class="page-link" href="#" th:onclick="getTable([[${page.tableId}]],[[${page.url}]],0,[[${page.size}]])"
                            th:if='${not page.firstPage}' >← First</a>
                     </li>
                     <li th:class="${page.hasPreviousPage}? 'page-item' : 'page-item disabled'">
                         <span class="page-link" th:if='${not page.hasPreviousPage}'>«</span>
                         <a class="page-link" href="#" th:if='${page.hasPreviousPage}'
-                           th:onclick="getTable([[${page.url}]],[[${page.number-2}]],[[${page.size}]])"
+                           th:onclick="getTable([[${page.tableId}]],[[${page.url}]],[[${page.number-2}]],[[${page.size}]])"
                            title='Go to previous page'>«</a>
                     </li>
                     <li th:each='item : ${page.items}' th:class="${item.current}? 'page-item active' : 'page-item'">
                         <span class="page-link" th:if='${item.current}' th:text='${item.number}'>1</span>
                         <a class="page-link" href="#" th:if='${not item.current}'
-                           th:onclick="getTable([[${page.url}]],[[${item.number-1}]],[[${page.size}]])"><span
+                           th:onclick="getTable([[${page.tableId}]],[[${page.url}]],[[${item.number-1}]],[[${page.size}]])"><span
                                 th:text='${item.number}'>1</span></a>
                     </li>
                     <li th:class="${page.hasNextPage}? 'page-item' : 'page-item disabled'">
                         <span class="page-link" th:if='${not page.hasNextPage}'>»</span>
                         <a class="page-link" href="#" th:if='${page.hasNextPage}'
-                           th:onclick="getTable([[${page.url}]],[[${page.number}]],[[${page.size}]])"
+                           th:onclick="getTable([[${page.tableId}]],[[${page.url}]],[[${page.number}]],[[${page.size}]])"
                            title='Go to next page'>»</a>
                     </li>
                     <li th:class="${page.lastPage}? 'page-item disabled' : 'page-item'">
                         <span class="page-link" th:if='${page.lastPage}' th:text="${'Last (' + page.totalPages + ') →'}"></span>
                         <a class="page-link" href="#" th:if='${not page.lastPage}'
-                           th:onclick="getTable([[${page.url}]],[[${page.totalPages - 1}]],[[${page.size}]])"
+                           th:onclick="getTable([[${page.tableId}]],[[${page.url}]],[[${page.totalPages - 1}]],[[${page.size}]])"
                            th:text="${'Last (' + page.totalPages + ') →'}"></a>
                     </li>
                 </ul>

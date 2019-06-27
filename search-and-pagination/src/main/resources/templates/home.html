@@ -74,6 +74,7 @@
                     </div>
                 </div>
             </div>
+            <div id="detailsTableBlock"></div>
             <div id="mapBlock"></div>
             <div id="detailsBlock"></div>
         </div>
@@ -91,8 +92,8 @@
 
 <script>
     function submitForm(e, formId, targetId) {
-        var form = document.getElementById(formId)
-        var table = document.getElementById(targetId)
+        var form = document.getElementById(formId);
+        var table = document.getElementById(targetId);
         e.preventDefault();
         $.ajax({
                 data: $(form).serialize(),
@@ -107,6 +108,42 @@
 </script>
 
 <script>
+    var existingDetailsTableId = null;
+
+    function getAccountTrades(accountId) {
+        window.event.preventDefault();
+        removeDetailsTable(existingDetailsTableId);
+        var divId = 'accountTrades' + accountId;
+        var url = '/tradesearch';
+        var data = new FormData();
+        data.append('accounts', accountId);
+        data.append('order', 'DATE');
+        data.append('itemsSize', '1');
+        data.append('tableId', 'tradedatateble' + accountId);
+        fetch(url, {
+            method: "POST",
+            body: data,
+        }).then(
+            function(response) {
+                // console.log(response);
+                // console.log('=============================================================================================');
+                // console.log(response.text());
+                return response.text();
+            }
+        ).then(
+            function(text) {
+                var detailsTableBlock = document.getElementById('detailsTableBlock');
+                $(detailsTableBlock).append("<div id=\"" + divId + "\"><\/div>");
+                var target = document.getElementById(divId);
+                $(target).append("<a href='#' class='btn btn-default btn-close' onclick=\"removeDetailsTable('" + divId + "')\">&times;</a>")
+                $(target).append(text);
+                existingDetailsTableId = divId;
+            }
+        );
+    }
+</script>
+
+<script>
     function getHome(urlParam) {
         window.event.preventDefault();
         $("#wrapper").toggleClass("toggled");
@@ -115,11 +152,12 @@
 </script>
 
 <script>
-    function getTable(urlParam, pageNum, size) {
+    function getTable(tableId, urlParam, pageNum, size) {
         window.event.preventDefault();
         var url = urlParam + '&page=' + pageNum + '&size=' + size;
         console.log("url", url);
-        $("#resultBlock").load(url);
+        var table = document.getElementById(tableId);
+        $(table).load(url);
     }
 </script>
 
@@ -146,6 +184,20 @@
         $(divId).fadeOut("normal", function() {
             $(this).remove();
         });
+    }
+</script>
+
+<script>
+    function removeDetailsTable(tableId) {
+        window.event.preventDefault();
+        var divId = "#" + tableId;
+        var first = $(divId).firstElementChild;
+        while (first) {
+            first.remove();
+            first = e.firstElementChild;
+        }
+        $(divId).remove();
+        existingDetailsTableId = null
     }
 </script>
 

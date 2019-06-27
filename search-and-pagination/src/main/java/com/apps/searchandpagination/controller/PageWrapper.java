@@ -7,10 +7,17 @@ import java.util.List;
 
 public class PageWrapper<T> {
     public static final int MAX_PAGE_ITEM_DISPLAY = 10;
+
+    private String tableId;
     private Page<T> page;
     private List<PageItem> items;
     private int currentNumber;
     private String url;
+
+    public PageWrapper(Page<T> page, String url, String tableId){
+        this(page, url);
+        this.tableId = tableId;
+    }
 
     public PageWrapper(Page<T> page, String url){
         this.page = page;
@@ -39,6 +46,14 @@ public class PageWrapper<T> {
         for (int i = 0; i<size; i++){
             items.add(new PageItem(start+i, (start+i)==currentNumber));
         }
+    }
+
+    public String getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
     }
 
     public String getUrl() {

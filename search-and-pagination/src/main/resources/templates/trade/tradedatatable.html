@@ -17,7 +17,7 @@
 <!--https://stackoverflow.com/questions/37347690/how-to-replace-div-with-another-div-in-javascript-->
 <!--https://stackoverflow.com/questions/9855656/how-to-submit-a-form-using-javascript-->
 <!--https://stackoverflow.com/questions/1218245/jquery-submit-form-and-then-show-results-in-an-existing-div-->
-<div id="tradedatatable" th:fragment="tradedatatable (dataPage, page)">
+<div th:id="${page.tableId}" th:fragment="tradedatatable (dataPage, page)">
     <table  class="table table-striped table-bordered table-sm table-dark" cellspacing="0" width="100%" style="min-width: 1400px" >
         <thead>
         <tr>

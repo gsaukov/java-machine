@@ -3,7 +3,7 @@
 </head>
 
 <body>
-<div id="accountdatatable" th:fragment="accountdatatable (dataPage, page)">
+<div th:id="${page.tableId}" th:fragment="accountdatatable (dataPage, page)">
     <table  class="table table-striped table-bordered table-sm table-dark" cellspacing="0" width="100%" style="min-width: 1400px" >
         <thead>
         <tr>
@@ -13,6 +13,7 @@
             <th><h1>Email</h1></th>
             <th><h1>Phone</h1></th>
             <th><h1>Registration</h1></th>
+            <th><h1>Trades</h1></th>
         </tr>
         </thead>
         <tbody>
@@ -26,6 +27,11 @@
             <td th:text="${data.email}"></td>
             <td th:text="${data.phone}"></td>
             <td th:text="${data.creationDate}"></td>
+            <td>
+                <div class="details-link">
+                    <a href="#" class="hover hover-1" th:text="'SEE TRADES'" th:onclick="getAccountTrades([[${data.accountId}]])"/>
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>

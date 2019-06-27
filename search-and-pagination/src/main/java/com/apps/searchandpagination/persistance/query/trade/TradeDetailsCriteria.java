@@ -10,6 +10,7 @@ public class TradeDetailsCriteria {
 
     public static final TradeDetailsCriteria EMPTY_CRITERIA = new TradeDetailsCriteria();
 
+    private String tableId;
     private List<String> ids;
     private List<String> symbols;
     private List<String> accounts;
@@ -24,6 +25,14 @@ public class TradeDetailsCriteria {
     private String lastName;
     private ComparisonType lastNameComparisonType;
     private Order order;
+
+    public String getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
+    }
 
     public List<String> getIds() {
         return ids;

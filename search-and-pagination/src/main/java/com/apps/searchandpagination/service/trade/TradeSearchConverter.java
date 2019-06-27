@@ -25,6 +25,7 @@ public class TradeSearchConverter {
     public Optional<TradeDetailsCriteria> convert(TradeSearchRequest request){
         TradeDetailsCriteria criteria = new TradeDetailsCriteria();
 
+        criteria.setTableId(request.getTableId());
         criteria.setIds(parseIn(request.getIds()));
         criteria.setSymbols(parseIn(request.getSymbols()));
         criteria.setAccounts(parseIn(request.getAccounts()));

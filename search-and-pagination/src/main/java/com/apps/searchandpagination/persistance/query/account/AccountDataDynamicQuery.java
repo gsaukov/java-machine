@@ -127,9 +127,6 @@ public class AccountDataDynamicQuery {
             case ACCOUNT:
                 queryAccountData.orderBy(builder.desc(rootAccountData.get(AccountData_.accountId)));
                 break;
-            case CITY:
-                queryAccountData.orderBy(builder.desc(joinAccountAddress.get(AccountAddress_.city)));
-                break;
             case LAST_NAME:
             default:
                 queryAccountData.orderBy(builder.desc(rootAccountData.get(AccountData_.lastName)));
