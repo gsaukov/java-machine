@@ -3,7 +3,7 @@
 </head>
 
 <body>
-    <div class="row" th:fragment='paginationbar (page)'>
+    <div class="row" th:fragment='paginationbar (page)' style="margin: 0px">
         <div class="col-sm-5">
             <div class="pagination"><p><span class="badge" th:text="${page.size * (page.number-1) + 1}"></span> to
                 <span class="badge" th:text="${page.lastPage ? page.totalElements : page.size * (page.number-1)+ page.size}"></span> items of

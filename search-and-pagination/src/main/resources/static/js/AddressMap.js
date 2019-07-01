@@ -31,7 +31,7 @@ function rebuildHtmlBlock(mapId){
 
     var newMapDiv = document.createElement("div");
     newMapDiv.innerHTML = "<div id='" + mapId + "' style='height:250px;'>" +
-        "<a href='#' id='mapClose' class='btn btn-default btn-close' onclick=\"removeMap('" + mapId + "')\" style='position: absolute; right: 50px; z-index: 1000;'>&times;</a>" +
+        "<a href='#' id='mapClose' class='btn btn-default btn-close' onclick=\"removeMap('" + mapId + "')\" style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>" +
         "<div id='popup'/>" +
         "<div/>";
 
