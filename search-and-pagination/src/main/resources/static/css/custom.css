@@ -7,6 +7,7 @@ html {
 }
 
 html body {
+    padding-right: 0 !important;
     background-color: #0b0e16;
     color: #a1afc3;
 }
@@ -293,4 +294,26 @@ hr{
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   border-left:0px;
+}
+
+.modal-dialog {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.modal-content {
+    background: #323436;
+    -webkit-border-radius: 1px !important;
+    -moz-border-radius: 1px !important;
+    border-color: #a1afc3;
+    border-radius: 1px !important;
+}
+
+.modal-header {
+    border-bottom: 0 none;
+}
+
+.modal-footer {
+    border-top: 0 none;
 }
