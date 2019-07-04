@@ -7,12 +7,12 @@
     <div class="modal fade" id="modalWindow" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="modalWindowLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <a href="#" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px;">&times;</a>
+                <a href="#" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close" onclick="$('#modalWindowLabel').html('Modal title'); $('#modalWindowBody').html('Modal body');" style="position: absolute; right: 10px;">&times;</a>
                 <div class="modal-header">
                     <h5 id="modalWindowLabel" class="modal-title" >Modal title</h5>
                 </div>
                 <div id="modalWindowBody" class="modal-body">
-
+                    Modal body
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
