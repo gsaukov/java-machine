@@ -133,15 +133,12 @@
         var form = document.getElementById(formId);
         var table = document.getElementById(targetId);
         e.preventDefault();
-        $.ajax({
-                data: $(form).serialize(),
-                type: $(form).attr('method'),
-                url: $(form).attr('action'),
-                success: function(response) {
-                    <!--console.log("response", response);-->
-                    $(table).replaceWith(response);
-                    }
-                });
+
+        var onResponse = function(response) {
+            $(table).replaceWith(response);
+        }
+
+        doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
     }
 </script>
 
@@ -157,24 +154,46 @@
         data.append('order', 'DATE');
         data.append('itemsSize', '5');
         data.append('tableId', 'tradedatateble' + accountId);
+
+        var divElem = document.getElementById(divId);
+        if (divElem === null) {
+
+            var onResponse = function (text) {
+                removeDetailsTable(existingDetailsTableId);
+                var detailsTableBlock = document.getElementById('detailsTableBlock');
+                $(detailsTableBlock).append("<div id=\"" + divId + "\"><\/div>");
+                var target = document.getElementById(divId);
+                $(target).append("<a href='#' class='btn btn-default btn-close' onclick=\"removeDetailsTable('" + divId + "')\" style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>");
+                $(target).append(text);
+                existingDetailsTableId = divId;
+            }
+
+            doFetch(url, "POST", data, onResponse);
+        }
+    }
+</script>
+
+<script>
+    function doFetch(url, method, data, onResponse) {
+        doFetch(url, method, data, onResponse, null)
+    }
+
+    function doFetch(url, method, data, onResponse, extraDetails) {
+        window.event.preventDefault();
         fetch(url, {
-            method: "POST",
+            method: method,
             body: data,
         }).then(
             function(response) {
-                // console.log(response);
-                // console.log('=============================================================================================');
-                // console.log(response.text());
                 return response.text();
             }
         ).then(
             function(text) {
-                var detailsTableBlock = document.getElementById('detailsTableBlock');
-                $(detailsTableBlock).append("<div id=\"" + divId + "\"><\/div>");
-                var target = document.getElementById(divId);
-                $(target).append("<a href='#' class='btn btn-default btn-close' onclick=\"removeDetailsTable('" + divId + "')\" style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>")
-                $(target).append(text);
-                existingDetailsTableId = divId;
+                if(extraDetails === null ) {
+                    onResponse(text);
+                } else {
+                    onResponse(text, extraDetails);
+                }
             }
         ).catch(function(error) {
             $('#exampleModal').modal('show')
@@ -183,10 +202,25 @@
 </script>
 
 <script>
+    function buildData(formElement) {
+        const data = new URLSearchParams();
+        for (const pair of new FormData(formElement)) {
+            data.append(pair[0], pair[1]);
+        }
+        return data;
+    }
+</script>
+
+<script>
     function getHome(urlParam) {
         window.event.preventDefault();
         $("#wrapper").toggleClass("toggled");
-        $("#homeBlock").load(urlParam);
+
+        var onResponse = function (response) {
+            $("#homeBlock").html(response);
+        }
+
+        doFetch(urlParam, "GET", null, onResponse);
     }
 </script>
 
@@ -194,9 +228,13 @@
     function getTable(tableId, urlParam, pageNum, size) {
         window.event.preventDefault();
         var url = urlParam + '&page=' + pageNum + '&size=' + size;
-        console.log("url", url);
-        var table = document.getElementById(tableId);
-        $(table).load(url);
+
+        var onResponse = function (response) {
+            var target = document.getElementById(tableId);
+            $(target).html(response);
+        }
+
+        doFetch(url, "GET", null, onResponse);
     }
 </script>
 
@@ -204,14 +242,16 @@
     function getDetails(urlParam, detailId) {
         window.event.preventDefault();
         var url = urlParam + '/?detailId=' + detailId;
-        var divId = "#" + detailId;
-        console.log("divId", divId);
-
         var divElem = document.getElementById(detailId);
-        if (divElem === null){
-            $('#detailsBlock').append("<div id=\"" + detailId + "\"><\/div>");
-            console.log("url", url);
-            $(divId).load(url);
+
+        if (divElem === null) {
+            var onResponse = function (response) {
+                $('#detailsBlock').append("<div id=\"" + detailId + "\"><\/div>");
+                var target = document.getElementById(detailId);
+                $(target).html(response);
+            }
+
+            doFetch(url, "GET", null, onResponse);
         }
     }
 </script>
