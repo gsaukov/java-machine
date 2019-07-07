@@ -66,7 +66,9 @@
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                 <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
                 <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
-                <a href="#" class="btn btn-default" onclick="showModal()">Modal</a>
+                <a href="#" class="btn btn-default" onclick="showMod()">Modal</a>
+                <a href="#" class="btn btn-default" onclick="showMod2()">Modal</a>
+                <a href="#" class="btn btn-default" onclick="showMod3()">Modal</a>
             </div>
             <div id="homeBlock">
                 <div th:fragment="home(file, fragment)">
@@ -84,19 +86,60 @@
 <div th:replace="modal :: modal"></div>
 
 <script>
-    window.onerror = function (msg, url, error) {
-        window.event.preventDefault();
-        console.log(error);
-        $('#modalWindowLabel').html('Error');
-        $('#modalWindowBody').html("<p>" + msg + "</p>" + "<p>" + error + "</p>" + "<p>" + console.trace() + "</p>" + "<p>" + url + "</p>" + "<p>" + error.stack + "</p>");
-        $('#modalWindow').modal('show');
+    // window.onerror = function (msg, url, error) {
+    //     window.event.preventDefault();
+    //     console.log(msg);
+    //     console.log(error);
+    //     showModal("Error", "<p>" + msg + "</p>" + "<p>" + error + "</p>" +  "<p>" + url + "</p>" + "<p>" + error.stack + "</p>");
+    //
+    // }
+</script>
+
+<script>
+    function showMod() {
+        var errorDesc =
+            "<p>Just new Error</p>"
+            + "<p>NaNtradedetails/?detailId=BD0S4OPU2SCFXXQG3 GET</p>"
+            + "<p>null</p>"
+            + "<p>500</p>"
+            + "<p>Something wasdasdasent wrasdsadong.<br> Something wasdasdasent wrasdsadong.<br> Back to Hosadasdsasdsadasdadasdme Page</p>"
+            + "<p>atae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni<br> dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis <br> suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>";
+
+        showModal('Error', errorDesc);
+    }
+</script>
+
+
+<script>
+    function showMod2() {
+        var errorDesc =
+            "<p>Just new Error</p>"
+            + "<p>NaNtradedetails/?detailId=BD0S4OPU2SCFXXQG3 GET</p>"
+            + "<p>null</p>"
+            + "<p>500</p>"
+            + "<p>Something wasdasdasent wrasdsadong.<br> Something wasdasdasent wrasdsadong.<br> Back to Hosadasdsasdsadasdadasdme Page</p>";
+
+        showModal('Error', errorDesc);
     }
 </script>
 
 <script>
-    function showModal() {
-        window.event.preventDefault();
+    function showMod3() {
+        var errorDesc =
+            "<p>Just new Error</p>";
+        showModal('Error', errorDesc);
+    }
+</script>
+
+<script>
+    function showModal(label, body) {
+        $('#modalWindowLabel').html(label);
+        $('#modalWindowBody').html('');
+        $('#modalWindowBody').append("<div id='modalWindowBodyScroll' style='width: 400px; max-height: 500px; padding-right: 17px'><\/div>");
+        $('#modalWindowBodyScroll').html(body);
+        new SimpleBar(document.getElementById('modalWindowBodyScroll'));
         $('#modalWindow').modal('show');
+
     }
 </script>
 
@@ -226,29 +269,40 @@
     }
 
     function doFetch(url, method, data, onResponse, extraDetails) {
+        var responseStatus;
+        var responseStatusText;
         window.event.preventDefault();
         fetch(url, {
             method: method,
             body: data,
         }).then(
             function(response) {
+                responseStatus = response.status;
+                responseStatusText = response.statusText;
                 if(response.ok) {
                   return response.text();
+                } else {
+                    return response.text() // return the result of the inner promise, which is an error
+                        .then((text) => {
+                            var errorDesc =
+                                    + "<p>" + url + " " + method + "</p>"
+                                    + "<p>" +  data + "</p>"
+                                    + "<p>" + responseStatus + " " + responseStatusText + "</p>"
+                                    + "<p>" + text + "</p>";
+                            throw new Error(errorDesc);
+                        });
                 }
-                throw new Error("<p>" + response.status + "</p>" + "<p>" + response.text() + "</p>");
             }
         ).then(
             function(text) {
-                if(extraDetails === null ) {
+                if (extraDetails === null) {
                     onResponse(text);
                 } else {
                     onResponse(text, extraDetails);
                 }
             }
         ).catch(function(error) {
-            $('#modalWindowLabel').html('Error');
-            $('#modalWindowBody').html("<p>" + error + "</p>" + "<p>" + error.stack + "</p>");
-            $('#modalWindow').modal('show')
+            showModal("Error", "<p>" + error.stack + "</p>" + "<p>" + error.message + "</p>");
         });
     }
 </script>
