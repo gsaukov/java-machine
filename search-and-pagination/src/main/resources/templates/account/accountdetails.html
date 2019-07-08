@@ -47,7 +47,12 @@
                     </tr>
                     <tr>
                         <th>Vat Number:</th>
-                        <td th:text="${accountdata.vatNumber}"></td>
+                        <td>
+                            <div class="details-link">
+                                <a href="#" class="hover hover-1" th:text="${accountdata.vatNumber}" th:onclick="doFetch('accountvat/?vatNumber=[[${accountdata.vatNumber}]]', 'GET', null, function(response) {showModal([[${accountdata.vatNumber}]], response, {dataBackdrop: 'true'});});">
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

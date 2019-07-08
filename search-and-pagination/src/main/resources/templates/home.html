@@ -32,7 +32,7 @@
     <ul class="sidebar-nav">
     <li class="sidebar-brand">
     <a href="#" onclick="$('#wrapper').toggleClass('toggled')">
-    Start Bootstrap <<
+    Start Bootstrap<i class="fas fa-chevron-left"></i>
     </a>
     </li>
     <li>
@@ -159,8 +159,8 @@
         $('#modalWindowBody').append("<div id='modalWindowBodyScroll' style='width: 400px; max-height: 500px; padding-right: 17px'><\/div>");
         $('#modalWindowBodyScroll').html(body);
         new SimpleBar(document.getElementById('modalWindowBodyScroll'));
-        if(options !== undefined && options['dataBackdrop'] !== undefined){
-            $('#modalWindow').modal({backdrop: options['dataBackdrop']});
+        if(options !== undefined && options.dataBackdrop !== undefined){
+            $('#modalWindow').modal({backdrop: options.dataBackdrop});
         } else {
             $('#modalWindow').modal({backdrop: 'static'});
         }

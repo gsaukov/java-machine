@@ -11,10 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -34,6 +31,14 @@ public class AccountController {
         model.addAttribute("accountdata", accountDataService.getAccountData(accountId));
         return "account/accountdetails :: accountdetails";
     }
+
+    @ResponseBody
+    @GetMapping({"accountvat/"})
+    public String getAccountVat(
+            @RequestParam("vatNumber") String vatNumber) {
+        return accountDataService.getAccountVatData(vatNumber);
+    }
+
 
     @GetMapping({"accounthome/"})
     public String accountHome(

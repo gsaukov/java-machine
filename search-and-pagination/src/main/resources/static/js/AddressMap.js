@@ -144,6 +144,7 @@ function createPopUp(map) {
 }
 
 function removeMap(mapId) {
+    window.event.preventDefault();
     var divId = "#" + mapId;
     var first = $(divId).firstElementChild;
     while (first) {

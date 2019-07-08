@@ -16,7 +16,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" onclick="copyModalWindowBodyToClipboard();">Save changes</button>
+                    <script>
+                        function copyModalWindowBodyToClipboard() {
+                            var range = document.createRange();
+                            range.selectNode(document.getElementById('modalWindowBody'));
+                            window.getSelection().removeAllRanges();
+                            window.getSelection().addRange(range);
+                            document.execCommand("copy");
+                            window.getSelection().removeAllRanges();
+                        }
+                    </script>
                 </div>
             </div>
         </div>
