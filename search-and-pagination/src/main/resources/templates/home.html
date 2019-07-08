@@ -85,15 +85,35 @@
 
 <div th:replace="modal :: modal"></div>
 
-<script>
-    // window.onerror = function (msg, url, error) {
-    //     window.event.preventDefault();
-    //     console.log(msg);
-    //     console.log(error);
-    //     showModal("Error", "<p>" + msg + "</p>" + "<p>" + error + "</p>" +  "<p>" + url + "</p>" + "<p>" + error.stack + "</p>");
-    //
-    // }
-</script>
+<div th:fragment="modal">
+    <div class="modal fade" id="modalWindow" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="modalWindowLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <a href="#" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close"  style="position: absolute; right: 10px;">&times;</a>
+                <div class="modal-header">
+                    <h5 id="modalWindowLabel" class="modal-title" >Modal title</h5>
+                </div>
+                <div id="modalWindowBody" class="modal-body">
+                    Modal body
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script>-->
+<!--    window.onerror = function (msg, url, error) {-->
+<!--        window.event.preventDefault();-->
+<!--        console.log(msg);-->
+<!--        console.log(error);-->
+<!--        showModal("Error", "<p>" + url + "</p>" + "<p>" + msg + "</p>" + "<p>" + error + "</p>" +  "<p>" + error.stack + "</p>");-->
+
+<!--    }-->
+<!--</script>-->
 
 <script>
     function showMod() {
@@ -119,7 +139,7 @@
             + "<p>500</p>"
             + "<p>Something wasdasdasent wrasdsadong.<br> Something wasdasdasent wrasdsadong.<br> Back to Hosadasdsasdsadasdadasdme Page</p>";
 
-        showModal('Error', errorDesc);
+        showModal('Error', errorDesc, {dataBackdrop: 'false'});
     }
 </script>
 
@@ -127,19 +147,24 @@
     function showMod3() {
         var errorDesc =
             "<p>Just new Error</p>";
-        showModal('Error', errorDesc);
+        showModal('Error', errorDesc, {dataBackdrop: 'true'});
     }
 </script>
 
 <script>
-    function showModal(label, body) {
+    function showModal(label, body, options) {
+        $('#modalWindow').data('bs.modal', null); //clear previous data if any.
         $('#modalWindowLabel').html(label);
         $('#modalWindowBody').html('');
         $('#modalWindowBody').append("<div id='modalWindowBodyScroll' style='width: 400px; max-height: 500px; padding-right: 17px'><\/div>");
         $('#modalWindowBodyScroll').html(body);
         new SimpleBar(document.getElementById('modalWindowBodyScroll'));
+        if(options !== undefined && options['dataBackdrop'] !== undefined){
+            $('#modalWindow').modal({backdrop: options['dataBackdrop']});
+        } else {
+            $('#modalWindow').modal({backdrop: 'static'});
+        }
         $('#modalWindow').modal('show');
-
     }
 </script>
 
@@ -156,11 +181,12 @@
         var table = document.getElementById(targetId);
         e.preventDefault();
 
-        var onResponse = function(response) {
-            $(table).replaceWith(response);
+        if (form.reportValidity()) { //proceed only if form is valid.
+            var onResponse = function(response) {
+                $(table).replaceWith(response);
+            }
+            doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
         }
-
-        doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
     }
 </script>
 
@@ -264,10 +290,6 @@
 </script>
 
 <script>
-    function doFetch(url, method, data, onResponse) {
-        doFetch(url, method, data, onResponse, null)
-    }
-
     function doFetch(url, method, data, onResponse, extraDetails) {
         var responseStatus;
         var responseStatusText;
@@ -276,44 +298,48 @@
             method: method,
             body: data,
         }).then(
-            function(response) {
-                responseStatus = response.status;
-                responseStatusText = response.statusText;
-                if(response.ok) {
-                  return response.text();
-                } else {
-                    return response.text() // return the result of the inner promise, which is an error
-                        .then((text) => {
-                            var errorDesc =
-                                    + "<p>" + url + " " + method + "</p>"
-                                    + "<p>" +  data + "</p>"
-                                    + "<p>" + responseStatus + " " + responseStatusText + "</p>"
-                                    + "<p>" + text + "</p>";
-                            throw new Error(errorDesc);
-                        });
-                }
+            function(response){
+                return doCall(response, {url: url, method: method, data: data});
             }
         ).then(
-            function(text) {
-                if (extraDetails === null) {
-                    onResponse(text);
-                } else {
-                    onResponse(text, extraDetails);
-                }
+            function(responseBody) {
+                return doResponse(responseBody, onResponse, extraDetails);
             }
         ).catch(function(error) {
             showModal("Error", "<p>" + error.stack + "</p>" + "<p>" + error.message + "</p>");
         });
     }
-</script>
 
-<script>
     function buildData(formElement) {
         const data = new URLSearchParams();
         for (const pair of new FormData(formElement)) {
             data.append(pair[0], pair[1]);
         }
         return data;
+    }
+
+    function doCall(response, request) {
+        responseStatus = response.status;
+        responseStatusText = response.statusText;
+        if(response.ok) {
+            return response.text();
+        } else {
+            return response.text() // return the result of the inner promise, which is an error
+                .then((text) => {
+                    var errorDesc = "<p> URL: " + request.url + "<br> METHOD: " + request.method + "<br> DATA: " + request.data + "</p>"
+                        + "<p>RESPONSE STATUS: " + responseStatus + " " + responseStatusText + "</p>"
+                        + "<p>RESPONSE BODY: " + text + "</p>";
+                    throw new Error(errorDesc);
+                });
+        }
+    }
+
+    function doResponse(text, onResponse, extraDetails) {
+        if (extraDetails === undefined) {
+            onResponse(text);
+        } else {
+            onResponse(text, extraDetails);
+        }
     }
 </script>
 

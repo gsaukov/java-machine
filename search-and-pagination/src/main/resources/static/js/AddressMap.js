@@ -11,6 +11,7 @@ var existingMapId = null;
 class AddressMap {
 
     constructor (mapId, desc, longitude, latitude) {
+        window.event.preventDefault();
         if (existingMapId !== mapId) {
 
             rebuildHtmlBlock(mapId);
@@ -143,7 +144,6 @@ function createPopUp(map) {
 }
 
 function removeMap(mapId) {
-    window.event.preventDefault();
     var divId = "#" + mapId;
     var first = $(divId).firstElementChild;
     while (first) {
