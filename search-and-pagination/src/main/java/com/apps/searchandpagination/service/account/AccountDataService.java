@@ -31,34 +31,28 @@ public class AccountDataService {
     }
 
     public String getAccountVatData(String accountId) {
-        String res = "";
-        for(int i = 0; i < RandomUtils.nextInt(3, 7); i++){
-            res += getRandomHtml(RandomUtils.nextInt(3, 15));
-
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < RandomUtils.nextInt(1, 7); i++){
+            getRandomHtml(sb, RandomUtils.nextInt(3, 15));
         }
-        return res ;
+        return sb.toString();
     }
 
-    private String getRandomHtml(int words){
-        String res = "";
-        for(int i = 0; i < words; i++){
-            res += RandomStringUtils.randomAlphabetic(1, 30);
-            if(RandomUtils.nextInt(1, 15)%15 == 0){
-                res += "<br>";
-            }else{
-                res += " ";
-            }
-        }
-        return wrapRandomly(res);
-    }
-
-    private String wrapRandomly(String res) {
-        res = "<p>" + res + "</p>";
+    private void getRandomHtml(StringBuilder sb, int words) {
         if(RandomUtils.nextInt(1, 3)%2 == 0){
             int h = RandomUtils.nextInt(1, 3);
-            res = "<h"+h+">" + RandomStringUtils.randomAlphabetic(1, 10).toUpperCase() + "</h"+h+">" + res;
+            sb.append("<h"+h+">" + RandomStringUtils.randomAlphabetic(1, 10).toUpperCase() + "</h"+h+">");
         }
-        return res;
+        sb.append("<p>");
+        for(int i = 0; i < words; i++){
+            sb.append(RandomStringUtils.randomAlphabetic(1, 30));
+            if(RandomUtils.nextInt(1, 15)%15 == 0){
+                sb.append("<br>");
+            }else{
+                sb.append(" ");
+            }
+        }
+        sb.append("</p>");
     }
 
     public void setAccountDataRepository(AccountDataRepository accountDataRepository) {

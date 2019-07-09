@@ -66,9 +66,6 @@
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                 <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
                 <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
-                <a href="#" class="btn btn-default" onclick="showMod()">Modal</a>
-                <a href="#" class="btn btn-default" onclick="showMod2()">Modal</a>
-                <a href="#" class="btn btn-default" onclick="showMod3()">Modal</a>
             </div>
             <div id="homeBlock">
                 <div th:fragment="home(file, fragment)">
@@ -85,70 +82,74 @@
 
 <div th:replace="modal :: modal"></div>
 
-<div th:fragment="modal">
-    <div class="modal fade" id="modalWindow" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="modalWindowLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <a href="#" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close"  style="position: absolute; right: 10px;">&times;</a>
-                <div class="modal-header">
-                    <h5 id="modalWindowLabel" class="modal-title" >Modal title</h5>
-                </div>
-                <div id="modalWindowBody" class="modal-body">
-                    Modal body
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="md-form">
+    <input type="search" id="form-autocomplete" class="form-control mdb-autocomplete">
+    <button class="mdb-autocomplete-clear">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+            <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
+    </button>
+    <label for="form-autocomplete" class="active">What is your favorite US state?</label>
 </div>
 
-<!--<script>-->
-<!--    window.onerror = function (msg, url, error) {-->
-<!--        window.event.preventDefault();-->
-<!--        console.log(msg);-->
-<!--        console.log(error);-->
-<!--        showModal("Error", "<p>" + url + "</p>" + "<p>" + msg + "</p>" + "<p>" + error + "</p>" +  "<p>" + error.stack + "</p>");-->
-
-<!--    }-->
-<!--</script>-->
-
 <script>
-    function showMod() {
-        var errorDesc =
-            "<p>Just new Error</p>"
-            + "<p>NaNtradedetails/?detailId=BD0S4OPU2SCFXXQG3 GET</p>"
-            + "<p>null</p>"
-            + "<p>500</p>"
-            + "<p>Something wasdasdasent wrasdsadong.<br> Something wasdasdasent wrasdsadong.<br> Back to Hosadasdsasdsadasdadasdme Page</p>"
-            + "<p>atae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni<br> dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis <br> suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>";
+    var states = [
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illnois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "New Hampshire",
+        "New Jersey",
+        "New Mexico",
+        "New York",
+        "North Carolina",
+        "North Dakota",
+        "Ohio",
+        "Oklahoma",
+        "Oregon",
+        "Pennsylvania",
+        "Rhode Island",
+        "South Carolina",
+        "South Dakota",
+        "Tennessee",
+        "Texas",
+        "Utah",
+        "Vermont",
+        "Virginia",
+        "Washington",
+        "West Virginia",
+        "Wisconsin",
+        "Wyoming"
+    ];
 
-        showModal('Error', errorDesc);
-    }
-</script>
-
-
-<script>
-    function showMod2() {
-        var errorDesc =
-            "<p>Just new Error</p>"
-            + "<p>NaNtradedetails/?detailId=BD0S4OPU2SCFXXQG3 GET</p>"
-            + "<p>null</p>"
-            + "<p>500</p>"
-            + "<p>Something wasdasdasent wrasdsadong.<br> Something wasdasdasent wrasdsadong.<br> Back to Hosadasdsasdsadasdadasdme Page</p>";
-
-        showModal('Error', errorDesc, {dataBackdrop: 'false'});
-    }
-</script>
-
-<script>
-    function showMod3() {
-        var errorDesc =
-            "<p>Just new Error</p>";
-        showModal('Error', errorDesc, {dataBackdrop: 'true'});
-    }
+    $('#form-autocomplete').mdb_autocomplete({
+        data: states
+    });
 </script>
 
 <script>
