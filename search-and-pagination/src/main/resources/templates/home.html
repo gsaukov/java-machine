@@ -11,6 +11,7 @@
     <link href="../static/css/fontelloembedded.css" rel="stylesheet" />
     <link href="../static/css/simplebar.css" rel="stylesheet" />
     <link href="../static/css/ol.css"  rel="stylesheet" >
+    <link href="../static/css/auto-complete.css"  rel="stylesheet" >
 
 
     <script src="../static/js/jquery-3.3.1.min.js"></script>
@@ -21,6 +22,7 @@
     <script src="../static/js/OpenLayers.js"></script>
     <script src="../static/js/OpenStreetMap.js"></script>
     <script src="../static/js/ol.js"></script>
+    <script src="../static/js/auto-complete.js"></script>
 
 </head>
 
@@ -83,73 +85,46 @@
 <div th:replace="modal :: modal"></div>
 
 <div class="md-form">
-    <input type="search" id="form-autocomplete" class="form-control mdb-autocomplete">
-    <button class="mdb-autocomplete-clear">
-        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-            <path d="M0 0h24v24H0z" fill="none" />
-        </svg>
-    </button>
-    <label for="form-autocomplete" class="active">What is your favorite US state?</label>
+    <input type="search" id="symbolAutocomplete" class="form-control" onclick="createAutoComplete('getallsymbols', 'symbolAutocomplete', allSymbolsObj)">
 </div>
 
 <script>
-    var states = [
-        "Alabama",
-        "Alaska",
-        "Arizona",
-        "Arkansas",
-        "California",
-        "Colorado",
-        "Connecticut",
-        "Delaware",
-        "Florida",
-        "Georgia",
-        "Hawaii",
-        "Idaho",
-        "Illnois",
-        "Indiana",
-        "Iowa",
-        "Kansas",
-        "Kentucky",
-        "Louisiana",
-        "Maine",
-        "Maryland",
-        "Massachusetts",
-        "Michigan",
-        "Minnesota",
-        "Mississippi",
-        "Missouri",
-        "Montana",
-        "Nebraska",
-        "Nevada",
-        "New Hampshire",
-        "New Jersey",
-        "New Mexico",
-        "New York",
-        "North Carolina",
-        "North Dakota",
-        "Ohio",
-        "Oklahoma",
-        "Oregon",
-        "Pennsylvania",
-        "Rhode Island",
-        "South Carolina",
-        "South Dakota",
-        "Tennessee",
-        "Texas",
-        "Utah",
-        "Vermont",
-        "Virginia",
-        "Washington",
-        "West Virginia",
-        "Wisconsin",
-        "Wyoming"
-    ];
 
-    $('#form-autocomplete').mdb_autocomplete({
-        data: states
-    });
+    var allSymbolsObj = {
+        allSymbolsData,
+
+        getData : function () {
+            return this.allSymbolsData;
+        },
+
+        setData : function (data) {
+            this.allSymbolsData = data;
+        }
+    }
+
+    function createAutoComplete(url, targetId, dataObj) {
+        window.event.preventDefault();
+        if (dataObj.getData() === null) {
+            var onResponse = function (response) {
+                dataObj.setData(response);
+            }
+
+            doFetch(url, "GET", null, onResponse);
+
+            new autoComplete({
+                selector: 'input[id="' + targetId +'"]',
+                minChars: 2,
+                source: function (term, suggest) {
+                    term = term.toLowerCase();
+                    var choices = dataObj.getData();
+                    var matches = [];
+                    for (i = 0; i < choices.length; i++)
+                        if (~choices[i].indexOf(term.toUpperCase())) matches.push(choices[i]);
+                    suggest(matches);
+                }
+            });
+        }
+    }
 </script>
 
 <script>
