@@ -14,7 +14,7 @@ public class SymbolController {
     private TradeDataService tradeDataService;
 
     @ResponseBody
-    @GetMapping({"getallsymbols"})
+    @GetMapping(value = {"getallsymbols"}, produces = "application/json")
     public List<String> getAllSymbols() {
         return tradeDataService.findAllSymbols();
     }

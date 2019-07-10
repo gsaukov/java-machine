@@ -11,7 +11,7 @@
                         <legend>Trade data</legend>
                         <div class="row-container">
                             <textarea id="ids" th:field="*{ids}" placeholder="Ids comma separated" class="form-control" style="height: 3em; width: 22em; margin-right: 10px;"></textarea>
-                            <textarea id="symbols" th:field="*{symbols}" placeholder="Symbols comma separated" class="form-control" style="height: 3em; width: 22em; margin-right: 10px;"></textarea>
+                            <textarea id="symbols" th:field="*{symbols}" placeholder="Symbols comma separated" class="form-control" onclick="createAutoComplete('getallsymbols', 'symbols', allSymbolsObj)" style="height: 3em; width: 22em; margin-right: 10px;"></textarea>
                             <textarea id="accounts" th:field="*{accounts}" placeholder="Accounts comma separated" class="form-control" style="height: 3em; width: 22em; margin-right: 10px;"></textarea>
                         </div>
                     </fieldset>

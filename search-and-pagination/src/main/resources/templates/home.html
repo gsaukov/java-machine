@@ -84,21 +84,17 @@
 
 <div th:replace="modal :: modal"></div>
 
-<div class="md-form">
-    <input type="search" id="symbolAutocomplete" class="form-control" onclick="createAutoComplete('getallsymbols', 'symbolAutocomplete', allSymbolsObj)">
-</div>
-
 <script>
 
     var allSymbolsObj = {
-        allSymbolsData,
+        allSymbolsData : null,
 
         getData : function () {
             return this.allSymbolsData;
         },
 
         setData : function (data) {
-            this.allSymbolsData = data;
+            this.allSymbolsData =  JSON.parse(data);
         }
     }
 
@@ -112,7 +108,7 @@
             doFetch(url, "GET", null, onResponse);
 
             new autoComplete({
-                selector: 'input[id="' + targetId +'"]',
+                selector: 'textarea[id="' + targetId +'"]',
                 minChars: 2,
                 source: function (term, suggest) {
                     term = term.toLowerCase();
