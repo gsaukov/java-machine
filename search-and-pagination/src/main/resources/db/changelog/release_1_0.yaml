@@ -35,6 +35,38 @@ databaseChangeLog:
               - column:
                   name: DATE
                   type: dateTime
+        - createIndex:
+            indexName: IDX_TRADE_DATA_SYM
+            tableName: TRADE_DATA
+            columns:
+              - column:
+                  name: SYMBOL
+        - createIndex:
+            indexName: IDX_TRADE_DATA_ACC
+            tableName: TRADE_DATA
+            columns:
+              - column:
+                  name: ACCOUNT
+        - createIndex:
+            indexName: IDX_TRADE_DATA_ROU
+            tableName: TRADE_DATA
+            columns:
+              - column:
+                  name: ROUTE
+        - createIndex:
+            indexName: IDX_TRADE_DATA_A_C
+            tableName: TRADE_DATA
+            columns:
+              - column:
+                  name: AMOUNT
+              - column:
+                  name: CURRENCY
+        - createIndex:
+            indexName: IDX_TRADE_DATA_DAT
+            tableName: TRADE_DATA
+            columns:
+              - column:
+                  name: DATE
 
   - changeSet:
       id: TRADE_DETAILS
@@ -130,6 +162,37 @@ databaseChangeLog:
               - column:
                   name: DETAILS
                   type: clob
+        - createIndex:
+            indexName: IDX_TRADE_DATA_TRD
+            tableName: TRADE_DETAILS
+            columns:
+              - column:
+                  name: TRADE_DATA_ID
+        - createIndex:
+            indexName: IDX_TRADE_DATA_EMA
+            tableName: TRADE_DETAILS
+            columns:
+              - column:
+                  name: EMAIL
+        - createIndex:
+            indexName: IDX_TRADE_DATA_FNA
+            tableName: TRADE_DETAILS
+            columns:
+              - column:
+                  name: FIRST_NAME
+        - createIndex:
+            indexName: IDX_TRADE_DATA_LNA
+            tableName: TRADE_DETAILS
+            columns:
+              - column:
+                  name: LAST_NAME
+        - createIndex:
+            indexName: IDX_TRADE_DATA_IBA
+            tableName: TRADE_DETAILS
+            columns:
+              - column:
+                  name: IBAN
+
 
   - changeSet:
       id: ACCOUNT_ADDRESS
@@ -165,6 +228,48 @@ databaseChangeLog:
               - column:
                   name: LATITUDE
                   type: double
+              - createIndex:
+                  indexName: IDX_ACCOUNT_ADDRESS_AID
+                  tableName: ACCOUNT_ADDRESS
+                  columns:
+                    - column:
+                        name: ACCOUNT_ID
+              - createIndex:
+                  indexName: IDX_ACCOUNT_ADDRESS_STR
+                  tableName: ACCOUNT_ADDRESS
+                  columns:
+                    - column:
+                        name: STREET
+              - createIndex:
+                  indexName: IDX_ACCOUNT_ADDRESS_CIT
+                  tableName: ACCOUNT_ADDRESS
+                  columns:
+                    - column:
+                        name: CITY
+              - createIndex:
+                  indexName: IDX_ACCOUNT_ADDRESS_STT
+                  tableName: ACCOUNT_ADDRESS
+                  columns:
+                    - column:
+                        name: STATE
+              - createIndex:
+                  indexName: IDX_ACCOUNT_ADDRESS_PCO
+                  tableName: ACCOUNT_ADDRESS
+                  columns:
+                    - column:
+                        name: POSTAL_CODE
+              - createIndex:
+                  indexName: IDX_ACCOUNT_ADDRESS_LON
+                  tableName: ACCOUNT_ADDRESS
+                  columns:
+                    - column:
+                        name: LONGITUDE
+              - createIndex:
+                  indexName: IDX_ACCOUNT_ADDRESS_LAT
+                  tableName: ACCOUNT_ADDRESS
+                  columns:
+                    - column:
+                        name: LATITUDE
 
   - changeSet:
       id: ACCOUNT_DATA
@@ -221,7 +326,24 @@ databaseChangeLog:
               - column:
                   name: CREATION_DATE
                   type: dateTime
-
+              - createIndex:
+                  indexName: IDX_ACCOUNT_DATA_FNA
+                  tableName: ACCOUNT_DATA
+                  columns:
+                    - column:
+                        name: FIRST_NAME
+              - createIndex:
+                  indexName: IDX_LAST_NAME_LNA
+                  tableName: ACCOUNT_DATA
+                  columns:
+                    - column:
+                        name: LAST_NAME
+              - createIndex:
+                  indexName: IDX_LAST_NAME_EMA
+                  tableName: ACCOUNT_DATA
+                  columns:
+                    - column:
+                        name: EMAIL
 
   - changeSet:
       id: FK_TRADE_DATA_ACCOUNT_DATA
