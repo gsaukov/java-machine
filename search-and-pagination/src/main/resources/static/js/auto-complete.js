@@ -37,12 +37,14 @@ var autoComplete = (function(){
             offsetTop: 1,
             cache: 1,
             menuClass: '',
+            separator: '',
             renderItem: function (item, search){
                 // escape special characters
                 search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
                 var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
                 return '<div class="autocomplete-suggestion" data-val="' + item + '">' + item.replace(re, "<b>$1</b>") + '</div>';
             },
+            onAssign: function(that, v){that.value = v;},
             onSelect: function(e, term, item){}
         };
         for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
@@ -98,7 +100,7 @@ var autoComplete = (function(){
             live('autocomplete-suggestion', 'mousedown', function(e){
                 if (hasClass(this, 'autocomplete-suggestion')) { // else outside click
                     var v = this.getAttribute('data-val');
-                    that.value = v;
+                    o.onAssign(that, v);
                     o.onSelect(e, v, this);
                     that.sc.style.display = 'none';
                 }
@@ -135,25 +137,34 @@ var autoComplete = (function(){
                     if (!sel) {
                         next = (key == 40) ? that.sc.querySelector('.autocomplete-suggestion') : that.sc.childNodes[that.sc.childNodes.length - 1]; // first : last
                         next.className += ' selected';
-                        that.value = next.getAttribute('data-val');
+                        o.onAssign(that, next.getAttribute('data-val'));
                     } else {
                         next = (key == 40) ? sel.nextSibling : sel.previousSibling;
                         if (next) {
                             sel.className = sel.className.replace('selected', '');
                             next.className += ' selected';
-                            that.value = next.getAttribute('data-val');
+                            o.onAssign(that, next.getAttribute('data-val'));
                         }
                         else { sel.className = sel.className.replace('selected', ''); that.value = that.last_val; next = 0; }
                     }
                     that.updateSC(0, next);
-                    return false;
+                    that.setSelectionRange(that.value.length,that.value.length);
                 }
                 // esc
-                else if (key == 27) { that.value = that.last_val; that.sc.style.display = 'none'; }
+                else if (key == 27) {
+                    that.value = that.last_val;
+                    that.sc.style.display = 'none';
+                }
+                else if (e.key == o.separator) {
+                    that.sc.style.display = 'none';
+                }
                 // enter
                 else if (key == 13 || key == 9) {
                     var sel = that.sc.querySelector('.autocomplete-suggestion.selected');
-                    if (sel && that.sc.style.display != 'none') { o.onSelect(e, sel.getAttribute('data-val'), sel); setTimeout(function(){ that.sc.style.display = 'none'; }, 20); }
+                    if (sel && that.sc.style.display != 'none') {
+                        o.onSelect(e, sel.getAttribute('data-val'), sel);
+                        setTimeout(function(){ that.sc.style.display = 'none'; }, 20);
+                    }
                 }
             };
             addEvent(that, 'keydown', that.keydownHandler);

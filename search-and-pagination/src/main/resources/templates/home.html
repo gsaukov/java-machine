@@ -61,21 +61,20 @@
     </ul>
     </div>
 
-
-    <div id="page-content-wrapper" style="padding: 0px">
-        <div class="container-fluid" style="padding: 0px; padding-right: 1px;">
-            <div style="padding-left: 20px; padding-top: 15px;" >
-                <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
-                <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
-                <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
-            </div>
-            <div id="homeBlock">
-                <div th:fragment="home(file, fragment)">
-                    <div th:replace="${file} :: ${fragment}"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--    <div id="page-content-wrapper" style="padding: 0px">-->
+<!--        <div class="container-fluid" style="padding: 0px; padding-right: 1px;">-->
+<!--            <div style="padding-left: 20px; padding-top: 15px;" >-->
+<!--                <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>-->
+<!--                <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>-->
+<!--                <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>-->
+<!--            </div>-->
+<!--            <div id="homeBlock">-->
+<!--                <div th:fragment="home(file, fragment)">-->
+<!--                    <div th:replace="${file} :: ${fragment}"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 
 <div id="detailsTableBlock"></div>
@@ -84,10 +83,16 @@
 
 <div th:replace="modal :: modal"></div>
 
+<textarea id="symbols" placeholder="Symbols comma separated" class="form-control" onclick="createAutoComplete('getallsymbols', 'symbols', allSymbolsObj)" style="height: 3em; width: 22em; margin-right: 10px;"></textarea>
+
 <script>
 
     var allSymbolsObj = {
-        allSymbolsData : null,
+        allSymbolsData : ["UFY","KSDE","FIU","FIV","DEU","SCE","LMVL","YOJ","LMVP","LVI","NZL","JRI","UGS","BBD","PMJQ","UELC","JRQ","TFQH","JRS","PBUO","WLA","HNT","WLC","BLRY","VYPV","DFV","GOIV","SDF","WLI","ZHCJ","GSRC","JSF","YPW","BCF","JSN","LWQ","HXYR","FKQ","WMB","JSX","FKV","YQJ","QAD","UIK","QJCB","JTC","AGMA","GSSC","ESYM","HPJ","JENW","CECG","LXO","DHO","SNEW","TFSP","FNLT","YRI","SEU","ONRF","DHX","BDV","WNK","IYZC","SCPZ","WNS","BED","AEJH","DIH","UJV","XJPB","HQP","PZGM","BET","SGF","XFHS","PORN","HANR","IHYZ","MWKC","AGOL","KHSZ","MSCA","YTA","BFK","OFCT","WPD","HRY","YTO","GDXV","DKB","QPRP","BGD","WQB","FLKN","JERA","YUD","UMD","RSVE","NINE","OAD","JXB","YKQT","JIZQ","IMDW","HTVB","UMN","QEK","FPF","YTCD","JRLC","BHK","WRE","DLS","QFA","SJC","EIIS","QFD","LKYJ","MFLC","WRJ","IDTG","SRRG","ZLQT","YVT","JYG","ZHIR","BIB","BLYN","AENI","EKNI","MDHR","YCBZ","JTQL","HPON","YWF","JYX","OCA","WSK","UESS","HARJ","LIVL","OCG","MFMJ","UOQ","DNB","OLSN","VQHF","XJTZ","DNF","SKT","DSAQ","QGU","LZXK","STWX","DNN","DNO","KHXA","WTB","WTF","CKUY","SLE","PXHO","ZLSV","FSE","WTU","DLUK","HWM","ODU","UPY","DOO","BKN","RBXN","ODY","QFBT","YYF","SMA","UQF","UQI","DUGD","OED","WUM","FTA","ZHLT","ANBL","WUU","BOAM","QIS","SJEI","DPK","ZWIP","YVKP","URA","NCFW","WVF","WTMY","DPX","AXWM","HYA","RMOE","OUGV","BMB","YZG","NISW","QKA","JLEM","XFPO","QKH","XYVC","QKL","MCK","BYWW","QKT","MCR","LCNU","MCT","LTPI","HZT","ZUHQ","EMWY","DRY","JRRV","MDC","MDE","XHUU","SPO","MDJ","ZWMK","MDU","QLZ","QLRW","SQE","WYK","SQH","OII","UCUW","OIM","KAK","OIO","KAM","BPF","GIKB","IOQD","SQV","OIS","TMLO","FYMX","FXP","WGXE","WXYT","FXU","SRB","UUY","BOFC","UVN","FYD","IKIX","QLTO","FYK","BQJ","FYQ","NGSZ","KBY","WLBQ","DUX","ZHRM","YCKN","RGHB","QLUN","FZI","KCN","WAMZ","EXPV","QPB","SWED","ZBGD","FZZ","MHB","TMNX","UCXU","MDRG","UXN","QPN","ZHST","ZSIG","OLU","AVZC","GGJN","IQXT","QQI","PTIO","MMDO","SHIA","EPBE","MIK","KEM","ANJU","KET","SFEO","XWXZ","RTDE","OND","CCOU","TVBI","RGKA","WEXU","IBF","QRO","RZPV","APOP","GVIL","SUCP","LCUT","VOOV","HUDZ","SWG","TZKL","KGF","DOEL","MKV","GCEE","KKIE","DZT","WCVH","PTLG","XSRU","BVV","LASA","NRNO","OMAH","SXL","OPF","OPJ","RVJO","ZEH","OPO","IDO","KHQ","SXY","ALIV","EIXO","BWR","QUB","SXD","BWZ","GAB","IEE","FDKW","MMJ","XBU","RGNC","MMN","YNFZ","MMHY","KIP","SYW","BXL","NGZX","HWKT","KIX","XCE","TVFA","AYDJ","VXDB","XAH","QVH","ORK","HFJW","KJJ","BYD","UUAL","EVSS","FDMB","UHHH","ZDQZ","ZEJ","UNTW","IFZ","VZIA","MOE","ZHQ","HDGP","BOOK","BMKJ","IZPJ","WAUT","YRQB","KKN","IGN","WRWL","XEA","SDGP","GCW","ZIJ","YJAM","BZW","BSXH","MPD","ZIR","ALMF","NJBJ","KLG","WYEJ","TZPO","HUJJ","IHM","XMKG","BQTX","XFD","VBF","KMA","OUE","QYJ","LNQT","HJUY","GVPI","ENFF","TMXI","QYV","FYYU","KMQ","GEO","XGA","ULSQ","GEOK","EAW","XGM","NNLN","VIJZ","OBRD","HDJW","JLUD","HULT","ENGX","EBZ","CYCK","DBSU","GGC","ECF","JHMW","HQEI","XIFF","WPWQ","CLJX","GGX","ITHT","JBBO","OXN","XIV","ECTA","KMVB","TTHV","KPV","NAUS","EDS","JJSJ","EDX","KQB","KOZS","KQC","BIIA","OYJ","KQH","SBHV","VFT","MUG","MMPL","TBR","OYR","LUCD","CAI","SDMG","ZBTS","GIP","XXEJ","WYJZ","UWLN","ZOK","BIIY","ZON","VGM","DXAI","XKQ","INA","KRF","CBA","GCOV","NJHK","INO","OZW","BQZY","CBM","MVZ","ZPH","OZY","EFW","TDM","MQZT","KSI","LYMB","VHT","QQNR","RPIV","ZQC","EGO","QKBX","AFHT","CAYP","BXIJ","MXB","CFBX","RAG","GLA","LSAW","MXI","KRBZ","CDA","FSTH","HURF","MXN","EHG","DXCT","IPK","UDJC","ZIEA","MXX","XVDW","KTZ","MXIS","ZRN","RBG","IQE","TFT","ZQVF","ZZGO","ENNY","QBSV","RCG","VKK","XOO","GNB","GND","IRG","JBHP","KVK","TTNP","VKU","LFJU","KVQ","XXJO","KVT","ELKQ","KVX","MTCJ","EJV","VCGL","ZTL","MTCQ","QKFB","RDI","KWF","VLU","ISK","GAPY","ISN","CWGX","KWR","XQB","MEFY","KWX","CGS","ACR","GOY","ZUJ","ISZ","OMQM","KKYX","GPI","ITL","PAT","FMLI","PAV","VMZ","GPQ","KVOL","VIUL","CHP","KXX","VND","XRE","CHY","UWTJ","MEHL","XRW","HQOK","PBW","VCJB","KTLM","ZWB","DVEC","EFBU","KZG","IVG","IVH","MGMO","IPKA","RGS","ADKL","ENM","WHRG","XCEA","CDEM","ZXD","FQVY","ENY","XTL","SFZY","YDDL","SFZX","ZXS","NWJY","ZECQ","JMBY","VTMJ","TLT","EOH","CKF","UFUC","VPX","EOS","VQD","XRCU","GSZ","BRED","VIXW","KEQQ","IXM","IPMG","IXP","EPYS","NAY","CLQ","BVNC","NYPO","RJB","FGDO","BTJI","GUB","IYK","TNV","GUN","IYQ","AIM","XWF","DGKT","LJZI","MRFO","NQAP","TON","XWR","ERF","RLLM","VSZ","WHVC","UDTD","MZWR","UDTN","TPG","KVUZ","RLJ","TPN","NDK","QEBD","NDM","GFAZ","COE","TRSK","ESL","XXV","ZVIO","MTLH","XVOU","CLZW","NUKL","EHLS","OXNO","QZLO","RME","RMI","LAF","VUR","KNFZ","GXI","WFTA","ETN","SBXH","CWQA","BGTX","ETX","TTYB","YSGV","LBH","GYF","TRS","EUK","JUYJ","PJV","IATZ","CDLL","YULU","QEDZ","GNTY","TATU","PYOU","FVGG","PKM","TST","NDLN","ELWL","ROY","WMCJ","SKKR","UQQT","GLQM","VXC","EJSS","PBBV","IAVJ","LDF","EWB","LDH","PUHU","AOA","CSH","PLW","ZZUQ","RLQU","TUA","YOBL","GJNM","LWYY","RQJ","UQSC","CTA","TJHD","VYV","JAP","EXM","NIX","IRYQ","VEYP","APW","LFC","RYLQ","VZP","PNL","VRSF","GDCW","RRQ","CUE","WSRI","HKOA","RFGI","PNU","EYL","FGMD","EYN","NJT","LQOC","QIPX","VCVM","GNXV","DXUH","POK","RSQ","HGGY","GJQB","LBRQ","RSU","LGV","NSNG","HMTQ","RHLY","TXH","YAM","CVY","CVZ","WZAA","YAL","YAT","SOXI","CWC","PPO","NLP","AIAM","JDN","IJLA","QXPA","ASK","FZTY","LHW","HCAD","LIAB","XNGR","LID","BNIH","HAD","TYU","OCMQ","MRQG","GSDT","ATP","LIZ","GWLX","VRVU","JEW","YCN","TZL","TZN","ZGUT","ZEQD","RDGH","QCHS","AUW","LICI","CMFD","LOOU","YDU","NOJ","QTJV","MLFX","IUDJ","YEA","IDCC","TWHB","IUDV","WAN","PTJ","HMXZ","BTXN","HXNI","LLM","LLR","SGLK","YUVN","AWM","POEG","PUF","LME","RYH","PUQ","FAH","AXE","QEOG","WKIB","HVKN","JIQ","PUW","NQZ","LMNG","FAV","JIZ","HEZ","KNSK","LIFE","QVQF","YGO","XPPT","HFB","IFIQ","OEVE","FBD","FBE","FPFF","ISCC","MRUY","RZZ","VPWO","CQQW","AYM","OTTD","PDQQ","AVAD","JKQJ","NKEB","RWQH","UMTW","YHM","GHTU","LOF","YOLK","LGCQ","HGI","JKK","FXWQ","GOBF","LKKZ","EFWE","GWRT","PWZ","QNBY","YIB","JKW","JKX","PWP","SEKO","WEE","IHOK","FCY","WEJ","AZW","YOMP","UAB","QIZC","YIH","NTI","PXS","IQAE","WMPE","YUZI","HRFP","LPY","HHU","FGWL","WFG","MYEM","NMKI","YJN","YKFS","IHPQ","UCBU","LQH","IYRG","NUM","HIH","WFT","WFX","WFZ","JMT","AGFS","HIU","FEW","ZCUF","LRC","WGP","NVI","WGEW","BPVR","LRP","UCZ","PZT","JNR","HJR","DBO","JNW","PFYW","KYMT","YIDI","DBV","HAGF","LSA","JIQJ","UDH","VFGQ","YSXY","VJOW","WGFP","EKDB","UXNS","JOP","YZFP","NWY","HKU","YMF","SAK","IHST","QPKN","BHHG","HLI","TJWF","GHZD","JPT","YMY","WJC","ORVE","HLW","UFE","SBD","KFJH","NYF","HEQQ"],
+
+        separator : ',',
+        minChars : 2,
+        // allSymbolsData : null,
 
         getData : function () {
             return this.allSymbolsData;
@@ -120,6 +125,35 @@
                 }
             });
         }
+        
+        new autoComplete({
+            selector: 'textarea[id="' + targetId +'"]',
+            minChars: dataObj.minChars,
+            separator: dataObj.separator,
+            cache: false,
+            source: function (term, suggest) {
+                var choices = dataObj.getData();
+                var matches = [];
+                term = term.toUpperCase().split(dataObj.separator).pop(-1).trim();
+                if(term.length < dataObj.minChars) return;
+                for (i = 0; i < choices.length; i++)
+                    if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
+                suggest(matches);
+            },
+            onAssign: function(that, v){
+                if(dataObj.separator){
+                    var tempVal = that.value;
+                    if(tempVal.includes(dataObj.separator)){
+                        tempVal = tempVal.substr(0, tempVal.lastIndexOf(dataObj.separator) + 1);
+                        that.value = tempVal + v;
+                    } else {
+                        that.value = v;
+                    }
+                } else {
+                    that.value = v;
+                }
+            }
+        });
     }
 </script>
 
