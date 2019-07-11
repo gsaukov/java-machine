@@ -148,15 +148,19 @@ var autoComplete = (function(){
                         else { sel.className = sel.className.replace('selected', ''); that.value = that.last_val; next = 0; }
                     }
                     that.updateSC(0, next);
-                    that.setSelectionRange(that.value.length,that.value.length);
+                    e.preventDefault();
                 }
                 // esc
                 else if (key == 27) {
                     that.value = that.last_val;
                     that.sc.style.display = 'none';
+                    that.sc.querySelectorAll(".autocomplete-suggestion").forEach(e => e.parentNode.removeChild(e));
+                    that.updateSC(0);
                 }
                 else if (e.key == o.separator) {
                     that.sc.style.display = 'none';
+                    that.sc.querySelectorAll(".autocomplete-suggestion").forEach(e => e.parentNode.removeChild(e));
+                    that.updateSC(0);
                 }
                 // enter
                 else if (key == 13 || key == 9) {
@@ -165,6 +169,9 @@ var autoComplete = (function(){
                         o.onSelect(e, sel.getAttribute('data-val'), sel);
                         setTimeout(function(){ that.sc.style.display = 'none'; }, 20);
                     }
+                    that.sc.querySelectorAll(".autocomplete-suggestion").forEach(e => e.parentNode.removeChild(e));
+                    that.updateSC(0);
+                    e.preventDefault();
                 }
             };
             addEvent(that, 'keydown', that.keydownHandler);

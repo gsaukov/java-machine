@@ -85,6 +85,7 @@
 
 <textarea id="symbols" placeholder="Symbols comma separated" class="form-control" onclick="createAutoComplete('getallsymbols', 'symbols', allSymbolsObj)" style="height: 3em; width: 22em; margin-right: 10px;"></textarea>
 
+
 <script>
 
     var allSymbolsObj = {
@@ -125,7 +126,7 @@
                 }
             });
         }
-        
+
         new autoComplete({
             selector: 'textarea[id="' + targetId +'"]',
             minChars: dataObj.minChars,
