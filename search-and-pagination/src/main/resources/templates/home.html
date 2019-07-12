@@ -97,20 +97,12 @@
 
         setData : function (data) {
             this.allSymbolsData =  JSON.parse(data);
-        },
-
-        getAutoComplete : function () {
-            return this.autoComplete;
-        },
-
-        setAutoComplete : function (autoComplete) {
-            this.autoComplete =  autoComplete;
         }
     }
 
     function createSeparatorAutoComplete(targetId, dataObj) {
         window.event.preventDefault();
-        if (dataObj.getData() === null) {
+        if (!dataObj.getData()) {
             var onResponse = function (response) {
                 dataObj.setData(response);
             }
@@ -118,36 +110,36 @@
             doFetch(dataObj.dataUrl, "GET", null, onResponse);
         }
 
-        if (dataObj.getAutoComplete() === null) {
-            dataObj.setAutoComplete(new autoComplete({
-                                    selector: targetId,
-                                    minChars: dataObj.minChars,
-                                    separator: dataObj.separator,
-                                    cache: false,
-                                    source: function (term, suggest) {
-                                        var choices = dataObj.getData();
-                                        var matches = [];
-                                        term = term.toUpperCase().split(dataObj.separator).pop(-1).trim();
-                                        if(term.length < dataObj.minChars) return;
-                                        for (i = 0; i < choices.length; i++)
-                                            if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
-                                        suggest(matches);
-                                    },
-                                    onAssign: function(that, v){
-                                        if(dataObj.separator){
-                                            var tempVal = that.value;
-                                            if(tempVal.includes(dataObj.separator)){
-                                                tempVal = tempVal.substr(0, tempVal.lastIndexOf(dataObj.separator) + 1);
-                                                that.value = tempVal + v;
-                                            } else {
-                                                that.value = v;
-                                            }
-                                        } else {
-                                            that.value = v;
-                                        }
-                                    }
-                                })
-            )
+        var target = document.querySelectorAll(targetId)[0];
+        if (target || target.getAttribute("autocomplete") === null) {
+            new autoComplete({
+                selector: targetId,
+                minChars: dataObj.minChars,
+                separator: dataObj.separator,
+                cache: false,
+                source: function (term, suggest) {
+                    var choices = dataObj.getData();
+                    var matches = [];
+                    term = term.toUpperCase().split(dataObj.separator).pop(-1).trim();
+                    if(term.length < dataObj.minChars) return;
+                    for (i = 0; i < choices.length; i++)
+                        if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
+                    suggest(matches);
+                },
+                onAssign: function(that, v){
+                    if(dataObj.separator){
+                        var tempVal = that.value;
+                        if(tempVal.includes(dataObj.separator)){
+                            tempVal = tempVal.substr(0, tempVal.lastIndexOf(dataObj.separator) + 1);
+                            that.value = tempVal + v;
+                        } else {
+                            that.value = v;
+                        }
+                    } else {
+                        that.value = v;
+                    }
+                }
+            })
         }
     }
 
@@ -163,21 +155,12 @@
 
         setData : function (data) {
             this.allSymbolsData =  JSON.parse(data);
-        },
-
-
-        getAutoComplete : function () {
-            return this.autoComplete;
-        },
-
-        setAutoComplete : function (autoComplete) {
-            this.autoComplete =  autoComplete;
         }
     }
 
-    function createSimpleAutoComplete(url, targetId, dataObj) {
+    function createSimpleAutoComplete(targetId, dataObj) {
         window.event.preventDefault();
-        if (dataObj.getData() === null) {
+        if (!dataObj.getData()) {
             var onResponse = function (response) {
                 dataObj.setData(response);
             }
@@ -185,22 +168,22 @@
             doFetch(dataObj.dataUrl, "GET", null, onResponse);
         }
 
-        if (dataObj.getAutoComplete() === null) {
-            dataObj.setAutoComplete(new autoComplete({
-                                    selector: targetId,
-                                    minChars: dataObj.minChars,
-                                    cache: false,
-                                    source: function (term, suggest) {
-                                        var choices = dataObj.getData();
-                                        var matches = [];
-                                        term = term.toUpperCase();
-                                        if (term.length < dataObj.minChars) return;
-                                        for (i = 0; i < choices.length; i++)
-                                            if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
-                                        suggest(matches);
-                                    }
-                                })
-            )
+        var target = document.querySelectorAll(targetId)[0];
+        if (target || target.getAttribute("autocomplete") === null) {
+            new autoComplete({
+                selector: targetId,
+                minChars: dataObj.minChars,
+                cache: false,
+                source: function (term, suggest) {
+                    var choices = dataObj.getData();
+                    var matches = [];
+                    term = term.toUpperCase();
+                    if (term.length < dataObj.minChars) return;
+                    for (i = 0; i < choices.length; i++)
+                        if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
+                    suggest(matches);
+                }
+            })
         }
     }
 </script>
