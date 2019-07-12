@@ -82,7 +82,11 @@ var autoComplete = (function(){
                                 that.sc.scrollTop = selTop + scrTop;
                         }
                 }
-            }
+            };
+            that.cleanSuggestions = function(){
+                var el = that.sc.querySelectorAll(".autocomplete-suggestions");
+                el.forEach(e => e.parentNode.removeChild(e));
+            };
             addEvent(window, 'resize', that.updateSC);
             document.body.appendChild(that.sc);
 
@@ -154,24 +158,21 @@ var autoComplete = (function(){
                 else if (key == 27) {
                     that.value = that.last_val;
                     that.sc.style.display = 'none';
-                    that.sc.querySelectorAll(".autocomplete-suggestion").forEach(e => e.parentNode.removeChild(e));
-                    that.updateSC(0);
+                    that.cleanSuggestions();
                 }
                 else if (e.key == o.separator) {
                     that.sc.style.display = 'none';
-                    that.sc.querySelectorAll(".autocomplete-suggestion").forEach(e => e.parentNode.removeChild(e));
-                    that.updateSC(0);
+                    that.cleanSuggestions();
                 }
                 // enter
                 else if (key == 13 || key == 9) {
+                    e.preventDefault();
                     var sel = that.sc.querySelector('.autocomplete-suggestion.selected');
                     if (sel && that.sc.style.display != 'none') {
                         o.onSelect(e, sel.getAttribute('data-val'), sel);
                         setTimeout(function(){ that.sc.style.display = 'none'; }, 20);
                     }
-                    that.sc.querySelectorAll(".autocomplete-suggestion").forEach(e => e.parentNode.removeChild(e));
-                    that.updateSC(0);
-                    e.preventDefault();
+                    that.cleanSuggestions();
                 }
             };
             addEvent(that, 'keydown', that.keydownHandler);
