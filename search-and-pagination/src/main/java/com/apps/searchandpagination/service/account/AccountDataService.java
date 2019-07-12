@@ -3,6 +3,7 @@ package com.apps.searchandpagination.service.account;
 import com.apps.searchandpagination.persistance.entity.AccountData;
 import com.apps.searchandpagination.persistance.query.account.AccountDataCriteria;
 import com.apps.searchandpagination.persistance.query.account.AccountDataDynamicQuery;
+import com.apps.searchandpagination.persistance.repository.AccountAddressRepository;
 import com.apps.searchandpagination.persistance.repository.AccountDataRepository;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +20,9 @@ public class AccountDataService {
 
     @Autowired
     private AccountDataRepository accountDataRepository;
+
+    @Autowired
+    private AccountAddressRepository accountAddressRepository;
 
     @Autowired
     private AccountDataDynamicQuery accountDetailsDynamicQuery;
@@ -28,6 +33,14 @@ public class AccountDataService {
 
     public AccountData getAccountData(String accountId) {
         return accountDataRepository.findById(accountId).get();
+    }
+
+    public List<String> findAllCities() {
+        return accountAddressRepository.findAllCities();
+    }
+
+    public List<String> findAllStates() {
+        return accountAddressRepository.findAllStates();
     }
 
     public String getAccountVatData(String accountId) {
@@ -54,10 +67,5 @@ public class AccountDataService {
         }
         sb.append("</p>");
     }
-
-    public void setAccountDataRepository(AccountDataRepository accountDataRepository) {
-        this.accountDataRepository = accountDataRepository;
-    }
-
 
 }

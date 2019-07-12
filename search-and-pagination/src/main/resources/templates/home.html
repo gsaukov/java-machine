@@ -111,7 +111,7 @@
         }
 
         var target = document.querySelectorAll(targetId)[0];
-        if (target || target.getAttribute("autocomplete") === null) {
+        if (!target || target.getAttribute("autocomplete") === null) {
             new autoComplete({
                 selector: targetId,
                 minChars: dataObj.minChars,
@@ -122,8 +122,11 @@
                     var matches = [];
                     term = term.toUpperCase().split(dataObj.separator).pop(-1).trim();
                     if(term.length < dataObj.minChars) return;
-                    for (i = 0; i < choices.length; i++)
-                        if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
+                    for (i = 0; i < choices.length; i++){
+                        if(choices[i]){
+                            if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
+                        }
+                    }
                     suggest(matches);
                 },
                 onAssign: function(that, v){
@@ -146,15 +149,30 @@
     var allCityObj = {
         allCityData : null,
         dataUrl : "getallcities",
-        minChars : 2,
+        minChars : 3,
         autoComplete : null,
 
         getData : function () {
-            return this.allSymbolsData;
+            return this.allCityData;
         },
 
         setData : function (data) {
-            this.allSymbolsData =  JSON.parse(data);
+            this.allCityData = JSON.parse(data);
+        }
+    }
+
+    var allStatesObj = {
+        allStatesData : null,
+        dataUrl : "getallstates",
+        minChars : 1,
+        autoComplete : null,
+
+        getData : function () {
+            return this.allStatesData;
+        },
+
+        setData : function (data) {
+            this.allStatesData =  JSON.parse(data);
         }
     }
 
@@ -169,7 +187,7 @@
         }
 
         var target = document.querySelectorAll(targetId)[0];
-        if (target || target.getAttribute("autocomplete") === null) {
+        if (!target || target.getAttribute("autocomplete") === null) {
             new autoComplete({
                 selector: targetId,
                 minChars: dataObj.minChars,
@@ -179,8 +197,11 @@
                     var matches = [];
                     term = term.toUpperCase();
                     if (term.length < dataObj.minChars) return;
-                    for (i = 0; i < choices.length; i++)
-                        if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
+                    for (i = 0; i < choices.length; i++){
+                        if(choices[i]){
+                            if (~choices[i].toUpperCase().indexOf(term)) matches.push(choices[i]);
+                        }
+                    }
                     suggest(matches);
                 }
             })

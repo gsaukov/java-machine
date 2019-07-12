@@ -35,8 +35,8 @@
                     <fieldset class="form-group">
                         <legend>Address data</legend>
                         <div class="row-container">
-                            <input id="city" th:field="*{city}" type="text" placeholder="City" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
-                            <input id="state" th:field="*{state}" type="text" placeholder="State" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
+                            <input id="city" th:field="*{city}" type="text" placeholder="City" class="form-control" onclick='createSimpleAutoComplete("input[id=\"city\"]", allCityObj)' style="width: 19em; min-width: 8em; margin-right: 10px;"/>
+                            <input id="state" th:field="*{state}" type="text" placeholder="State" class="form-control" onclick='createSimpleAutoComplete("input[id=\"state\"]", allStatesObj)' style="width: 19em; min-width: 8em; margin-right: 10px;"/>
                             <input id="postalCode" th:field="*{postalCode}" type="text" placeholder="Postal Code" class="form-control" style="width: 19em; min-width: 8em; margin-right: 10px;"/>
                         </div>
                     </fieldset>
