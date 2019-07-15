@@ -354,18 +354,26 @@
         var responseStatus;
         var responseStatusText;
         window.event.preventDefault();
+        var hi = new Date();
+        console.log('hi' + hi.toLocaleTimeString() + '.' + hi.getMilliseconds());
         fetch(url, {
             method: method,
             body: data,
         }).then(
             function(response){
+                var start = new Date();
+                console.log('start' + start.toLocaleTimeString() + '.' + start.getMilliseconds());
                 return doCall(response, {url: url, method: method, data: data});
             }
         ).then(
             function(responseBody) {
+                var end = new Date();
+                console.log('end' + end.toLocaleTimeString() + '.' + end.getMilliseconds() + ' in ' +  Math.abs(end - hi) + 'ms');
                 return doResponse(responseBody, onResponse, extraDetails);
             }
         ).catch(function(error) {
+            var end = new Date();
+            console.log('end' + start.toLocaleTimeString() + '.' + start.getMilliseconds());
             showModal("Error", "<p>" + error.stack + "</p>" + "<p>" + error.message + "</p>");
         });
     }
