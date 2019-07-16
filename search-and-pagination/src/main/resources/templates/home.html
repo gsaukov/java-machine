@@ -63,7 +63,7 @@
 
     <div id="page-content-wrapper" style="padding: 0px">
         <div class="container-fluid" style="padding: 0px; padding-right: 1px;">
-            <div style="padding-left: 20px; padding-top: 15px;" >
+            <nav class="navbar sticky-top navbar-expand-lg" style="background-color: rgba(11, 14, 22, .5); padding-left: 20px; padding-top: 15px;" >
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                 <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
                 <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
@@ -141,7 +141,7 @@
                         </svg>
                     </div >
                 </div>
-            </div>
+            </nav>
             <div id="homeBlock">
                 <div th:fragment="home(file, fragment)">
                     <div th:replace="${file} :: ${fragment}"></div>
