@@ -23,6 +23,7 @@
     <script src="../static/js/OpenStreetMap.js"></script>
     <script src="../static/js/ol.js"></script>
     <script src="../static/js/auto-complete.js"></script>
+    <script src="../static/js/d3.v5.js"></script>
 
 </head>
 
@@ -67,80 +68,7 @@
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                 <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
                 <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
-                <a href="#" id="start-button" class="btn btn-default" onClick="startTimer()">Start</a>
-                <a href="#" id="stop-button" class="btn btn-default" onClick="stopTimer()">Stop</a>
-                <a href="#" id="reset-button" class="btn btn-default" onClick="resetTimer()">Reset</a>
-                <a href="#" id="hide-button" class="btn btn-default" onClick="hideSpinner()">Hide</a>
-                <a href="#" id="pause-button" class="btn btn-default" onClick="pauseSpinner()">Pause</a>
-                <a href="#" id="resume-button" class="btn btn-default" onClick="resumeSpinner()">Resume</a>
-                <!--<div th:replace="requesttimer :: requesttimer"></div>-->
-                <div class="row-container" style="position: absolute; right: 10px; top: 15px">
-                    <output id="requestTimer">00:00.000</output>
-                    <div id="requestSpinner" style="height: 30px; width: 30px;" xmlns="http://www.w3.org/2000/svg">
-                        <svg id="svgSpinner" class="spinner" width="100%" height="100%"  viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                            <g transform="rotate(0 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(30 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.8333333333333334s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(60 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.75s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(90 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.6666666666666666s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(120 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5833333333333334s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(150 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(180 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.4166666666666667s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(210 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.3333333333333333s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(240 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.25s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(270 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.16666666666666666s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(300 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.08333333333333333s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                            <g transform="rotate(330 50 50)">
-                                <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#a1afc3">
-                                    <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animate>
-                                </rect>
-                            </g>
-                        </svg>
-                    </div >
-                </div>
+                <div th:replace="requesttimer :: requesttimer"></div>
             </nav>
             <div id="homeBlock">
                 <div th:fragment="home(file, fragment)">
@@ -513,15 +441,9 @@ function resetTimer() {
 
 function clockRunning(){
     var currentTime = new Date()
-        , timeElapsed = new Date(currentTime - timeBegan - stoppedDuration)
-        , min = timeElapsed.getUTCMinutes()
-        , sec = timeElapsed.getUTCSeconds()
-        , ms = timeElapsed.getUTCMilliseconds();
+        , timeElapsed = new Date(currentTime - timeBegan - stoppedDuration);
 
-    document.getElementById("requestTimer").innerHTML =
-        (min > 9 ? min : "0" + min) + ":" +
-        (sec > 9 ? sec : "0" + sec) + "." +
-        (ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms);
+    document.getElementById("requestTimer").innerHTML = timeToString(timeElapsed);
 };
 
 function hideSpinner(){
@@ -536,17 +458,21 @@ function resumeSpinner() {
     document.getElementById("svgSpinner").unpauseAnimations();
 }
 
-document.addEventListener("DOMContentLoaded", function(event) {
-    var now = new Date().getTime();
-    var pageLoadTime = new Date(now - performance.timing.navigationStart)
-        , min = pageLoadTime.getUTCMinutes()
-        , sec = pageLoadTime.getUTCSeconds()
-        , ms = pageLoadTime.getUTCMilliseconds();
+function timeToString(time) {
+    var min = time.getUTCMinutes()
+    , sec = time.getUTCSeconds()
+    , ms = time.getUTCMilliseconds();
 
-    document.getElementById("requestTimer").innerHTML =
-        (min > 9 ? min : "0" + min) + ":" +
+    return (min > 9 ? min : "0" + min) + ":" +
         (sec > 9 ? sec : "0" + sec) + "." +
         (ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms);
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    var now = new Date().getTime();
+    var pageLoadTime = new Date(now - performance.timing.navigationStart);
+
+    document.getElementById("requestTimer").innerHTML = timeToString(pageLoadTime);
     pauseSpinner();
 });
 </script>
