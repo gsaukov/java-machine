@@ -1,49 +1,22 @@
-const margin = { top: 50, right: 70, bottom: 30, left: 50 };
+function render(chartObj) {
+    var margin = chartObj.margin;
 
-const $chart = d3.select('#vis');
-const $svg = $chart.append('svg');
-const $plot = $svg.append('g')
-    .attr('transform', `translate(${margin.left}, ${margin.top})`);
-
-const parseDate = d3.timeParse('%Y');
-
-// set up scales
-const x = d3.scaleTime();
-const y = d3.scaleLinear();
-
-const colour = d3.scaleOrdinal(d3.schemeCategory10);
-
-const xAxis = d3.axisBottom()
-    .scale(x)
-    .ticks(10);
-
-const yAxis = d3.axisLeft()
-    .scale(y)
-    .ticks(10);
-
-const line = d3.line()
-    .x(d => x(d.date))
-    .y(d => y(d.value))
-    .curve(d3.curveMonotoneX);
-
-function render() {
-
-    const width = parseInt($chart.node().offsetWidth) - margin.left - margin.right;
+    const width = parseInt(chartObj.chart.node().offsetWidth) - margin.left - margin.right;
     const height = parseInt(width * 0.4) - margin.top - margin.bottom;
 
-    $svg.attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom);
+    chartObj.svg.attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom);
 
-    x.range([0, width]);
-    y.range([height, 0]);
+    chartObj.x.range([0, width]);
+    chartObj.y.range([height, 0]);
 
-    $plot.select('.axis.x')
+    chartObj.plot.select('.axis.x')
         .attr('transform', `translate(0, ${height})`)
-        .call(xAxis)
+        .call(chartObj.xAxis)
         .select('.domain').remove();
 
-    $plot.select('.axis.y')
-        .call(yAxis)
+    chartObj.plot.select('.axis.y')
+        .call(chartObj.yAxis)
         .call(g => g.select('.tick:last-of-type text').clone()
             .attr('x', 3)
             .attr('text-anchor', 'start')
@@ -51,20 +24,20 @@ function render() {
             .text('$ billion'))
         .select('.domain').remove();
 
-    $plot.select('.baseline')
+    chartObj.plot.select('.baseline')
         .attr('x1', 0)
         .attr('x2', width)
-        .attr('y1', y(0))
-        .attr('y2', y(0))
+        .attr('y1', chartObj.y(0))
+        .attr('y2', chartObj.y(0))
         .attr('fill', 'none')
         .attr('stroke', '#000')
         .attr('stroke-width', '1px')
         .attr('shape-rendering', 'crispEdges')
         .attr('stroke-dasharray', '3, 3')
 
-    const path = $plot.selectAll('path')
-        .attr('d', d => line(d.values))
-        .attr('stroke', d => colour(d.name))
+    const path = chartObj.plot.selectAll('path')
+        .attr('d', d => chartObj.line(d.values))
+        .attr('stroke', d => chartObj.colour(d.name))
         .attr('opacity', d => d.name == 'Highlight' ? 1 : 0.5)
         .attr('id', (d, i) => `line-${d.name}`)
 
@@ -79,13 +52,13 @@ function render() {
             .attr('stroke-dashoffset', 0)
     })
 
-    $plot.selectAll('.line-label')
+    chartObj.plot.selectAll('.line-label')
         .attr('transform', d => {
-            return `translate(${x(d.value.date)}, ${y(d.value.value)})`;
+            return `translate(${chartObj.x(d.value.date)}, ${chartObj.y(d.value.value)})`;
         })
         .attr('x', 5)
         .attr('dy', '.35em')
-        .attr('fill', d => colour(d.name))
+        .attr('fill', d => chartObj.colour(d.name))
         .attr('font-weight', d => d.name == 'Highlight' ? 700 : 400)
         .text(d => d.name)
         .attr('opacity', 0)
@@ -96,7 +69,7 @@ function render() {
 
 
     <!--glow!!!!!!!!!! section!!!!-->
-    var defs = $svg.append("defs");
+    var defs = chartObj.svg.append("defs");
 
     var filter = defs.append("filter")
         .attr("id","glow");
@@ -114,12 +87,12 @@ function render() {
     <!--glow!!!!!!!!!! section!!!!-->
 }
 
-function bindData(rawdata) {
+function bindData(rawdata, chartObj) {
     // column headings, for each line
     const keys = rawdata.columns.filter(key => key != 'year');
 
     rawdata.forEach(d => {
-        d.year = parseDate(d.year);
+        d.year = chartObj.parseDate(d.year);
     })
 
     const data = keys.map(name => {
@@ -131,17 +104,17 @@ function bindData(rawdata) {
         }
     });
 
-    colour.domain(keys);
+    chartObj.colour.domain(keys);
 
     // screen dimensions
-    x.domain(d3.extent(rawdata, d => d.year));
-    y.domain([
+    chartObj.x.domain(d3.extent(rawdata, d => d.year));
+    chartObj.y.domain([
         d3.min(data, c => d3.min(c.values, v => v.value)) / 1.05,
         d3.max(data, c => d3.max(c.values, v => v.value)) * 1.1
     ]).nice();
 
     // bind data to DOM elements
-    const $lines = $plot.append('g')
+    const $lines = chartObj.plot.append('g')
         .attr('class', 'lines glowed')
         .selectAll('.line')
         .data(data)
@@ -152,7 +125,8 @@ function bindData(rawdata) {
     $lines.append('path')
         .attr('class', 'path glowed')
 
-    d3.selectAll(".glowed").style("filter","url(#glow)"); <!--glow!!!!!!!!!! section!!!!-->
+    d3.selectAll(".glowed").style("filter","url(#glow)");
+    <!--glow!!!!!!!!!! section!!!!-->
 
     $lines.append('text')
         .datum(d => {
@@ -164,24 +138,25 @@ function bindData(rawdata) {
         .attr('class', 'line-label')
         .attr('opacity', 0)
 
-    $plot.append('g')
+    chartObj.plot.append('g')
         .attr('class', 'axis x');
 
-    $plot.append('g')
+    chartObj.plot.append('g')
         .attr('class', 'axis y');
 
-    $plot.append('line')
+    chartObj.plot.append('line')
         .attr('class', 'baseline')
 
-    window.addEventListener('resize', debounce(render, 200));
-    render();
+//    window.addEventListener('resize', debounce(render, 200));
+    render(chartObj);
 }
 
-function initChart(url) {
-    d3.csv(url).then(bindData);
+function initChart(chartObj) {
+    d3.csv(chartObj.dataUrl).then(function callbackExecutor(rawdata) {bindData (rawdata, chartObj);});
 }
 
-function debounce(func, wait, immediate){
+function debounce(chartObj, func, wait, immediate){
+    var chartObj;
     var timeout, args, context, timestamp, result;
     if (null == wait) wait = 100;
 
