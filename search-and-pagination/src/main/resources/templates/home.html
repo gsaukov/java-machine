@@ -35,35 +35,6 @@
 <!--    https://blockbuilder.org/giorgi-ghviniashvili/e961128f71c0a927a9f50816ab61de43-->
     <!--https://jsfiddle.net/ngati016/Lo7v9jhc/?utm_source=website&utm_medium=embed&utm_campaign=Lo7v9jhc-->
 
-<style>
-    #vis {
-      min-width: 900px;
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-
-    /*.axis path, .axis line {*/
-    /*  fill: none;*/
-    /*  stroke: #666;*/
-    /*  shape-rendering: crispEdges;*/
-    /*}*/
-
-    /*.line {*/
-    /*  fill: none;*/
-    /*  stroke-width: 1.5px;*/
-    /*}*/
-
-    /*#line-Highlight {*/
-    /*  stroke-width: 2px;*/
-    /*}*/
-
-    /*.baseline {*/
-    /*  stroke: #666;*/
-    /*}*/
-</style>
-
-
-
 </head>
 
 <body>
@@ -124,7 +95,7 @@
 
 <div th:replace="modal :: modal"></div>
 
-<div id='vis'></div>
+<div id='vis' style="min-width: 900px; max-width: 1600px; margin: 0 auto;"></div>
 
 <script>
     function createChartObj() {
