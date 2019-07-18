@@ -38,6 +38,7 @@
 </head>
 
 <body>
+<div id="blurBackGround" style="filter: blur(5px);">
 <div id="wrapper" class="toggled">
 
      <!--Sidebar-->
@@ -95,10 +96,10 @@
 <div id="detailsBlock"></div>
 
 <div th:replace="modal :: modal"></div>
+</div>
+<!--<div th:replace="account/accountperfomance :: accountperfomance"></div>-->
 
-<div th:replace="account/accountperfomance :: accountperfomance"></div>
-
-<div id="accountPerfomanceBody"></div>
+<div id="accountPerfomanceBody" style="position: absolute; top: 100px; "></div>
 <script>
     function createChartObj() {
         var chartObj = {};
@@ -131,7 +132,7 @@
     function showAccountPerfomance() {
         $('#accountPerfomanceBody').html('');
         $('#accountPerfomanceBody').append("<a href='#' class='btn btn-default btn-close' aria-label='Close' style='position: absolute; right: 10px;'>&times;</a>");
-        $('#accountPerfomanceBody').append("<div id='accountPerfomanceGraph' style='min-height: 500px; min-width: 1800px; max-width: 1800px; margin: 0 auto;'></div>");
+        $('#accountPerfomanceBody').append("<div id='accountPerfomanceGraph' min-height: 500px; min-width: 1800px; max-width: 1800px; margin: 0 auto;'></div>");
         initChart(createChartObj());
     }
 </script>
