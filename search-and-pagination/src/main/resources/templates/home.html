@@ -78,6 +78,7 @@
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                 <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
                 <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
+                <a href="#" class="btn btn-default" onclick="showAccountPerfomance()" >accPerf</a>
                 <div th:replace="requesttimer :: requesttimer"></div>
             </nav>
             <div id="homeBlock">
@@ -95,13 +96,14 @@
 
 <div th:replace="modal :: modal"></div>
 
-<div id='vis' style="min-width: 900px; max-width: 1600px; margin: 0 auto;"></div>
+<div th:replace="account/accountperfomance :: accountperfomance"></div>
 
+<div id="accountPerfomanceBody"></div>
 <script>
     function createChartObj() {
         var chartObj = {};
         chartObj.margin = { top: 50, right: 70, bottom: 30, left: 50 };
-        chartObj.chart = d3.select('#vis');
+        chartObj.chart = d3.select('#accountPerfomanceGraph');
         chartObj.svg = chartObj.chart.append('svg');
         chartObj.plot = chartObj.svg.append('g').attr('transform', `translate(${chartObj.margin.left}, ${chartObj.margin.top})`);
         chartObj.parseDate = d3.timeParse('%Y');
@@ -123,8 +125,15 @@
         chartObj.dataUrl = '../static/data.csv';
         return chartObj
     }
+ </script>
 
-    initChart(createChartObj());
+<script>
+    function showAccountPerfomance() {
+        $('#accountPerfomanceBody').html('');
+        $('#accountPerfomanceBody').append("<a href='#' class='btn btn-default btn-close' aria-label='Close' style='position: absolute; right: 10px;'>&times;</a>");
+        $('#accountPerfomanceBody').append("<div id='accountPerfomanceGraph' style='min-height: 500px; min-width: 1800px; max-width: 1800px; margin: 0 auto;'></div>");
+        initChart(createChartObj());
+    }
 </script>
 
 <script>
