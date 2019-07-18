@@ -38,28 +38,28 @@
 <style>
     #vis {
       min-width: 900px;
-      max-width: 1700px;
+      max-width: 1600px;
       margin: 0 auto;
     }
 
-    .axis path, .axis line {
-      fill: none;
-      stroke: #666;
-      shape-rendering: crispEdges;
-    }
+    /*.axis path, .axis line {*/
+    /*  fill: none;*/
+    /*  stroke: #666;*/
+    /*  shape-rendering: crispEdges;*/
+    /*}*/
 
-    .line {
-      fill: none;
-      stroke-width: 1.5px;
-    }
+    /*.line {*/
+    /*  fill: none;*/
+    /*  stroke-width: 1.5px;*/
+    /*}*/
 
-    #line-Highlight {
-      stroke-width: 2px;
-    }
+    /*#line-Highlight {*/
+    /*  stroke-width: 2px;*/
+    /*}*/
 
-    .baseline {
-      stroke: #666;
-    }
+    /*.baseline {*/
+    /*  stroke: #666;*/
+    /*}*/
 </style>
 
 
@@ -127,32 +127,33 @@
 <div id='vis'></div>
 
 <script>
-
-    var chartObj = {};
-    chartObj.margin = { top: 50, right: 70, bottom: 30, left: 50 };
-    chartObj.chart = d3.select('#vis');
-    chartObj.svg = chartObj.chart.append('svg');
-    chartObj.plot = chartObj.svg.append('g').attr('transform', `translate(${chartObj.margin.left}, ${chartObj.margin.top})`);
-    chartObj.parseDate = d3.timeParse('%Y');
-
-
-    chartObj.x = d3.scaleTime();
-    chartObj.y = d3.scaleLinear();
-
-    chartObj.colour = d3.scaleOrdinal(d3.schemeCategory10);
-
-    chartObj.xAxis = d3.axisBottom().scale(chartObj.x).ticks(10);
-    chartObj.yAxis = d3.axisLeft().scale(chartObj.y).ticks(10);
-
-    chartObj.line = d3.line()
-        .x(d => chartObj.x(d.date))
-        .y(d => chartObj.y(d.value))
-        .curve(d3.curveMonotoneX);
-
-    chartObj.dataUrl = '../static/data.csv';
+    function createChartObj() {
+        var chartObj = {};
+        chartObj.margin = { top: 50, right: 70, bottom: 30, left: 50 };
+        chartObj.chart = d3.select('#vis');
+        chartObj.svg = chartObj.chart.append('svg');
+        chartObj.plot = chartObj.svg.append('g').attr('transform', `translate(${chartObj.margin.left}, ${chartObj.margin.top})`);
+        chartObj.parseDate = d3.timeParse('%Y');
 
 
-    initChart(chartObj)
+        chartObj.x = d3.scaleTime();
+        chartObj.y = d3.scaleLinear();
+
+        chartObj.colour = d3.scaleOrdinal(d3.schemeCategory10);
+
+        chartObj.xAxis = d3.axisBottom().scale(chartObj.x).ticks(10);
+        chartObj.yAxis = d3.axisLeft().scale(chartObj.y).ticks(10);
+
+        chartObj.line = d3.line()
+            .x(d => chartObj.x(d.date))
+            .y(d => chartObj.y(d.value))
+            .curve(d3.curveMonotoneX);
+
+        chartObj.dataUrl = '../static/data.csv';
+        return chartObj
+    }
+
+    initChart(createChartObj());
 </script>
 
 <script>

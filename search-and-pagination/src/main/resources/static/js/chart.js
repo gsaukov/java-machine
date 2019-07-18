@@ -18,10 +18,10 @@ function render(chartObj) {
     chartObj.plot.select('.axis.y')
         .call(chartObj.yAxis)
         .call(g => g.select('.tick:last-of-type text').clone()
-            .attr('x', 3)
+            .attr('x', 0)
             .attr('text-anchor', 'start')
             .attr('font-weight', 600)
-            .text('$ billion'))
+            .text('$ tsd'))
         .select('.domain').remove();
 
     chartObj.plot.select('.baseline')
@@ -30,7 +30,7 @@ function render(chartObj) {
         .attr('y1', chartObj.y(0))
         .attr('y2', chartObj.y(0))
         .attr('fill', 'none')
-        .attr('stroke', '#000')
+        .attr('stroke', '#a1afc3')
         .attr('stroke-width', '1px')
         .attr('shape-rendering', 'crispEdges')
         .attr('stroke-dasharray', '3, 3')
@@ -53,22 +53,33 @@ function render(chartObj) {
     })
 
     chartObj.plot.selectAll('.line-label')
-        .attr('transform', d => {
-            return `translate(${chartObj.x(d.value.date)}, ${chartObj.y(d.value.value)})`;
-        })
-        .attr('x', 5)
+        .attr('class', 'line-label glowed')
+        .attr('x', 10)
+        .attr('y', 30)
         .attr('dy', '.35em')
         .attr('fill', d => chartObj.colour(d.name))
-        .attr('font-weight', d => d.name == 'Highlight' ? 700 : 400)
-        .text(d => d.name)
+        .attr('font-weight', 700)
+        .text(d => d.name + ' ' + d.value.value)
         .attr('opacity', 0)
         .transition()
         .delay(4000)
         .duration(200)
         .attr('opacity', 1);
 
+    chartObj.plot.selectAll('.circle')
+    // this move the circle to the end of the line.
+        .attr('transform', d => {
+            return `translate(${chartObj.x(d.value.date)}, ${chartObj.y(d.value.value)})`;
+        })
+        .attr('class', 'circle glowed')
+        .attr('x', 0)
+        .attr('opacity', 0)
+        .transition()
+        .delay(4000)
+        .duration(200)
+        .attr('opacity', 1);
 
-    <!--glow!!!!!!!!!! section!!!!-->
+    //glow filter
     var defs = chartObj.svg.append("defs");
 
     var filter = defs.append("filter")
@@ -84,7 +95,6 @@ function render(chartObj) {
         .attr("in","coloredBlur");
     feMerge.append("feMergeNode")
         .attr("in","SourceGraphic");
-    <!--glow!!!!!!!!!! section!!!!-->
 }
 
 function bindData(rawdata, chartObj) {
@@ -121,12 +131,15 @@ function bindData(rawdata, chartObj) {
         .enter()
         .append('g')
         .attr('class', 'line')
+        .attr('fill', 'none')
+        .attr('stroke-width', '2px')
+
 
     $lines.append('path')
         .attr('class', 'path glowed')
 
+    //enable glow
     d3.selectAll(".glowed").style("filter","url(#glow)");
-    <!--glow!!!!!!!!!! section!!!!-->
 
     $lines.append('text')
         .datum(d => {
@@ -137,6 +150,19 @@ function bindData(rawdata, chartObj) {
         })
         .attr('class', 'line-label')
         .attr('opacity', 0)
+
+    $lines.append('circle')
+        .datum(d => {
+            return {
+                name: d.name,
+                value: d.values[d.values.length - 1]
+            }
+        })
+        .attr('class', 'circle glowed')
+        .attr('r', 4)
+        .attr('fill', '#000000')
+        .style('stroke', d => chartObj.colour(d.name))
+        .style('stroke-width', 2)
 
     chartObj.plot.append('g')
         .attr('class', 'axis x');
