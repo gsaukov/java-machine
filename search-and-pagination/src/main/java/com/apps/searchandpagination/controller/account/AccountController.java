@@ -7,12 +7,14 @@ import com.apps.searchandpagination.service.SearchKeeper;
 import com.apps.searchandpagination.service.account.AccountDataService;
 import com.apps.searchandpagination.service.account.AccountSearchConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.Optional;
 
 @Controller
@@ -85,6 +87,12 @@ public class AccountController {
         return "account/accountdatatable :: accountdatatable";
     }
 
+    @ResponseBody
+    @GetMapping("accountperformance/")
+    public FileSystemResource getAccountPerformance(
+            @RequestParam("accountId") String accountId) {
+        return new FileSystemResource(accountDataService.getAccountPerformance(accountId));
+    }
 
     private String constructUrl(Optional<AccountDataCriteria> criteria){
         if(!criteria.isPresent()){

@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+
+<body>
+    <div th:fragment="accountperformance">
+        <div id="accountPerformanceBody" style='position: absolute; top: 0; left: 0; min-height: 500px; min-width: 1600px; height: 100%; width: 100%; margin: 0 auto; z-index: -1;'></div>
+
+        <script>
+            function createChartObj(accountId) {
+                var chartObj = {};
+                chartObj.margin = { top: 100, right: 70, bottom: 30, left: 50 };
+                chartObj.chart = d3.select('#accountPerformanceGraph');
+                chartObj.svg = chartObj.chart.append('svg');
+                chartObj.plot = chartObj.svg.append('g').attr('transform', `translate(${chartObj.margin.left}, ${chartObj.margin.top})`);
+                chartObj.parseDate = d3.timeParse('%Y');
+
+
+                chartObj.x = d3.scaleTime();
+                chartObj.y = d3.scaleLinear();
+
+                chartObj.colour = d3.scaleOrdinal(d3.schemeCategory10);
+
+                chartObj.xAxis = d3.axisBottom().scale(chartObj.x).ticks(10);
+                chartObj.yAxis = d3.axisLeft().scale(chartObj.y).ticks(10);
+
+                chartObj.line = d3.line()
+                    .x(d => chartObj.x(d.date))
+                    .y(d => chartObj.y(d.value))
+                    .curve(d3.curveMonotoneX);
+
+                // chartObj.dataUrl = '../static/data.csv'
+                chartObj.dataUrl = 'accountperformance/' + accountId;
+                return chartObj
+            }
+        </script>
+
+        <script>
+            function showAccountPerformance(accountId) {
+                $('#blurBackGround').attr('scroll', 'no');
+                $('#blurBackGround').css('overflow', 'hidden');
+                $('#blurBackGround').css('filter', 'blur(5px)');
+                $('#accountPerformanceBody').css('z-index', 99999);
+                $('#accountPerformanceBody').html('');
+                $('#accountPerformanceBody').append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeAccountPerformance()' style='position: absolute; right: 10px; top: 70px;'>&times;</a>");
+                $('#accountPerformanceBody').append("<div id='accountPerformanceGraph' style='min-height: 500px; min-width: 1600px; height: 100%; width: 100%; margin: 0 auto;'></div>");
+                initChart(createChartObj(accountId));
+            }
+        </script>
+
+        <script>
+            function removeAccountPerformance() {
+                $('#accountPerformanceBody').html('');
+                $('#accountPerformanceBody').css('z-index', -1);
+                $('#blurBackGround').removeAttr('scroll');
+                $('#blurBackGround').removeAttr('style');
+            }
+        </script>
+    </div>
+</body>
+</html>

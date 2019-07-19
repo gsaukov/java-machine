@@ -38,104 +38,66 @@
 </head>
 
 <body>
-<div id="blurBackGround" style="filter: blur(5px);">
-<div id="wrapper" class="toggled">
+<div id="blurBackGround">
+    <div id="wrapper" class="toggled">
 
-     <!--Sidebar-->
-    <div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-    <li class="sidebar-brand">
-    <a href="#" onclick="$('#wrapper').toggleClass('toggled')">
-    Start Bootstrap<i class="fas fa-chevron-left"></i>
-    </a>
-    </li>
-    <li>
-    <a href="#">Dashboard</a>
-    </li>
-    <li>
-    <a href="#" onclick="getHome('accounthome/')">Accounts</a>
-    </li>
-    <li>
-    <a href="#" onclick="getHome('tradehome/')">Trades</a>
-    </li>
-    <li>
-    <a href="#">Events</a>
-    </li>
-    <li>
-    <a href="#">About</a>
-    </li>
-    <li>
-    <a href="#">Services</a>
-    </li>
-    <li>
-    <a href="#">Contact</a>
-    </li>
-    </ul>
-    </div>
+         <!--Sidebar-->
+        <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+        <a href="#" onclick="$('#wrapper').toggleClass('toggled')">
+        Start Bootstrap<i class="fas fa-chevron-left"></i>
+        </a>
+        </li>
+        <li>
+        <a href="#">Dashboard</a>
+        </li>
+        <li>
+        <a href="#" onclick="getHome('accounthome/')">Accounts</a>
+        </li>
+        <li>
+        <a href="#" onclick="getHome('tradehome/')">Trades</a>
+        </li>
+        <li>
+        <a href="#">Events</a>
+        </li>
+        <li>
+        <a href="#">About</a>
+        </li>
+        <li>
+        <a href="#">Services</a>
+        </li>
+        <li>
+        <a href="#">Contact</a>
+        </li>
+        </ul>
+        </div>
 
-    <div id="page-content-wrapper" style="padding: 0px">
-        <div class="container-fluid" style="padding: 0px; padding-right: 1px;">
-            <nav class="navbar sticky-top navbar-expand-lg" style="background-color: rgba(11, 14, 22, .5); padding-left: 20px; padding-top: 15px;" >
-                <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
-                <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
-                <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
-                <a href="#" class="btn btn-default" onclick="showAccountPerfomance()" >accPerf</a>
-                <div th:replace="requesttimer :: requesttimer"></div>
-            </nav>
-            <div id="homeBlock">
-                <div th:fragment="home(file, fragment)">
-                    <div th:replace="${file} :: ${fragment}"></div>
+        <div id="page-content-wrapper" style="padding: 0px">
+            <div class="container-fluid" style="padding: 0px; padding-right: 1px;">
+                <nav class="navbar sticky-top navbar-expand-lg" style="background-color: rgba(11, 14, 22, .5); padding-left: 20px; padding-top: 15px;" >
+                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
+                    <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
+                    <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
+                    <a href="#" class="btn btn-default" onclick="showAccountPerformance('112')" >accPerf</a>
+                    <div th:replace="requesttimer :: requesttimer"></div>
+                </nav>
+                <div id="homeBlock">
+                    <div th:fragment="home(file, fragment)">
+                        <div th:replace="${file} :: ${fragment}"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="detailsTableBlock"></div>
+    <div id="mapBlock"></div>
+    <div id="detailsBlock"></div>
+
+    <div th:replace="modal :: modal"></div>
 </div>
-
-<div id="detailsTableBlock"></div>
-<div id="mapBlock"></div>
-<div id="detailsBlock"></div>
-
-<div th:replace="modal :: modal"></div>
-</div>
-<!--<div th:replace="account/accountperfomance :: accountperfomance"></div>-->
-
-<div id="accountPerfomanceBody" style="position: absolute; top: 100px; "></div>
-<script>
-    function createChartObj() {
-        var chartObj = {};
-        chartObj.margin = { top: 50, right: 70, bottom: 30, left: 50 };
-        chartObj.chart = d3.select('#accountPerfomanceGraph');
-        chartObj.svg = chartObj.chart.append('svg');
-        chartObj.plot = chartObj.svg.append('g').attr('transform', `translate(${chartObj.margin.left}, ${chartObj.margin.top})`);
-        chartObj.parseDate = d3.timeParse('%Y');
-
-
-        chartObj.x = d3.scaleTime();
-        chartObj.y = d3.scaleLinear();
-
-        chartObj.colour = d3.scaleOrdinal(d3.schemeCategory10);
-
-        chartObj.xAxis = d3.axisBottom().scale(chartObj.x).ticks(10);
-        chartObj.yAxis = d3.axisLeft().scale(chartObj.y).ticks(10);
-
-        chartObj.line = d3.line()
-            .x(d => chartObj.x(d.date))
-            .y(d => chartObj.y(d.value))
-            .curve(d3.curveMonotoneX);
-
-        chartObj.dataUrl = '../static/data.csv';
-        return chartObj
-    }
- </script>
-
-<script>
-    function showAccountPerfomance() {
-        $('#accountPerfomanceBody').html('');
-        $('#accountPerfomanceBody').append("<a href='#' class='btn btn-default btn-close' aria-label='Close' style='position: absolute; right: 10px;'>&times;</a>");
-        $('#accountPerfomanceBody').append("<div id='accountPerfomanceGraph' min-height: 500px; min-width: 1800px; max-width: 1800px; margin: 0 auto;'></div>");
-        initChart(createChartObj());
-    }
-</script>
+<div th:replace="account/accountperformance :: accountperformance"></div>
 
 <script>
     var allSymbolsObj = {

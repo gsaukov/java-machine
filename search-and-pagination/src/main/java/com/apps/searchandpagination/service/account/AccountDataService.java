@@ -12,8 +12,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class AccountDataService {
@@ -68,4 +74,48 @@ public class AccountDataService {
         sb.append("</p>");
     }
 
+    public File getAccountPerformance(String accountId) {
+        return convertToCSV(accountId,  getAccountPerformanceData());
+    }
+
+    private List<AccountPerformance> getAccountPerformanceData() {
+        List<AccountPerformance> accountPerformanceData = new ArrayList<>();
+        int year = RandomUtils.nextInt(1980, 2019);
+        int asset = RandomUtils.nextInt(0, 5000);
+        for(int i = 0; i < RandomUtils.nextInt(1, 15); i++){
+            int change = RandomUtils.nextInt(0, 200);
+            boolean minus = RandomUtils.nextBoolean();
+            if(minus){
+                asset = asset - change;
+            } else {
+                asset = asset + change;
+            }
+            accountPerformanceData.add(new AccountPerformance(String.valueOf(year++), asset));
+        }
+        return accountPerformanceData;
+    }
+
+    public File convertToCSV(String accountId, List<AccountPerformance> data) {
+        File file = new File(accountId +"_performace.csv");
+        try (PrintWriter writer = new PrintWriter(file)) {
+            StringBuilder sb = new StringBuilder();
+
+            sb.append("year");
+            sb.append(",");
+            sb.append(accountId + " assets");
+            sb.append('\n');
+            for(AccountPerformance performance : data){
+                sb.append(performance.getYear());
+                sb.append(',');
+                sb.append(performance.getAssets());
+                sb.append('\n');
+            }
+
+            writer.write(sb.toString());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
 }
