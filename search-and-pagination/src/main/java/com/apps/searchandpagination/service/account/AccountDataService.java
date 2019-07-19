@@ -82,7 +82,7 @@ public class AccountDataService {
         List<AccountPerformance> accountPerformanceData = new ArrayList<>();
         int year = RandomUtils.nextInt(1980, 2019);
         int asset = RandomUtils.nextInt(0, 5000);
-        for(int i = 0; i < RandomUtils.nextInt(1, 35); i++){
+        for(int i = 0; i < RandomUtils.nextInt(2, 35); i++){
             int change = RandomUtils.nextInt(0, 200);
             boolean minus = RandomUtils.nextBoolean();
             if(minus){
