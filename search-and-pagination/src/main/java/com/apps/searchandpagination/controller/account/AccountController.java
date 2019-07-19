@@ -88,9 +88,9 @@ public class AccountController {
     }
 
     @ResponseBody
-    @GetMapping("accountperformance/")
+    @GetMapping("accountperformance/{accountId}")
     public FileSystemResource getAccountPerformance(
-            @RequestParam("accountId") String accountId) {
+            @PathVariable("accountId") String accountId) {
         return new FileSystemResource(accountDataService.getAccountPerformance(accountId));
     }
 
