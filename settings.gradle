@@ -4,13 +4,15 @@ pluginManagement {
     }
 }
 rootProject.name = 't24-app'
-include 'alert-server'
-include 'bowling-calculator'
-include 'concurrency'
-include 'flood-fill'
-include 'lakes-calculator'
-include 'misc'
-include 'search-and-pagination'
-include 't24app'
 
+def path = [] as LinkedList
+
+rootDir.traverse(
+        type: groovy.io.FileType.FILES,
+        nameFilter: ~/^build.gradle$/,
+        maxDepth: 3,
+        preDir: { path << it.name },
+        postDir: { path.removeLast() }) {
+    if (path) include path.join(':')
+}
 
