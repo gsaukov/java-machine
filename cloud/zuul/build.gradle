@@ -1,0 +1,30 @@
+group 'com.apps.cloud.zuul'
+
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+
+    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    compile "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
+    compile "org.springframework.cloud:spring-cloud-starter-openfeign"
+    
+    runtime "mysql:mysql-connector-java:${mySqlVersion}"
+    runtime "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
+    runtime "com.h2database:h2:${h2Version}"
+}
+
+repositories {
+    mavenCentral()
+}
+

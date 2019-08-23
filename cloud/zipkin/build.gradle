@@ -1,0 +1,28 @@
+group 'com.apps.cloud.zipkin'
+
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+
+    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    compile "org.springframework.cloud:spring-cloud-starter-zipkin"
+
+    compile "io.zipkin.java:zipkin-server"
+    compile "io.zipkin.java:zipkin-autoconfigure-ui"
+
+}
+
+repositories {
+    mavenCentral()
+}
+

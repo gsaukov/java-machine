@@ -3,7 +3,9 @@ plugins {
     id 'java'
 }
 
-apply plugin: 'io.spring.dependency-management'
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
 
 group 'com.apps'
 version '1.0'
@@ -14,8 +16,15 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 dependencies {
     compile project(':misc')
+    compile "org.springframework.boot:spring-boot-starter-actuator"
     compile 'org.liquibase:liquibase-core'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -23,6 +32,7 @@ dependencies {
 //    compile group: 'org.springframework.cloud', name: 'spring-cloud-task-core', version: '2.1.2.RELEASE'
 //    compile group: 'org.springframework.boot', name: 'spring-boot-starter-batch', version: '2.1.5.RELEASE'
     compile group: 'javax.persistence', name: 'javax.persistence-api'
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compile 'org.springframework.data:spring-data-commons'
     compile group: 'com.h2database', name: 'h2'
     compile group: 'org.joda', name: 'joda-money', version: '1.0.1'

@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: zuul
+
+  datasource:
+    url: jdbc:mysql://localhost:55555/justitia
+    username: justitia
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 20
+      idleTimeout: 30000
+      maxLifetime: 2000000
+      connectionTimeout: 30000
+
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: none
+
+feign:
+  oauth2:
+    client-id: trusted-client
+    client-secret: trusted-client
+    supported-apis: omnidrive-api,exodus-api
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 8090
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 4
+    leaseExpirationDurationInSeconds: 10
+  client:
+    registryFetchIntervalSeconds: 3
+    shouldDisableDelta: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+zuul:
+  ribbon:
+    eager-load:
+      enabled: true
+  retryable: true
+  ignoredServices: '*'
+  prefix: /jenova
+  routes:
+    oauth:
+      path: /oauth/**
+      sensitiveHeaders:
+      serviceId: justitia
+      stripPrefix: false
+    justitia-api:
+      path: /justitia-api/**
+      sensitiveHeaders:
+      serviceId: justitia
+      stripPrefix: false
+    omnidrive-api:
+      path: /omnidrive-api/**
+      sensitiveHeaders:
+      serviceId: omnidrive
+      stripPrefix: false
+    exodus-api:
+      path: /exodus-api/**
+      sensitiveHeaders:
+      serviceId: exodus
+      stripPrefix: false
+
+ribbon:
+  MaxAutoRetries: 3
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: true

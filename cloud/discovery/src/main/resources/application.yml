@@ -17,7 +17,7 @@ eureka:
     leaseExpirationDurationInSeconds: 10
   client:
     registryFetchIntervalSeconds: 3
-    shouldDisableDelta: true
+    shouldDisableDelta: false
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
   server:
