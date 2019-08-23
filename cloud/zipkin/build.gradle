@@ -17,8 +17,8 @@ dependencies {
     compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     compile "org.springframework.cloud:spring-cloud-starter-zipkin"
 
-    compile "io.zipkin.java:zipkin-server"
-    compile "io.zipkin.java:zipkin-autoconfigure-ui"
+    compile "io.zipkin.java:zipkin-server:2.12.9"
+    compile "io.zipkin.java:zipkin-autoconfigure-ui:2.12.9"
 
 }
 
