@@ -1,6 +1,8 @@
 spring:
   application:
     name: zipkin
+#  main:
+#    web-application-type: none
 
 server:
   port: 9411
@@ -14,3 +16,5 @@ eureka:
     shouldDisableDelta: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+
+logging.level.org.springframework: DEBUG
