@@ -12,10 +12,10 @@ import static org.springframework.boot.WebApplicationType.SERVLET;
 @EnableZuulProxy
 @EnableEurekaClient
 @SpringBootApplication
-public class Application {
+public class Zuul {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(Application.class).web(SERVLET).run(args);
+        new SpringApplicationBuilder(Zuul.class).web(SERVLET).run(args);
     }
 
 }
