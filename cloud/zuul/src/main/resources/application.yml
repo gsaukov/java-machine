@@ -2,24 +2,24 @@ spring:
   application:
     name: zuul
 
-  datasource:
-    url: jdbc:mysql://localhost:55555/justitia
-    username: justitia
-    password: password
-    driver-class-name: com.mysql.jdbc.Driver
-
-    hikari:
-      minimumIdle: 5
-      maximumPoolSize: 20
-      idleTimeout: 30000
-      maxLifetime: 2000000
-      connectionTimeout: 30000
-
-  jpa:
-    open-in-view: false
-    database-platform: org.hibernate.dialect.MariaDBDialect
-    hibernate:
-      ddl-auto: none
+#  datasource:
+#    url: jdbc:mysql://localhost:55555/justitia
+#    username: justitia
+#    password: password
+#    driver-class-name: com.mysql.jdbc.Driver
+#
+#    hikari:
+#      minimumIdle: 5
+#      maximumPoolSize: 20
+#      idleTimeout: 30000
+#      maxLifetime: 2000000
+#      connectionTimeout: 30000
+#
+#  jpa:
+#    open-in-view: false
+#    database-platform: org.hibernate.dialect.MariaDBDialect
+#    hibernate:
+#      ddl-auto: none
 
 feign:
   oauth2:
@@ -31,7 +31,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+          include: "*"
 
 server:
   port: 8090
@@ -79,3 +79,5 @@ ribbon:
   MaxAutoRetries: 3
   MaxAutoRetriesNextServer: 1
   OkToRetryOnAllOperations: true
+
+logging.level.org.springframework: DEBUG

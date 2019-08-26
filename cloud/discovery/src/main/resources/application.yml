@@ -1,6 +1,8 @@
 spring:
   application:
     name: discovery
+  zipkin:
+    baseUrl: http://localhost:8080/
 
 management:
   endpoints:
@@ -24,3 +26,5 @@ eureka:
     enableSelfPreservation: true
     evictionIntervalTimerInMs: 4000
     responseCacheUpdateIntervalMs: 3000
+
+logging.level.org.springframework: DEBUG
