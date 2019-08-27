@@ -1,35 +1,30 @@
+#  CREATE USER 'zipkin'@'localhost' IDENTIFIED BY 'password';
+#  GRANT ALL PRIVILEGES ON *.* TO 'zipkin'@'localhost';
+#  CREATE DATABASE zipkin;
+#  USE zipkin;
+#  SCHEMA: https://github.com/openzipkin/zipkin/blob/master/zipkin-storage/mysql-v1/src/main/resources/mysql.sql
+# zipkin config /zipkin-server-2.12.5.jar!/zipkin-server-shared.yml
+
 spring:
   application:
     name: zipkin
   main:
     web-application-type: none
-#  datasource:
-#    url: jdbc:mysql://localhost:55555/zipkin
-#    username: zipkin
-#    password: password
-#    driver-class-name: com.mysql.jdbc.Driver
-#    continue-on-error: true
+  datasource:
+    url: jdbc:mysql://localhost:55555/zipkin?useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: zipkin
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    continue-on-error: true
 
-#  CREATE USER 'zipkin'@'localhost' IDENTIFIED BY 'password';
-#  GRANT ALL PRIVILEGES ON *.* TO 'zipkin'@'localhost';
-#  CREATE DATABASE zipkin;
-#  USE zipkin;
-
-# zipkin config /zipkin-server-2.12.5.jar!/zipkin-server-shared.yml
 zipkin:
   storage:
     type: mysql
-    mysql:
-      jdbc-url: jdbc:mysql://localhost:55555/zipkin
-      username: zipkin
-      password: password
 
 armeria:
   ports:
     - port: 9411
-      protocols:
-        - http
-
+      protocols: http
 
 eureka:
   instance:
