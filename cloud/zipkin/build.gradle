@@ -16,11 +16,15 @@ dependencies {
 
     compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
 
+    compile "org.springframework.boot:spring-boot-starter-jdbc"
     implementation 'org.springframework.boot:spring-boot-starter-web'
 //    compile "org.springframework.cloud:spring-cloud-starter-zipkin"
 
     compile "io.zipkin.java:zipkin-server:${zipkinVersion}"
+    compile "io.zipkin.java:zipkin-autoconfigure-storage-mysql:${zipkinVersion}"
+    runtime "mysql:mysql-connector-java:${mySqlVersion}"
     runtime "io.zipkin.java:zipkin-autoconfigure-ui:${zipkinVersion}"
+
 
 }
 

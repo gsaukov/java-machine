@@ -1,11 +1,31 @@
 spring:
   application:
     name: zipkin
-#  main:
-#    web-application-type: none
+  main:
+    web-application-type: none
+#  datasource:
+#    url: jdbc:mysql://localhost:55555/zipkin
+#    username: zipkin
+#    password: password
+#    driver-class-name: com.mysql.jdbc.Driver
+#    continue-on-error: true
 
-server:
-  port: 9411
+
+# zipkin config /zipkin-server-2.12.5.jar!/zipkin-server-shared.yml
+zipkin:
+  storage:
+    type: mysql
+    mysql:
+      jdbc-url: jdbc:mysql://localhost:55555/zipkin
+      username: zipkin
+      password: password
+
+armeria:
+  ports:
+    - port: 9411
+      protocols:
+        - http
+
 
 eureka:
   instance:

@@ -2,7 +2,7 @@ spring:
   application:
     name: discovery
   zipkin:
-    baseUrl: http://localhost:8080/
+    baseUrl: http://localhost:9411/
 
 management:
   endpoints:
