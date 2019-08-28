@@ -77,7 +77,7 @@ public class AccountController {
         return "account/accountdatatable :: accountdatatable";
     }
 
-    @PostMapping("/accountsearch")
+    @PostMapping("accountsearch/")
     public String accountSearch (Model model, @ModelAttribute AccountSearchRequest request) {
         Optional<AccountDataCriteria> criteria = accountSearchConverter.convert(request);
         Page<AccountData> dataPage = accountDataService.findAccounts(PageRequest.of(0, Integer.valueOf(request.getItemsSize())), criteria);

@@ -62,7 +62,7 @@ public class TradeController {
         return "trade/tradehome :: tradehome";
     }
 
-    @PostMapping("/tradesearch")
+    @PostMapping("tradesearch/")
     public String tradeSearch (Model model, @ModelAttribute TradeSearchRequest request) {
         Optional<TradeDetailsCriteria> criteria = tradeSearchConverter.convert(request);
         Page<TradeData> dataPage = tradeDataService.findTrades(PageRequest.of(0, Integer.valueOf(request.getItemsSize())), criteria);

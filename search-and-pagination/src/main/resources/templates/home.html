@@ -269,7 +269,7 @@
     function getAccountTrades(accountId) {
         window.event.preventDefault();
         var divId = 'accountTrades' + accountId;
-        var url = '/tradesearch';
+        var url = 'tradesearch/';
         var data = new FormData();
         data.append('accounts', accountId);
         data.append('order', 'DATE');
