@@ -56,16 +56,16 @@ zuul:
   ignoredServices: '*'
   prefix: /jenova
   routes:
-    oauth:
-      path: /oauth/**
-      sensitiveHeaders:
-      serviceId: justitia
-      stripPrefix: false
-    justitia-api:
-      path: /justitia-api/**
-      sensitiveHeaders:
-      serviceId: justitia
-      stripPrefix: false
+#    oauth:
+#      path: /oauth/**
+#      sensitiveHeaders:
+#      serviceId: justitia
+#      stripPrefix: false
+#    justitia-api:
+#      path: /justitia-api/**
+#      sensitiveHeaders:
+#      serviceId: justitia
+#      stripPrefix: false
     sdapplication:
       path: /**
       sensitiveHeaders:
