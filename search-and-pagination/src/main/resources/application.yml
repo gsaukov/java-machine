@@ -9,7 +9,7 @@ server:
 
 spring:
   application:
-    name: searchDataApplication
+    name: SDApplication
   thymeleaf.cache: false
   thymeleaf.enabled: true
   thymeleaf.prefix: classpath:/templates/

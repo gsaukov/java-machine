@@ -1,6 +1,8 @@
 spring:
   application:
     name: zuul
+  mvc.throw-exception-if-no-handler-found: true
+  mvc.static-path-pattern: /static/**
 
 #  datasource:
 #    url: jdbc:mysql://localhost:55555/justitia
@@ -21,11 +23,11 @@ spring:
 #    hibernate:
 #      ddl-auto: none
 
-feign:
-  oauth2:
-    client-id: trusted-client
-    client-secret: trusted-client
-    supported-apis: omnidrive-api,exodus-api
+#feign:
+#  oauth2:
+#    client-id: trusted-client
+#    client-secret: trusted-client
+#    supported-apis: omnidrive-api,exodus-api
 
 management:
   endpoints:
@@ -64,20 +66,25 @@ zuul:
       sensitiveHeaders:
       serviceId: justitia
       stripPrefix: false
-    omnidrive-api:
-      path: /omnidrive-api/**
+    sdapplication:
+      path: /**
       sensitiveHeaders:
-      serviceId: omnidrive
-      stripPrefix: false
-    exodus-api:
-      path: /exodus-api/**
-      sensitiveHeaders:
-      serviceId: exodus
+      serviceId: SDApplication
       stripPrefix: false
 
 ribbon:
   MaxAutoRetries: 3
   MaxAutoRetriesNextServer: 1
   OkToRetryOnAllOperations: true
+  ReadTimeout: 60000
+
+# Increase the Hystrix timeout to 60s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
 
 logging.level.org.springframework: DEBUG
