@@ -1,7 +1,10 @@
-#  CREATE USER 'zipkin'@'localhost' IDENTIFIED BY 'password';
-#  GRANT ALL PRIVILEGES ON *.* TO 'zipkin'@'localhost';
-#  CREATE DATABASE zipkin;
-#  USE zipkin;
+# CREATE USER 'zipkin'@'localhost' IDENTIFIED BY 'password';
+# CREATE DATABASE zipkin;
+# GRANT ALL PRIVILEGES ON zipkin.* TO 'zipkin'@'localhost';
+# USE zipkin;
+#
+# drop USER 'zipkin'@'localhost';
+# drop database zipkin;
 #  SCHEMA: https://github.com/openzipkin/zipkin/blob/master/zipkin-storage/mysql-v1/src/main/resources/mysql.sql
 # zipkin config /zipkin-server-2.12.5.jar!/zipkin-server-shared.yml
 

@@ -3,7 +3,7 @@ spring:
     name: justitia
 
   datasource:
-    url: jdbc:mysql://localhost:55555/justitia
+    url: jdbc:mysql://localhost:55555/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
     username: justitia
     password: password
     driver-class-name: com.mysql.jdbc.Driver
