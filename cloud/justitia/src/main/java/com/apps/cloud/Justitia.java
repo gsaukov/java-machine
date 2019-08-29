@@ -8,10 +8,10 @@ import static org.springframework.boot.WebApplicationType.SERVLET;
 
 @EnableEurekaClient
 @SpringBootApplication
-public class Application {
+public class Justitia {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(Application.class).web(SERVLET).run(args);
+        new SpringApplicationBuilder(Justitia.class).web(SERVLET).run(args);
     }
 
 }
