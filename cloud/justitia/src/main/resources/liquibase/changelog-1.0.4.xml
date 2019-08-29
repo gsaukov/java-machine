@@ -1,0 +1,62 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_login" author="d.konstantopoulos">
+        <createTable tableName="LOGIN">
+            <column name="ID" type="varchar(64)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="VERSION" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_AT" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_UPDATED" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATED_BY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REFERENCE" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLIENT_ID" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USERNAME" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXPIRES_AT" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="LOGIN" columnNames="REFERENCE"
+                             constraintName="UDX_LGN_REF"/>
+    </changeSet>
+
+    <changeSet id="create_login_params" author="d.konstantopoulos">
+        <createTable tableName="LOGIN_PARAMS">
+            <column name="LOGIN_ID" type="varchar(64)">
+                <constraints nullable="false" foreignKeyName="FK_LGN_PRM_LOGIN" references="LOGIN(ID)"/>
+            </column>
+            <column name="PARAM_KEY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PARAM_VALUE" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="LOGIN_PARAMS" indexName="IDX_LGN_PRM_LOGIN" unique="false">
+            <column name="LOGIN_ID" type="varchar(64)"/>
+        </createIndex>
+        <addUniqueConstraint tableName="LOGIN_PARAMS" columnNames="LOGIN_ID,PARAM_KEY"
+                             constraintName="UDX_LGN_PRM_LOGIN_KEY"/>
+    </changeSet>
+
+</databaseChangeLog>

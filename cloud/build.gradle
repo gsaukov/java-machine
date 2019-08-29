@@ -15,4 +15,5 @@ dependencies {
     compile project('zuul')
     compile project('discovery')
     compile project('zipkin')
+    compile project('justitia')
 }

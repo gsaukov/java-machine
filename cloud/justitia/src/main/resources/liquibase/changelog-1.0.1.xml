@@ -1,0 +1,52 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="init_user" author="d.konstantopoulos">
+        <insert tableName="USER">
+            <column name="ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+            <column name="VERSION" type="bigint" value="0"/>
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="USERNAME" type="varchar(64)" value="admin"/>
+            <column name="PASSWORD" type="varchar(64)" value="$2a$10$qQ7gIxmyIejkHMDVsh3SaeRnPOfWYBKttBVMeDe1BZCt2vf1cTsIO"/>
+        </insert>
+        <insert tableName="USER">
+            <column name="ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+            <column name="VERSION" type="bigint" value="0"/>
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="USERNAME" type="varchar(64)" value="user"/>
+            <column name="PASSWORD" type="varchar(64)" value="$2a$10$Cy96KYxbvdIyAtJCUBsIG.7i2fekP5KOyblHl62cOJ78hgrSei3bu"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="init_authority" author="d.konstantopoulos">
+        <insert tableName="AUTHORITY">
+            <column name="ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+            <column name="VERSION" type="bigint" value="0"/>
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+            <column name="AUTHORITY" type="varchar(64)" value="ADMIN"/>
+        </insert>
+        <insert tableName="AUTHORITY">
+            <column name="ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+            <column name="VERSION" type="bigint" value="0"/>
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+            <column name="AUTHORITY" type="varchar(64)" value="USER"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,37 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_access_token" author="d.konstantopoulos">
+        <createTable tableName="ACCESS_TOKEN">
+            <column name="ID" type="varchar(64)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="VERSION" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_AT" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_UPDATED" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATED_BY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JTI" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENCODED" type="varchar(2048)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="ACCESS_TOKEN" columnNames="JTI"
+                             constraintName="UDX_ATK_JTI"/>
+    </changeSet>
+
+</databaseChangeLog>

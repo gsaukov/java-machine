@@ -1,0 +1,14 @@
+group "com.apps.cloud"
+
+apply plugin: "java"
+
+dependencies {
+    compile "com.github.gavlyukovskiy:datasource-proxy-spring-boot-starter:${dataSourceProxyVersion}"
+
+    compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+}
+
+repositories {
+    mavenCentral()
+}
