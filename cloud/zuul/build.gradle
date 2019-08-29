@@ -18,10 +18,30 @@ dependencies {
     compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     compile "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
     compile "org.springframework.cloud:spring-cloud-starter-openfeign"
+    compile "org.springframework.cloud:spring-cloud-starter-zipkin"
     
     runtime "mysql:mysql-connector-java:${mySqlVersion}"
     runtime "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
     runtime "com.h2database:h2:${h2Version}"
+}
+
+task copyResources (dependsOn: clean) {
+    delete './resources/'
+    
+    copy {
+        from '../../search-and-pagination/src/main/resources/static'
+        into './resources/static'
+    }
+}
+
+compileJava.dependsOn copyResources
+
+sourceSets {
+    main {
+        resources {
+            srcDirs += ['resources']
+        }
+    }
 }
 
 repositories {
