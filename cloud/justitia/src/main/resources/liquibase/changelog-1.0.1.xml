@@ -12,7 +12,7 @@
             <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="UPDATED_BY" type="varchar(64)" value="script"/>
             <column name="USERNAME" type="varchar(64)" value="admin"/>
-            <column name="PASSWORD" type="varchar(64)" value="$2a$10$qQ7gIxmyIejkHMDVsh3SaeRnPOfWYBKttBVMeDe1BZCt2vf1cTsIO"/>
+            <column name="PASSWORD" type="varchar(64)" value="$2a$10$m/yuJ2UeT2x3BXV64.01F.JRbt6qK2peEqFyGZ0olesntqAT7I/7m"/><!--qa123456-->
         </insert>
         <insert tableName="USER">
             <column name="ID" type="varchar(64)" value="00000000000000000000000000000002"/>
@@ -22,7 +22,7 @@
             <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="UPDATED_BY" type="varchar(64)" value="script"/>
             <column name="USERNAME" type="varchar(64)" value="user"/>
-            <column name="PASSWORD" type="varchar(64)" value="$2a$10$Cy96KYxbvdIyAtJCUBsIG.7i2fekP5KOyblHl62cOJ78hgrSei3bu"/>
+            <column name="PASSWORD" type="varchar(64)" value="$2a$10$f2BEwOMJLet0d7Bi4uxpKeedD6KNn7w55CikvKEdVdBPHGd4SShwK"/><!--qa123456-->
         </insert>
     </changeSet>
 
