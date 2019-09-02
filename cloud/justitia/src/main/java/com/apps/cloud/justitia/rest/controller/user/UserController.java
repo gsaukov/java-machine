@@ -12,13 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@RestController
+@Controller
 @RequestMapping("/justitia-api/user")
 public class UserController {
 
@@ -56,6 +58,11 @@ public class UserController {
         List<String> usernames = userRepository.findAll().stream().map(User::getUsername).collect(toList());
 
         return new ResponseEntity<>(new RestListUsersResponse.Builder().withUsernames(usernames).build(), HttpStatus.OK);
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "loginpage";
     }
 
 }

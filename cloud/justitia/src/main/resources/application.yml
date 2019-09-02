@@ -39,6 +39,10 @@ management:
 
 server:
   port: 8002
+  thymeleaf.cache: false
+  thymeleaf.enabled: true
+  thymeleaf.prefix: classpath:/templates/
+  thymeleaf.suffix: .html
 
 eureka:
   instance:

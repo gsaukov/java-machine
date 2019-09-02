@@ -32,9 +32,10 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/justitia-api/login/**").permitAll()
+                .antMatchers("/justitia-api/user/login").permitAll()
                 .antMatchers("/justitia-api/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
-                .and().httpBasic();
+                .and().formLogin().loginPage("/justitia-api/user/login");
     }
 
     @Override
