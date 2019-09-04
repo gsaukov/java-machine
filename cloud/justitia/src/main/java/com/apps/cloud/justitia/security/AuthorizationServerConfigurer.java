@@ -21,6 +21,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import javax.sql.DataSource;
 
+//http://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read
+
+
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
@@ -54,7 +57,8 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        security.passwordEncoder(passwordEncoder); // for client secret
+        security.allowFormAuthenticationForClients()
+                .passwordEncoder(passwordEncoder); // for client secret
     }
 
     @Override

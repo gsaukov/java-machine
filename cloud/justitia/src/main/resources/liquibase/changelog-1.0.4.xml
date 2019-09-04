@@ -59,4 +59,23 @@
                              constraintName="UDX_LGN_PRM_LOGIN_KEY"/>
     </changeSet>
 
+    <changeSet id="init_client" author="g.saukov">
+        <insert tableName="CLIENT">
+            <column name="ID" type="varchar(64)"  value="CLIENT_ID1"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="CLIENT_ID" type="varchar(64)" value="sdapplication"/>
+            <column name="CLIENT_SECRET" type="varchar(512)" value="sdapplication_secret"/>
+            <column name="GRANT_TYPES" type="varchar(512)" value="authorization_code,refresh_token"/>
+            <column name="SCOPES" type="varchar(512)" value="read,write"/>
+            <column name="ACCESS_TOKEN_DURATION" type="integer" value="600000"/>
+            <column name="REFRESH_TOKEN_DURATION" type="integer" value="24000000"/>
+            <column name="AUTO_APPROVE" type="boolean" valueBoolean="true"/>
+            <column name="REDIRECT_URI" type="varchar(256)" value="https://localhost:8090/sdapplication"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

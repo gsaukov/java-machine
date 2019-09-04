@@ -1,5 +1,6 @@
 package com.apps.cloud.justitia.security;
 
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,19 +25,24 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AppAuthenticationSuccessHandler appAuthenticationSuccessHandler;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         // No JSESSIONID Cookie
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
+//        http.sessionManagement().sessionCreationPolicy(STATELESS);
 
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/justitia-api/login/**").permitAll()
                 .antMatchers("/justitia-api/user/login").permitAll()
                 .antMatchers("/justitia-api/**").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
-                .and().formLogin().loginPage("/justitia-api/user/login")
-                .defaultSuccessUrl("/justitia-api/user/list");
+                .anyRequest().authenticated().and().httpBasic().disable()
+                .formLogin().loginPage("/justitia-api/user/login")
+//                .successHandler(appAuthenticationSuccessHandler)
+                .defaultSuccessUrl("/justitia-api/user/list")
+                ;
     }
 
     @Override
