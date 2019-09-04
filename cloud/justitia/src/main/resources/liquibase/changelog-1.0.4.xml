@@ -68,7 +68,7 @@
             <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="UPDATED_BY" type="varchar(64)" value="script"/>
             <column name="CLIENT_ID" type="varchar(64)" value="sdapplication"/>
-            <column name="CLIENT_SECRET" type="varchar(512)" value="sdapplication_secret"/>
+            <column name="CLIENT_SECRET" type="varchar(512)" value="$2a$10$3ZAadsRjDBfP8FWgxxSgO.nTPvP6OBra/DKEx6dV3JdVwIqo4SMHi"/><!--sdapplication_secret-->
             <column name="GRANT_TYPES" type="varchar(512)" value="authorization_code,refresh_token"/>
             <column name="SCOPES" type="varchar(512)" value="read,write"/>
             <column name="ACCESS_TOKEN_DURATION" type="integer" value="600000"/>

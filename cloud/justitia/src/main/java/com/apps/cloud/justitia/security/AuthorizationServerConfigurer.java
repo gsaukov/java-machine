@@ -17,12 +17,14 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.sql.DataSource;
 
-//http://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read
-
+//      http://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read
+//      POST ONLY:  http://localhost:8002/oauth/token?client_id=sdapplication&client_secret=sdapplication_secret&grant_type=authorization_code&code=AUTHORIZATION_CODE
+//      https://www.digitalocean.com/community/tutorials/oauth-2-ru
 
 @Configuration
 @EnableAuthorizationServer
@@ -83,6 +85,11 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
     public JdbcApprovalStore approvalStore() {
         return new JdbcApprovalStore(dataSource);
     }
+
+//    @Bean
+//    public JdbcTokenStore tokenStore() {
+//        return new JdbcTokenStore(dataSource);
+//    }
 
     @Bean
     public CustomJwtTokenStore tokenStore() {
