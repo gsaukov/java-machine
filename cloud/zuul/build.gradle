@@ -19,6 +19,7 @@ dependencies {
     compile "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
     compile "org.springframework.cloud:spring-cloud-starter-openfeign"
     compile "org.springframework.cloud:spring-cloud-starter-zipkin"
+    compile "org.springframework.boot:spring-boot-starter-security"
     
     runtime "mysql:mysql-connector-java:${mySqlVersion}"
     runtime "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
