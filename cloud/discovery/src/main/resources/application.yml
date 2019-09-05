@@ -27,4 +27,4 @@ eureka:
     evictionIntervalTimerInMs: 4000
     responseCacheUpdateIntervalMs: 3000
 
-logging.level.org.springframework: DEBUG
+#logging.level.org.springframework: DEBUG

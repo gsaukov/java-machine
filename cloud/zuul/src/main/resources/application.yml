@@ -94,4 +94,9 @@ hystrix:
           thread:
             timeoutInMilliseconds: 60000
 
+feign:
+  oauth2:
+    client-id: sdapplication
+    client-secret: sdapplication_secret
+
 logging.level.org.springframework: DEBUG

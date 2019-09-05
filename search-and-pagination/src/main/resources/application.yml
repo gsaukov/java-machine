@@ -51,5 +51,10 @@ eureka:
 logging.level.org.springframework: DEBUG
 logging.level.org.hibernate: ERROR
 
+security:
+  oauth2:
+    jwt:
+      signing-key: my-secret-key
+
 data-creation:
   address-store: classpath:db/addresses-us-all.json #use file: to specify absolute/relative location on the file system.
