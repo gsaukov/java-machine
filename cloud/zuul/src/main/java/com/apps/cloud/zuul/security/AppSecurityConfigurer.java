@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,7 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -40,20 +45,35 @@ public class AppSecurityConfigurer
 //OAuth2Authentication
 //AbstractAuthenticationToken
 //
-//SecurityContextHolderAwareRequestFilter
-//UsernamePasswordAuthenticationFilter
-//AbstractAuthenticationProcessingFilter
-//OAuth2ClientAuthenticationProcessingFilter
+SecurityContextHolderAwareRequestFilter s;
+UsernamePasswordAuthenticationFilter u;
+AbstractAuthenticationProcessingFilter a;
+//OAuth2ClientAuthenticationProcessingFilter o;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
         http.cors().and().csrf().disable().authorizeRequests()
-                .anyRequest().authenticated().and().httpBasic().disable();
+                .anyRequest().authenticated()
+                    .and().addFilterAfter(appAuthenticationFilter(), SessionManagementFilter.class)
+                .httpBasic().disable();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Bean
+    public AppAuthenticationFilter appAuthenticationFilter() throws Exception {
+        AppAuthenticationFilter appAuthenticationFilter = new AppAuthenticationFilter();
+        appAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return appAuthenticationFilter;
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        return new AppAuthenticationProvider();
     }
 
     @Bean
@@ -66,6 +86,5 @@ public class AppSecurityConfigurer
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }

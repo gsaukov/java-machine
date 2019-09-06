@@ -1,33 +1,69 @@
 package com.apps.cloud.zuul.security;
 
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
+import com.apps.cloud.zuul.rest.client.OAuth2Client;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
-import javax.servlet.FilterChain;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-public class AppAuthenticationFilter extends OncePerRequestFilter {
+import static java.util.Optional.of;
+
+public class AppAuthenticationFilter extends
+        AbstractAuthenticationProcessingFilter {
+
+    @Value("${feign.oauth2.client-id}")
+    private String clientId;
+
+    @Value("${feign.oauth2.client-secret}")
+    private String clientSecret;
+
+    @Autowired
+    private OAuth2Client oAuth2Client;
+
+    private static final ObjectMapper objectMapper = new ObjectMapper(); // Thread Safe
+
+    public AppAuthenticationFilter() {
+        super(new RegexRequestMatcher(".*\\/sdapplication\\?code=.*", "GET"));
+    }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException, IOException, ServletException {
+        String code = request.getParameter("code");
 
-        String xAuth = request.getHeader("X-Authorization");
+        String token = getTokenFromAuthServer(code).get();
 
+        AppAuthenticationToken authRequest = new AppAuthenticationToken(token);
 
-//        // The token is 'valid' so magically get a user id from it
-//        Long id = getUserIdFromToken(xAuth);
-//
-//        // Create our Authentication and let Spring know about it
-//        Authentication auth = new DemoAuthenticationToken(id);
-//        SecurityContextHolder.getContext().setAuthentication(auth);
+        return this.getAuthenticationManager().authenticate(authRequest);
+    }
 
-        filterChain.doFilter(request, response);
+    private Optional<String> getTokenFromAuthServer(String code) throws IOException {
+        String json = oAuth2Client.getToken("authorization_code", clientId, toFormParams(code, clientSecret));
+
+        JsonNode jsonNode = objectMapper.readTree(json);
+
+        return of(jsonNode.get("access_token").textValue());
+    }
+
+    private Map<String, ?> toFormParams(String code, String clientSecret) {
+        Map<String, String> formParams = new HashMap<>();
+        formParams.put("code", code);
+        formParams.put("client_secret", clientSecret);
+        return formParams;
     }
 
 }
