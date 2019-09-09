@@ -1,6 +1,7 @@
 package com.apps.cloud.justitia.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,10 +10,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.ALWAYS;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -25,13 +30,10 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AppAuthenticationSuccessHandler appAuthenticationSuccessHandler;
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         // No JSESSIONID Cookie
-//        http.sessionManagement().sessionCreationPolicy(STATELESS);
+        http.sessionManagement().sessionCreationPolicy(ALWAYS).maximumSessions(3).sessionRegistry(sessionRegistry());;
 
 
         http.cors().and().csrf().disable().authorizeRequests()
@@ -42,7 +44,6 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and().httpBasic().disable()
                 .formLogin().loginPage("/justitia-api/user/login")
 //                .successHandler(appAuthenticationSuccessHandler)
-                .defaultSuccessUrl("/justitia-api/user/list")
                 ;
     }
 
@@ -63,6 +64,16 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+        return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
     }
 
 }

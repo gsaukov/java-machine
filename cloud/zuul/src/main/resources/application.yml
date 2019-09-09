@@ -61,7 +61,7 @@ zuul:
       enabled: true
   retryable: true
   ignoredServices: '*'
-  prefix: /jenova
+  prefix: /
   routes:
 #    oauth:
 #      path: /oauth/**

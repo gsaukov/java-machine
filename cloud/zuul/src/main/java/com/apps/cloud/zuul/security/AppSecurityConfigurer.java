@@ -42,6 +42,7 @@ public class AppSecurityConfigurer
 //{FilterSecurityInterceptor@13093}
 //
 //https://spring.io/guides/tutorials/spring-boot-oauth2/
+//https://shout.setfive.com/2015/11/02/spring-boot-authentication-with-custom-http-header/
 //OAuth2Authentication
 //AbstractAuthenticationToken
 //

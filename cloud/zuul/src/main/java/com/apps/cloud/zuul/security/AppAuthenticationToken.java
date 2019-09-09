@@ -7,10 +7,11 @@ import java.util.Collection;
 
 public class AppAuthenticationToken extends AbstractAuthenticationToken {
 
-    private String token;
+    private final String token;
 
     public AppAuthenticationToken(String token) {
         super(null);
+        this.token = token;
     }
 
     @Override
@@ -22,4 +23,9 @@ public class AppAuthenticationToken extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return null;
     }
+
+    public String getToken() {
+        return token;
+    }
+
 }
