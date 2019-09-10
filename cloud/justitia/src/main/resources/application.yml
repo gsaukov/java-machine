@@ -39,6 +39,15 @@ management:
 
 server:
   port: 8002
+  ssl: #keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+    key-store: classpath:keystore.p12
+    key-store-password: srch4app
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+    enabled: true
+
+  servlet.session.cookie.name: OAUTHSESSIONID
+
   thymeleaf.cache: false
   thymeleaf.enabled: true
   thymeleaf.prefix: classpath:/templates/
@@ -48,6 +57,8 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 4
     leaseExpirationDurationInSeconds: 10
+    secure-port-enabled: true
+    secure-port: ${server.port}
   client:
     registryFetchIntervalSeconds: 3
     shouldDisableDelta: true

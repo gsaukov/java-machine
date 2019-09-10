@@ -32,6 +32,26 @@ dependencies {
     runtime "com.h2database:h2:${h2Version}"
 }
 
+task copyResources (dependsOn: clean) {
+    delete './resources/'
+
+    copy {
+        from '../zuul/src/main/resources'
+        into './resources'
+        include "*.p12"
+    }
+}
+
+compileJava.dependsOn copyResources
+
+sourceSets {
+    main {
+        resources {
+            srcDirs += ['resources']
+        }
+    }
+}
+
 repositories {
     mavenCentral()
 }
