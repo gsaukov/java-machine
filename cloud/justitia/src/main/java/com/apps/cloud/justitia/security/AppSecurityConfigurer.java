@@ -14,11 +14,9 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.ALWAYS;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -33,8 +31,7 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         // No JSESSIONID Cookie
-        http.sessionManagement().sessionCreationPolicy(ALWAYS).maximumSessions(3).sessionRegistry(sessionRegistry());;
-
+        http.sessionManagement().sessionCreationPolicy(ALWAYS).maximumSessions(3).sessionRegistry(sessionRegistry());
 
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()

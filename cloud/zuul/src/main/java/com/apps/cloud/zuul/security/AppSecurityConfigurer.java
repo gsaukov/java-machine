@@ -46,9 +46,9 @@ public class AppSecurityConfigurer
 //OAuth2Authentication
 //AbstractAuthenticationToken
 //
-SecurityContextHolderAwareRequestFilter s;
-UsernamePasswordAuthenticationFilter u;
-AbstractAuthenticationProcessingFilter a;
+//SecurityContextHolderAwareRequestFilter s;
+//UsernamePasswordAuthenticationFilter u;
+//AbstractAuthenticationProcessingFilter a;
 //OAuth2ClientAuthenticationProcessingFilter o;
 
     @Override
