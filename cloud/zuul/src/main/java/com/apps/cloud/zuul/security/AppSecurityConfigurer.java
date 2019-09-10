@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.security.web.session.SessionManagementFilter;
+import redis.clients.jedis.Jedis;
 
 @Configuration
 @EnableWebSecurity
@@ -54,10 +55,10 @@ public class AppSecurityConfigurer
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable().authorizeRequests()
-                .anyRequest().authenticated()
-                    .and().addFilterAfter(appAuthenticationFilter(), SessionManagementFilter.class)
-                .httpBasic().disable();
+        http.cors().and().csrf().disable().authorizeRequests().anyRequest().authenticated()
+            .and().addFilterBefore(appAuthenticationFilter(), SessionManagementFilter.class)
+            .formLogin().loginPage("https://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read")
+            .and().httpBasic().disable();
     }
 
     @Override
