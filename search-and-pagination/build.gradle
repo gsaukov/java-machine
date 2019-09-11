@@ -55,6 +55,17 @@ dependencies {
     annotationProcessor('org.hibernate:hibernate-jpamodelgen')
 }
 
+task copyResources (dependsOn: clean) {
+    delete '${nginxPath}'
+
+    copy {
+        from './src/main/resources/static/'
+        into "${nginxPath}"
+    }
+}
+
+compileJava.dependsOn copyResources
+
 sourceSets {
     main { 
         java {

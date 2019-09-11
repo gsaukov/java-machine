@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,8 +63,19 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest req, Model model) {
+        model.addAttribute("clientName", resolveRequestedClientId(req));
         return "loginpage";
+    }
+
+    private String resolveRequestedClientId(HttpServletRequest req){
+        String clientId = "Justitia";
+        Object objRequest = req.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+        if(objRequest != null && SavedRequest.class.isAssignableFrom(objRequest.getClass())){
+            SavedRequest savedRequest = (SavedRequest) objRequest;
+            clientId = savedRequest.getParameterValues("client_id")[0];
+        }
+        return clientId;
     }
 
 }
