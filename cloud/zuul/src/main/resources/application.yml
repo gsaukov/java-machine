@@ -53,6 +53,7 @@ server:
     trust-store: classpath:truststore.jks
     trust-store-password: srch4app
     trust-store-type: JKS
+  error.whitelabel.enabled: true
 
 eureka:
   instance:

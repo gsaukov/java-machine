@@ -40,6 +40,12 @@ task copyResources (dependsOn: clean) {
         into './resources'
         include "*.p12"
     }
+
+    copy {
+        from '../../search-and-pagination/src/main/resources/static/css'
+        into './resources/static/css'
+        include "custom.css"
+    }
 }
 
 compileJava.dependsOn copyResources

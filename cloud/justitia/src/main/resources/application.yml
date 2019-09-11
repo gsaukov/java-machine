@@ -1,6 +1,8 @@
 spring:
   application:
     name: justitia
+  mvc.throw-exception-if-no-handler-found: true
+  mvc.static-path-pattern: /static/**
 
   datasource:
     url: jdbc:mysql://localhost:55555/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
