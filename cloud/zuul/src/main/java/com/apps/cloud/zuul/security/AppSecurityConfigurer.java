@@ -55,8 +55,7 @@ public class AppSecurityConfigurer
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable().authorizeRequests()
-            .antMatchers("/static/**/**").permitAll()
+        http.cors().and().csrf().and().authorizeRequests()
             .anyRequest().authenticated()
             .and().addFilterBefore(appAuthenticationFilter(), SessionManagementFilter.class)
             .formLogin().loginPage("https://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read")
