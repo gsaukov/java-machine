@@ -33,7 +33,8 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
         // No JSESSIONID Cookie
         http.sessionManagement().sessionCreationPolicy(ALWAYS).maximumSessions(3).sessionRegistry(sessionRegistry());
 
-        http.cors().and().csrf().disable().authorizeRequests()
+        http.cors().and().csrf().and()
+                .authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/justitia-api/login/**").permitAll()
                 .antMatchers("/justitia-api/user/login").permitAll()

@@ -73,7 +73,10 @@ public class UserController {
         Object objRequest = req.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
         if(objRequest != null && SavedRequest.class.isAssignableFrom(objRequest.getClass())){
             SavedRequest savedRequest = (SavedRequest) objRequest;
-            clientId = savedRequest.getParameterValues("client_id")[0];
+            String[] params = savedRequest.getParameterValues("client_id");
+            if(params != null && params.length > 0){
+                clientId = params[0];
+            }
         }
         return clientId;
     }
