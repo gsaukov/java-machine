@@ -29,7 +29,7 @@
                     .y(d => chartObj.y(d.value))
                     .curve(d3.curveMonotoneX);
 
-                // chartObj.dataUrl = '../static/data.csv'
+                // chartObj.dataUrl = 'http://localhost:9020/static/data.csv'
                 chartObj.dataUrl = 'accountperformance/' + accountId;
                 return chartObj
             }
