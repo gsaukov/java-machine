@@ -39,7 +39,8 @@ dependencies {
     compile group: 'javax.persistence', name: 'javax.persistence-api'
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compile 'org.springframework.data:spring-data-commons'
-    compile group: 'com.h2database', name: 'h2'
+//    compile group: 'com.h2database', name: 'h2'
+    runtime "mysql:mysql-connector-java:${mySqlVersion}"
     compile group: 'org.joda', name: 'joda-money', version: '1.0.1'
     compile 'fr.dudie:nominatim-api:3.3'
     compile 'org.springframework.data:spring-data-cassandra:2.1.8.RELEASE'

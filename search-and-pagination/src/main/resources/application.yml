@@ -20,11 +20,17 @@ spring:
 #spring:changelog-master.yaml
 #  profiles: h2
   datasource:
-    url: jdbc:h2:file:./data/db/spDb;MODE=Oracle
-    username: sa
-    password:
-    type:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: sdapplication
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 20
+      idleTimeout: 30000
+      maxLifetime: 2000000
+      connectionTimeout: 30000
   liquibase:
     change-log: classpath:db/changelog-master.yaml
 
