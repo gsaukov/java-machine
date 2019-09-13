@@ -29,7 +29,7 @@
             <td th:text="${data.creationDate}"></td>
             <td>
                 <div class="details-link">
-                    <a href="#" class="hover hover-1" th:text="'SEE TRADES'" th:onclick="getAccountTrades([[${data.accountId}]])"/>
+                    <a href="#" class="hover hover-1" th:text="'SEE TRADES'" th:onclick="getAccountTrades([[${data.accountId}]], [[${_csrf.parameterName}]], [[${_csrf.token}]])"/>
                 </div>
             </td>
         </tr>

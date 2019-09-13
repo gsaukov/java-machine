@@ -266,11 +266,12 @@
 <script>
     var existingDetailsTableId = null;
 
-    function getAccountTrades(accountId) {
+    function getAccountTrades(accountId, csrfParameterName, csrfToken) {
         window.event.preventDefault();
         var divId = 'accountTrades' + accountId;
         var url = 'tradesearch/';
         var data = new FormData();
+        data.append(csrfParameterName, csrfToken);
         data.append('accounts', accountId);
         data.append('order', 'DATE');
         data.append('itemsSize', '5');
