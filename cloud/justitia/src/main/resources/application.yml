@@ -47,8 +47,6 @@ server:
     keyStoreType: PKCS12
     keyAlias: tomcat
     enabled: true
-  session.cookie.secure: true
-  session.cookie.http-only: true
   servlet.session.cookie.name: OAUTHSESSIONID
 
   thymeleaf.cache: false

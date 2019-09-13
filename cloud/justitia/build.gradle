@@ -40,13 +40,7 @@ task copyResources (dependsOn: clean) {
         into './resources'
         include "*.p12"
     }
-
-    delete '${nginxPath}'
     
-    copy {
-        from '../../search-and-pagination/src/main/resources/static/'
-        into "${nginxPath}"
-    }
 }
 
 compileJava.dependsOn copyResources

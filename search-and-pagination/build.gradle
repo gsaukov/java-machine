@@ -30,7 +30,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile "org.springframework.cloud:spring-cloud-starter-zipkin"
     compile "org.springframework.boot:spring-boot-starter-web"
-//    compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-security"
 //    compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
 //    compile "org.springframework.security:spring-security-jwt:${springJwtVersion}"
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-task', version: '2.1.2.RELEASE'
@@ -56,11 +56,19 @@ dependencies {
 }
 
 task copyResources (dependsOn: clean) {
-    delete '${nginxPath}'
+    delete '${nginxPath}html/static'
 
     copy {
         from './src/main/resources/static/'
-        into "${nginxPath}"
+        into "${nginxPath}html/static"
+    }
+
+    delete '${nginxPath}conf/nginx.conf'
+
+    copy {
+        from './src/main/resources/'
+        into "${nginxPath}conf/"
+        include "nginx.conf"
     }
 }
 
