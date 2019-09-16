@@ -7,18 +7,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 
-@Configuration
-@EnableWebSecurity
-public class AppSecurityConfigurer
-        extends WebSecurityConfigurerAdapter {
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.csrf();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-    }
+//@Configuration
+//@EnableWebSecurity
+public class AppSecurityConfigurer {
+//        extends WebSecurityConfigurerAdapter {
+//
+//    @Override
+//    public void configure(HttpSecurity http) throws Exception {
+//        http.csrf();
+//    }
+//
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) {
+//    }
 
 }

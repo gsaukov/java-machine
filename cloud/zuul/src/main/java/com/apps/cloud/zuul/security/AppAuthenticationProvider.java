@@ -1,5 +1,6 @@
 package com.apps.cloud.zuul.security;
 
+import com.apps.cloud.common.data.token.AppAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

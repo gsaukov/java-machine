@@ -1,5 +1,6 @@
 package com.apps.cloud.zuul.security;
 
+import com.apps.cloud.common.data.token.AppAuthenticationToken;
 import com.apps.cloud.zuul.rest.client.OAuth2Client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -33,6 +33,9 @@ spring:
       connectionTimeout: 30000
   liquibase:
     change-log: classpath:db/changelog-master.yaml
+  #Session persistence
+  redis.host: 127.0.0.1
+  redis.port: 6379
 
 #  jpa:
 #    hibernate:
