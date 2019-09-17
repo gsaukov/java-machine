@@ -6,15 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.web.session.SessionManagementFilter;
-
 
 @Configuration
 @EnableResourceServer
@@ -26,15 +24,17 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().and().authorizeRequests()
-                .antMatchers("/**").hasAuthority("USER")
+        http.csrf()
+                //session is already created and maintained by zuul just pick it up and use.
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .and().authorizeRequests()
+                .antMatchers("/**").hasAnyAuthority("USER","ADMIN")
                 .anyRequest().authenticated();
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
-        OAuth2AuthenticationProcessingFilter f;
-        SessionManagementFilter s;
+        resources.tokenExtractor(customTokenExtractor());
         resources.tokenServices(defaultTokenServices());
     }
 
@@ -56,6 +56,12 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(signingKey);
         return converter;
+    }
+
+    // By default spring will try to extract toke from header bearer, which can be placed by com.apps.cloud.zuul.rest.filter.AuthorizationHeaderFilter.
+    @Bean
+    public CustomTokenExtractor customTokenExtractor(){
+        return new CustomTokenExtractor();
     }
 
 }

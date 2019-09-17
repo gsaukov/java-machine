@@ -2,6 +2,7 @@ package com.apps.cloud.common.data.token;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
+//maybe migrate to OAuth2Authentication?
 public class AppAuthenticationToken extends AbstractAuthenticationToken {
 
     private final String token;
