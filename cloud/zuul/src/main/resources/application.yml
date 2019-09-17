@@ -109,4 +109,9 @@ feign:
     client-id: sdapplication
     client-secret: sdapplication_secret
 
+security:
+  oauth2:
+    jwt:
+      signing-key: my-secret-key
+
 logging.level.org.springframework: DEBUG

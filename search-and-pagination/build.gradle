@@ -25,7 +25,6 @@ dependencyManagement {
 
 dependencies {
     compile project(':misc')
-    compile project(':cloud:common-data')
     
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile 'org.liquibase:liquibase-core'

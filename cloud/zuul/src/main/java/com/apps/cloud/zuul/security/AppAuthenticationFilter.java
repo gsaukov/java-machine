@@ -1,6 +1,5 @@
 package com.apps.cloud.zuul.security;
 
-import com.apps.cloud.common.data.token.AppAuthenticationToken;
 import com.apps.cloud.zuul.rest.client.OAuth2Client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 import javax.servlet.ServletException;
@@ -44,20 +46,19 @@ public class AppAuthenticationFilter extends
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
         String code = request.getParameter("code");
+        String token = getTokenFromAuthServer(code);
 
-        String token = getTokenFromAuthServer(code).get();
-
-        AppAuthenticationToken authRequest = new AppAuthenticationToken(token);
-
+        PreAuthenticatedAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(convertTokenToJson(token).get(),null);
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
-    private Optional<String> getTokenFromAuthServer(String code) throws IOException {
-        String json = oAuth2Client.getToken("authorization_code", clientId, toFormParams(code, clientSecret));
-
+    private Optional<String> convertTokenToJson(String json) throws IOException {
         JsonNode jsonNode = objectMapper.readTree(json);
-
         return of(jsonNode.get("access_token").textValue());
+    }
+
+    private String getTokenFromAuthServer(String code) throws IOException {
+        return oAuth2Client.getToken("authorization_code", clientId, toFormParams(code, clientSecret));
     }
 
     private Map<String, ?> toFormParams(String code, String clientSecret) {

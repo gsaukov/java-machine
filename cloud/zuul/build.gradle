@@ -23,6 +23,7 @@ dependencies {
     compile "org.springframework.cloud:spring-cloud-starter-zipkin"
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
+    compile "org.springframework.security:spring-security-jwt:${springJwtVersion}"
     compile "org.springframework.session:spring-session-data-redis"
     compile "redis.clients:jedis:${jedisVersion}"
     
