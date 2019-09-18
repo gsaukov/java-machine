@@ -21,6 +21,7 @@ public class AppSecurityConfigurer
     @Value("${security.oauth2.jwt.signing-key}")
     private String signingKey;
 
+//    RedisOperationsSessionRepository
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()

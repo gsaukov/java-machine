@@ -3,10 +3,12 @@ spring:
     name: zuul
   mvc.throw-exception-if-no-handler-found: true
   mvc.static-path-pattern: /static/**
-
   zipkin:
     baseUrl: http://localhost:9411/
-
+#  session:
+#    store-type: redis
+#    redis:
+#      flush-mode: IMMEDIATE
   redis.host: 127.0.0.1
   redis.port: 6379
 
@@ -66,6 +68,13 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 zuul:
+  ignoreSecurityHeaders: false
+  sensitive-headers: Authorization
+  #  host:
+  #    max-total-connections: 1000
+  #    max-per-route-connections: 100
+  #  semaphore:
+  #    max-semaphores: 500
   ribbon:
     eager-load:
       enabled: true
@@ -85,7 +94,7 @@ zuul:
 #      stripPrefix: false
     sdapplication:
       path: /**
-      sensitiveHeaders:
+      sensitiveHeaders: Authorization
       serviceId: SDApplication
       stripPrefix: false
 
