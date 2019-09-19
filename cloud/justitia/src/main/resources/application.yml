@@ -27,11 +27,14 @@ spring:
     enabled: true
     change-log: classpath:liquibase/changelog-master.xml
 
-
-security:
-  oauth2:
-    jwt:
-      signing-key: my-secret-key
+jwt:
+  certificate:
+    store:
+      key-store: classpath:keystore.p12
+      key-store-password: srch4app
+    key:
+      keyAlias: tomcat
+      keyPassword: srch4app
 
 management:
   endpoints:

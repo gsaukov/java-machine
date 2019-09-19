@@ -118,9 +118,13 @@ feign:
     client-id: sdapplication
     client-secret: sdapplication_secret
 
-security:
-  oauth2:
-    jwt:
-      signing-key: my-secret-key
+jwt:
+  certificate:
+    store:
+      trust-store: classpath:truststore.jks
+      trust-store-password: srch4app
+    key:
+      key-alias: gskv
+      key-password: srch4app
 
 logging.level.org.springframework: DEBUG

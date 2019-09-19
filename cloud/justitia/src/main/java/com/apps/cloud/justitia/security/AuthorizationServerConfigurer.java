@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,10 +18,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
+import java.security.KeyPair;
 
 //      http://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read
 //      POST ONLY:  http://localhost:8002/oauth/token?client_id=sdapplication&client_secret=sdapplication_secret&grant_type=authorization_code&code=AUTHORIZATION_CODE
@@ -49,8 +51,17 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
     @Autowired
     private AccessTokenRepository accessTokenRepository;
 
-    @Value("${security.oauth2.jwt.signing-key}")
-    private String signingKey;
+    @Value("${jwt.certificate.store.key-store}")
+    private Resource keystore;
+
+    @Value("${jwt.certificate.store.key-store-password}")
+    private String keystorePassword;
+
+    @Value("${jwt.certificate.key.key-alias}")
+    private String keyAlias;
+
+    @Value("${jwt.certificate.key.key-password}")
+    private String keyPassword;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -86,11 +97,6 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         return new JdbcApprovalStore(dataSource);
     }
 
-//    @Bean
-//    public JdbcTokenStore tokenStore() {
-//        return new JdbcTokenStore(dataSource);
-//    }
-
     @Bean
     public CustomJwtTokenStore tokenStore() {
         CustomJwtTokenStore tokenStore = new CustomJwtTokenStore(accessTokenConverter(), accessTokenRepository);
@@ -100,8 +106,10 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(keystore, keystorePassword.toCharArray());
+        KeyPair keyPair = keyStoreKeyFactory.getKeyPair(keyAlias, keyPassword.toCharArray());
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(signingKey);
+        converter.setKeyPair(keyPair);
         return converter;
     }
 
