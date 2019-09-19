@@ -3,6 +3,9 @@ spring:
     name: justitia
   mvc.throw-exception-if-no-handler-found: true
   mvc.static-path-pattern: /static/**
+  sleuth.sampler.probability: 1.0
+  zipkin:
+    baseUrl: http://localhost:9411/
 
   datasource:
     url: jdbc:mysql://localhost:55555/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
