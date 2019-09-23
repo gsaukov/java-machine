@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -49,7 +51,8 @@ public class AppAuthenticationFilter extends
         String token = getTokenFromAuthServer(code);
 
         PreAuthenticatedAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(convertTokenToJson(token).get(),null);
-        return this.getAuthenticationManager().authenticate(authRequest);
+        Authentication authentication = this.getAuthenticationManager().authenticate(authRequest);
+        return authentication;
     }
 
     private Optional<String> convertTokenToJson(String json) throws IOException {

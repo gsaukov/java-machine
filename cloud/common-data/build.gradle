@@ -1,8 +1,12 @@
 group "com.apps.cloud"
 
 apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
 
 dependencies {
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    
     compile "com.github.gavlyukovskiy:datasource-proxy-spring-boot-starter:${dataSourceProxyVersion}"
 
     compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -79,7 +80,12 @@ public class AppSecurityConfigurer
         KeyStore store = KeyStore.getInstance(KeyStore.getDefaultType());
         store.load(truststore.getInputStream(), truststorePassword.toCharArray());
         PublicKey publicKey = store.getCertificate(keyAlias).getPublicKey();
+
+        DefaultAccessTokenConverter tokenConverter = new DefaultAccessTokenConverter();
+        tokenConverter.setUserTokenConverter(new AppUserAuthenticationConverter());
+
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setAccessTokenConverter(tokenConverter);
         converter.setVerifier(new RsaVerifier((RSAPublicKey)publicKey));
         return converter;
     }

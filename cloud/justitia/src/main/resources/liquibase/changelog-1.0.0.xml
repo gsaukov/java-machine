@@ -57,15 +57,15 @@
             <column name="USER_ID" type="varchar(64)">
                 <constraints nullable="false" foreignKeyName="FK_AUT_USER" references="USER(ID)"/>
             </column>
-            <column name="AUTHORITY" type="varchar(64)">
+            <column name="AUTHORITY" type="varchar(2048)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
         <createIndex tableName="AUTHORITY" indexName="IDX_AUT_USER" unique="false">
             <column name="USER_ID" type="varchar(64)"/>
         </createIndex>
-        <addUniqueConstraint tableName="AUTHORITY" columnNames="USER_ID,AUTHORITY"
-                             constraintName="UDX_AUT_USER_AUTHORITY"/>
+<!--        <addUniqueConstraint tableName="AUTHORITY" columnNames="USER_ID,AUTHORITY"-->
+<!--                             constraintName="UDX_AUT_USER_AUTHORITY"/>-->
     </changeSet>
 
 </databaseChangeLog>

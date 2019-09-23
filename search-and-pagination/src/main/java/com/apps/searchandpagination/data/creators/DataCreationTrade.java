@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
@@ -29,6 +30,7 @@ public class DataCreationTrade {
 
     public void createData() throws IllegalAccessException, InstantiationException {
         createSymbols();
+        createDomains();
         createTrades();
     }
 
@@ -39,6 +41,11 @@ public class DataCreationTrade {
             tradeDetails.setDetails(getRandomWords(10));
             tradeDetailsRepository.save(tradeDetails);
         }
+    }
+
+    private void createDomains() {
+        List<Object> domains = Arrays.asList("Mercury","Venus","Earth","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto");
+        RandomPatterns.addRandomPattern(new RandomPattern("domain", domains));
     }
 
     private void createSymbols(){
