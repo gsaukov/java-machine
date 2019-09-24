@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-//This class intendeded to avoid DefaultUserAuthenticationConverter behaviour to split authorities by comma.
+//This class intendeded to avoid DefaultUserAuthenticationConverter behaviour that splits authorities by comma.
+//Further authority on resource server will be resolved to json object for more agile permission politics.
 public class AppUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
 
     public Authentication extractAuthentication(Map<String, ?> map) {

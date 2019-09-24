@@ -4,6 +4,8 @@ import com.apps.searchandpagination.persistance.entity.TradeDetails;
 import com.apps.searchandpagination.persistance.repository.TradeDataRepository;
 import com.apps.searchandpagination.persistance.repository.TradeDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +17,9 @@ public class TradeDetailsService {
     @Autowired
     private TradeDataRepository tradeDataRepository;
 
+//    @PreAuthorize("hasPermission(#detailId, 'Foo', 'read')")
+//    @PostAuthorize("hasPermission(returnObject.domain, 'read')")
+    @PostAuthorize("hasDomain(returnObject.domain)")
     public TradeDetails getTrade(String detailId) {
         return tradeDetailsRepository.findByTradeData(tradeDataRepository.findById(detailId).get());
     }

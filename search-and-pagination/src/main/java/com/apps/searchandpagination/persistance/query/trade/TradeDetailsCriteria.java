@@ -14,6 +14,7 @@ public class TradeDetailsCriteria {
     private List<String> ids;
     private List<String> symbols;
     private List<String> accounts;
+    private List<String> domains;
     private TradeData.Route route;
     private BigMoney amountGreater;
     private BigMoney amountLess;
@@ -56,6 +57,14 @@ public class TradeDetailsCriteria {
 
     public void setAccounts(List<String> accounts) {
         this.accounts = accounts;
+    }
+
+    public List<String> getDomains() {
+        return domains;
+    }
+
+    public void setDomains(List<String> domains) {
+        this.domains = domains;
     }
 
     public TradeData.Route getRoute() {

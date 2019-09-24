@@ -5,10 +5,12 @@ import com.apps.searchandpagination.persistance.entity.TradeDetails;
 import com.apps.searchandpagination.persistance.query.trade.TradeDetailsCriteria;
 import com.apps.searchandpagination.persistance.query.trade.TradeDetailsDynamicQuery;
 import com.apps.searchandpagination.persistance.repository.TradeDataRepository;
+import com.apps.searchandpagination.security.method.AppJsonAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,8 +26,12 @@ public class TradeDataService {
     @Autowired
     private TradeDetailsDynamicQuery tradeDetailsDynamicQuery;
 
+    @Autowired
+    private AppJsonAuthorityService appJsonAuthorityService;
+
     public Page<TradeData> findTrades(Pageable page, Optional<TradeDetailsCriteria> criteria) {
-        Page<TradeDetails> tradeDetails = tradeDetailsDynamicQuery.queryTrades(page, criteria.orElse(TradeDetailsCriteria.EMPTY_CRITERIA));
+        TradeDetailsCriteria tradeDetailsCriteria = addDomainRestrictions(criteria.orElse(TradeDetailsCriteria.EMPTY_CRITERIA));
+        Page<TradeDetails> tradeDetails = tradeDetailsDynamicQuery.queryTrades(page, tradeDetailsCriteria);
         List<TradeData> tradeData = new ArrayList<>();
         tradeDetails.getContent().stream().forEach(t -> tradeData.add(t.getTradeData()));
         return new PageImpl<>(tradeData, page, tradeDetails.getTotalElements());
@@ -33,6 +39,12 @@ public class TradeDataService {
 
     public List<String> findAllSymbols(){
         return tradeDataRepository.findAllSymbols();
+    }
+
+    private TradeDetailsCriteria addDomainRestrictions(TradeDetailsCriteria tradeDetailsCriteria){
+        ArrayList<String> allowedDomains = appJsonAuthorityService.getAvailableDomains(SecurityContextHolder.getContext().getAuthentication());
+        tradeDetailsCriteria.setDomains(allowedDomains);
+        return tradeDetailsCriteria;
     }
 
 }

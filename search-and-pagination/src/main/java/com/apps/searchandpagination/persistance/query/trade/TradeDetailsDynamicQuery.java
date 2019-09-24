@@ -61,6 +61,10 @@ public class TradeDetailsDynamicQuery {
             predicates.add(creatIn(builder, joinTradeData.get(TradeData_.accountId), tradeDetailsCriteria.getAccounts()));
         }
 
+        if (isNotEmpty(tradeDetailsCriteria.getDomains())) {
+            predicates.add(creatIn(builder, rootTradeDetails.get(TradeDetails_.domain), tradeDetailsCriteria.getDomains()));
+        }
+
         if (isNotEmpty(tradeDetailsCriteria.getSymbols())) {
             predicates.add(creatIn(builder, joinTradeData.get(TradeData_.symbol), tradeDetailsCriteria.getSymbols()));
         }
