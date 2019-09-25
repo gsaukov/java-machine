@@ -20,8 +20,10 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 .and().authorizeRequests()
                 .antMatchers("/error/accessdenied").permitAll()
+                .antMatchers("/logedout").permitAll()
                 .antMatchers("/**").hasAnyAuthority("USER","ADMIN")
                 .anyRequest().authenticated();
+
     }
 
     @Override

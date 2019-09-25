@@ -41,9 +41,15 @@ public class AppSecurityConfigurer
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
+            .antMatchers("/logedout").permitAll()
             .anyRequest().authenticated()
             .and().addFilterBefore(appAuthenticationFilter(), SessionManagementFilter.class)
             .formLogin().loginPage("https://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read")
+            .and().logout()
+            .logoutUrl("/performlogout")
+            .logoutSuccessUrl("/logedout")
+            .invalidateHttpSession(true)
+            .deleteCookies("SESSION")
             .and().httpBasic().disable();
     }
 

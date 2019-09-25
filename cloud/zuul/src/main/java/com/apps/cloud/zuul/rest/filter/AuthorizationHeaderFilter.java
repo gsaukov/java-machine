@@ -56,7 +56,9 @@ public class AuthorizationHeaderFilter extends ZuulFilter {
 
     private void process(RequestContext currentContext, HttpServletRequest request) {
         Cookie sessionCookie = getSessionCookie(request);
-        currentContext.addZuulRequestHeader(COOKIE, sessionCookie.getName() + "=" + sessionCookie.getValue());
+        if(sessionCookie != null){
+            currentContext.addZuulRequestHeader(COOKIE, sessionCookie.getName() + "=" + sessionCookie.getValue());
+        }
     }
 
     private Cookie getSessionCookie(HttpServletRequest request){
