@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -89,6 +90,7 @@ public class AccountController {
 
     @ResponseBody
     @GetMapping("accountperformance/{accountId}")
+    @PreAuthorize("hasPermission(#accountId, 'accountright', 'accountperformance')")
     public FileSystemResource getAccountPerformance(
             @PathVariable("accountId") String accountId) {
         return new FileSystemResource(accountDataService.getAccountPerformance(accountId));

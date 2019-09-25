@@ -1,20 +1,25 @@
 package com.apps.searchandpagination.security.method;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 
+@Service
 public class AppPermissionEvaluator implements PermissionEvaluator {
+
+    @Autowired
+    private AppJsonAuthorityService appJsonAuthorityService;
 
     @Override
     public boolean hasPermission(Authentication auth, Object targetDomainObject, Object permission) {
         if ((auth == null) || (targetDomainObject == null) || !(permission instanceof String)) {
             return false;
         }
-        final String targetType = targetDomainObject.getClass().getSimpleName().toUpperCase();
-        return hasPrivilege(auth, targetType, permission.toString().toUpperCase());
+        final String targetType = targetDomainObject.getClass().getSimpleName().toLowerCase();
+        return appJsonAuthorityService.hasPrivilege(auth, targetType, permission.toString().toLowerCase());
     }
 
     @Override
@@ -22,18 +27,8 @@ public class AppPermissionEvaluator implements PermissionEvaluator {
         if ((auth == null) || (targetType == null) || !(permission instanceof String)) {
             return false;
         }
-        return hasPrivilege(auth, targetType.toUpperCase(), permission.toString().toUpperCase());
-    }
-
-    private boolean hasPrivilege(Authentication auth, String targetType, String permission) {
-        for (final GrantedAuthority grantedAuth : auth.getAuthorities()) {
-            if (grantedAuth.getAuthority().startsWith(targetType)) {
-                if (grantedAuth.getAuthority().contains(permission)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        //targetId is not used but implementation could be expanded to include it, targetId represent usually method parameter.
+        return appJsonAuthorityService.hasPrivilege(auth, targetType.toLowerCase(), permission.toString().toLowerCase());
     }
 
 }

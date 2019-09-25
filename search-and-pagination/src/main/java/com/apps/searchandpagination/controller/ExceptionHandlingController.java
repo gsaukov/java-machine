@@ -1,6 +1,8 @@
 package com.apps.searchandpagination.controller;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +23,17 @@ public class ExceptionHandlingController{
         return "error/customerror";
     }
 
+    @Order(1)
+    @ResponseStatus(value= HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ModelAndView handleAccessDenied(HttpServletRequest req, Exception e) {
+        e.printStackTrace();
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("error/accessdenied");
+        return mav;
+    }
+
+    @Order(2)
     @ResponseStatus(value= HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, Exception e) {

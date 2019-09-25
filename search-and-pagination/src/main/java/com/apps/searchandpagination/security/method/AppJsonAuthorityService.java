@@ -1,6 +1,5 @@
 package com.apps.searchandpagination.security.method;
 
-import com.google.gson.JsonArray;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -17,6 +16,14 @@ public class AppJsonAuthorityService {
 
     public static final String DOMAIN = "domain";
 
+    public boolean hasPrivilege(Authentication auth, String targetType, String permission) {
+        String authPermission = null;
+        String jsonAuth = getJsonAuthority(auth);
+        if(jsonAuth != null && !jsonAuth.isEmpty()){
+            authPermission = getFromJsonObject(jsonAuth, targetType);
+        }
+        return authPermission != null && authPermission.equals(permission);
+    }
 
     public ArrayList<String> getAvailableDomains(Authentication auth){
         ArrayList<String> availibleDomains = new ArrayList<>();
@@ -40,8 +47,8 @@ public class AppJsonAuthorityService {
         ArrayList<String> jsonArray = new ArrayList<>();
         try {
             JSONObject j = new JSONObject(jsonAuth);
-            JSONArray jArray = j.getJSONArray(key);
-            if (jArray != null) {
+            if (j.has(key)) {
+                JSONArray jArray = j.getJSONArray(key);
                 for (int i = 0; i < jArray.length(); i++) {
                     jsonArray.add(jArray.getString(i));
                 }
@@ -50,5 +57,18 @@ public class AppJsonAuthorityService {
             e.printStackTrace();
         }
         return jsonArray;
+    }
+
+    private String getFromJsonObject(String jsonAuth, String key) {
+        String jsonString = null;
+        try {
+            JSONObject j = new JSONObject(jsonAuth);
+            if (j.has(key)) {
+                jsonString = j.get(key).toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 }
