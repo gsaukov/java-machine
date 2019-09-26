@@ -59,7 +59,7 @@
         <a href="#" onclick="getHome('tradehome/')">Trades</a>
         </li>
         <li>
-        <a href="#">Events</a>
+        <a href="#" onclick="buildCartography()">Cartography</a>
         </li>
         <li>
         <a href="#">About</a>
@@ -100,6 +100,16 @@
     <div th:replace="modal :: modal"></div>
 </div>
 <div th:replace="account/accountperformance :: accountperformance"></div>
+<div id="cartographyBlock" style="isolation: isolate;"></div>
+
+<script>
+    function buildCartography() {
+        var onResponse = function (response) {
+            $('#cartographyBlock').append(response);
+        }
+        doFetch('cartography/map', "GET", null, onResponse);
+    }
+</script>
 
 <script>
     var allSymbolsObj = {
