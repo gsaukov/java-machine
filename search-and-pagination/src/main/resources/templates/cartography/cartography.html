@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+
+<body>
+    <div th:fragment="cartography">
+        <div id="cartographyBlock" style="position: absolute; width: 100.0%; height: 100.0%; left: 0.0%; top: 0.0%; z-index: -1"></div>
+
+        <script>
+            function buildCartography() {
+                window.event.preventDefault();
+                var onResponse = function (response) {
+                    $('#cartographyBlock').append(response);
+                    $('#wrapper').toggleClass('toggled')
+                    $('#cartographyBlock').css('z-index', 99998);
+                    $('#cartographyBlock').append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeCartography();' style='position: absolute; right: 10px; top: 20px; z-index: 99999' >&times;</a>");
+                }
+                doFetch('cartography/map', "GET", null, onResponse);
+            }
+        </script>
+
+        <script>
+            function removeCartography() {
+                window.event.preventDefault();
+                removeAllChildren('cartographyBlock')
+                $('#cartographyBlock').css('z-index', -1);
+            }
+        </script>
+    </div>
+</body>
+</html>

@@ -41,7 +41,7 @@
                 $('#blurBackGround').css('overflow', 'hidden');
                 $('#blurBackGround').css('filter', 'blur(5px)');
                 $('#accountPerformanceBody').css('z-index', 99999);
-                $('#accountPerformanceBody').html('');
+                $('#accountPerformanceBody').empty();
                 $('#accountPerformanceBody').append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeAccountPerformance()' style='position: absolute; right: 10px; top: 70px;'>&times;</a>");
                 $('#accountPerformanceBody').append("<div id='accountPerformanceGraph' style='min-height: 500px; min-width: 1600px; height: 100%; width: 100%; margin: 0 auto;'></div>");
                 initChart(createChartObj(accountId));
@@ -50,7 +50,7 @@
 
         <script>
             function removeAccountPerformance() {
-                $('#accountPerformanceBody').html('');
+                $('#accountPerformanceBody').empty();
                 $('#accountPerformanceBody').css('z-index', -1);
                 $('#blurBackGround').removeAttr('scroll');
                 $('#blurBackGround').removeAttr('style');

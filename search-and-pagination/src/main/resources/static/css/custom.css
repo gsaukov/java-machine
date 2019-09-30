@@ -317,3 +317,11 @@ hr{
 .modal-footer {
     border-top: 0 none;
 }
+
+.folium-map{
+    position: relative;
+    width: 100.0%;
+    height: 100.0%;
+    left: 0.0%;
+    top: 0.0%;
+}
