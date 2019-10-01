@@ -64,4 +64,6 @@ data-creation:
   address-store: classpath:db/addresses-us-all.json #use file: to specify absolute/relative location on the file system.
 
 cartographer:
-  origin-map-cartographer-url: http://localhost:8510/
+  origin-map-cartographer-url: http://localhost:8510/originmap
+  value-map-cartographer-url: http://localhost:8510/valuemap
+  pollution-map-cartographer-url: http://localhost:8510/pollutionmap

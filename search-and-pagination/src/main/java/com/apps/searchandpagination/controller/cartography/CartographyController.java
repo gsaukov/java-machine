@@ -14,7 +14,19 @@ public class CartographyController {
 
     @ResponseBody
     @GetMapping("cartography/originmap")
-    public String getCartographyMap() throws Exception{
+    public String getOriginCartographyMap() throws Exception{
         return cartographyService.getOriginCartography();
+    }
+
+    @ResponseBody
+    @GetMapping("cartography/valuemap")
+    public String getValueCartographyMap() throws Exception{
+        return cartographyService.getValueCartography();
+    }
+
+    @ResponseBody
+    @GetMapping("cartography/pollutionmap")
+    public String getPollutionCartographyMap() throws Exception{
+        return cartographyService.getPollutionCartography();
     }
 }
