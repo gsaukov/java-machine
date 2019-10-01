@@ -325,3 +325,22 @@ hr{
     left: 0.0%;
     top: 0.0%;
 }
+
+.dropdown-menu {
+    text-indent: 20px;
+    line-height: 40px;
+    text-decoration: none;
+    color: #999999;
+    background: #000;
+}
+
+.dropdown-menu a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.dropdown-menu a:active,
+.dropdown-menu a:focus {
+    text-decoration: none;
+}

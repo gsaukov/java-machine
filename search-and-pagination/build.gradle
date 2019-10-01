@@ -53,6 +53,7 @@ dependencies {
     compile 'org.hectorclient:hector-core:2.0-0'
     compile 'io.dropwizard.metrics:metrics-core:3.2.2'
     compile 'com.datastax.cassandra:cassandra-driver-mapping:2.1.1'
+    compile 'org.jsoup:jsoup:1.11.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.testng:testng:6.9.10'
     annotationProcessor('org.hibernate:hibernate-jpamodelgen')
