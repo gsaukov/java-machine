@@ -12,10 +12,10 @@ repositories {
 }
 
 dependencies {
-    compile project('common-data')
-    compile project('common-rest')
-    compile project('zuul')
-    compile project('discovery')
-    compile project('zipkin')
-    compile project('justitia')
+//    compile project('common-data')
+//    compile project('common-rest')
+//    compile project('zuul')
+//    compile project('discovery')
+//    compile project('zipkin')
+//    compile project('justitia')
 }
