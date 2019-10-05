@@ -20,6 +20,7 @@ public class AuthorizationHeaderFilter extends ZuulFilter {
     private static final Logger logger = getLogger(AuthorizationHeaderFilter.class);
 
     private static final String COOKIE = "cookie";
+    private static final String SESSION = "SESSION";
 
     @Autowired
     private AuthorizationFilterSupport authorizationFilterSupport;
@@ -64,7 +65,7 @@ public class AuthorizationHeaderFilter extends ZuulFilter {
     private Cookie getSessionCookie(HttpServletRequest request){
         Cookie sessionCookie = null;
         for(Cookie cookie : request.getCookies()){
-            if(cookie.getName().equals("SESSION")){
+            if(cookie.getName().equals(SESSION)){
                 sessionCookie = cookie;
             }
         }

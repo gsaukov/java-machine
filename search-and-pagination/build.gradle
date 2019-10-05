@@ -27,35 +27,37 @@ dependencies {
     compile project(':misc')
     
     compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile 'org.liquibase:liquibase-core'
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile "org.liquibase:liquibase-core"
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile "org.springframework.cloud:spring-cloud-starter-zipkin"
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.session:spring-session-data-redis"
     compile "redis.clients:jedis:${jedisVersion}"
-    
     compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
     compile "org.springframework.security:spring-security-jwt:${springJwtVersion}"
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-task', version: '2.1.2.RELEASE'
-    compile group: 'javax.persistence', name: 'javax.persistence-api'
-    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    compile 'org.springframework.data:spring-data-commons'
-//    compile group: 'com.h2database', name: 'h2'
+    compile "org.springframework.cloud:spring-cloud-starter-task"
+    compile "javax.persistence:javax.persistence-api"
+    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    compile "org.springframework.data:spring-data-commons"
+    compile "org.springframework.data:spring-data-cassandra"
+
+    compile "org.cassandraunit:cassandra-unit-spring:${cassandraUnitVersion}"
+    compile "org.cassandraunit:cassandra-unit-shaded:${cassandraUnitVersion}"
+    compile "com.datastax.cassandra:cassandra-driver-core:${cassandraDriverCoreVersion}"
+    compile "com.datastax.cassandra:cassandra-driver-mapping:${cassandraDriverMappingVersion}"
+
+    compile "org.hectorclient:hector-core:${hectorCoreVersion}"
+    compile "io.dropwizard.metrics:metrics-core:${dropWizardMetricsCoreVersion}"
+    compile "org.jsoup:jsoup:${jsoupVersion}"
+    compile "org.joda:joda-money:${jodaMoneyVersion}"
+    compile "fr.dudie:nominatim-api:${nominatimApiVersion}"
+//    runtime "com.h2database:h2:${h2Version}"
     runtime "mysql:mysql-connector-java:${mySqlVersion}"
-    compile group: 'org.joda', name: 'joda-money', version: '1.0.1'
-    compile 'fr.dudie:nominatim-api:3.3'
-    compile 'org.springframework.data:spring-data-cassandra:2.1.8.RELEASE'
-    compile 'com.datastax.cassandra:cassandra-driver-core:3.7.1'
-    compile 'org.cassandraunit:cassandra-unit-spring:3.11.2.0'
-    compile 'org.cassandraunit:cassandra-unit-shaded:3.11.2.0'
-    compile 'org.hectorclient:hector-core:2.0-0'
-    compile 'io.dropwizard.metrics:metrics-core:3.2.2'
-    compile 'com.datastax.cassandra:cassandra-driver-mapping:2.1.1'
-    compile 'org.jsoup:jsoup:1.11.3'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.testng:testng:6.9.10'
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testCompile "org.testng:testng:${testngVersion}"
+    
     annotationProcessor('org.hibernate:hibernate-jpamodelgen')
 }
 

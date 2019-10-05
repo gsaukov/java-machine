@@ -109,7 +109,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(keystore, keystorePassword.toCharArray());
         KeyPair keyPair = keyStoreKeyFactory.getKeyPair(keyAlias, keyPassword.toCharArray());
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setKeyPair(keyPair);
+        converter.setKeyPair(keyPair); //sign with private key.
         return converter;
     }
 

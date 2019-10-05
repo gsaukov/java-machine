@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CartographyController {
 
-    @Autowired
     private CartographyService cartographyService;
 
     @ResponseBody
@@ -28,5 +27,10 @@ public class CartographyController {
     @GetMapping("cartography/pollutionmap")
     public String getPollutionCartographyMap() throws Exception{
         return cartographyService.getPollutionCartography();
+    }
+
+    @Autowired
+    public void setCartographyService(CartographyService cartographyService) {
+        this.cartographyService = cartographyService;
     }
 }

@@ -327,6 +327,7 @@ hr{
 }
 
 .dropdown-menu {
+    border: 1px solid #a1afc3;
     text-indent: 20px;
     line-height: 40px;
     text-decoration: none;

@@ -6,12 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
@@ -29,6 +25,8 @@ import static java.util.Optional.of;
 public class AppAuthenticationFilter extends
         AbstractAuthenticationProcessingFilter {
 
+    private static final String REGEXP = ".*\\/sdapplication\\?code=.*";
+
     @Value("${feign.oauth2.client-id}")
     private String clientId;
 
@@ -41,7 +39,7 @@ public class AppAuthenticationFilter extends
     private static final ObjectMapper objectMapper = new ObjectMapper(); // Thread Safe
 
     public AppAuthenticationFilter() {
-        super(new RegexRequestMatcher(".*\\/sdapplication\\?code=.*", "GET"));
+        super(new RegexRequestMatcher(REGEXP, "GET"));
     }
 
     @Override
@@ -50,7 +48,7 @@ public class AppAuthenticationFilter extends
         String code = request.getParameter("code");
         String token = getTokenFromAuthServer(code);
 
-        PreAuthenticatedAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(convertTokenToJson(token).get(),null);
+        PreAuthenticatedAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(convertTokenToJson(token).get(), null);
         Authentication authentication = this.getAuthenticationManager().authenticate(authRequest);
         return authentication;
     }

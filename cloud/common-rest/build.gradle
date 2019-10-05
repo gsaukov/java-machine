@@ -9,3 +9,7 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+jar {
+    enabled = true
+}

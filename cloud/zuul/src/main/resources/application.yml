@@ -128,4 +128,6 @@ jwt:
       key-alias: gskv
       key-password: srch4app
 
+login-page-url: https://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read
+
 logging.level.org.springframework: DEBUG

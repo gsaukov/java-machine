@@ -1,6 +1,7 @@
 package com.apps.cloud.zuul.security;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -25,6 +26,9 @@ import java.security.interfaces.RSAPublicKey;
 public class AppSecurityConfigurer
         extends WebSecurityConfigurerAdapter {
 
+    @Value("${login-page-url}")
+    private String  loginPageUrl;
+
     @Value("${jwt.certificate.store.trust-store}")
     private Resource truststore;
 
@@ -44,7 +48,7 @@ public class AppSecurityConfigurer
             .antMatchers("/logedout").permitAll()
             .anyRequest().authenticated()
             .and().addFilterBefore(appAuthenticationFilter(), SessionManagementFilter.class)
-            .formLogin().loginPage("https://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read")
+            .formLogin().loginPage(loginPageUrl)
             .and().logout()
             .logoutUrl("/performlogout")
             .logoutSuccessUrl("/logedout")

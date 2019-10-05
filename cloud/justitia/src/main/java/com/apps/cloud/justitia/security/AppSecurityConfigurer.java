@@ -30,7 +30,7 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        // No JSESSIONID Cookie
+
         http.sessionManagement().sessionCreationPolicy(ALWAYS).maximumSessions(3).sessionRegistry(sessionRegistry());
 
         http.cors().and().csrf().and()
@@ -71,7 +71,7 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Bean
     public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
-        return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
+        return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
     }
 
 }
