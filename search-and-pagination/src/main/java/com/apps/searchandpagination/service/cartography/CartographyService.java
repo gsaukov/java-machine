@@ -1,6 +1,5 @@
 package com.apps.searchandpagination.service.cartography;
 
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

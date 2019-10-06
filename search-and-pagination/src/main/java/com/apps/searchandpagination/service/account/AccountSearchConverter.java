@@ -40,20 +40,6 @@ public class AccountSearchConverter {
         return Arrays.stream(input.split(",")).map(String::trim).collect(Collectors.toList());
     }
 
-    private TradeData.Route pasrseRoute(String input){
-        if(input == null || input.isEmpty()){
-            return null;
-        }
-        return TradeData.Route.valueOf(input);
-    }
-
-    private BigMoney pasrseBigMoney(String input, String currency){
-        if(input == null || input.isEmpty()){
-            return null;
-        }
-        return BigMoney.of(CurrencyUnit.of(currency), new BigDecimal(input));
-    }
-
     private AccountDataCriteria.ComparisonType parseComparisonType(String input){
         if(input == null || input.isEmpty()){
             return null;

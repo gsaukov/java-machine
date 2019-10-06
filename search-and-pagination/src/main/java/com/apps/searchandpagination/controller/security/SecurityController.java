@@ -16,5 +16,4 @@ public class SecurityController {
         return "/logedout";
     }
 
-
 }

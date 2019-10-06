@@ -20,7 +20,6 @@ public class LiquibaseConfig {
     @Qualifier("dataSource")
     private DataSource dataSource;
 
-
     @Bean(name = "liquibaseProperties")
     public LiquibaseProperties liquibaseProperties() {
         LiquibaseProperties properties = new LiquibaseProperties();
