@@ -69,6 +69,75 @@
                 </g>
             </svg>
         </div >
+        <script>
+            let timeBegan = null
+                , timeStopped = null
+                , stoppedDuration = 0
+                , started = null;
+
+            function startTimer() {
+                if (timeBegan === null) {
+                    timeBegan = new Date();
+                }
+
+                if (timeStopped !== null) {
+                    stoppedDuration += (new Date() - timeStopped);
+                }
+                resumeSpinner();
+                started = setInterval(clockRunning, 10);
+            }
+
+            function stopTimer() {
+                timeStopped = new Date();
+                clearInterval(started);
+                pauseSpinner();
+            }
+
+            function resetTimer() {
+                clearInterval(started);
+                stoppedDuration = 0;
+                timeBegan = null;
+                timeStopped = null;
+                document.getElementById("requestTimer").innerHTML = "00:00.000";
+            }
+
+            function clockRunning(){
+                let currentTime = new Date()
+                    , timeElapsed = new Date(currentTime - timeBegan - stoppedDuration);
+
+                document.getElementById("requestTimer").innerHTML = timeToString(timeElapsed);
+            };
+
+            function hideSpinner(){
+                document.getElementById("requestSpinner").style.display='none';
+            };
+
+            function pauseSpinner(){
+                document.getElementById("svgSpinner").pauseAnimations();
+            };
+
+            function resumeSpinner() {
+                document.getElementById("svgSpinner").unpauseAnimations();
+            }
+
+            function timeToString(time) {
+                let min = time.getUTCMinutes()
+                    , sec = time.getUTCSeconds()
+                    , ms = time.getUTCMilliseconds();
+
+                return (min > 9 ? min : "0" + min) + ":" +
+                    (sec > 9 ? sec : "0" + sec) + "." +
+                    (ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms);
+            }
+
+            document.addEventListener("DOMContentLoaded", function(event) {
+                let now = new Date().getTime();
+                let pageLoadTime = new Date(now - performance.timing.navigationStart);
+
+                document.getElementById("requestTimer").innerHTML = timeToString(pageLoadTime);
+                pauseSpinner();
+            });
+        </script>
     </div>
 </body>
 </html>
