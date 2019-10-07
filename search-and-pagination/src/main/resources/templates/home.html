@@ -13,18 +13,18 @@
     <link href="http://localhost:9020/static/css/ol.css"  rel="stylesheet" >
     <link href="http://localhost:9020/static/css/auto-complete.css"  rel="stylesheet" >
 
+    <script src="http://localhost:9020/static/js/custom/AddressMap.js"></script>
+    <script src="http://localhost:9020/static/js/custom/chart.js"></script>
 
-    <script src="http://localhost:9020/static/js/jquery-3.3.1.min.js"></script>
-    <script src="http://localhost:9020/static/js/popper.min.js" ></script>
-    <script src="http://localhost:9020/static/js/bootstrap.min.js"></script>
-    <script src="http://localhost:9020/static/js/simplebar.js"></script>
-    <script src="http://localhost:9020/static/js/AddressMap.js"></script>
-    <script src="http://localhost:9020/static/js/OpenLayers.js"></script>
-    <script src="http://localhost:9020/static/js/OpenStreetMap.js"></script>
-    <script src="http://localhost:9020/static/js/ol.js"></script>
-    <script src="http://localhost:9020/static/js/auto-complete.js"></script>
-    <script src="http://localhost:9020/static/js/d3.v5.js"></script>
-    <script src="http://localhost:9020/static/js/chart.js"></script>
+    <script src="http://localhost:9020/static/js/external/jquery-3.3.1.min.js"></script>
+    <script src="http://localhost:9020/static/js/external/popper.min.js" ></script>
+    <script src="http://localhost:9020/static/js/external/bootstrap.min.js"></script>
+    <script src="http://localhost:9020/static/js/external/simplebar.js"></script>
+    <script src="http://localhost:9020/static/js/external/OpenLayers.js"></script>
+    <script src="http://localhost:9020/static/js/external/OpenStreetMap.js"></script>
+    <script src="http://localhost:9020/static/js/external/ol.js"></script>
+    <script src="http://localhost:9020/static/js/external/auto-complete.js"></script>
+    <script src="http://localhost:9020/static/js/external/d3.v5.js"></script>
 
     <script>L_PREFER_CANVAS=false; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.3.4/dist/leaflet.js"></script>
@@ -119,7 +119,7 @@
 <div th:replace="cartography/cartography :: cartography"></div>
 
 <script>
-    var allSymbolsObj = {
+    let allSymbolsObj = {
         allSymbolsData : null,
         dataUrl : "getallsymbols",
         separator : ',',
@@ -138,14 +138,14 @@
     function createSeparatorAutoComplete(targetId, dataObj) {
         window.event.preventDefault();
         if (!dataObj.getData()) {
-            var onResponse = function (response) {
+            let onResponse = function (response) {
                 dataObj.setData(response);
             }
 
             doFetch(dataObj.dataUrl, "GET", null, onResponse);
         }
 
-        var target = document.querySelectorAll(targetId)[0];
+        let target = document.querySelectorAll(targetId)[0];
         if (!target || target.getAttribute("autocomplete") === null) {
             new autoComplete({
                 selector: targetId,
@@ -153,8 +153,8 @@
                 separator: dataObj.separator,
                 cache: false,
                 source: function (term, suggest) {
-                    var choices = dataObj.getData();
-                    var matches = [];
+                    let choices = dataObj.getData();
+                    let matches = [];
                     term = term.toUpperCase().split(dataObj.separator).pop(-1).trim();
                     if(term.length < dataObj.minChars) return;
                     for (i = 0; i < choices.length; i++){
@@ -166,7 +166,7 @@
                 },
                 onAssign: function(that, v){
                     if(dataObj.separator){
-                        var tempVal = that.value;
+                        let tempVal = that.value;
                         if(tempVal.includes(dataObj.separator)){
                             tempVal = tempVal.substr(0, tempVal.lastIndexOf(dataObj.separator) + 1);
                             that.value = tempVal + v;
@@ -181,7 +181,7 @@
         }
     }
 
-    var allCityObj = {
+    let allCityObj = {
         allCityData : null,
         dataUrl : "getallcities",
         minChars : 3,
@@ -196,7 +196,7 @@
         }
     }
 
-    var allStatesObj = {
+    let allStatesObj = {
         allStatesData : null,
         dataUrl : "getallstates",
         minChars : 1,
@@ -214,22 +214,22 @@
     function createSimpleAutoComplete(targetId, dataObj) {
         window.event.preventDefault();
         if (!dataObj.getData()) {
-            var onResponse = function (response) {
+            let onResponse = function (response) {
                 dataObj.setData(response);
             }
 
             doFetch(dataObj.dataUrl, "GET", null, onResponse);
         }
 
-        var target = document.querySelectorAll(targetId)[0];
+        let target = document.querySelectorAll(targetId)[0];
         if (!target || target.getAttribute("autocomplete") === null) {
             new autoComplete({
                 selector: targetId,
                 minChars: dataObj.minChars,
                 cache: false,
                 source: function (term, suggest) {
-                    var choices = dataObj.getData();
-                    var matches = [];
+                    let choices = dataObj.getData();
+                    let matches = [];
                     term = term.toUpperCase();
                     if (term.length < dataObj.minChars) return;
                     for (i = 0; i < choices.length; i++){
@@ -270,12 +270,12 @@
 
 <script>
     function submitForm(e, formId, targetId) {
-        var form = document.getElementById(formId);
-        var table = document.getElementById(targetId);
+        let form = document.getElementById(formId);
+        let table = document.getElementById(targetId);
         e.preventDefault();
 
         if (form.reportValidity()) { //proceed only if form is valid.
-            var onResponse = function(response) {
+            let onResponse = function(response) {
                 $(table).replaceWith(response);
             }
             doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
@@ -284,27 +284,27 @@
 </script>
 
 <script>
-    var existingDetailsTableId = null;
+    let existingDetailsTableId = null;
 
     function getAccountTrades(accountId, csrfParameterName, csrfToken) {
         window.event.preventDefault();
-        var divId = 'accountTrades' + accountId;
-        var url = 'tradesearch/';
-        var data = new FormData();
+        let divId = 'accountTrades' + accountId;
+        let url = 'tradesearch/';
+        let data = new FormData();
         data.append(csrfParameterName, csrfToken);
         data.append('accounts', accountId);
         data.append('order', 'DATE');
         data.append('itemsSize', '5');
         data.append('tableId', 'tradedatateble' + accountId);
 
-        var divElem = document.getElementById(divId);
+        let divElem = document.getElementById(divId);
         if (divElem === null) {
 
-            var onResponse = function (text) {
+            let onResponse = function (text) {
                 removeDetailsTable(existingDetailsTableId);
-                var detailsTableBlock = document.getElementById('detailsTableBlock');
+                let detailsTableBlock = document.getElementById('detailsTableBlock');
                 $(detailsTableBlock).append("<div id=\"" + divId + "\"><\/div>");
-                var target = document.getElementById(divId);
+                let target = document.getElementById(divId);
                 $(target).append("<a href='#' class='btn btn-default btn-close' onclick=\"removeDetailsTable('" + divId + "')\" style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>");
                 $(target).append(text);
                 existingDetailsTableId = divId;
@@ -320,7 +320,7 @@
         window.event.preventDefault();
         $("#wrapper").toggleClass("toggled");
 
-        var onResponse = function (response) {
+        let onResponse = function (response) {
             $("#homeBlock").html(response);
         }
 
@@ -331,10 +331,10 @@
 <script>
     function getTable(tableId, urlParam, pageNum, size) {
         window.event.preventDefault();
-        var url = urlParam + '&page=' + pageNum + '&size=' + size;
+        let url = urlParam + '&page=' + pageNum + '&size=' + size;
 
-        var onResponse = function (response) {
-            var target = document.getElementById(tableId);
+        let onResponse = function (response) {
+            let target = document.getElementById(tableId);
             $(target).html(response);
         }
 
@@ -345,13 +345,13 @@
 <script>
     function getDetails(urlParam, detailId) {
         window.event.preventDefault();
-        var url = urlParam + '/?detailId=' + detailId;
-        var divElem = document.getElementById(detailId);
+        let url = urlParam + '/?detailId=' + detailId;
+        let divElem = document.getElementById(detailId);
 
         if (divElem === null) {
-            var onResponse = function (response) {
+            let onResponse = function (response) {
                 $('#detailsBlock').append("<div id=\"" + detailId + "\"><\/div>");
-                var target = document.getElementById(detailId);
+                let target = document.getElementById(detailId);
                 $(target).html(response);
             }
 
@@ -363,7 +363,7 @@
 <script>
     function removeDetails(detailId) {
         window.event.preventDefault();
-        var divId = "#" + detailId;
+        let divId = "#" + detailId;
         $(divId).fadeOut("normal", function() {
             $(this).remove();
         });
@@ -372,8 +372,8 @@
 
 <script>
     function removeDetailsTable(tableId) {
-        var divId = "#" + tableId;
-        var first = $(divId).firstElementChild;
+        let divId = "#" + tableId;
+        let first = $(divId).firstElementChild;
         while (first) {
             first.remove();
             first = e.firstElementChild;
@@ -387,7 +387,7 @@
     function removeElement(elementId) {
         window.event.preventDefault();
         removeAllChildren(elementId)
-        var element = "#" + elementId;
+        let element = "#" + elementId;
         $(element).remove();
     }
 </script>
@@ -395,7 +395,7 @@
 <script>
     function removeAllChildren(elementId) {
         window.event.preventDefault();
-        var element = "#" + elementId;
+        let element = "#" + elementId;
         $(element).empty();
     }
 </script>
@@ -441,7 +441,7 @@
         } else {
             return response.text() // return the result of the inner promise, which is an error
                 .then((text) => {
-                    var errorDesc = "<p> URL: " + request.url + "<br> METHOD: " + request.method + "<br> DATA: " + request.data + "</p>"
+                    let errorDesc = "<p> URL: " + request.url + "<br> METHOD: " + request.method + "<br> DATA: " + request.data + "</p>"
                         + "<p>RESPONSE STATUS: " + responseStatus + " " + responseStatusText + "</p>"
                         + "<p>RESPONSE BODY: " + text + "</p>";
                     throw new Error(errorDesc);
@@ -459,7 +459,7 @@
 </script>
 
 <script>
-var timeBegan = null
+let timeBegan = null
     , timeStopped = null
     , stoppedDuration = 0
     , started = null;
@@ -491,7 +491,7 @@ function resetTimer() {
 }
 
 function clockRunning(){
-    var currentTime = new Date()
+    let currentTime = new Date()
         , timeElapsed = new Date(currentTime - timeBegan - stoppedDuration);
 
     document.getElementById("requestTimer").innerHTML = timeToString(timeElapsed);
@@ -510,7 +510,7 @@ function resumeSpinner() {
 }
 
 function timeToString(time) {
-    var min = time.getUTCMinutes()
+    let min = time.getUTCMinutes()
     , sec = time.getUTCSeconds()
     , ms = time.getUTCMilliseconds();
 
@@ -520,8 +520,8 @@ function timeToString(time) {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    var now = new Date().getTime();
-    var pageLoadTime = new Date(now - performance.timing.navigationStart);
+    let now = new Date().getTime();
+    let pageLoadTime = new Date(now - performance.timing.navigationStart);
 
     document.getElementById("requestTimer").innerHTML = timeToString(pageLoadTime);
     pauseSpinner();

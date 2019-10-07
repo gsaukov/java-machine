@@ -16,9 +16,9 @@ class AddressMap {
 
             rebuildHtmlBlock(mapId);
 
-            var layers = createMapLayers(latitude, longitude, desc);
+            let layers = createMapLayers(latitude, longitude, desc);
 
-            var map = createMap(mapId, latitude, longitude, layers);
+            let map = createMap(mapId, latitude, longitude, layers);
 
             createPopUp(map);
 
@@ -30,47 +30,47 @@ class AddressMap {
 function rebuildHtmlBlock(mapId){
     removeMap(existingMapId)
 
-    var newMapDiv = document.createElement("div");
+    let newMapDiv = document.createElement("div");
     newMapDiv.innerHTML = "<div id='" + mapId + "' style='height:250px;'>" +
         "<a href='#' id='mapClose' class='btn btn-default btn-close' onclick=\"removeMap('" + mapId + "')\" style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>" +
         "<div id='popup'/>" +
         "<div/>";
 
-    var mapBlockDiv = document.getElementById("mapBlock");
+    let mapBlockDiv = document.getElementById("mapBlock");
     mapBlockDiv.appendChild(newMapDiv.firstChild);
 }
 
 
 function createMapLayers(latitude, longitude, desc) {
-    var iconFeature = new ol.Feature({
+    let iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.transform([latitude, longitude], 'EPSG:4326', 'EPSG:900913')),
         name: desc,
         population: 4000,
         rainfall: 500
     });
 
-    var iconStyle = new ol.style.Style({
+    let iconStyle = new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
             anchor: [0.5, 1],
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
             opacity: 0.75,
             // src: 'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/img/marker.png'
-            src: '../static/img/fa_map_marker_red.png'
+            src: 'http://localhost:9020/static/img/fa_map_marker_red.png'
         }))
     });
 
     iconFeature.setStyle(iconStyle);
 
-    var vectorSource = new ol.source.Vector({
+    let vectorSource = new ol.source.Vector({
         features: [iconFeature]
     });
 
-    var vectorLayer = new ol.layer.Vector({
+    let vectorLayer = new ol.layer.Vector({
         source: vectorSource
     });
 
-    var osmLayer = new ol.layer.Tile({
+    let osmLayer = new ol.layer.Tile({
         source: new ol.source.OSM()
     })
 
@@ -78,7 +78,7 @@ function createMapLayers(latitude, longitude, desc) {
 }
 
 function createMap(mapId, latitude, longitude, layers) {
-    var map = new ol.Map({
+    let map = new ol.Map({
         // устанавливает вид на заданное место и масштаб
         view: new ol.View({
             center: ol.proj.transform([latitude, longitude], 'EPSG:4326', 'EPSG:900913'),
@@ -99,9 +99,9 @@ function createMap(mapId, latitude, longitude, layers) {
 }
 
 function createPopUp(map) {
-    var element = document.getElementById('popup');
+    let element = document.getElementById('popup');
 
-    var popup = new ol.Overlay({
+    let popup = new ol.Overlay({
         element: element,
         positioning: 'bottom-center',
         stopEvent: false,
@@ -111,13 +111,13 @@ function createPopUp(map) {
 
     // display popup on click
     map.on('click', function(evt) {
-        var feature = map.forEachFeatureAtPixel(evt.pixel,
+        let feature = map.forEachFeatureAtPixel(evt.pixel,
             function(feature, layer) {
                 return feature;
             });
         if (feature) {
-            var geometry = feature.getGeometry();
-            var coord = geometry.getCoordinates();
+            let geometry = feature.getGeometry();
+            let coord = geometry.getCoordinates();
             popup.setPosition(coord);
             $(element).popover({
                 'placement': 'top',
@@ -144,13 +144,6 @@ function createPopUp(map) {
 }
 
 function removeMap(mapId) {
-    window.event.preventDefault();
-    var divId = "#" + mapId;
-    var first = $(divId).firstElementChild;
-    while (first) {
-        first.remove();
-        first = e.firstElementChild;
-    }
-    $(divId).remove();
+    removeElement(mapId);
     existingMapId = null
 }

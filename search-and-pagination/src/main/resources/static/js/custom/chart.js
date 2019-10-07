@@ -1,5 +1,5 @@
 function render(chartObj) {
-    var margin = chartObj.margin;
+    let margin = chartObj.margin;
 
     const width = parseInt(chartObj.chart.node().offsetWidth) - margin.left - margin.right;
     const height = parseInt(width * 0.4) - margin.top - margin.bottom;
@@ -80,9 +80,9 @@ function render(chartObj) {
         .attr('opacity', 1);
 
     //glow filter
-    var defs = chartObj.svg.append("defs");
+    let defs = chartObj.svg.append("defs");
 
-    var filter = defs.append("filter")
+    let filter = defs.append("filter")
         .attr("id","glow");
 
     filter.append("feGaussianBlur")
@@ -90,7 +90,7 @@ function render(chartObj) {
         .attr("stdDeviation","15")
         .attr("result","coloredBlur");
 
-    var feMerge = filter.append("feMerge");
+    let feMerge = filter.append("feMerge");
     feMerge.append("feMergeNode")
         .attr("in","coloredBlur");
     feMerge.append("feMergeNode")
@@ -182,8 +182,7 @@ function initChart(chartObj) {
 }
 
 function debounce(chartObj, func, wait, immediate){
-    var chartObj;
-    var timeout, args, context, timestamp, result;
+    let timeout, args, context, timestamp, result;
     if (null == wait) wait = 100;
 
     function later() {
@@ -200,7 +199,7 @@ function debounce(chartObj, func, wait, immediate){
         }
     };
 
-    var debounced = function(){
+    let debounced = function(){
         context = this;
         args = arguments;
         timestamp = Date.now();
