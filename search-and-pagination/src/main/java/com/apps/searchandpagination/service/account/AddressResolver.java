@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-//https://nominatim.openstreetmap.org/search?q=pilkington+avenue,+birmingham&format=json
 @Service
 public class AddressResolver {
     private NominatimSearchRequest req;

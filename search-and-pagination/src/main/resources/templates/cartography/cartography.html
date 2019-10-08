@@ -8,7 +8,7 @@
 
         <script>
             function buildCartography(maptype) {
-                window.event.preventDefault();
+                tryPreventDefault();
                 var onResponse = function (response) {
                     $('#cartographyBlock').append(response);
                     $('#wrapper').toggleClass('toggled')
@@ -21,7 +21,7 @@
 
         <script>
             function removeCartography() {
-                window.event.preventDefault();
+                tryPreventDefault();
                 removeAllChildren('cartographyBlock')
                 $('#cartographyBlock').css('z-index', -1);
             }

@@ -7,9 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
 
-
-//https://shermandigital.com/blog/designing-a-cassandra-data-model/
-//https://stackoverflow.com/questions/24949676/difference-between-partition-key-composite-key-and-clustering-key-in-cassandra
 @Configuration
 public class CassandraConfig extends AbstractCassandraConfiguration {
 

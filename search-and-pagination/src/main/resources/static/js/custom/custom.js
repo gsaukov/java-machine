@@ -2,7 +2,7 @@
     function doFetch(url, method, data, onResponse, extraDetails) {
         var responseStatus;
         var responseStatusText;
-        window.event.preventDefault();
+        tryPreventDefault();
         resetTimer();
         startTimer();
         fetch(url, {
@@ -19,6 +19,7 @@
             }
         ).catch(function(error) {
             stopTimer();
+            console.log(error);
             showModal("Error", "<p>" + error.stack + "</p>" + "<p>" + error.message + "</p>");
         });
     }
@@ -105,7 +106,7 @@
     }
 
     function createSeparatorAutoComplete(targetId, dataObj) {
-        window.event.preventDefault();
+        tryPreventDefault();
         if (!dataObj.getData()) {
             let onResponse = function (response) {
                 dataObj.setData(response);
@@ -151,7 +152,7 @@
     }
 
     function createSimpleAutoComplete(targetId, dataObj) {
-        window.event.preventDefault();
+        tryPreventDefault();
         if (!dataObj.getData()) {
             let onResponse = function (response) {
                 dataObj.setData(response);
@@ -185,7 +186,7 @@
 
 // <script> Element removal
     function removeDetails(detailId) {
-        window.event.preventDefault();
+        tryPreventDefault();
         let divId = "#" + detailId;
         $(divId).fadeOut("normal", function() {
             $(this).remove();
@@ -198,15 +199,102 @@
     }
 
     function removeElement(elementId) {
-        window.event.preventDefault();
+        tryPreventDefault();
         removeAllChildren(elementId)
         let element = "#" + elementId;
         $(element).remove();
     }
 
     function removeAllChildren(elementId) {
-        window.event.preventDefault();
+        tryPreventDefault();
         let element = "#" + elementId;
         $(element).empty();
     }
+
+    function tryPreventDefault() {
+        let evt = this.event || window.event;
+        if(evt){
+            evt.preventDefault();
+        }
+    }
 // </script> Element removal
+
+
+// <script>
+    function submitForm(e, formId, targetId) {
+        let form = document.getElementById(formId);
+        let table = document.getElementById(targetId);
+        e.preventDefault();
+
+        if (form.reportValidity()) { //proceed only if form is valid.
+            let onResponse = function(response) {
+                $(table).replaceWith(response);
+            }
+            doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
+        }
+    }
+// </script>
+
+// <script>
+    let existingDetailsTableId = null;
+
+    function getAccountTrades(accountId, csrfParameterName, csrfToken) {
+        tryPreventDefault();
+        let divId = 'accountTrades' + accountId;
+        let url = 'tradesearch/';
+        let data = new FormData();
+        data.append(csrfParameterName, csrfToken);
+        data.append('accounts', accountId);
+        data.append('order', 'DATE');
+        data.append('itemsSize', '5');
+        data.append('tableId', 'tradedatateble' + accountId);
+
+        let divElem = document.getElementById(divId);
+        if (divElem === null) {
+
+            let onResponse = function (text) {
+                removeDetailsTable(existingDetailsTableId);
+                let detailsTableBlock = document.getElementById('detailsTableBlock');
+                $(detailsTableBlock).append("<div id=\"" + divId + "\"><\/div>");
+                let target = document.getElementById(divId);
+                $(target).append("<a href='#' class='btn btn-default btn-close' onclick=\"removeDetailsTable('" + divId + "')\" style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>");
+                $(target).append(text);
+                existingDetailsTableId = divId;
+            }
+
+            doFetch(url, "POST", data, onResponse);
+        }
+    }
+// </script>
+
+// <script>
+    function getTable(tableId, urlParam, pageNum, size) {
+        tryPreventDefault();
+        let url = urlParam + '&page=' + pageNum + '&size=' + size;
+
+        let onResponse = function (response) {
+            let target = document.getElementById(tableId);
+            $(target).html(response);
+        }
+
+        doFetch(url, "GET", null, onResponse);
+    }
+// </script>
+
+// <script>
+    function getDetails(urlParam, detailId) {
+        window.event.preventDefault();
+        let url = urlParam + '/?detailId=' + detailId;
+        let divElem = document.getElementById(detailId);
+
+        if (divElem === null) {
+            let onResponse = function (response) {
+                $('#detailsBlock').append("<div id=\"" + detailId + "\"><\/div>");
+                let target = document.getElementById(detailId);
+                $(target).html(response);
+            }
+
+            doFetch(url, "GET", null, onResponse);
+        }
+    }
+// </script>

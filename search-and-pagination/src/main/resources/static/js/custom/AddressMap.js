@@ -1,7 +1,3 @@
-// https://openlayers.org/en/latest/examples/
-// https://tsauerwein.github.io/ol3/mapbox-gl-js/examples/
-// view-source:http://viglino.github.io/ol-ext/examples/style/map.style.font.html
-
 var existingMapId = null;
 
 //Longitude	E W '-1.2120773',
@@ -11,7 +7,7 @@ var existingMapId = null;
 class AddressMap {
 
     constructor (mapId, desc, longitude, latitude) {
-        window.event.preventDefault();
+        tryPreventDefault();
         if (existingMapId !== mapId) {
 
             rebuildHtmlBlock(mapId);

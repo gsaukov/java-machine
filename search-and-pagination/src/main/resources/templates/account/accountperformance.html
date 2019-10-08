@@ -44,7 +44,7 @@
                 $('#accountPerformanceBody').empty();
                 $('#accountPerformanceBody').append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeAccountPerformance()' style='position: absolute; right: 10px; top: 70px;'>&times;</a>");
                 $('#accountPerformanceBody').append("<div id='accountPerformanceGraph' style='min-height: 500px; min-width: 1600px; height: 100%; width: 100%; margin: 0 auto;'></div>");
-                initChart(createChartObj(accountId));
+                AccPerfChart.initChart(createChartObj(accountId));
             }
         </script>
 
