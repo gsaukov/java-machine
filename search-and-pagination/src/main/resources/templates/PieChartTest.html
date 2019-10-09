@@ -131,18 +131,17 @@
         slice.enter()
             .insert("path")
             .style("fill", function(d) { return d.data.color; })
-            .attr("class", "slice");
-
-        slice
+            .attr("class", "slice")
+            .merge(slice)
             .transition().duration(1000)
             .attrTween("d", function(d) {
-                this._current = this._current || d;
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
-                return function(t) {
-                    return arc(interpolate(t));
-                };
-            })
+                    this._current = this._current || d;
+                    var interpolate = d3.interpolate(this._current, d);
+                    this._current = interpolate(0);
+                    return function(t) {
+                        return arc(interpolate(t));
+                    };
+            });
 
         slice.exit()
             .remove();
@@ -152,6 +151,10 @@
         var text = svg.select(".labels").selectAll("text")
             .data(pie(data), key);
 
+        function midAngle(d){
+            return d.startAngle + (d.endAngle - d.startAngle)/2;
+        }
+
         text.enter()
             .append("text")
             .attr("dy", ".35em")
@@ -159,13 +162,9 @@
             .style("fill", "white")
             .text(function(d) {
                 return d.data.label;
-            });
-
-        function midAngle(d){
-            return d.startAngle + (d.endAngle - d.startAngle)/2;
-        }
-
-        text.transition().duration(1000)
+            })
+            .merge(text)
+            .transition().duration(1000)
             .attrTween("transform", function(d) {
                 this._current = this._current || d;
                 var interpolate = d3.interpolate(this._current, d);
@@ -186,6 +185,7 @@
                     return midAngle(d2) < Math.PI ? "start":"end";
                 };
             });
+
         text.exit()
             .remove();
 
@@ -195,9 +195,9 @@
             .data(pie(data), key);
 
         polyline.enter()
-            .append("polyline");
-
-        polyline.transition().duration(1000)
+            .append("polyline")
+            .merge(polyline)
+            .transition().duration(1000)
             .attrTween("points", function(d){
                 this._current = this._current || d;
                 var interpolate = d3.interpolate(this._current, d);
