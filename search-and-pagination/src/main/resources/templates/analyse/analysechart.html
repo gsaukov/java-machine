@@ -1,0 +1,78 @@
+<analysechart xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+
+<body>
+<div th:fragment="analysechart">
+    <button class="volumeb">volume</button>
+    <button class="valueb">value</button>
+    <div id="domainperformance" style=""></div>
+    <style>
+        path.slice{
+            stroke-width:2px;
+        }
+
+        polyline{
+            opacity: .3;
+            stroke: white;
+            stroke-width: 2px;
+            fill: none;
+        }
+    </style>
+
+    <script>
+        var jsonPieData = '[{"label":"Loremipsum","value":12,"volume":4},{"label":"dolorsit","value":8,"volume":7},{"label":"amet","value":6,"volume":11},{"label":"consectetur","value":11,"volume":13},{"label":"adipisicing","value":22,"volume":20},{"label":"elit","value":33,"volume":8},{"label":"sed","value":17,"volume":12},{"label":"do","value":44,"volume":11},{"label":"eiusmod","value":15,"volume":17},{"label":"tempor","value":27,"volume":2}]';
+
+        var svg = d3.select('#domainperformance')
+            .append("svg")
+            .style("width", "1300px")
+            .style("height", "1000px")
+            .style("position", "relative")
+            .append("g")
+
+        svg.append("g")
+            .attr("class", "slices");
+        svg.append("g")
+            .attr("class", "labels");
+        svg.append("g")
+            .attr("class", "lines");
+
+        var width = 1300,
+            height = 1000,
+            radius = Math.min(width, height) / 2;
+
+        var pie = d3.pie()
+            .sort(null)
+            .value(function (d) {
+                return d.value;
+            });
+
+        var arc = d3.arc()
+            .outerRadius(radius * 0.8)
+            .innerRadius(radius * 0.4);
+
+        var outerArc = d3.arc()
+            .innerRadius(radius * 0.9)
+            .outerRadius(radius * 0.9);
+
+        svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var key = function (d) {
+            return d.data.label;
+        };
+
+        d3.select(".valueb")
+            .on("click", function () {
+                PieChart.fill(PieChart.prepareData(jsonPieData, 'value'));
+            });
+
+        d3.select(".volumeb")
+            .on("click", function () {
+                PieChart.fill(PieChart.prepareData(jsonPieData, 'volume'));
+            });
+
+        PieChart.fill(PieChart.prepareData(jsonPieData, 'value'));
+    </script>
+</div>
+</body>
+</analysechart>

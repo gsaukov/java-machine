@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+
+<body>
+    <div th:fragment="analyseform">
+        <form id="analyseform" action="#" th:action="@{analysedomain/}" th:object="${analyseDomainRequest}" method="post">
+            <div class="column-container">
+                <div class="row-container">
+                    <fieldset class="form-group">
+                        <legend>Amount range</legend>
+                        <div class="row-container">
+                            <select id="domainSelector" th:field="*{domain}" class="form-control" onclick="populateDomains()" style="width: 8em; margin-left: 10px; margin-right: 10px;">
+                                <option value="" style="color: #999999;">Domain...</option>
+                            </select>
+                            <select id="object" th:field="*{object}" class="form-control" style="width: 8em; margin-right: 10px;">
+                                <option value="SYMBOL">SYMBOL</option>
+                            </select>
+                            <select id="size" th:field="*{size}" class="form-control" style="width: 5em; margin-right: 10px;">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                            <input type="submit" value="submit" onClick="submitForm(event, 'analyseform');" class="btn btn-default" style="width: 6em;"/>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+        <script>
+            var domainsOptions;
+
+            function populateDomains() {
+                if(domainsOptions){
+                    return;
+                } else {
+                    let onResponse = function (response) {
+                        domainsOptions = JSON.parse(response);
+                        var select = $("#domainSelector")
+                        for (const el of domainsOptions) {
+                            select.append($("<option/>").attr("value", el).text(el));
+                        }
+                    }
+                    doFetch("getalldomains", "GET", null, onResponse);
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TradeDetailsService {
 
@@ -17,6 +19,10 @@ public class TradeDetailsService {
     @PostAuthorize("hasDomain(returnObject.domain)")
     public TradeDetails getTrade(String detailId) {
         return tradeDetailsRepository.findByTradeData(tradeDataRepository.findById(detailId).get());
+    }
+
+    public List<String> findAllDomains(){
+        return tradeDetailsRepository.findAllDomains();
     }
 
     @Autowired
