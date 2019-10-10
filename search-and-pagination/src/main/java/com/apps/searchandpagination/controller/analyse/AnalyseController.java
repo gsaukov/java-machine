@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -26,10 +27,9 @@ public class AnalyseController {
     }
 
     @ResponseBody
-    @GetMapping(value = {"analysedomain/"}, produces = "application/json")
-    public String analysedomain(Model model, @ModelAttribute AnalyseDomainRequest request) {
-        model.addAttribute("analyseDomainRequest", new  AnalyseDomainRequest());
-        return "analyse/analysehome :: analysehome";
+    @PostMapping(value = {"analysedomain/"}, produces = "application/json")
+    public List<AnalysedDataResponse> analysedomain(@ModelAttribute AnalyseDomainRequest request) {
+        return tradeDetailsService.findAggregatedSymbolsData(request);
     }
 
     @ResponseBody

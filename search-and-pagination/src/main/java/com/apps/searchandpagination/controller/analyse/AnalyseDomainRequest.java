@@ -3,7 +3,7 @@ package com.apps.searchandpagination.controller.analyse;
 public class AnalyseDomainRequest {
     private String domain;
     private String object;
-    private String size;
+    private Integer size;
 
     public String getDomain() {
         return domain;
@@ -21,11 +21,11 @@ public class AnalyseDomainRequest {
         this.object = object;
     }
 
-    public String getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 }

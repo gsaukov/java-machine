@@ -21,7 +21,7 @@
                                 <option value="20">20</option>
                                 <option value="50">50</option>
                             </select>
-                            <input type="submit" value="submit" onClick="submitForm(event, 'analyseform');" class="btn btn-default" style="width: 6em;"/>
+                            <input type="submit" value="submit" onClick="buildDomainPerformancePieChart('analyseform');" class="btn btn-default" style="width: 6em;"/>
                         </div>
                     </fieldset>
                 </div>
@@ -42,6 +42,20 @@
                         }
                     }
                     doFetch("getalldomains", "GET", null, onResponse);
+                }
+            }
+
+            function buildDomainPerformancePieChart(formId) {
+                removeAllChildren('domainperformance');
+                preBuildPieChart();
+                let form = document.getElementById(formId);
+                tryPreventDefault();
+                if (form.reportValidity()) {
+                    let onResponse = function (response) {
+                        jsonPieData = response;
+                        PieChart.fill(PieChart.prepareData(jsonPieData, 'value'));
+                    }
+                    doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
                 }
             }
         </script>

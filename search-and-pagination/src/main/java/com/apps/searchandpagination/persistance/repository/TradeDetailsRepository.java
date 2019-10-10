@@ -17,8 +17,15 @@ public interface TradeDetailsRepository extends JpaRepository<TradeDetails, Stri
     @Query("select distinct td.domain from TradeDetails td")
     List<String> findAllDomains();
 
-    @Query(value = "SELECT label, value, volume FROM SD_User WHERE id = ?1", nativeQuery = true)
-    AnalysedData findByNativeQuery(Integer id);
+    @Query(value = "select td.SYMBOL as label, sum(td.AMOUNT) as value, sum(td.VAL) as volume " +
+            " from trade_data td inner " +
+            "     join trade_details te on td.ID = te.TRADE_DATA_ID " +
+            " where te.DOMAIN = ?1 " +
+            " GROUP BY td.SYMBOL " +
+            " order by value desc " +
+            " LIMIT ?2 ",
+            nativeQuery = true)
+    List<AnalysedData> findAggregatedSymbolsData (String domain, Integer size);
 
     public static interface AnalysedData {
 
