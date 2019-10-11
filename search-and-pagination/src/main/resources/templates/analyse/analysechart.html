@@ -4,8 +4,6 @@
 
 <body>
 <div th:fragment="analysechart">
-    <button class="volumeb">volume</button>
-    <button class="valueb">value</button>
     <div id="domainperformance" style=""></div>
     <style>
         path.slice{
@@ -71,16 +69,6 @@
         }
 
         preBuildPieChart();
-
-        d3.select(".valueb")
-            .on("click", function () {
-                PieChart.fill(PieChart.prepareData(jsonPieData, 'value'));
-            });
-
-        d3.select(".volumeb")
-            .on("click", function () {
-                PieChart.fill(PieChart.prepareData(jsonPieData, 'volume'));
-            });
 
     </script>
 </div>
