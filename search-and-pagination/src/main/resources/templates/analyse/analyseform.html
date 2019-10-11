@@ -5,8 +5,8 @@
     <link href="http://localhost:9020/static/css/custom.css" rel="stylesheet" />
     <link href="http://localhost:9020/static/css/fontelloembedded.css" rel="stylesheet" />
     <link href="http://localhost:9020/static/css/simplebar.css" rel="stylesheet" />
-    <link href="http://localhost:9020/static/css/ol.css"  rel="stylesheet" >
-    <link href="http://localhost:9020/static/css/auto-complete.css"  rel="stylesheet" >
+    <link href="http://localhost:9020/static/css/ol.css" rel="stylesheet" >
+    <link href="http://localhost:9020/static/css/auto-complete.css" rel="stylesheet" >
 
     <script src="http://localhost:9020/static/js/custom/AddressMap.js"></script>
     <script src="http://localhost:9020/static/js/custom/chart.js"></script>
@@ -24,12 +24,12 @@
 </head>
 
 <body>
-    <div th:fragment="analyseform" style="float: right">
+    <div th:fragment="analyseform" style="float: right; position: relative;">
         <form id="analyseform" action="#" th:action="@{analysedomain/}" th:object="${analyseDomainRequest}" method="post">
             <fieldset class="form-group">
-                <legend>Amount range</legend>
+                <legend>Analyse domain</legend>
                 <div class="row-container">
-                    <select id="domainSelector" th:field="*{domain}" class="form-control" onclick="populateDomains()" style="width: 8em; margin-left: 10px; margin-right: 10px;">
+                    <select required id="domainSelector" th:field="*{domain}" class="form-control" onclick="populateDomains()" style="width: 8em; margin-left: 10px; margin-right: 10px;">
                         <option value="" style="color: #999999;">Domain...</option>
                     </select>
                     <select id="object" th:field="*{object}" class="form-control" style="width: 8em; margin-right: 10px;">
@@ -44,9 +44,9 @@
             </fieldset>
         </form>
         <div class="row-container">
-            <input type="submit" value="submit" onClick="buildDomainPerformancePieChart('analyseform');" class="btn btn-default leftMerge" style="margin-left: 10px; width: 8em;"/>
-            <button onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'volume'));" class="btn btn-default middleMerge" style="width: 7em;">volume</button>
-            <button onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'value'));" class="btn btn-default rightMerge" style=" width: 7em;">value</button>
+            <input type="submit" value="submit" onClick="if (document.getElementById('analyseform').reportValidity()){document.getElementById('pieChartButtonVolume').disabled=false; document.getElementById('pieChartButtonValue').disabled=true;} buildDomainPerformancePieChart('analyseform');" class="btn btn-default leftMerge" style="margin-left: 10px; width: 8em;"/>
+            <button id="pieChartButtonVolume" onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'volume')); this.disabled=true; document.getElementById('pieChartButtonValue').disabled=false;" disabled class="btn btn-default middleMerge" style="width: 7em;">volume</button>
+            <button id="pieChartButtonValue" onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'value')); this.disabled=true; document.getElementById('pieChartButtonVolume').disabled=false;" disabled class="btn btn-default rightMerge" style=" width: 7em;">value</button>
         </div>
         <script>
             var domainsOptions;
@@ -83,9 +83,6 @@
                     doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
                 }
             }
-
-
-
         </script>
     </div>
 </body>
