@@ -29,7 +29,7 @@
             <fieldset class="form-group">
                 <legend>Analyse domain</legend>
                 <div class="row-container">
-                    <select required id="domainSelector" th:field="*{domain}" class="form-control" onclick="populateDomains()" style="width: 8em; margin-left: 10px; margin-right: 10px;">
+                    <select required id="domainSelector" initialized="false" th:field="*{domain}" class="form-control" onclick="populateDomains()" style="width: 8em; margin-left: 10px; margin-right: 10px;">
                         <option value="" style="color: #999999;">Domain...</option>
                     </select>
                     <select id="object" th:field="*{object}" class="form-control" style="width: 8em; margin-right: 10px;">
@@ -49,23 +49,21 @@
             <button id="pieChartButtonValue" onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'value')); this.disabled=true; document.getElementById('pieChartButtonVolume').disabled=false;" disabled class="btn btn-default rightMerge" style=" width: 7em;">value</button>
         </div>
         <script>
-            var domainsOptions;
-
             function populateDomains() {
-                if(domainsOptions){
-                    populateDomainOptions ();
-                } else {
+                let select = $("#domainSelector");
+                if(select.attr('initialized')==="false"){
                     let onResponse = function (response) {
-                        domainsOptions = JSON.parse(response);
-                        populateDomainOptions ();
+                        populateDomainOptions (JSON.parse(response));
                     }
                     doFetch("getalldomains", "GET", null, onResponse);
                 }
 
-                function populateDomainOptions () {
-                    var select = $("#domainSelector");
-                    for (const el of domainsOptions) {
-                        select.append($("<option/>").attr("value", el).text(el));
+                function populateDomainOptions (domainsOptions) {
+                    if(select.attr('initialized')==="false"){
+                        for (const el of domainsOptions) {
+                            select.append($("<option/>").attr("value", el).text(el));
+                        }
+                        select.attr('initialized', "true")
                     }
                 }
             }

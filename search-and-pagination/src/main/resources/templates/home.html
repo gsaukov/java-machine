@@ -123,7 +123,7 @@
         $("#wrapper").toggleClass("toggled");
 
         let onResponse = function (response) {
-            //todo clean before append.
+            $("#homeBlock").empty();
             $("#homeBlock").html(response);
         }
 
