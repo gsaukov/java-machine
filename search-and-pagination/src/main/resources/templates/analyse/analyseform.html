@@ -48,6 +48,7 @@
             <button id="pieChartButtonVolume" onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'volume')); this.disabled=true; document.getElementById('pieChartButtonValue').disabled=false;" disabled class="btn btn-default middleMerge" style="width: 7em;">volume</button>
             <button id="pieChartButtonValue" onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'value')); this.disabled=true; document.getElementById('pieChartButtonVolume').disabled=false;" disabled class="btn btn-default rightMerge" style=" width: 7em;">value</button>
         </div>
+        <div id="pieChartDataTable"></div>
         <script>
             function populateDomains() {
                 let select = $("#domainSelector");
@@ -70,6 +71,7 @@
 
             function buildDomainPerformancePieChart(formId) {
                 removeAllChildren('domainperformance');
+                $("#pieChartDataTable").empty();
                 preBuildPieChart();
                 let form = document.getElementById(formId);
                 tryPreventDefault();
@@ -77,9 +79,53 @@
                     let onResponse = function (response) {
                         jsonPieData = response;
                         PieChart.fill(PieChart.prepareData(jsonPieData, 'value'));
+                        $("#pieChartDataTable").html(buildHtmlTable(JSON.parse(jsonPieData)));
+
                     }
                     doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
                 }
+            }
+
+            // Builds the HTML Table out of myList json data from Ivy restful service.
+            function buildHtmlTable(arr) {
+                var _table_ = document.createElement('table'),
+                    _tr_ = document.createElement('tr'),
+                    _th_ = document.createElement('th'),
+                    _td_ = document.createElement('td');
+                var table = _table_.cloneNode(false),
+                    columns = addAllColumnHeaders(arr, table, _tr_, _th_);
+                for (var i=0, maxi=arr.length; i < maxi; ++i) {
+                    var tr = _tr_.cloneNode(false);
+                    for (var j=0, maxj=columns.length; j < maxj ; ++j) {
+                        var td = _td_.cloneNode(false);
+                        cellValue = arr[i][columns[j]];
+                        td.appendChild(document.createTextNode(arr[i][columns[j]] || ''));
+                        tr.appendChild(td);
+                    }
+                    table.appendChild(tr);
+                }
+                return table;
+            }
+
+            // Adds a header row to the table and returns the set of columns.
+            // Need to do union of keys from all records as some records may not contain
+            // all records
+            function addAllColumnHeaders(arr, table, _tr_, _th_)
+            {
+                var columnSet = [],
+                    tr = _tr_.cloneNode(false);
+                for (var i=0, l=arr.length; i < l; i++) {
+                    for (var key in arr[i]) {
+                        if (arr[i].hasOwnProperty(key) && columnSet.indexOf(key)===-1) {
+                            columnSet.push(key);
+                            var th = _th_.cloneNode(false);
+                            th.appendChild(document.createTextNode(key));
+                            tr.appendChild(th);
+                        }
+                    }
+                }
+                table.appendChild(tr);
+                return columnSet;
             }
         </script>
     </div>
