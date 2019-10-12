@@ -110,8 +110,7 @@
             // Adds a header row to the table and returns the set of columns.
             // Need to do union of keys from all records as some records may not contain
             // all records
-            function addAllColumnHeaders(arr, table, _tr_, _th_)
-            {
+            function addAllColumnHeaders(arr, table, _tr_, _th_) {
                 var columnSet = [],
                     tr = _tr_.cloneNode(false);
                 for (var i=0, l=arr.length; i < l; i++) {
