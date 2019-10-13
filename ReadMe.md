@@ -19,7 +19,7 @@ is single page application that utilizes latest technologies:
 	Styles: bootstrap, font-awesome, fontelloembedded and more.
 	Maps: OpenLayers, OpenStreetMap, ol, leaflet.
 	Data Visualizations: d3.v5
-Frontend HTML when not client side genrated is hosted on nginx and server back end SearchDataApplication server and its templates.
+Frontend HTML when not client side generated is hosted on nginx and server back end SearchDataApplication server and its templates.
 JS and static resources, CSS and images are pulled from nginx.
 Parts of JS could be also found in templates/thymleaf blocks when they are only invoked from block content.
 
@@ -47,7 +47,7 @@ Depends on:
 	Cloud.zuul port: 8090
 	Cloud.justitia port: 8002
 	Cloud.discovery port: 8761
-	Python cartogranhy server https://github.com/gsaukov/python-machine/tree/master/core/httpserver : ThreadedServer.py
+	Python cartography server https://github.com/gsaukov/python-machine/tree/master/core/httpserver : ThreadedServer.py
 	nginx static content server. (localhost:9020)
 
 Optional:
@@ -95,8 +95,8 @@ Discovery setup requires:
 Optional:
 	Cloud.Zipkin port: 9411
 
-## Cartogranhy
-Cartogranhy server
+## Cartography
+Cartography server
 Is a data parser server that renders overwhelming maps. Uses Pandas, Mathplotlib, Folium.
 requires:
 	no dependencies run https://github.com/gsaukov/python-machine/tree/master/core/httpserver : ThreadedServer.py
