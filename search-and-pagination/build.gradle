@@ -61,6 +61,7 @@ dependencies {
     annotationProcessor('org.hibernate:hibernate-jpamodelgen')
 }
 
+// comment this if it does not compile and you do no use nginx as resource server (localhost:9020)
 task copyResources (dependsOn: clean) {
     delete '${nginxPath}html/static'
 
