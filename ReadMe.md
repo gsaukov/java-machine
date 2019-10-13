@@ -16,9 +16,9 @@ SDApplication consists of two parts, Server and Frontend.
 
 ## Frontend
 is single page application that utilizes latest technologies:
-	Styles: bootstrap, font-awesome, fontelloembedded and more.
-	Maps: OpenLayers, OpenStreetMap, ol, leaflet.
-	Data Visualizations: d3.v5
+>	Styles: bootstrap, font-awesome, fontelloembedded and more.
+>	Maps: OpenLayers, OpenStreetMap, ol, leaflet.
+>	Data Visualizations: d3.v5
 Frontend HTML when not client side generated is hosted on nginx and server back end SearchDataApplication server and its templates.
 JS and static resources, CSS and images are pulled from nginx.
 Parts of JS could be also found in templates/thymleaf blocks when they are only invoked from block content.
@@ -28,30 +28,30 @@ is a resource server intended to generate various content for frontend Single Pa
 
 To run SearchDataApplication requires:
 MySql dabase @ datasource:
-	url: jdbc:mysql://localhost:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
-	username: sdapplication
-	password: password
-	Schema:
-		CREATE USER 'sdapplication'@'localhost' IDENTIFIED BY 'password';
-		CREATE DATABASE sdapplication;
-		GRANT ALL PRIVILEGES ON sdapplication.* TO 'sdapplication'@'localhost';
-		USE sdapplication;
+>	url: jdbc:mysql://localhost:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
+>	username: sdapplication
+>	password: password
+>	Schema:
+>		CREATE USER 'sdapplication'@'localhost' IDENTIFIED BY 'password';
+>		CREATE DATABASE sdapplication;
+>		GRANT ALL PRIVILEGES ON sdapplication.* TO 'sdapplication'@'localhost';
+>		USE sdapplication;
 Redis MEM Cash:
-	redis.host: 127.0.0.1
-	redis.port: 6379
+>	redis.host: 127.0.0.1
+>	redis.port: 6379
 Cassandra (com.apps.searchandpagination.cassandra.config.CassandraConfig)
-	cluster.setContactPoints("127.0.0.1");
-    cluster.setPort(9042);
+>	cluster.setContactPoints("127.0.0.1");
+>   cluster.setPort(9042);
 
 Depends on:
-	Cloud.zuul port: 8090
-	Cloud.justitia port: 8002
-	Cloud.discovery port: 8761
-	Python cartography server https://github.com/gsaukov/python-machine/tree/master/core/httpserver : ThreadedServer.py
-	nginx static content server. (localhost:9020)
+>	Cloud.zuul port: 8090
+>	Cloud.justitia port: 8002
+>	Cloud.discovery port: 8761
+>	Python cartography server https://github.com/gsaukov/python-machine/tree/master/core/httpserver : ThreadedServer.py
+>	nginx static content server. (localhost:9020)
 
 Optional:
-	Cloud.Zipkin port: 9411
+>	Cloud.Zipkin port: 9411
 
 ## Zuul
 
@@ -59,47 +59,47 @@ Zuul is a middleware server between browser and cloud ecosystem. Zuul is a proxy
 
 Zuul setup requires:
 Redis MEM Cash:
-	redis.host: 127.0.0.1
-	redis.port: 6379
+>	redis.host: 127.0.0.1
+>	redis.port: 6379
 Depends on:
-	Cloud.justitia port: 8002
-	Cloud.discovery port: 8761
+>	Cloud.justitia port: 8002
+>	Cloud.discovery port: 8761
 Optional:
-	Cloud.Zipkin port: 9411
+>	Cloud.Zipkin port: 9411
 
 ## Justitia
 Spring boot oauth2 server implementation inteded to keep sensetive credential data and generate JWT tokens for external and internal systems.
 
 Justitia setup requires:
 MySql dabase @ datasource:
-    url: jdbc:mysql://localhost:55555/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: justitia
-    password: password
-	Schema:
-		CREATE USER 'justitia'@'localhost' IDENTIFIED BY 'password';
-		CREATE DATABASE justitia;
-		GRANT ALL PRIVILEGES ON justitia.* TO 'justitia'@'localhost';
-		USE justitia;
+>    url: jdbc:mysql://localhost:55555/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
+>    username: justitia
+>    password: password
+>	Schema:
+>		CREATE USER 'justitia'@'localhost' IDENTIFIED BY 'password';
+>		CREATE DATABASE justitia;
+>		GRANT ALL PRIVILEGES ON justitia.* TO 'justitia'@'localhost';
+>		USE justitia;
 Redis MEM Cash:
-	redis.host: 127.0.0.1
-	redis.port: 6379
+>	redis.host: 127.0.0.1
+>	redis.port: 6379
 Depends on:
-	Cloud.discovery port: 8761
+>	Cloud.discovery port: 8761
 Optional:
-	Cloud.Zipkin port: 9411
+>	Cloud.Zipkin port: 9411
 
 ## Discovery
 spring cloud discovery server.
 
 Discovery setup requires:
 Optional:
-	Cloud.Zipkin port: 9411
+>	Cloud.Zipkin port: 9411
 
 ## Cartography
 Cartography server
 Is a data parser server that renders overwhelming maps. Uses Pandas, Mathplotlib, Folium.
 requires:
-	no dependencies run https://github.com/gsaukov/python-machine/tree/master/core/httpserver : ThreadedServer.py
+>	no dependencies run https://github.com/gsaukov/python-machine/tree/master/core/httpserver : ThreadedServer.py
 
 
 
