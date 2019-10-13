@@ -1,0 +1,5 @@
+Hi, welcome to Java-machine repository.
+
+This is the place where I try something new with Java, its common libraries and frameworks. Besides Java you will here a lot of Javascript and stuff from frontend in one of my projects search-and-pagination SPA application.
+
+In my professional career I value tests, clean code and common code patterns among projects. I do development in this project in my free time 1 to 3 hrs a day and I really have to choose between covering existing stuff with tests and trying something new, something always wins, so I lack tests. Since its a training/POC repository I use different ways to do same things, just to keep in mind possible approaches, it makes the code less clear but leaves alternatives in implementation. Please keep in mind that I really lack time to conduct clean here, so if you see something does not good to you, sorry, its a place where learning and concept proving is in focus.
