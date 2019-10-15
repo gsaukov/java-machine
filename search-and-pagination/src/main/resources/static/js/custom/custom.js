@@ -307,6 +307,7 @@
             _td_ = document.createElement('td');
         var table = _table_.cloneNode(false),
             columns = addAllColumnHeaders(arr, table, _tr_, _th_);
+            table.style = 'border-collapse: separate; border-spacing: 10px 0;'
         for (var i=0, maxi=arr.length; i < maxi; ++i) {
             var tr = _tr_.cloneNode(false);
             for (var j=0, maxj=columns.length; j < maxj ; ++j) {

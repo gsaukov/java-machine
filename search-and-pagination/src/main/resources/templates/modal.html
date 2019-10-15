@@ -19,7 +19,7 @@
                     <button type="button" class="btn btn-primary" onclick="copyModalWindowBodyToClipboard();">Save changes</button>
                     <script>
                         function copyModalWindowBodyToClipboard() {
-                            var range = document.createRange();
+                            let range = document.createRange();
                             range.selectNode(document.getElementById('modalWindowBody'));
                             window.getSelection().removeAllRanges();
                             window.getSelection().addRange(range);

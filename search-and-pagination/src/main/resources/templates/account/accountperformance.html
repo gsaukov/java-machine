@@ -8,7 +8,7 @@
 
         <script>
             function createChartObj(accountId) {
-                var chartObj = {};
+                let chartObj = {};
                 chartObj.margin = { top: 100, right: 70, bottom: 30, left: 50 };
                 chartObj.chart = d3.select('#accountPerformanceGraph');
                 chartObj.svg = chartObj.chart.append('svg');

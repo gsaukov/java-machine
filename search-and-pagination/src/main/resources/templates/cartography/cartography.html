@@ -9,7 +9,7 @@
         <script>
             function buildCartography(maptype) {
                 tryPreventDefault();
-                var onResponse = function (response) {
+                let onResponse = function (response) {
                     $('#cartographyBlock').append(response);
                     $('#wrapper').toggleClass('toggled')
                     $('#cartographyBlock').css('z-index', 99998);
