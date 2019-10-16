@@ -1,4 +1,3 @@
-var existingMapId = null;
 
 //Longitude	E W '-1.2120773',
 //Latitude	N S '48.1224966'

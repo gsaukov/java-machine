@@ -1,3 +1,17 @@
+// ======================GLOBAL VARIABLES SECTION================================
+
+let globalBodyContainer = null;
+
+let existingDetailsTableId = null;
+let existingMapId = null;
+
+let timeBegan = null
+    , timeStopped = null
+    , stoppedDuration = 0
+    , started = null;
+
+// ======================GLOBAL VARIABLES SECTION================================
+
 // <script> Fetch block
     function doFetch(url, method, data, onResponse, extraDetails) {
         var responseStatus;
@@ -236,7 +250,6 @@
 // </script>
 
 // <script>
-    let existingDetailsTableId = null;
 
     function getAccountTrades(accountId, csrfParameterName, csrfToken) {
         tryPreventDefault();

@@ -37,6 +37,9 @@ public class CartographyService {
         Document doc = Jsoup.parse(new URL(url), 3000);
         Element map = doc.select("body div").first();
         Element scripts = doc.select("body script").first();
+        scripts = doc.select("body script").first();
+        scripts.prepend(" function generateCartographyBlock() { ");
+        scripts.append(" } generateCartographyBlock();");
         Element el = new Element(Tag.valueOf("div"), "");
         el.appendChild(map);
         el.appendChild(scripts);

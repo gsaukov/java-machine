@@ -276,8 +276,8 @@ let PieChart = {
     fill: function (data) {
 
         /* ------- PIE SLICES -------*/
-        let slice = svg.select(".slices").selectAll("path.slice")
-            .data(pie(data), key);
+        let slice = globalBodyContainer.svg.select(".slices").selectAll("path.slice")
+            .data(globalBodyContainer.pie(data), globalBodyContainer.key);
 
         slice.enter()
             .insert("path")
@@ -290,7 +290,7 @@ let PieChart = {
                 var interpolate = d3.interpolate(this._current, d);
                 this._current = interpolate(0);
                 return function (t) {
-                    return arc(interpolate(t));
+                    return globalBodyContainer.arc(interpolate(t));
                 };
             });
 
@@ -299,8 +299,8 @@ let PieChart = {
 
         /* ------- TEXT LABELS -------*/
 
-        var text = svg.select(".labels").selectAll("text")
-            .data(pie(data), key);
+        var text = globalBodyContainer.svg.select(".labels").selectAll("text")
+            .data(globalBodyContainer.pie(data), globalBodyContainer.key);
 
         function midAngle(d) {
             return d.startAngle + (d.endAngle - d.startAngle) / 2;
@@ -322,8 +322,8 @@ let PieChart = {
                 this._current = interpolate(0);
                 return function (t) {
                     var d2 = interpolate(t);
-                    var pos = outerArc.centroid(d2);
-                    pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+                    var pos = globalBodyContainer.outerArc.centroid(d2);
+                    pos[0] = globalBodyContainer.radius * (midAngle(d2) < Math.PI ? 1 : -1);
                     return "translate(" + pos + ")";
                 };
             })
@@ -341,8 +341,8 @@ let PieChart = {
 
         /* ------- SLICE TO TEXT POLYLINES -------*/
 
-        var polyline = svg.select(".lines").selectAll("polyline")
-            .data(pie(data), key);
+        var polyline = globalBodyContainer.svg.select(".lines").selectAll("polyline")
+            .data(globalBodyContainer.pie(data), globalBodyContainer.key);
 
         polyline.enter()
             .append("polyline")
@@ -354,9 +354,9 @@ let PieChart = {
                 this._current = interpolate(0);
                 return function (t) {
                     var d2 = interpolate(t);
-                    var pos = outerArc.centroid(d2);
-                    pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-                    return [arc.centroid(d2), outerArc.centroid(d2), pos];
+                    var pos = globalBodyContainer.outerArc.centroid(d2);
+                    pos[0] = globalBodyContainer.radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+                    return [globalBodyContainer.arc.centroid(d2), globalBodyContainer.outerArc.centroid(d2), pos];
                 };
             });
 

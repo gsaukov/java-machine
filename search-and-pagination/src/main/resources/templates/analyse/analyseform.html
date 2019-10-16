@@ -24,8 +24,8 @@
         </form>
         <div class="row-container">
             <input type="submit" value="submit" onClick="if (document.getElementById('analyseform').reportValidity()){document.getElementById('pieChartButtonVolume').disabled=false; document.getElementById('pieChartButtonValue').disabled=true;} buildDomainPerformancePieChart('analyseform');" class="btn btn-default leftMerge" style="margin-left: 10px; width: 8em;"/>
-            <button id="pieChartButtonVolume" onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'volume')); this.disabled=true; document.getElementById('pieChartButtonValue').disabled=false;" disabled class="btn btn-default middleMerge" style="width: 7em;">volume</button>
-            <button id="pieChartButtonValue" onClick="PieChart.fill(PieChart.prepareData(jsonPieData, 'value')); this.disabled=true; document.getElementById('pieChartButtonVolume').disabled=false;" disabled class="btn btn-default rightMerge" style=" width: 7em;">value</button>
+            <button id="pieChartButtonVolume" onClick="PieChart.fill(PieChart.prepareData(globalBodyContainer.jsonPieData, 'volume')); this.disabled=true; document.getElementById('pieChartButtonValue').disabled=false;" disabled class="btn btn-default middleMerge" style="width: 7em;">volume</button>
+            <button id="pieChartButtonValue" onClick="PieChart.fill(PieChart.prepareData(globalBodyContainer.jsonPieData, 'value')); this.disabled=true; document.getElementById('pieChartButtonVolume').disabled=false;" disabled class="btn btn-default rightMerge" style=" width: 7em;">value</button>
         </div>
         <div id="pieChartDataTable" style='max-height: 400px; padding-right: 17px; overflow-x: hidden'></div>
         <script>
@@ -48,11 +48,9 @@
                 }
            }
 
-           var pieChartDataTableScroll;
-
            function buildDomainPerformancePieChart(formId) {
-               if(pieChartDataTableScroll){
-                   pieChartDataTableScroll.unMount();
+               if(globalBodyContainer.pieChartDataTableScroll){
+                   globalBodyContainer.pieChartDataTableScroll.unMount();
                }
                removeAllChildren('domainperformance');
                removeAllChildren('pieChartDataTable');
@@ -61,11 +59,11 @@
                tryPreventDefault();
                if (form.reportValidity()) {
                    let onResponse = function (response) {
-                       jsonPieData = response;
-                       let tableData = buildHtmlTable(JSON.parse(jsonPieData));
-                       PieChart.fill(PieChart.prepareData(jsonPieData, 'value'));
+                       globalBodyContainer.jsonPieData = response;
+                       let tableData = buildHtmlTable(JSON.parse(globalBodyContainer.jsonPieData));
+                       PieChart.fill(PieChart.prepareData(globalBodyContainer.jsonPieData, 'value'));
                        $("#pieChartDataTable").html(tableData);
-                       pieChartDataTableScroll = new SimpleBar(document.getElementById('pieChartDataTable'));
+                       globalBodyContainer.pieChartDataTableScroll = new SimpleBar(document.getElementById('pieChartDataTable'));
                    }
                    doFetch($(form).attr('action'), $(form).attr('method'), buildData($(form).get(0)), onResponse);
                }
