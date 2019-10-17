@@ -35,6 +35,7 @@ https://blockbuilder.org/officeofjane/e394185b0e0998b5c7236f08f92c560f
 https://blockbuilder.org/seemantk/e7fb1380c6de4d07ef24dba182f57a7e
 https://blockbuilder.org/giorgi-ghviniashvili/e961128f71c0a927a9f50816ab61de43
 https://jsfiddle.net/ngati016/Lo7v9jhc/?utm_source=website&utm_medium=embed&utm_campaign=Lo7v9jhc
+https://blog.scottlogic.com/2018/09/21/d3-financial-chart.html
 
 https://colordesigner.io/gradient-generator
     

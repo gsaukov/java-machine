@@ -364,3 +364,62 @@ let PieChart = {
             .remove();
     }
 }
+
+// ========================= BAR CHART SECTION ==================================
+
+
+const volumeSeries = fc.autoBandwidth(fc.seriesSvgBar())
+    .mainValue(d => d.volume)
+    .crossValue(d => d.date)
+    .decorate(sel =>
+        sel.enter()
+            .attr('fill', d => d.open > d.close ? 'red' : 'green')
+    )
+
+// adapt the d3 time scale to add discontinuities, so that weekends are removed
+const xScale = fc.scaleDiscontinuous(d3.scaleTime())
+    .discontinuityProvider(fc.discontinuitySkipWeekends());
+
+const chart = fc.chartCartesian(
+    xScale,
+    d3.scaleLinear()
+)
+    .yOrient('left')
+    .yLabel('volume (millions of dollars)')
+    .yTickFormat(d3.format(',.3s'))
+    .svgPlotArea(volumeSeries);
+
+// use the extent component to determine the x and y domain
+const durationDay = 864e5;
+const xExtent = fc.extentDate()
+    .accessors([d => d.date])
+    // pad by one day on either side of the scale
+    .padUnit('domain')
+    .pad([durationDay, durationDay]);
+
+const yExtent = fc.extentLinear()
+    .accessors([d => d.volume])
+    .include([0])
+    // pad by 10% at the upper end
+    .pad([0, 0.1]);
+
+const parseDate = d3.timeParse("%d-%b-%y");
+
+d3.csv('data.csv',
+    row => ({
+        open: Number(row.Open),
+        close: Number(row.Close),
+        volume: Number(row.Volume),
+        date: parseDate(row.Date)
+    })).then((data) => {
+    data = data.slice(0, 200);
+
+    // set the domain based on the data
+    chart.xDomain(xExtent(data))
+        .yDomain(yExtent(data))
+
+    // select and render
+    d3.select('#chart-element')
+        .datum(data)
+        .call(chart);
+});
