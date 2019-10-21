@@ -110,11 +110,15 @@
     }
 
     function buildDomainPerformanceBarChart(domainName, size) {
+        let chartElementId = 'domainPerformanceBarChart' + domainName;
         tryPreventDefault();
-        if(document.getElementById(domainName) === null){
+        if(document.getElementById(chartElementId) === null){
+            removeElement("domainPerformanceBarChart")
             let url = 'analysedomainperformance/?domain=' + domainName + '&size=' + size;
-            $('#detailsBlock').prepend("<div id=\"" + domainName + "\" style='height: 300px;'><\/div>");
-            BarChart(domainName, url, size);
+            $('#detailsBlock').prepend('<div id="domainPerformanceBarChart"><\/div>');
+            $('#domainPerformanceBarChart').append("<div id=\"" + chartElementId + "\" style='height: 300px;'><\/div>");
+            $('#' + chartElementId).append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeElement(\"domainPerformanceBarChart\")' style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>");
+            BarChart(chartElementId, url, size);
         }
     }
 
