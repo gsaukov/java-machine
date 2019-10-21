@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,14 +29,28 @@ public interface TradeDetailsRepository extends JpaRepository<TradeDetails, Stri
             nativeQuery = true)
     List<AnalysedData> findAggregatedSymbolsData (String domain, Integer size);
 
+    @Query(value = "select td.DATE, td.ROUTE, td.AMOUNT, td.VAL, td.SYMBOL " +
+            "from trade_data td inner " +
+            "    join trade_details te on td.ID = te.TRADE_DATA_ID " +
+            "where te.DOMAIN = ?1 " +
+            "and td.DATE <= CURDATE() " +
+            "order by td.DATE desc " +
+            "LIMIT ?2 ",
+            nativeQuery = true)
+    List<DomainPerformanceData> findDomainPerformanceData (String domain, Integer size);
+
     public static interface AnalysedData {
-
         String getLabel();
-
         String getValue();
-
         String getVolume();
+    }
 
+    public static interface DomainPerformanceData {
+        Date getDate();
+        String getRoute();
+        BigDecimal getAmount();
+        Integer getVal();
+        String getSymbol();
     }
 
 }

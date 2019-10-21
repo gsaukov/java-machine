@@ -345,3 +345,14 @@ hr{
 .dropdown-menu a:focus {
     text-decoration: none;
 }
+
+/*barchart*/
+#detailsBlock d3fc-svg path.domain {
+    stroke: white;
+}
+
+#detailsBlock d3fc-svg.x-axis,
+#detailsBlock d3fc-svg.y-axis {
+    stroke: white;
+    fill: white;
+ }

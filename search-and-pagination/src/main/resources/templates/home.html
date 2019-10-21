@@ -70,6 +70,7 @@
                     <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                     <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
                     <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
+                    <a href="#menu-toggle" class="btn btn-default" onclick="buildDomainPerformanceBarChart('venus', 50)">BarChart</a>
                     <div th:replace="requesttimer :: requesttimer"></div>
                 </nav>
                 <div id="homeBlock">
@@ -107,6 +108,16 @@
 
         doFetch(urlParam, "GET", null, onResponse);
     }
+
+    function buildDomainPerformanceBarChart(domainName, size) {
+        tryPreventDefault();
+        if(document.getElementById(domainName) === null){
+            let url = 'analysedomainperformance/?domain=' + domainName + '&size=' + size;
+            $('#detailsBlock').prepend("<div id=\"" + domainName + "\" style='height: 300px;'><\/div>");
+            BarChart(domainName, url, size);
+        }
+    }
+
 </script>
 
 <link href="http://localhost:9020/static/css/font-awesome.css" rel="stylesheet">
@@ -117,19 +128,19 @@
 <link href="http://localhost:9020/static/css/leaflet.css" rel="stylesheet"/>
 <link href="http://localhost:9020/static/css/leaflet.awesome-markers.css" rel="stylesheet"/>
 
-<script src="http://localhost:9020/static/js/custom/AddressMap.js"></script>
-<script src="http://localhost:9020/static/js/custom/chart.js"></script>
-
 <script src="http://localhost:9020/static/js/external/simplebar.js"></script>
 <script src="http://localhost:9020/static/js/external/OpenLayers.js"></script>
 <script src="http://localhost:9020/static/js/external/OpenStreetMap.js"></script>
 <script src="http://localhost:9020/static/js/external/ol.js"></script>
 <script src="http://localhost:9020/static/js/external/auto-complete.js"></script>
 <script src="http://localhost:9020/static/js/external/d3.v5.js"></script>
+<script src="http://localhost:9020/static/js/external/d3fc.js"></script>
 <script>L_PREFER_CANVAS=false; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
 <script src="http://localhost:9020/static/js/external/leaflet.js"></script>
 <script src="http://localhost:9020/static/js/external/leaflet.awesome-markers.js"></script>
 <script src="http://localhost:9020/static/js/external/leaflet-heat.js"></script>
 
+<script src="http://localhost:9020/static/js/custom/AddressMap.js"></script>
+<script src="http://localhost:9020/static/js/custom/chart.js"></script>
 </body>
 </html>

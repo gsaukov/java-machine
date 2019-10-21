@@ -367,59 +367,65 @@ let PieChart = {
 
 // ========================= BAR CHART SECTION ==================================
 
+let BarChart = function (elementId, url, size) {
 
-const volumeSeries = fc.autoBandwidth(fc.seriesSvgBar())
-    .mainValue(d => d.volume)
-    .crossValue(d => d.date)
-    .decorate(sel =>
-        sel.enter()
-            .attr('fill', d => d.open > d.close ? 'red' : 'green')
+    const volumeSeries = fc.autoBandwidth(fc.seriesSvgBar())
+        .mainValue(d => d.value)
+        .crossValue(d => d.date)
+        .decorate(sel =>
+            sel.enter()
+                .attr('fill', d => d.route === "SELL" ? 'red' : 'green')
+        )
+    // adapt the d3 time scale to add discontinuities, so that weekends are removed
+    const xScale = fc.scaleDiscontinuous(d3.scaleTime())
+        .discontinuityProvider(fc.discontinuitySkipWeekends());
+
+    const yScale = d3.scaleLinear();
+
+    const chart = fc.chartCartesian(
+        xScale,
+        yScale
     )
+        .yOrient('left')
+        .yLabel('value $')
+        .yTickFormat(d3.format(',.3s'))
+        .svgPlotArea(volumeSeries);
 
-// adapt the d3 time scale to add discontinuities, so that weekends are removed
-const xScale = fc.scaleDiscontinuous(d3.scaleTime())
-    .discontinuityProvider(fc.discontinuitySkipWeekends());
+    // use the extent component to determine the x and y domain
+    const durationDay = 864e5;
+    const xExtent = fc.extentDate()
+        .accessors([d => d.date])
+        // pad by one day on either side of the scale
+        .padUnit('domain')
+        .pad([durationDay, durationDay]);
 
-const chart = fc.chartCartesian(
-    xScale,
-    d3.scaleLinear()
-)
-    .yOrient('left')
-    .yLabel('volume (millions of dollars)')
-    .yTickFormat(d3.format(',.3s'))
-    .svgPlotArea(volumeSeries);
+    const yExtent = fc.extentLinear()
+        .accessors([d => d.value])
+        .include([0])
+        // pad by 10% at the upper end
+        .pad([0, 0.1]);
 
-// use the extent component to determine the x and y domain
-const durationDay = 864e5;
-const xExtent = fc.extentDate()
-    .accessors([d => d.date])
-    // pad by one day on either side of the scale
-    .padUnit('domain')
-    .pad([durationDay, durationDay]);
+    const parseDate = d3.timeParse("%d-%b-%y");
 
-const yExtent = fc.extentLinear()
-    .accessors([d => d.volume])
-    .include([0])
-    // pad by 10% at the upper end
-    .pad([0, 0.1]);
+    d3.json(url).then( function (resp) {
+        let data = resp.map(function (row) {
+            return {
+                symbol: row.symbol,
+                route: row.route,
+                volume: Number(row.volume),
+                value: Number(row.value),
+                date: parseDate(row.date)
+            }
+        });
 
-const parseDate = d3.timeParse("%d-%b-%y");
+        // set the domain based on the data
+        chart.xDomain(xExtent(data))
+            .yDomain(yExtent(data))
 
-d3.csv('data.csv',
-    row => ({
-        open: Number(row.Open),
-        close: Number(row.Close),
-        volume: Number(row.Volume),
-        date: parseDate(row.Date)
-    })).then((data) => {
-    data = data.slice(0, 200);
+        // select and render
+        d3.select('#' + elementId)
+            .datum(data)
+            .call(chart);
+    });
 
-    // set the domain based on the data
-    chart.xDomain(xExtent(data))
-        .yDomain(yExtent(data))
-
-    // select and render
-    d3.select('#chart-element')
-        .datum(data)
-        .call(chart);
-});
+}

@@ -33,6 +33,12 @@ public class AnalyseController {
     }
 
     @ResponseBody
+    @GetMapping(value = {"analysedomainperformance/"}, produces = "application/json")
+    public List<DomainPerformanceDataResponse> domainPerformanceData(@ModelAttribute DomainPerformanceDataRequest request) {
+        return tradeDetailsService.findDomainPerformanceData(request);
+    }
+
+    @ResponseBody
     @GetMapping(value = {"getalldomains"}, produces = "application/json")
     public List<String> getAllSymbols() {
         return tradeDetailsService.findAllDomains();
