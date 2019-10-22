@@ -367,7 +367,35 @@ let PieChart = {
 
 // ========================= BAR CHART SECTION ==================================
 
-let BarChart = function (elementId, url, size) {
+function buildDomainPerformanceBarChart(domainName, size) {
+    let chartElementId = 'domainPerformanceBarChart' + domainName;
+    tryPreventDefault();
+    if(document.getElementById(chartElementId) === null) {
+        removeElement("domainPerformanceBarChart")
+        let url = 'analysedomainperformance/?domain=' + domainName + '&size=' + size;
+        $('#detailsBlock').prepend('<div id="domainPerformanceBarChart"><\/div>');
+        $('#domainPerformanceBarChart').append("<div id=\"" + chartElementId + "\" style='height: 300px;'><\/div>");
+        $('#' + chartElementId).append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeElement(\"domainPerformanceBarChart\")' style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>");
+        let onResponse = function (response) {
+            let barChart = new BarChart(JSON.parse(response), size);
+            barChart.render(chartElementId);
+        }
+        doFetch(url, "GET", null, onResponse);
+    }
+}
+
+function BarChart(resp, size) {
+    const parseDate = d3.timeParse("%d-%b-%y");
+
+    let data = resp.map(function (row) {
+        return {
+            symbol: row.symbol,
+            route: row.route,
+            volume: Number(row.volume),
+            value: Number(row.value),
+            date: parseDate(row.date)
+        }
+    });
 
     const volumeSeries = fc.autoBandwidth(fc.seriesSvgBar())
         .mainValue(d => d.value)
@@ -375,7 +403,11 @@ let BarChart = function (elementId, url, size) {
         .decorate(sel =>
             sel.enter()
                 .attr('fill', d => d.route === "SELL" ? 'red' : 'green')
-        )
+                .attr('onmouseover', function(d, i, n) {
+                    return 'updateBarChartLegend(' + JSON.stringify(d) + ')';
+                })
+        );
+
     // adapt the d3 time scale to add discontinuities, so that weekends are removed
     const xScale = fc.scaleDiscontinuous(d3.scaleTime())
         .discontinuityProvider(fc.discontinuitySkipWeekends());
@@ -405,27 +437,51 @@ let BarChart = function (elementId, url, size) {
         // pad by 10% at the upper end
         .pad([0, 0.1]);
 
-    const parseDate = d3.timeParse("%d-%b-%y");
+    // set the domain based on the data
+    chart.xDomain(xExtent(data))
+        .yDomain(yExtent(data))
 
-    d3.json(url).then( function (resp) {
-        let data = resp.map(function (row) {
-            return {
-                symbol: row.symbol,
-                route: row.route,
-                volume: Number(row.volume),
-                value: Number(row.value),
-                date: parseDate(row.date)
-            }
-        });
+    chart.decorate(sel => {
+        sel.enter()
+           .append("svg")
+           .attr('id', 'domainBarChartLegend')
+           .style("grid-column", 3)
+           .style("grid-row", 3)
+           .classed("legend", true);
+    });
 
-        // set the domain based on the data
-        chart.xDomain(xExtent(data))
-            .yDomain(yExtent(data))
-
-        // select and render
+    // select and render
+    this.render = function render(elementId) {
         d3.select('#' + elementId)
             .datum(data)
             .call(chart);
-    });
+    }
+}
 
+function updateBarChartLegend(updateData){
+    tryPreventDefault();
+    
+    const dateFormat = function (dateStr) {
+        let date = new Date(dateStr);
+        return date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear()
+    }
+
+    const priceFormat = d3.format(",.2f");
+
+    let gridTemplate =
+    "<g>" +
+    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 15)\">Symbol</text>" +
+    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 30)\">Route</text>" +
+    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 45)\">Volume</text>" +
+    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 60)\">Value</text>" +
+    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 75)\">Date</text>" +
+    "<text id=\"domainBarChartLegendsymbol\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 15)\">" + updateData.symbol + "</text>" +
+    "<text id=\"domainBarChartLegendroute\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 30)\" >" + updateData.route + "</text>" +
+    "<text id=\"domainBarChartLegendvolume\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 45)\">" + updateData.volume + "</text>" +
+    "<text id=\"domainBarChartLegendvalue\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 60)\" >" + priceFormat(updateData.value) + "</text>" +
+    "<text id=\"domainBarChartLegenddate\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 75)\"  >" + dateFormat(updateData.date) + "</text>" +
+    "</g>"
+
+    removeAllChildren('domainBarChartLegend');
+    $('#domainBarChartLegend').html(gridTemplate);
 }
