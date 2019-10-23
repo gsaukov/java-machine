@@ -367,24 +367,7 @@ let PieChart = {
 
 // ========================= BAR CHART SECTION ==================================
 
-function buildDomainPerformanceBarChart(domainName, size) {
-    let chartElementId = 'domainPerformanceBarChart' + domainName;
-    tryPreventDefault();
-    if(document.getElementById(chartElementId) === null) {
-        removeElement("domainPerformanceBarChart")
-        let url = 'analysedomainperformance/?domain=' + domainName + '&size=' + size;
-        $('#detailsBlock').prepend('<div id="domainPerformanceBarChart"><\/div>');
-        $('#domainPerformanceBarChart').append("<div id=\"" + chartElementId + "\" style='height: 300px;'><\/div>");
-        $('#' + chartElementId).append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeElement(\"domainPerformanceBarChart\")' style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>");
-        let onResponse = function (response) {
-            let barChart = new BarChart(JSON.parse(response), size);
-            barChart.render(chartElementId);
-        }
-        doFetch(url, "GET", null, onResponse);
-    }
-}
-
-function BarChart(resp, size) {
+function BarChart(resp, domainName, size) {
     const parseDate = d3.timeParse("%d-%b-%y");
 
     let data = resp.map(function (row) {
@@ -419,7 +402,7 @@ function BarChart(resp, size) {
         yScale
     )
         .yOrient('left')
-        .yLabel('value $')
+        .yLabel(domainName + ' ' + size + ' performance $')
         .yTickFormat(d3.format(',.3s'))
         .svgPlotArea(volumeSeries);
 
@@ -447,6 +430,7 @@ function BarChart(resp, size) {
            .attr('id', 'domainBarChartLegend')
            .style("grid-column", 3)
            .style("grid-row", 3)
+           .style("position", "relative")
            .classed("legend", true);
     });
 
@@ -468,20 +452,42 @@ function updateBarChartLegend(updateData){
 
     const priceFormat = d3.format(",.2f");
 
-    let gridTemplate =
-    "<g>" +
-    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 15)\">Symbol</text>" +
-    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 30)\">Route</text>" +
-    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 45)\">Volume</text>" +
-    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 60)\">Value</text>" +
-    "<text class=\"legend-label\" fill=\"white\" transform=\"translate(50, 75)\">Date</text>" +
-    "<text id=\"domainBarChartLegendsymbol\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 15)\">" + updateData.symbol + "</text>" +
-    "<text id=\"domainBarChartLegendroute\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 30)\" >" + updateData.route + "</text>" +
-    "<text id=\"domainBarChartLegendvolume\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 45)\">" + updateData.volume + "</text>" +
-    "<text id=\"domainBarChartLegendvalue\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 60)\" >" + priceFormat(updateData.value) + "</text>" +
-    "<text id=\"domainBarChartLegenddate\" class=\"legend-value\" fill=\"white\" transform=\"translate(120, 75)\"  >" + dateFormat(updateData.date) + "</text>" +
-    "</g>"
+    updateData.value = priceFormat(updateData.value);
+    updateData.date = dateFormat(updateData.date);
 
     removeAllChildren('domainBarChartLegend');
-    $('#domainBarChartLegend').html(gridTemplate);
+    let el = buildLegendHtml(updateData);
+    document.getElementById('domainBarChartLegend').appendChild(el);
+
+    function buildLegendHtml(data) {
+        var xmlns = "http://www.w3.org/2000/svg";
+        let gElement = document.createElementNS(xmlns, 'g')
+        let keys = Object.keys(data);
+        let values = Object.values(data);
+
+        for (let i=0; i < keys.length; i++) {
+            let key = keys[i];
+            key = key.charAt(0).toUpperCase() + key.slice(1)
+            let el = buildGridElement('legend-label', "translate(50, " + (i + 1) * 15 + ")", key)
+            gElement.appendChild(el);
+        }
+
+        for (let i=0; i < values.length; i++) {
+            let value = values[i];
+            let el = buildGridElement('legend-value', "translate(120, " + (i + 1) * 15 + ")", value)
+            gElement.appendChild(el);
+        }
+
+        function buildGridElement (clazz, transform, value){
+            let textLabel = document.createElementNS(xmlns, 'text');
+            textLabel.classList.add(clazz);
+            textLabel.setAttribute("fill", "white");
+            textLabel.setAttribute("transform", transform);
+            textLabel.innerHTML = value;
+            return textLabel;
+        }
+
+        return gElement;
+    }
+
 }

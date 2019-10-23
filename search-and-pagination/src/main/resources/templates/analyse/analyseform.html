@@ -6,7 +6,18 @@
     <div th:fragment="analyseform" style="float: right; position: relative;">
         <form id="analyseform" action="#" th:action="@{analysedomain/}" th:object="${analyseDomainRequest}" method="post">
             <fieldset class="form-group">
-                <legend>Analyse domain</legend>
+                <div class="row-container" style="display: flex; align-items: baseline;">
+                    <legend>Analyse domain</legend>
+                    <a href="#" disabled="true" class="btn btn-default" onclick="document.getElementById('analyseform').reportValidity(); buildDomainPerformanceBarChart($('#domainSelector').val(), 50)" style="margin:10px; padding:0">
+                        <i class="fas fa-chart-bar fa-1x"></i>
+                    </a>
+                    <a href="#" disabled="true" class="btn btn-default" onclick="document.getElementById('analyseform').reportValidity(); buildDomainPerformanceBarChart($('#domainSelector').val(), 100)" style="margin:10px; padding:0">
+                        <i class="fas fa-chart-bar fa-2x"></i>
+                    </a>
+                    <a href="#" disabled="true" class="btn btn-default" onclick="document.getElementById('analyseform').reportValidity(); buildDomainPerformanceBarChart($('#domainSelector').val(), 200)" style="margin:10px; padding:0">
+                        <i class="fas fa-chart-bar fa-3x"></i>
+                    </a>
+                </div>
                 <div class="row-container">
                     <select required id="domainSelector" initialized="false" th:field="*{domain}" class="form-control" onclick="populateDomains()" style="width: 8em; margin-left: 10px; margin-right: 10px;">
                         <option value="" style="color: #999999;">Domain...</option>
@@ -69,6 +80,22 @@
                }
            }
 
+           function buildDomainPerformanceBarChart(domainName, size) {
+               let chartElementId = 'domainPerformanceBarChart' + domainName + size;
+               tryPreventDefault();
+               if(document.getElementById(chartElementId) === null) {
+                   removeElement("domainPerformanceBarChart")
+                   let url = 'analysedomainperformance/?domain=' + domainName + '&size=' + size;
+                   $('#detailsBlock').prepend('<div id="domainPerformanceBarChart"><\/div>');
+                   $('#domainPerformanceBarChart').append("<div id=\"" + chartElementId + "\" style='height: 300px;'><\/div>");
+                   $('#' + chartElementId).append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeElement(\"domainPerformanceBarChart\")' style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>");
+                   let onResponse = function (response) {
+                       let barChart = new BarChart(JSON.parse(response), domainName, size);
+                       barChart.render(chartElementId);
+                   }
+                   doFetch(url, "GET", null, onResponse);
+               }
+           }
         </script>
     </div>
 </body>

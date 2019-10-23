@@ -70,7 +70,6 @@
                     <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
                     <a href="#collapseOne" class="btn btn-default" for="collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">Form</a>
                     <a href="#collapseTwo" class="btn btn-default" for="collapseTwo" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">Data</a>
-                    <a href="#menu-toggle" class="btn btn-default" onclick="buildDomainPerformanceBarChart('venus', 50)">BarChart</a>
                     <div th:replace="requesttimer :: requesttimer"></div>
                 </nav>
                 <div id="homeBlock">
@@ -107,19 +106,6 @@
         }
 
         doFetch(urlParam, "GET", null, onResponse);
-    }
-
-    function buildDomainPerformanceBarChart(domainName, size) {
-        let chartElementId = 'domainPerformanceBarChart' + domainName;
-        tryPreventDefault();
-        if(document.getElementById(chartElementId) === null){
-            removeElement("domainPerformanceBarChart")
-            let url = 'analysedomainperformance/?domain=' + domainName + '&size=' + size;
-            $('#detailsBlock').prepend('<div id="domainPerformanceBarChart"><\/div>');
-            $('#domainPerformanceBarChart').append("<div id=\"" + chartElementId + "\" style='height: 300px;'><\/div>");
-            $('#' + chartElementId).append("<a href='#' class='btn btn-default btn-close' aria-label='Close' onclick='removeElement(\"domainPerformanceBarChart\")' style='position: absolute; right: 20px; z-index: 1000;'>&times;</a>");
-            BarChart(chartElementId, url, size);
-        }
     }
 
 </script>

@@ -348,11 +348,11 @@ hr{
 
 /*barchart*/
 #detailsBlock d3fc-svg path.domain {
-    stroke: white;
+    stroke: #a1afc3;
 }
 
-#detailsBlock d3fc-svg.x-axis,
-#detailsBlock d3fc-svg.y-axis {
-    stroke: white;
-    fill: white;
- }
+#detailsBlock d3fc-svg.x-axis text,
+#detailsBlock d3fc-svg.y-axis text {
+    font-size: 12px;
+    fill: #a1afc3;
+}
