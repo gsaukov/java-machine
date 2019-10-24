@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'com.t24app'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    testCompile 'org.testng:testng:6.9.10'
+}
