@@ -1,4 +1,4 @@
-package com.apps.potok;
+package com.apps.potok.server.alert;
 
 public class Alert {
 

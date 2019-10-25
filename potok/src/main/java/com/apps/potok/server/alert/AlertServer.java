@@ -1,15 +1,17 @@
-package com.apps.potok;
+package com.apps.potok.server.alert;
 
-import com.apps.potok.init.Inititiator;
+import com.apps.potok.server.mkdata.MkData;
+import com.apps.potok.server.mkdata.MkDataServer;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Service
 public class AlertServer implements Runnable {
 
 //    private HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> alertContainer = new HashMap();
@@ -24,16 +26,16 @@ public class AlertServer implements Runnable {
         this.mkDataServer = new MkDataServer(alertContainer);
 //        symbols = Inititiator.getSymbols(size);
 //        Inititiator.initiateContainer(size, alertContainer, symbols);
-        if(RUN_SERVER){
-            startCreatorThread();
-        }
+//        if(RUN_SERVER){
+//            startCreatorThread();
+//        }
     }
 
     @Override
     public void run() {
         while(true){
             fireAll(size * RandomUtils.nextInt(1, 3));
-            System.out.println("done");
+//            System.out.println("done");
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
@@ -54,13 +56,13 @@ public class AlertServer implements Runnable {
 
         SortedMap<Integer, CopyOnWriteArrayList<String>> toFire = map.headMap(event.getVal(), true);
         if (toFire.isEmpty()){
-            System.out.println(System.currentTimeMillis() + " nothing to FIRE for: " + event.getSymbol() + " at " + event.getVal());
+//            System.out.println(System.currentTimeMillis() + " nothing to FIRE for: " + event.getSymbol() + " at " + event.getVal());
             return;
         }
 
         for(Map.Entry<Integer, CopyOnWriteArrayList<String>> fired : toFire.entrySet()){
             for (String customer : fired.getValue()){
-                System.out.println(System.currentTimeMillis() + " FIRE: " + event.getSymbol() + " at " + event.getVal() + " for " + customer);
+//                System.out.println(System.currentTimeMillis() + " FIRE: " + event.getSymbol() + " at " + event.getVal() + " for " + customer);
             }
         }
 
@@ -68,11 +70,11 @@ public class AlertServer implements Runnable {
         alertContainer.put(event.getSymbol(), toLeave);
     }
 
-    private void startCreatorThread(){
-        Thread creatorThread = new Thread(new AlertCreatorRunnable(alertContainer));
-        creatorThread.setName("creatorThread");
-        creatorThread.setDaemon(true);
-        creatorThread.start();
-    }
+//    private void startCreatorThread(){
+//        Thread creatorThread = new Thread(new AlertCreatorServer(alertContainer));
+//        creatorThread.setName("creatorThread");
+//        creatorThread.setDaemon(true);
+//        creatorThread.start();
+//    }
 
 }

@@ -1,8 +1,7 @@
-package com.apps.potok.init;
+package com.apps.potok.server.init;
 
 
-import com.apps.potok.Alert;
-import com.apps.potok.MkData;
+import com.apps.potok.server.alert.Alert;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
@@ -12,8 +11,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static com.apps.potok.Alert.Route.BUY;
-
+import static com.apps.potok.server.alert.Alert.Route.BUY;
 
 public class Inititiator {
 

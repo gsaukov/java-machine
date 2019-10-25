@@ -1,12 +1,20 @@
-package com.apps.potok;
+package com.apps.potok.server.query;
+
+import com.apps.potok.server.alert.AlertContainer;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Service
 public class QueryServer {
 
     AlertContainer alertContainer;
+
+    public QueryServer(AlertContainer alertContainer) {
+        this.alertContainer = alertContainer;
+    }
 
     public void printSymbols (){
         for(Map.Entry<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> entry : alertContainer.get().entrySet()){

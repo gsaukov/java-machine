@@ -1,10 +1,13 @@
-package com.apps.potok;
+package com.apps.potok.server.mkdata;
 
+import com.apps.potok.server.alert.AlertContainer;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class MkDataServer {
 
     AlertContainer alertContainer;

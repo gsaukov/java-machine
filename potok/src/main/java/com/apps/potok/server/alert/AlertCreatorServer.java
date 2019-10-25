@@ -1,18 +1,21 @@
-package com.apps.potok;
+package com.apps.potok.server.alert;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class AlertCreatorRunnable implements Runnable {
+@Service
+public class AlertCreatorServer extends Thread {
 
     private AlertContainer alertContainer;
 
-    public AlertCreatorRunnable(AlertContainer alertContainer) {
+    public AlertCreatorServer(AlertContainer alertContainer) {
+        super.setDaemon(true);
+        super.setName("alertCreatorThread");
         this.alertContainer = alertContainer;
     }
 

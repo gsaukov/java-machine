@@ -1,6 +1,6 @@
-plugins {
-    id 'java'
-}
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
 
 group 'com.t24app'
 version '1.0'
@@ -11,7 +11,17 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-websocket"
+    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    compile "com.corundumstudio.socketio:netty-socketio:1.7.17"
     testCompile 'org.testng:testng:6.9.10'
 }

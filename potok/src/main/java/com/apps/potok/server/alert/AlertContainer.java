@@ -1,6 +1,7 @@
-package com.apps.potok;
+package com.apps.potok.server.alert;
 
-import com.apps.potok.init.Inititiator;
+import com.apps.potok.server.init.Inititiator;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.SortedMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Service
 public class AlertContainer {
 
     private HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> alertContainer = new HashMap<>();
