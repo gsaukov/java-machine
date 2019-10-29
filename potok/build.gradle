@@ -25,3 +25,11 @@ dependencies {
     compile "com.corundumstudio.socketio:netty-socketio:1.7.17"
     testCompile 'org.testng:testng:6.9.10'
 }
+
+sourceSets {
+    main {
+        java {
+            srcDirs += ['src/resources']
+        }
+    }
+}

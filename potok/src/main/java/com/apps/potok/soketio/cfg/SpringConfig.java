@@ -25,26 +25,23 @@ public class SpringConfig {
         config.setPort(9092);
 
         final SocketIOServer server = new SocketIOServer(config);
-        server.addListeners(new DataListener<LogFile>() {
+        server.addEventListener("message", LogFile.class, new DataListener<LogFile>() {
             @Override
-            public void onData(SocketIOClient client, LogFile data, AckRequest ackSender) {
-
-                server.getBroadcastOperations();
+            public void onData(SocketIOClient client, LogFile data, AckRequest ackRequest) {
+                server.getClient(client.getSessionId()).sendEvent("message", data);
             }
         });
 
         server.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient client) {
-
-                  for(int i=0;i<10;i++){
-                      LogFile log = new LogFile();
-                      log.setLine("data from server line ["+i+"]");
-                      Packet packet = new Packet(PacketType.MESSAGE);
-                      packet.setData(log);
-                      server.getBroadcastOperations().send(packet);
-                  }
-
+                for(int i=0;i<10;i++){
+                    LogFile log = new LogFile();
+                    log.setLine("data from server line ["+i+"]");
+                    Packet packet = new Packet(PacketType.MESSAGE);
+                    packet.setData(log);
+                    server.getBroadcastOperations().send(packet);
+                }
             }
         });
 
