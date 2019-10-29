@@ -29,7 +29,11 @@
 
         var userName = 'user' + Math.floor((Math.random()*1000)+1);
 
-        const socket = io('localhost:9092', { transports: ['websocket'], forceNew: true, path : ''});
+        // const socket = io('localhost:9092', { transports: ['websocket'], forceNew: true, path : ''})
+        // Before creating wss ssl go visit this page in browser, to accept certificate other wise you will get
+        // [#### can’t establish a connection to the server at] Exception.
+
+        const socket = io('https://localhost:9092', { transports: ['websocket'], forceNew: true, path : '', secure: true, rejectUnauthorized: false});
 
 		socket.on('connect', function() {
 			output('<span class="connect-msg">Client has connected to the server!</span>');
@@ -38,6 +42,10 @@
 		socket.on('message', function(data) {
 			output(data.line);
 		});
+
+        socket.on('quoteResponse', function(data) {
+            output(JSON.stringify(data));
+        });
 		
 		socket.on('disconnect', function() {
 			output('<span class="disconnect-msg">The client has disconnected!</span>');
@@ -54,6 +62,14 @@
                         var jsonObject = {'@class': 'com.apps.potok.soketio.model.LogFile', line: message};
                         socket.emit('message', jsonObject);
 		}
+
+        function subscribe() {
+            var message = $('#msg').val();
+            $('#msg').val('');
+
+            var jsonObject = {'@class': 'com.apps.potok.soketio.model.quote.QuoteRequest', symbol: message};
+            socket.emit('quoteRequest', jsonObject);
+        }
 		
 		function output(message) {
             var currentTime = "<span class='time'>" +  Date.now() + "</span>";
@@ -76,6 +92,7 @@
         <form class="well form-inline" onsubmit="return false;">
            <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
            <button type="button" onClick="sendMessage()" class="btn">Send</button>
+           <button type="button" onClick="subscribe()" class="btn">Subscribe</button>
            <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
         </form>
     

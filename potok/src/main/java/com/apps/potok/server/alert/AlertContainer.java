@@ -11,9 +11,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class AlertContainer {
-
-    private HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> alertContainer = new HashMap<>();
-    private List<String> symbols;
+                         //symbol
+    private final HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> alertContainer = new HashMap<>();
+    private final List<String> symbols;
 
     public AlertContainer() {
         this.symbols = Inititiator.getSymbols(10000);

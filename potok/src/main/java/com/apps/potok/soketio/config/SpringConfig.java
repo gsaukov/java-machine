@@ -1,4 +1,4 @@
-package com.apps.potok.soketio.cfg;
+package com.apps.potok.soketio.config;
 
 import com.apps.potok.soketio.model.LogFile;
 import com.corundumstudio.socketio.AckRequest;
@@ -8,29 +8,40 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.protocol.Packet;
 import com.corundumstudio.socketio.protocol.PacketType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.Resource;
+
+import java.io.IOException;
 
 @Configuration
 @PropertySource("classpath:server.properties")
 public class SpringConfig {
 
+    @Value("${socket-io-server.host}")
+    private String host;
+
+    @Value("${socket-io-server.port}")
+    private Integer port;
+
+    @Value("${certificate.store.key-store}")
+    private Resource keystore;
+
+    @Value("${certificate.store.key-store-password}")
+    private String keystorePassword;
+
     @Bean(name="webSocketServer")
-    public SocketIOServer webSocketServer() {
+    public SocketIOServer webSocketServer() throws IOException {
 
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
-        config.setHostname("localhost");
-        config.setPort(9092);
+        config.setHostname(host);
+        config.setPort(port);
+        config.setKeyStorePassword(keystorePassword);
+        config.setKeyStore(keystore.getInputStream());
 
         final SocketIOServer server = new SocketIOServer(config);
-        server.addEventListener("message", LogFile.class, new DataListener<LogFile>() {
-            @Override
-            public void onData(SocketIOClient client, LogFile data, AckRequest ackRequest) {
-                server.getClient(client.getSessionId()).sendEvent("message", data);
-            }
-        });
 
         server.addConnectListener(new ConnectListener() {
             @Override

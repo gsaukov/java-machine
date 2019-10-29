@@ -1,8 +1,12 @@
 package com.apps.potok.server.query;
 
 import com.apps.potok.server.alert.AlertContainer;
+import com.apps.potok.soketio.model.quote.Quote;
+import com.apps.potok.soketio.model.quote.QuoteResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -10,7 +14,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class QueryServer {
 
-    AlertContainer alertContainer;
+    private static QuoteResponse EMPTY_RESPONSE = new QuoteResponse(new ArrayList<>());
+
+    private AlertContainer alertContainer;
 
     public QueryServer(AlertContainer alertContainer) {
         this.alertContainer = alertContainer;
@@ -26,23 +32,33 @@ public class QueryServer {
         }
     }
 
-    public void searchOffers(String symbolName, Integer maxDesirablePrice){
+    public QuoteResponse searchOffers(String symbolName, Integer maxDesirablePrice){
         if(!alertContainer.containsKey(symbolName)){
-            System.out.println("Nothing found for symbol" + symbolName);
+            return EMPTY_RESPONSE;
         }
         ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> offers = alertContainer.get(symbolName);
-        printOffers(symbolName, offers.tailMap(maxDesirablePrice));
+        return prepareQuoteResponse(symbolName, offers.tailMap(maxDesirablePrice));
     }
 
-    private void printOffers(String symbolName, Map<Integer, CopyOnWriteArrayList<String>> offers){
+    public QuoteResponse searchAllOffers(String symbolName){
+        if(!alertContainer.containsKey(symbolName)){
+            return EMPTY_RESPONSE;
+        }
+        return prepareQuoteResponse(symbolName, alertContainer.get(symbolName));
+    }
+
+    private QuoteResponse prepareQuoteResponse(String symbolName, Map<Integer, CopyOnWriteArrayList<String>> offers){
+        List<Quote> quotes = new ArrayList<>();
+
         for(Map.Entry<Integer, CopyOnWriteArrayList<String>> entry : offers.entrySet()){
             Integer value = entry.getKey();
-            String userNames = "";
-            for(String name : entry.getValue()){
-                userNames += (" [" +  name + "],");
-            }
-            System.out.println(" Following offers for item: " + symbolName + " " + value + " users " + userNames);
+//            String userNames = "";
+//            for(String name : entry.getValue()){
+//                userNames += (" [" +  name + "],");
+//            }
+            quotes.add(new Quote(symbolName, value));
         }
+        return new QuoteResponse(quotes);
     }
 
 }

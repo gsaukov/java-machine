@@ -40,4 +40,8 @@ https://blog.scottlogic.com/2018/09/21/d3-financial-chart.html
 https://colordesigner.io/gradient-generator
     
 Liquibase:
-https://github.com/liquibase/liquibase/tree/master/liquibase-core/src/test/resources/liquibase/parser/core/yaml:    
+https://github.com/liquibase/liquibase/tree/master/liquibase-core/src/test/resources/liquibase/parser/core/yaml:
+
+Socket IO
+https://socket.io/docs/server-api/
+    
