@@ -2,28 +2,26 @@ package com.apps.potok.server.mkdata;
 
 public class MkData {
 
-    private String symbol;
-    private int val;
 
-    public MkData(String symbol, int val) {
+    private final String symbol;
+    private final int val;
+    private final Route route;
+
+    public MkData(String symbol, int val, Route route) {
         this.symbol = symbol;
         this.val = val;
+        this.route = route;
     }
 
     public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
     public int getVal() {
         return val;
     }
 
-    public void setVal(int val) {
-        this.val = val;
+    public Route getRoute() {
+        return route;
     }
-
 }

@@ -1,6 +1,6 @@
 package com.apps.potok.server.query;
 
-import com.apps.potok.server.alert.AlertContainer;
+import com.apps.potok.server.exchange.BidContainer;
 import com.apps.potok.soketio.model.quote.Quote;
 import com.apps.potok.soketio.model.quote.QuoteResponse;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,9 @@ public class QueryServer {
 
     private static QuoteResponse EMPTY_RESPONSE = new QuoteResponse(new ArrayList<>());
 
-    private AlertContainer alertContainer;
+    private BidContainer alertContainer;
 
-    public QueryServer(AlertContainer alertContainer) {
+    public QueryServer(BidContainer alertContainer) {
         this.alertContainer = alertContainer;
     }
 

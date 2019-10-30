@@ -1,68 +1,75 @@
 package com.apps.potok.server.init;
 
 
-import com.apps.potok.server.alert.Alert;
+import com.apps.potok.server.exchange.Order;
+import com.apps.potok.server.exchange.SymbolContainer;
+import com.apps.potok.server.mkdata.Route;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static com.apps.potok.server.alert.Alert.Route.BUY;
+import static com.apps.potok.server.mkdata.Route.BUY;
 
+@Service
 public class Inititiator {
 
-    public static void initiateContainer (int size, HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> alertContainer, List<String> symbols){
-        for(Alert alert : getAlerts(size, symbols)){
-            insertAllert(alertContainer, alert);
+    private SymbolContainer symbolContainer;
+
+    public Inititiator(SymbolContainer symbolContainer) {
+        this.symbolContainer = symbolContainer;
+    }
+
+    public void initiateContainer (int size, HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> orderContainer, Route route){
+        for(Order order : getOrders(size, route)){
+            insertOrder(orderContainer, order);
         }
     }
 
-    private static void insertAllert(HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> allAlertContainer, Alert alert) {
-        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolAlertContainer = allAlertContainer.get(alert.getSymbol());
+    private void insertOrder(HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> allOrderContainer, Order order) {
+        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer = allOrderContainer.get(order.getSymbol());
 
-
-        if(symbolAlertContainer == null){
-            symbolAlertContainer = new ConcurrentSkipListMap();
-            allAlertContainer.put(alert.getSymbol(), symbolAlertContainer);
+        if(symbolOrderContainer == null){
+            symbolOrderContainer = new ConcurrentSkipListMap();
+            allOrderContainer.put(order.getSymbol(), symbolOrderContainer);
         }
 
-        insertPrice(symbolAlertContainer, alert);
+        insertPrice(symbolOrderContainer, order);
     }
 
-    private static void insertPrice(ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolAlertContainer, Alert alert) {
-        CopyOnWriteArrayList<String> customerContainer = symbolAlertContainer.get(alert.getVal());
+    private void insertPrice(ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer, Order order) {
+        CopyOnWriteArrayList<String> customerContainer = symbolOrderContainer.get(order.getVal());
 
         if(customerContainer == null){
             customerContainer = new CopyOnWriteArrayList();
-            symbolAlertContainer.put(alert.getVal(), customerContainer);
+            symbolOrderContainer.put(order.getVal(), customerContainer);
         }
 
-        customerContainer.add(alert.getAccount());
+        customerContainer.add(order.getAccount());
 
     }
 
-    private static List<Alert> getAlerts(int size, List<String> symbols) {
+    private List<Order> getOrders(int size, Route route) {
+        List<String> symbols = symbolContainer.getSymbols();
         List<String> customers = getCustomers(size);
-        List<Integer> vals = getVals(size);
-
-        List<Alert> alerts = new ArrayList<>();
+        List<Order> orders = new ArrayList<>();
         for(int i = 0 ; i < size; i++){
             String customer = customers.get(RandomUtils.nextInt(0, customers.size()));
             String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
-            Integer val = vals.get(RandomUtils.nextInt(0, vals.size()));
-
-            Alert alert = new Alert(symbol, customer, BUY, val);
-
-            alerts.add(alert);
+            Integer val = getVal(symbol, route);
+            System.out.println(route + " " +val);
+            orders.add(new Order(symbol, customer, route, val));
         }
-        return alerts;
+        return orders;
     }
 
-    private static List<String> getCustomers(int size) {
+    private List<String> getCustomers(int size) {
         List<String> customers = new ArrayList<>();
 
         for(int i = 0 ; i < size/5 ; i++){
@@ -72,24 +79,12 @@ public class Inititiator {
         return customers;
     }
 
-    public static List<String> getSymbols(int size) {
-        List<String> symbols = new ArrayList<>();
-
-        for(int i = 0 ; i < size/10 ; i++){
-            symbols.add(RandomStringUtils.randomAlphabetic(4).toUpperCase());
+    private Integer getVal(String symbol, Route route) {
+        Integer val = symbolContainer.getQuote(symbol);
+        if(BUY.equals(route)){
+            return RandomUtils.nextInt(1, val);
+        } else {
+            return RandomUtils.nextInt(val - 1, 100);
         }
-
-        return symbols;
     }
-
-    private static List<Integer> getVals(int size) {
-        List<Integer> vals = new ArrayList<>();
-
-        for(int i = 0 ; i < size/2 ; i++){
-            vals.add(RandomUtils.nextInt(50, 100));
-        }
-
-        return vals;
-    }
-
 }

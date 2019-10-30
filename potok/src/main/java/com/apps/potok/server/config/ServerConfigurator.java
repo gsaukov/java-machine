@@ -1,7 +1,7 @@
 package com.apps.potok.server.config;
 
-import com.apps.potok.server.alert.AlertCreatorServer;
-import com.apps.potok.server.alert.AlertServer;
+import com.apps.potok.server.exchange.OrderCreatorServer;
+import com.apps.potok.server.exchange.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -19,10 +19,10 @@ public class ServerConfigurator {
     private TaskExecutor executor;
 
     @Autowired
-    private AlertServer alertServer;
+    private Exchange alertServer;
 
     @Autowired
-    private AlertCreatorServer alertCreatorServer;
+    private OrderCreatorServer alertCreatorServer;
 
     @Bean
     @Qualifier("potokServerRunner")

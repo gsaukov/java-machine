@@ -1,13 +1,15 @@
-package com.apps.potok.server.alert;
+package com.apps.potok.server.exchange;
 
-public class Alert {
+import com.apps.potok.server.mkdata.Route;
+
+public class Order {
 
     private String symbol;
     private String account;
     private Route route;
     private int val;
 
-    public Alert(String symbol, String account, Route route, int val) {
+    public Order(String symbol, String account, Route route, int val) {
         this.symbol = symbol;
         this.account = account;
         this.route = route;
@@ -46,8 +48,4 @@ public class Alert {
         this.val = val;
     }
 
-    public static enum Route {
-        BUY,
-        SELL;
-    }
 }
