@@ -63,7 +63,6 @@ public class Inititiator {
             String customer = customers.get(RandomUtils.nextInt(0, customers.size()));
             String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
             Integer val = getVal(symbol, route);
-            System.out.println(route + " " +val);
             orders.add(new Order(symbol, customer, route, val));
         }
         return orders;

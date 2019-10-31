@@ -26,8 +26,8 @@ public class QuoteMessageListener implements DataListener<QuoteRequest> {
 
     @Override
     public void onData(SocketIOClient client, QuoteRequest data, AckRequest ackRequest) {
-        quoteSubscribers.removeSubscriber(data.getSymbol(), client.getSessionId().toString());
-        quoteSubscribers.addSubscriber(data.getSymbol(), client.getSessionId().toString());
+        quoteSubscribers.removeSubscriber(data.getSymbol(), client.getSessionId());
+        quoteSubscribers.addSubscriber(data.getSymbol(), client.getSessionId());
         server.getClient(client.getSessionId()).sendEvent("quoteResponse", queryServer.searchAllOffers(data.getSymbol()));
     }
 }

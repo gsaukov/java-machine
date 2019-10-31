@@ -6,21 +6,23 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+
+import static com.apps.potok.server.mkdata.Route.BUY;
+import static com.apps.potok.server.mkdata.Route.SELL;
 
 @Service
 public class OrderCreatorServer extends Thread {
 
-
+    private final Exchange exchange;
     private final SymbolContainer symbolContainer;
     private final BidContainer bidContainer;
     private final AskContainer askContainer;
 
-    public OrderCreatorServer(BidContainer bidContainer, AskContainer askContainer, SymbolContainer symbolContainer) {
+    public OrderCreatorServer(Exchange exchange, BidContainer bidContainer, AskContainer askContainer, SymbolContainer symbolContainer) {
         super.setDaemon(true);
-        super.setName("orderCreatorThread");
+        super.setName("OrderCreatorThread");
 
+        this.exchange = exchange;
         this.symbolContainer = symbolContainer;
         this.bidContainer = bidContainer;
         this.askContainer = askContainer;
@@ -28,40 +30,46 @@ public class OrderCreatorServer extends Thread {
 
     @Override
     public void run() {
-
-            while (true){
-                insertBidOrder(randomOrder());
-                try {
-                    Thread.sleep(RandomUtils.nextInt(0,30));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        while (true){
+            exchange.fireOrder(randomOrder());
+            try {
+                Thread.sleep(RandomUtils.nextInt(0,30));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-    }
-
-    private void insertBidOrder(Order order) {
-        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer = bidContainer.get(order.getSymbol());
-        insertPrice(symbolOrderContainer, order);
-    }
-
-    private void insertAskOrder(Order order) {
-        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer = askContainer.get(order.getSymbol());
-        insertPrice(symbolOrderContainer, order);
-    }
-
-    private void insertPrice(ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer, Order order) {
-        CopyOnWriteArrayList<String> customerContainer = symbolOrderContainer.get(order.getVal());
-        if(customerContainer == null){
-            customerContainer = new CopyOnWriteArrayList();
-            symbolOrderContainer.put(order.getVal(), customerContainer);
         }
-        customerContainer.add(order.getAccount());
     }
-    
+
+    public void insertBidOrder(Order order) {
+        bidContainer.insertBid(order.getSymbol(), order.getVal(), order.getAccount());
+    }
+
+    public void insertAskOrder(Order order) {
+        askContainer.insertAsk(order.getSymbol(), order.getVal(), order.getAccount());
+    }
+
     private Order randomOrder(){
         List<String> symbols = symbolContainer.getSymbols();
-        return new Order(symbols.get(RandomUtils.nextInt(0, symbols.size())),
-            "INS " + RandomStringUtils.randomAlphabetic(4), Route.BUY, RandomUtils.nextInt(50, 90));
+        String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
+        Route route = getRoute();
+        Integer val = getVal(symbol, route);
+        return new Order(symbol, RandomStringUtils.randomAlphabetic(4), route, val);
+    }
+
+    private Route getRoute() {
+        if(RandomUtils.nextBoolean()){
+            return BUY;
+        } else {
+            return SELL;
+        }
+    }
+
+    private Integer getVal(String symbol, Route route) {
+        Integer val = symbolContainer.getQuote(symbol);
+        if(!BUY.equals(route)){
+            return RandomUtils.nextInt(1, val);
+        } else {
+            return RandomUtils.nextInt(val - 1, 100);
+        }
     }
 }

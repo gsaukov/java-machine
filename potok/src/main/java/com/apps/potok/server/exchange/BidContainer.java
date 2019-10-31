@@ -42,4 +42,17 @@ public class BidContainer {
         bidContainer.put(symbolName, new ConcurrentSkipListMap<>(toLeave));
     }
 
+    public void insertBid(String symbolName, Integer val, String account) {
+        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer = bidContainer.get(symbolName);
+        insertPrice(symbolOrderContainer, val, account);
+    }
+
+    private void insertPrice(ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer, Integer val, String account) {
+        CopyOnWriteArrayList<String> customerContainer = symbolOrderContainer.get(val);
+        if(customerContainer == null){
+            customerContainer = new CopyOnWriteArrayList();
+            symbolOrderContainer.put(val, customerContainer);
+        }
+        customerContainer.add(account);
+    }
 }

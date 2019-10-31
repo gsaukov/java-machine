@@ -1,8 +1,10 @@
 package com.apps.potok.server.exchange;
 
+import com.apps.potok.server.eventhandlers.EventNotifierServer;
 import com.apps.potok.server.mkdata.MkData;
 import com.apps.potok.server.mkdata.MkDataServer;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationHandler;
@@ -15,14 +17,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static com.apps.potok.server.mkdata.Route.BUY;
 
 @Service
-public class Exchange implements Runnable {
+public class Exchange extends Thread {
 
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
     private final MkDataServer mkDataServer;
     private int size = 10000;
 
+    @Autowired
+    private EventNotifierServer eventNotifierServer;
+
     public Exchange(BidContainer bidContainer, AskContainer askContainer, MkDataServer mkDataServer){
+        super.setName("EventNotifierServer");
         this.askContainer = askContainer;
         this.bidContainer = bidContainer;
         this.mkDataServer = mkDataServer;
@@ -42,14 +48,26 @@ public class Exchange implements Runnable {
     }
 
     private void fireAll(int size) {
-        List<MkData> events = mkDataServer.getMkData(size);
-        for(MkData event : events){
-            if(BUY.equals(event.getRoute())){
-                fireBuy(event);
-            } else {
-                fireSell(event);
-            }
+        fire(mkDataServer.getMkData(size));
+    }
+
+    private void fire(List<MkData> events) {
+        for(MkData event : events) {
+            fireEvent(event);
         }
+    }
+
+    public void fireOrder(Order order) {
+        fireEvent(toMkData(order));
+    }
+
+    public void fireEvent(MkData event ) {
+        if (BUY.equals(event.getRoute())) {
+            fireBuy(event);
+        } else {
+            fireSell(event);
+        }
+        eventNotifierServer.pushEvent(event.getSymbol());
     }
 
     private void fireBuy(MkData event) {
@@ -57,8 +75,7 @@ public class Exchange implements Runnable {
 
         SortedMap<Integer, CopyOnWriteArrayList<String>> toFire = map.headMap(event.getVal(), true);
         if (toFire.isEmpty()){
-
-//            System.out.println(System.currentTimeMillis() + " nothing to FIRE for: " + event.getSymbol() + " at " + event.getVal());
+            askContainer.insertAsk(event.getSymbol(), event.getVal(), event.getAccount());
             return;
         }
 
@@ -77,9 +94,9 @@ public class Exchange implements Runnable {
         InvocationHandler invocationHandler;
         SortedMap<Integer, CopyOnWriteArrayList<String>> toFire = map.tailMap(event.getVal(), true);
         if (toFire.isEmpty()){
-
-//            System.out.println(System.currentTimeMillis() + " nothing to FIRE for: " + event.getSymbol() + " at " + event.getVal());
+            bidContainer.insertBid(event.getSymbol(), event.getVal(), event.getAccount());
             return;
+//            System.out.println(System.currentTimeMillis() + " nothing to FIRE for: " + event.getSymbol() + " at " + event.getVal());
         }
 
         for(Map.Entry<Integer, CopyOnWriteArrayList<String>> fired : toFire.entrySet()){
@@ -90,6 +107,10 @@ public class Exchange implements Runnable {
 
         SortedMap<Integer, CopyOnWriteArrayList<String>> toLeave = map.headMap(event.getVal());
         askContainer.put(event.getSymbol(), toLeave);
+    }
+
+    private MkData toMkData(Order order){
+        return new MkData(order.getSymbol(), order.getVal(), order.getRoute(), order.getAccount());
     }
 
 }

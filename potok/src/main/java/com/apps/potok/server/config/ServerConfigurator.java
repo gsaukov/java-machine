@@ -1,5 +1,6 @@
 package com.apps.potok.server.config;
 
+import com.apps.potok.server.eventhandlers.EventNotifierServer;
 import com.apps.potok.server.exchange.OrderCreatorServer;
 import com.apps.potok.server.exchange.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,13 @@ public class ServerConfigurator {
     private TaskExecutor executor;
 
     @Autowired
-    private Exchange alertServer;
+    private Exchange exchange;
 
     @Autowired
-    private OrderCreatorServer alertCreatorServer;
+    private OrderCreatorServer orderCreatorServer;
+
+    @Autowired
+    private EventNotifierServer eventNotifierServer;
 
     @Bean
     @Qualifier("potokServerRunner")
@@ -31,13 +35,19 @@ public class ServerConfigurator {
     }
 
     @PostConstruct
-    public void runAlertServer() {
-        executor.execute(alertServer);
+    public void runExchange() {
+        executor.execute(exchange);
     }
 
     @PostConstruct
-    public void runAlertCreatorServer() {
-        executor.execute(alertCreatorServer);
+    public void runOrderCreatorServer() {
+        executor.execute(orderCreatorServer);
     }
+
+    @PostConstruct
+    public void runEventNotifierServer() {
+        executor.execute(eventNotifierServer);
+    }
+
 
 }
