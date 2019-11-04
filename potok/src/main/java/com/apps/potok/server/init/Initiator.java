@@ -11,18 +11,17 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.apps.potok.server.mkdata.Route.BUY;
 
 @Service
-public class Inititiator {
+public class Initiator {
 
     private SymbolContainer symbolContainer;
 
-    public Inititiator(SymbolContainer symbolContainer) {
+    public Initiator(SymbolContainer symbolContainer) {
         this.symbolContainer = symbolContainer;
     }
 

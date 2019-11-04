@@ -4,10 +4,10 @@ import com.apps.potok.server.mkdata.Route;
 
 public class Order {
 
-    private String symbol;
-    private String account;
-    private Route route;
-    private int val;
+    private final String symbol;
+    private final String account;
+    private final Route route;
+    private final int val;
 
     public Order(String symbol, String account, Route route, int val) {
         this.symbol = symbol;
@@ -20,32 +20,16 @@ public class Order {
         return symbol;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
     public String getAccount() {
         return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
     }
 
     public Route getRoute() {
         return route;
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
-    }
-
     public int getVal() {
         return val;
-    }
-
-    public void setVal(int val) {
-        this.val = val;
     }
 
 }

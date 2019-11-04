@@ -1,12 +1,10 @@
 package com.apps.potok.server.exchange;
 
-import com.apps.potok.server.init.Inititiator;
+import com.apps.potok.server.init.Initiator;
 import com.apps.potok.server.mkdata.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -16,14 +14,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class AskContainer {
 
     private SymbolContainer symbolContainer;
-    private Inititiator inititiator;
+    private Initiator initiator;
 
     private final HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> askContainer = new HashMap<>();
 
-    public AskContainer(SymbolContainer symbolContainer, Inititiator inititiator) {
-        this.inititiator = inititiator;
+    public AskContainer(SymbolContainer symbolContainer, Initiator initiator) {
+        this.initiator = initiator;
         this.symbolContainer = symbolContainer;
-        inititiator.initiateContainer(10000, askContainer, Route.BUY);
+        initiator.initiateContainer(10000, askContainer, Route.BUY);
     }
 
     public HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> get() {

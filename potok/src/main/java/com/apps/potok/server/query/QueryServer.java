@@ -41,13 +41,13 @@ public class QueryServer {
             return EMPTY_RESPONSE;
         }
         ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> offers = bidContainer.get(symbolName);
-        List<Quote> bidQuotes = prepareQuoteResponse(symbolName, offers.tailMap(maxDesirablePrice), Route.BUY);
+        List<Quote> bidQuotes = prepareQuoteResponse(symbolName, offers.tailMap(maxDesirablePrice), Route.SELL);
         return new QuoteResponse(bidQuotes, null);
     }
 
     public QuoteResponse searchAllOffers(String symbolName){
-        List<Quote> bidQuotes = prepareQuoteResponse(symbolName, bidContainer.get(symbolName), Route.BUY);
-        List<Quote> askQuotes = prepareQuoteResponse(symbolName, askContainer.get(symbolName), Route.SELL);
+        List<Quote> bidQuotes = prepareQuoteResponse(symbolName, bidContainer.get(symbolName), Route.SELL);
+        List<Quote> askQuotes = prepareQuoteResponse(symbolName, askContainer.get(symbolName), Route.BUY);
         return new QuoteResponse(bidQuotes, askQuotes);
     }
 
