@@ -1,6 +1,7 @@
 package com.apps.potok.server.exchange;
 
 import com.apps.potok.server.eventhandlers.EventNotifierServer;
+import com.apps.potok.server.eventhandlers.EventNotifierServerV2;
 import com.apps.potok.server.mkdata.MkData;
 import com.apps.potok.server.mkdata.MkDataServer;
 import org.apache.commons.lang3.RandomUtils;
@@ -25,7 +26,7 @@ public class Exchange extends Thread {
     private int size = 10000;
 
     @Autowired
-    private EventNotifierServer eventNotifierServer;
+    private EventNotifierServerV2 eventNotifierServer;
 
     public Exchange(BidContainer bidContainer, AskContainer askContainer, MkDataServer mkDataServer){
         super.setName("EventNotifierServer");
@@ -91,7 +92,7 @@ public class Exchange extends Thread {
 
     private void fireSell(MkData event) {
         ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> map = askContainer.get(event.getSymbol());
-        InvocationHandler invocationHandler;
+
         SortedMap<Integer, CopyOnWriteArrayList<String>> toFire = map.tailMap(event.getVal(), true);
         if (toFire.isEmpty()){
             bidContainer.insertBid(event.getSymbol(), event.getVal(), event.getAccount());

@@ -1,6 +1,6 @@
 package com.apps.potok.server.config;
 
-import com.apps.potok.server.eventhandlers.EventNotifierServer;
+import com.apps.potok.server.eventhandlers.EventNotifierServerV2;
 import com.apps.potok.server.exchange.OrderCreatorServer;
 import com.apps.potok.server.exchange.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class ServerConfigurator {
     private OrderCreatorServer orderCreatorServer;
 
     @Autowired
-    private EventNotifierServer eventNotifierServer;
+    private EventNotifierServerV2 eventNotifierServer;
 
     @Bean
     @Qualifier("potokServerRunner")

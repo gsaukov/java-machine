@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-@Service
+//@Service
+//Use broadcasting EventNotifierServerV2
+@Deprecated
 public class EventNotifierServer extends Thread  {
 
     private final ConcurrentLinkedQueue<String> eventQueue;
@@ -41,7 +43,7 @@ public class EventNotifierServer extends Thread  {
                         if(client != null){
                             server.getClient(key).sendEvent("quoteResponse", response);
                         } else {
-                            quoteSubscribers.removeSubscriber(symbol, key);
+                            quoteSubscribers.removeSubscriber(key);
                         }
 
                     });
