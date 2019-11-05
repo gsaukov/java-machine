@@ -40,6 +40,7 @@ public class SpringConfig {
         config.setPort(port);
         config.setKeyStorePassword(keystorePassword);
         config.setKeyStore(keystore.getInputStream());
+        config.setAuthorizationListener(new SeesionAuthorizationListener());
 
         final SocketIOServer server = new SocketIOServer(config);
 

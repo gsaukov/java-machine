@@ -34,7 +34,15 @@
         // Before creating wss ssl go visit this page in browser, to accept certificate other wise you will get
         // [#### can’t establish a connection to the server at] Exception.
 
-        const socket = io('https://localhost:9092', { transports: ['websocket'], forceNew: true, path : '', secure: true, rejectUnauthorized: false});
+        const socket = io('https://localhost:9092',
+                { transports: ['websocket'],
+                    forceNew: true,
+                    path : '',
+                    secure: true,
+                    rejectUnauthorized: false,
+                    extraHeaders: {'x-clientid': 'bazooka'},
+                    query : {'SESSIONID': readCookie('SESSIONID')},
+                });
 
 		socket.on('connect', function() {
 			output('<span class="connect-msg">Client has connected to the server!</span>');
@@ -86,6 +94,17 @@
             let askTable = buildHtmlTable(askData);
             $("#tradingWindowBidTable").html(bidTable);
             $("#tradingWindowAskTable").html(askTable);
+        }
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
         }
 
 	</script>
