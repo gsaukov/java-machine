@@ -29,4 +29,6 @@ certificate:
     key-store: classpath:keystore.p12
     key-store-password: srch4app
 
+session.test-mode-authentication: true
+
 logging.level.org.springframework: DEBUG

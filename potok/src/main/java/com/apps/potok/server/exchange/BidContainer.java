@@ -13,8 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 // Sell orders
 public class BidContainer {
 
-    private SymbolContainer symbolContainer;
-    private Initiator initiator;
+    private final SymbolContainer symbolContainer;
+    private final Initiator initiator;
 
     private final HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> bidContainer = new HashMap<>();
 
