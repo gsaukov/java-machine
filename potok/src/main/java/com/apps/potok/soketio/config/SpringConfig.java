@@ -8,6 +8,7 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.protocol.Packet;
 import com.corundumstudio.socketio.protocol.PacketType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,9 @@ public class SpringConfig {
     @Value("${certificate.store.key-store-password}")
     private String keystorePassword;
 
+    @Autowired
+    private SeesionAuthorizationListener seesionAuthorizationListener;
+
     @Bean(name="webSocketServer")
     public SocketIOServer webSocketServer() throws IOException {
 
@@ -40,8 +44,7 @@ public class SpringConfig {
         config.setPort(port);
         config.setKeyStorePassword(keystorePassword);
         config.setKeyStore(keystore.getInputStream());
-        config.setAuthorizationListener(new SeesionAuthorizationListener());
-
+        config.setAuthorizationListener(seesionAuthorizationListener);
         final SocketIOServer server = new SocketIOServer(config);
 
         server.addConnectListener(new ConnectListener() {

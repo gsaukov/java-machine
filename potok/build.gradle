@@ -19,6 +19,10 @@ dependencyManagement {
 
 dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    compile 'org.springframework.boot:spring-boot-starter-data-redis'
+    compile 'org.springframework.session:spring-session-data-redis'
+    compile 'org.springframework.security:spring-security-core' //needed for Auth deserialization must be on classpath. 
+    compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}" //needed for Auth deserialization must be on classpath. 
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-websocket"
     compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
