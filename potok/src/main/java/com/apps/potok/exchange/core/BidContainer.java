@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
@@ -23,7 +23,7 @@ public class BidContainer {
     private final Initiator initiator;
     private final AtomicLong bidInserted = new AtomicLong(0l);
 
-    private final ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> bidContainer = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>>> bidContainer = new ConcurrentHashMap<>();
 
     public BidContainer(Initiator initiator) {
         this.initiator = initiator;
@@ -34,11 +34,11 @@ public class BidContainer {
         initiator.initiateContainer(orderSize, bidContainer, Route.SELL);
     }
 
-    public ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> get() {
+    public ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>>> get() {
         return bidContainer;
     }
 
-    public ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> get(String symbol) {
+    public ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> get(String symbol) {
         return bidContainer.get(symbol);
     }
 
@@ -46,18 +46,18 @@ public class BidContainer {
         return bidContainer.containsKey(symbolName);
     }
 
-    public void put(String symbolName, SortedMap<Integer, ConcurrentLinkedQueue<String>> toLeave) {
+    public void put(String symbolName, SortedMap<Integer, ConcurrentLinkedDeque<String>> toLeave) {
         bidContainer.put(symbolName, new ConcurrentSkipListMap<>(toLeave));
     }
 
     public void insertBid(String symbolName, Integer val, String account) {
-        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> symbolOrderContainer = bidContainer.get(symbolName);
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> symbolOrderContainer = bidContainer.get(symbolName);
         insertPrice(symbolOrderContainer, val, account);
     }
 
-    private void insertPrice(ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> symbolOrderContainer, Integer val, String account) {
-        ConcurrentLinkedQueue<String> accountContainer  = new ConcurrentLinkedQueue();
-        ConcurrentLinkedQueue<String> existingAccountContainer = symbolOrderContainer.putIfAbsent(val, accountContainer);
+    private void insertPrice(ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> symbolOrderContainer, Integer val, String account) {
+        ConcurrentLinkedDeque<String> accountContainer  = new ConcurrentLinkedDeque();
+        ConcurrentLinkedDeque<String> existingAccountContainer = symbolOrderContainer.putIfAbsent(val, accountContainer);
         if(existingAccountContainer == null){
             accountContainer.offer(account);
             bidInserted.incrementAndGet();
@@ -69,9 +69,9 @@ public class BidContainer {
 
     public Long size(){
         AtomicLong res = new AtomicLong(0l);
-        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> entry : bidContainer.entrySet()){
-            ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> map = entry.getValue();
-            for(ConcurrentLinkedQueue<String> list : map.values()){
+        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>>> entry : bidContainer.entrySet()){
+            ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> map = entry.getValue();
+            for(ConcurrentLinkedDeque<String> list : map.values()){
                 res.getAndAdd(list.size());
             }
         }

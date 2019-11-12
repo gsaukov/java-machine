@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -74,11 +74,11 @@ public class Exchange extends Thread {
     }
 
     private void fireBuy(Order order) {
-        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> map = bidContainer.get(order.getSymbol());
-        ConcurrentNavigableMap<Integer, ConcurrentLinkedQueue<String>> toFire = map.headMap(order.getVal(), true);
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> map = bidContainer.get(order.getSymbol());
+        ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<String>> toFire = map.headMap(order.getVal(), true);
 
-        for(Map.Entry<Integer, ConcurrentLinkedQueue<String>> fired : toFire.entrySet()){
-            ConcurrentLinkedQueue<String> tier = fired.getValue();
+        for(Map.Entry<Integer, ConcurrentLinkedDeque<String>> fired : toFire.entrySet()){
+            ConcurrentLinkedDeque<String> tier = fired.getValue();
             if(!tier.isEmpty()) {
                 String matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
@@ -91,12 +91,12 @@ public class Exchange extends Thread {
     }
 
     private void fireSell(Order order) {
-        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> map = askContainer.get(order.getSymbol());
-        ConcurrentNavigableMap<Integer, ConcurrentLinkedQueue<String>> toFire = map.headMap(order.getVal(), true);
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> map = askContainer.get(order.getSymbol());
+        ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<String>> toFire = map.headMap(order.getVal(), true);
 
-        for(Map.Entry<Integer, ConcurrentLinkedQueue<String>> fired : toFire.entrySet()){
+        for(Map.Entry<Integer, ConcurrentLinkedDeque<String>> fired : toFire.entrySet()){
 
-            ConcurrentLinkedQueue<String> tier = fired.getValue();
+            ConcurrentLinkedDeque<String> tier = fired.getValue();
             if(!tier.isEmpty()) {
                 String matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {

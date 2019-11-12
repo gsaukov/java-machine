@@ -2,7 +2,7 @@ package com.apps.concurrency.lockfree;
 
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class QueueTest {
@@ -39,7 +39,7 @@ public class QueueTest {
         }
 
         for (int x = 0; x < noofIte; x++) {
-            task = new ConcurrentLinkedQueue<>();
+            task = new ConcurrentLinkedDeque<>();
             buildAndExecute(noOfItems, noOfConsumer, queueSize, task);
         }
 

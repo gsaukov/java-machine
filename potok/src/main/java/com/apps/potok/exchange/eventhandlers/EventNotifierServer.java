@@ -7,14 +7,14 @@ import com.corundumstudio.socketio.SocketIOServer;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 //@Service
 //Use broadcasting EventNotifierServerV2
 @Deprecated
 public class EventNotifierServer extends Thread  {
 
-    private final ConcurrentLinkedQueue<String> eventQueue;
+    private final ConcurrentLinkedDeque<String> eventQueue;
 
     private QuoteSubscribers quoteSubscribers;
     private QueryServer queryServer;
@@ -26,7 +26,7 @@ public class EventNotifierServer extends Thread  {
         this.quoteSubscribers = quoteSubscribers;
         this.queryServer = queryServer;
         this.server = server;
-        eventQueue = new ConcurrentLinkedQueue<>();
+        eventQueue = new ConcurrentLinkedDeque<>();
     }
 
     @Override

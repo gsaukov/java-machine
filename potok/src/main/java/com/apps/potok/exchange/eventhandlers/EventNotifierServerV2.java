@@ -5,7 +5,7 @@ import com.apps.potok.soketio.model.quote.QuoteResponse;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
@@ -14,7 +14,7 @@ public class EventNotifierServerV2 extends Thread  {
     private QueryServer queryServer;
     private SocketIOServer server;
     private final AtomicBoolean running = new AtomicBoolean(true);
-    private final ConcurrentLinkedQueue<String> eventQueue = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedDeque<String> eventQueue = new ConcurrentLinkedDeque<>();
 
     public EventNotifierServerV2(QueryServer queryServer, SocketIOServer server){
         super.setDaemon(true);
