@@ -74,38 +74,35 @@ public class Exchange extends Thread {
     }
 
     private void fireBuy(Order order) {
-        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> map = bidContainer.get(order.getSymbol());
-        ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<String>> toFire = map.headMap(order.getVal(), true);
-
-        for(Map.Entry<Integer, ConcurrentLinkedDeque<String>> fired : toFire.entrySet()){
-            ConcurrentLinkedDeque<String> tier = fired.getValue();
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> map = bidContainer.get(order.getSymbol());
+        ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<Order>> toFire = map.headMap(order.getVal(), true);
+        for(Map.Entry<Integer, ConcurrentLinkedDeque<Order>> fired : toFire.entrySet()){
+            ConcurrentLinkedDeque<Order> tier = fired.getValue();
             if(!tier.isEmpty()) {
-                String matchingOrder;
+                Order matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
                     bid.getAndIncrement();
                     return;
                 }
             }
         }
-        askContainer.insertAsk(order.getSymbol(), order.getVal(), order.getAccount());
+        askContainer.insertAsk(order);
     }
 
     private void fireSell(Order order) {
-        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> map = askContainer.get(order.getSymbol());
-        ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<String>> toFire = map.headMap(order.getVal(), true);
-
-        for(Map.Entry<Integer, ConcurrentLinkedDeque<String>> fired : toFire.entrySet()){
-
-            ConcurrentLinkedDeque<String> tier = fired.getValue();
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> map = askContainer.get(order.getSymbol());
+        ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<Order>> toFire = map.headMap(order.getVal(), true);
+        for(Map.Entry<Integer, ConcurrentLinkedDeque<Order>> fired : toFire.entrySet()){
+            ConcurrentLinkedDeque<Order> tier = fired.getValue();
             if(!tier.isEmpty()) {
-                String matchingOrder;
+                Order matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
                     ask.getAndIncrement();
                     return;
                 }
             }
         }
-        bidContainer.insertBid(order.getSymbol(), order.getVal(), order.getAccount());
+        bidContainer.insertBid(order);
     }
 
     private Order toOrder(MkData event){
@@ -119,5 +116,4 @@ public class Exchange extends Thread {
     public long getBidExecutions() {
         return bid.get();
     }
-
 }

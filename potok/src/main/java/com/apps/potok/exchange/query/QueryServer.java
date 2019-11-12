@@ -2,6 +2,7 @@ package com.apps.potok.exchange.query;
 
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
+import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.quote.Quote;
 import com.apps.potok.soketio.model.quote.QuoteResponse;
@@ -27,9 +28,9 @@ public class QueryServer {
     }
 
     public void printSymbols (){
-        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>>> entry : bidContainer.get().entrySet()){
+        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> entry : bidContainer.get().entrySet()){
             String symbolName = entry.getKey();
-            ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> prices = entry.getValue();
+            ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> prices = entry.getValue();
             Integer minPrice = prices.firstEntry().getKey();
             Integer maxPrice =  prices.lastEntry().getKey();
             System.out.println(" Symbol : " + symbolName + " price range is from " + minPrice + " to " + maxPrice);
@@ -40,7 +41,7 @@ public class QueryServer {
         if(!bidContainer.containsKey(symbolName)){
             return EMPTY_RESPONSE;
         }
-        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> offers = bidContainer.get(symbolName);
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> offers = bidContainer.get(symbolName);
         List<Quote> bidQuotes = prepareQuoteResponse(symbolName, offers.tailMap(maxDesirablePrice), Route.SELL);
         return new QuoteResponse(bidQuotes, null);
     }
@@ -51,11 +52,11 @@ public class QueryServer {
         return new QuoteResponse(bidQuotes, askQuotes);
     }
 
-    private List<Quote> prepareQuoteResponse(String symbolName, Map<Integer, ConcurrentLinkedDeque<String>> offers, Route route){
+    private List<Quote> prepareQuoteResponse(String symbolName, Map<Integer, ConcurrentLinkedDeque<Order>> offers, Route route){
         List<Quote> quotes = new ArrayList<>();
 
         if(offers!=null){
-            for(Map.Entry<Integer, ConcurrentLinkedDeque<String>> entry : offers.entrySet()){
+            for(Map.Entry<Integer, ConcurrentLinkedDeque<Order>> entry : offers.entrySet()){
                 if(entry.getValue() != null && !entry.getValue().isEmpty()) {
                     Integer value = entry.getKey();
                     quotes.add(new Quote(symbolName, value, route));

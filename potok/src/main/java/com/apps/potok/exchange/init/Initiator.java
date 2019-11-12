@@ -26,14 +26,14 @@ public class Initiator {
         this.symbolContainer = symbolContainer;
     }
 
-    public void initiateContainer (int size, ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>>> orderContainer, Route route){
+    public void initiateContainer (int size, ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> orderContainer, Route route){
         for(Order order : getOrders(size, route)){
             insertOrder(orderContainer, order, route);
         }
     }
 
-    private void insertOrder(ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>>> allOrderContainer, Order order, Route route) {
-        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> symbolOrderContainer = allOrderContainer.get(order.getSymbol());
+    private void insertOrder(ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> allOrderContainer, Order order, Route route) {
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> symbolOrderContainer = allOrderContainer.get(order.getSymbol());
 
         if(symbolOrderContainer == null){
             if(BUY.equals(route)){
@@ -47,15 +47,15 @@ public class Initiator {
         insertPrice(symbolOrderContainer, order);
     }
 
-    private void insertPrice(ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<String>> symbolOrderContainer, Order order) {
-        ConcurrentLinkedDeque<String> customerContainer = symbolOrderContainer.get(order.getVal());
+    private void insertPrice(ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> symbolOrderContainer, Order order) {
+        ConcurrentLinkedDeque<Order> customerContainer = symbolOrderContainer.get(order.getVal());
 
         if(customerContainer == null){
             customerContainer = new ConcurrentLinkedDeque();
             symbolOrderContainer.put(order.getVal(), customerContainer);
         }
 
-        customerContainer.add(order.getAccount());
+        customerContainer.add(order);
 
     }
 
