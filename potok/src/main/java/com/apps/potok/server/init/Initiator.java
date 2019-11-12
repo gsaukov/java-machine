@@ -1,6 +1,7 @@
 package com.apps.potok.server.init;
 
 
+import com.apps.potok.server.exchange.AskComparator;
 import com.apps.potok.server.exchange.Order;
 import com.apps.potok.server.exchange.SymbolContainer;
 import com.apps.potok.server.mkdata.Route;
@@ -9,10 +10,10 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.apps.potok.server.mkdata.Route.BUY;
 
@@ -25,28 +26,32 @@ public class Initiator {
         this.symbolContainer = symbolContainer;
     }
 
-    public void initiateContainer (int size, HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> orderContainer, Route route){
+    public void initiateContainer (int size, ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> orderContainer, Route route){
         for(Order order : getOrders(size, route)){
-            insertOrder(orderContainer, order);
+            insertOrder(orderContainer, order, route);
         }
     }
 
-    private void insertOrder(HashMap<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> allOrderContainer, Order order) {
-        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer = allOrderContainer.get(order.getSymbol());
+    private void insertOrder(ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> allOrderContainer, Order order, Route route) {
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> symbolOrderContainer = allOrderContainer.get(order.getSymbol());
 
         if(symbolOrderContainer == null){
-            symbolOrderContainer = new ConcurrentSkipListMap();
+            if(BUY.equals(route)){
+                symbolOrderContainer = new ConcurrentSkipListMap(new AskComparator());
+            } else {
+                symbolOrderContainer = new ConcurrentSkipListMap();
+            }
             allOrderContainer.put(order.getSymbol(), symbolOrderContainer);
         }
 
         insertPrice(symbolOrderContainer, order);
     }
 
-    private void insertPrice(ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> symbolOrderContainer, Order order) {
-        CopyOnWriteArrayList<String> customerContainer = symbolOrderContainer.get(order.getVal());
+    private void insertPrice(ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> symbolOrderContainer, Order order) {
+        ConcurrentLinkedQueue<String> customerContainer = symbolOrderContainer.get(order.getVal());
 
         if(customerContainer == null){
-            customerContainer = new CopyOnWriteArrayList();
+            customerContainer = new ConcurrentLinkedQueue();
             symbolOrderContainer.put(order.getVal(), customerContainer);
         }
 

@@ -5,19 +5,25 @@ import com.apps.potok.server.exchange.OrderCreatorServer;
 import com.apps.potok.server.exchange.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 
-import javax.annotation.PostConstruct;
-
 @Configuration
-public class ServerConfigurator {
+public class ServerConfigurator implements ApplicationListener<ApplicationReadyEvent> {
 
     @Autowired
     @Qualifier("potokServerRunner")
     private TaskExecutor executor;
+
+    @Bean
+    @Qualifier("potokServerRunner")
+    public TaskExecutor taskExecutor() {
+        return new SimpleAsyncTaskExecutor();
+    }
 
     @Autowired
     private Exchange exchange;
@@ -28,26 +34,23 @@ public class ServerConfigurator {
     @Autowired
     private EventNotifierServerV2 eventNotifierServer;
 
-    @Bean
-    @Qualifier("potokServerRunner")
-    public TaskExecutor taskExecutor() {
-        return new SimpleAsyncTaskExecutor();
+    @Override
+    public void onApplicationEvent(final ApplicationReadyEvent event) {
+        runEventNotifierServer();
+        runExchange();
+        runOrderCreatorServer();
     }
 
-    @PostConstruct
     public void runExchange() {
         executor.execute(exchange);
     }
 
-    @PostConstruct
     public void runOrderCreatorServer() {
         executor.execute(orderCreatorServer);
     }
 
-    @PostConstruct
     public void runEventNotifierServer() {
         executor.execute(eventNotifierServer);
     }
-
 
 }

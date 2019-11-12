@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service
 public class QueryServer {
@@ -27,9 +27,9 @@ public class QueryServer {
     }
 
     public void printSymbols (){
-        for(Map.Entry<String, ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>>> entry : bidContainer.get().entrySet()){
+        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> entry : bidContainer.get().entrySet()){
             String symbolName = entry.getKey();
-            ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> prices = entry.getValue();
+            ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> prices = entry.getValue();
             Integer minPrice = prices.firstEntry().getKey();
             Integer maxPrice =  prices.lastEntry().getKey();
             System.out.println(" Symbol : " + symbolName + " price range is from " + minPrice + " to " + maxPrice);
@@ -40,7 +40,7 @@ public class QueryServer {
         if(!bidContainer.containsKey(symbolName)){
             return EMPTY_RESPONSE;
         }
-        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> offers = bidContainer.get(symbolName);
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> offers = bidContainer.get(symbolName);
         List<Quote> bidQuotes = prepareQuoteResponse(symbolName, offers.tailMap(maxDesirablePrice), Route.SELL);
         return new QuoteResponse(bidQuotes, null);
     }
@@ -51,17 +51,15 @@ public class QueryServer {
         return new QuoteResponse(bidQuotes, askQuotes);
     }
 
-    private List<Quote> prepareQuoteResponse(String symbolName, Map<Integer, CopyOnWriteArrayList<String>> offers, Route route){
+    private List<Quote> prepareQuoteResponse(String symbolName, Map<Integer, ConcurrentLinkedQueue<String>> offers, Route route){
         List<Quote> quotes = new ArrayList<>();
 
         if(offers!=null){
-            for(Map.Entry<Integer, CopyOnWriteArrayList<String>> entry : offers.entrySet()){
-                Integer value = entry.getKey();
-    //            String userNames = "";
-    //            for(String name : entry.getValue()){
-    //                userNames += (" [" +  name + "],");
-    //            }
-                quotes.add(new Quote(symbolName, value, route));
+            for(Map.Entry<Integer, ConcurrentLinkedQueue<String>> entry : offers.entrySet()){
+                if(entry.getValue() != null && !entry.getValue().isEmpty()) {
+                    Integer value = entry.getKey();
+                    quotes.add(new Quote(symbolName, value, route));
+                }
             }
         }
         return quotes;

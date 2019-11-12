@@ -12,8 +12,11 @@ import java.lang.reflect.InvocationHandler;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.server.mkdata.Route.BUY;
 
@@ -22,6 +25,10 @@ public class Exchange extends Thread {
 
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
+
+    private final AtomicLong ask = new AtomicLong(0l);
+    private final AtomicLong bid = new AtomicLong(0l);
+
     private final MkDataServer mkDataServer;
     private int size = 10000;
 
@@ -37,18 +44,39 @@ public class Exchange extends Thread {
 
     @Override
     public void run() {
-        while(true){
-            fireAll(size * RandomUtils.nextInt(1, 3));
-//            System.out.println("done");
+        int i = 0;
+        while(i<600){
+            pullMkData(size * 2);
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            i++;
         }
+
+        System.out.println("done pull MkData");
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        long askLeft = askContainer.size();
+        long askDecrement = ask.get();
+        long askInserted = askContainer.askInserted.get();
+
+        long bidLeft = bidContainer.size();
+        long bidDecrement = bid.get();
+        long bidInserted = bidContainer.bidInserted.get();
+
+        System.out.println("AskInit: 10000 AskLeft: " + askLeft + " AskInserted: " + askInserted + " AskDecrement: " + askDecrement + " check: askInit + askInserted - askDecremen = " + (10000 + askInserted - askDecrement) + " must equal to ask left." );
+        System.out.println("BidInit: 10000 BidLeft: " + bidLeft + " BidInserted: " + bidInserted + " BidDecrement: " + bidDecrement + " check: askInit + bidInserted - bidDecremen = " + (10000 + bidInserted - bidDecrement) + " must equal to bid left." );
+        System.out.println("Total check: askInserted + askDecremen + bidInserted + bidDecremen = " + (askInserted + askDecrement + bidInserted + bidDecrement) + " must equal to total Order/MkData Issued");
     }
 
-    private void fireAll(int size) {
+    private void pullMkData(int size) {
         fire(mkDataServer.getMkData(size));
     }
 
@@ -72,42 +100,43 @@ public class Exchange extends Thread {
     }
 
     private void fireBuy(MkData event) {
-        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> map = bidContainer.get(event.getSymbol());
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> map = bidContainer.get(event.getSymbol());
 
-        SortedMap<Integer, CopyOnWriteArrayList<String>> toFire = map.headMap(event.getVal(), true);
-        if (toFire.isEmpty()){
-            askContainer.insertAsk(event.getSymbol(), event.getVal(), event.getAccount());
-            return;
-        }
+        ConcurrentNavigableMap<Integer, ConcurrentLinkedQueue<String>> toFire = map.headMap(event.getVal(), true);
 
-        for(Map.Entry<Integer, CopyOnWriteArrayList<String>> fired : toFire.entrySet()){
-            for (String customer : fired.getValue()){
-//                System.out.println(System.currentTimeMillis() + " FIRE: " + event.getSymbol() + " at " + event.getVal() + " for " + customer);
+        for(Map.Entry<Integer, ConcurrentLinkedQueue<String>> fired : toFire.entrySet()){
+            ConcurrentLinkedQueue<String> tier = fired.getValue();
+            if(!tier.isEmpty()) {
+                String order;
+                while ((order = tier.poll()) != null) {
+                    bid.getAndIncrement();
+                    return;
+                }
             }
         }
 
-        SortedMap<Integer, CopyOnWriteArrayList<String>> toLeave = map.tailMap(event.getVal());
-        bidContainer.put(event.getSymbol(), toLeave);
+        askContainer.insertAsk(event.getSymbol(), event.getVal(), event.getAccount());
+
     }
 
     private void fireSell(MkData event) {
-        ConcurrentSkipListMap<Integer, CopyOnWriteArrayList<String>> map = askContainer.get(event.getSymbol());
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> map = askContainer.get(event.getSymbol());
 
-        SortedMap<Integer, CopyOnWriteArrayList<String>> toFire = map.tailMap(event.getVal(), true);
-        if (toFire.isEmpty()){
-            bidContainer.insertBid(event.getSymbol(), event.getVal(), event.getAccount());
-            return;
-//            System.out.println(System.currentTimeMillis() + " nothing to FIRE for: " + event.getSymbol() + " at " + event.getVal());
-        }
+        ConcurrentNavigableMap<Integer, ConcurrentLinkedQueue<String>> toFire = map.headMap(event.getVal(), true);
 
-        for(Map.Entry<Integer, CopyOnWriteArrayList<String>> fired : toFire.entrySet()){
-            for (String customer : fired.getValue()){
-//                System.out.println(System.currentTimeMillis() + " FIRE: " + event.getSymbol() + " at " + event.getVal() + " for " + customer);
+        for(Map.Entry<Integer, ConcurrentLinkedQueue<String>> fired : toFire.entrySet()){
+
+            ConcurrentLinkedQueue<String> tier = fired.getValue();
+            if(!tier.isEmpty()) {
+                String order;
+                while ((order = tier.poll()) != null) {
+                    ask.getAndIncrement();
+                    return;
+                }
             }
         }
 
-        SortedMap<Integer, CopyOnWriteArrayList<String>> toLeave = map.headMap(event.getVal());
-        askContainer.put(event.getSymbol(), toLeave);
+        bidContainer.insertBid(event.getSymbol(), event.getVal(), event.getAccount());
     }
 
     private MkData toMkData(Order order){

@@ -31,14 +31,17 @@ public class OrderCreatorServer extends Thread {
 
     @Override
     public void run() {
-        while (true){
+        int i = 0;
+        while(i<10000000){
             exchange.fireOrder(randomOrder());
-            try {
-                Thread.sleep(RandomUtils.nextInt(0,30));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+////                Thread.sleep(RandomUtils.nextInt(0,30));
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            i++;
         }
+        System.out.println("done push Order Server");
     }
 
     public void insertBidOrder(Order order) {

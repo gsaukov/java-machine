@@ -1,9 +1,6 @@
 package com.apps.potok.server.mkdata;
 
-import com.apps.potok.server.exchange.AskContainer;
-import com.apps.potok.server.exchange.BidContainer;
 import com.apps.potok.server.exchange.SymbolContainer;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +15,9 @@ import static com.apps.potok.server.mkdata.Route.SELL;
 public class MkDataServer {
 
     private final SymbolContainer symbolContainer;
-    private final BidContainer bidContainer;
-    private final AskContainer askContainer;
 
-    public MkDataServer(BidContainer bidContainer, AskContainer askContainer, SymbolContainer symbolContainer) {
+    public MkDataServer(SymbolContainer symbolContainer) {
         this.symbolContainer = symbolContainer;
-        this.bidContainer = bidContainer;
-        this.askContainer = askContainer;
     }
 
     public List<MkData> getMkData(int size){
