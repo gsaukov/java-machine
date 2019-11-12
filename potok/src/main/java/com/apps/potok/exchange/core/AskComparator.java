@@ -1,4 +1,4 @@
-package com.apps.potok.server.exchange;
+package com.apps.potok.exchange.core;
 
 import java.util.Comparator;
 

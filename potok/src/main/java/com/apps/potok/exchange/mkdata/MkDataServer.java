@@ -1,6 +1,6 @@
-package com.apps.potok.server.mkdata;
+package com.apps.potok.exchange.mkdata;
 
-import com.apps.potok.server.exchange.SymbolContainer;
+import com.apps.potok.exchange.core.SymbolContainer;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.apps.potok.server.mkdata.Route.BUY;
-import static com.apps.potok.server.mkdata.Route.SELL;
+import static com.apps.potok.exchange.mkdata.Route.BUY;
+import static com.apps.potok.exchange.mkdata.Route.SELL;
 
 @Service
 public class MkDataServer {

@@ -1,7 +1,7 @@
-package com.apps.potok.server.exchange;
+package com.apps.potok.exchange.core;
 
-import com.apps.potok.server.init.Initiator;
-import com.apps.potok.server.mkdata.Route;
+import com.apps.potok.exchange.init.Initiator;
+import com.apps.potok.exchange.mkdata.Route;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,62 +14,63 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
-// Sell orders
-public class BidContainer {
+//Buy orders
+public class AskContainer {
 
     @Value("${exchange.order-size}")
     private Integer orderSize;
 
     private final Initiator initiator;
-    private final AtomicLong bidInserted = new AtomicLong(0l);
+    public final AtomicLong askInserted = new AtomicLong(0l);
 
-    private final ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> bidContainer = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> askContainer = new ConcurrentHashMap<>();
 
-    public BidContainer(Initiator initiator) {
+    public AskContainer(Initiator initiator) {
         this.initiator = initiator;
     }
 
     @PostConstruct
     private void postConstruct (){
-        initiator.initiateContainer(orderSize, bidContainer, Route.SELL);
+        initiator.initiateContainer(orderSize, askContainer, Route.BUY);
     }
 
+
     public ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> get() {
-        return bidContainer;
+        return askContainer;
     }
 
     public ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> get(String symbol) {
-        return bidContainer.get(symbol);
+        return askContainer.get(symbol);
     }
 
     public boolean containsKey(String symbolName) {
-        return bidContainer.containsKey(symbolName);
+        return askContainer.containsKey(symbolName);
     }
 
     public void put(String symbolName, SortedMap<Integer, ConcurrentLinkedQueue<String>> toLeave) {
-        bidContainer.put(symbolName, new ConcurrentSkipListMap<>(toLeave));
+        askContainer.put(symbolName, new ConcurrentSkipListMap<>(toLeave));
     }
 
-    public void insertBid(String symbolName, Integer val, String account) {
-        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> symbolOrderContainer = bidContainer.get(symbolName);
+    public void insertAsk(String symbolName, Integer val, String account) {
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> symbolOrderContainer = askContainer.get(symbolName);
         insertPrice(symbolOrderContainer, val, account);
     }
 
     private void insertPrice(ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> symbolOrderContainer, Integer val, String account) {
-        ConcurrentLinkedQueue<String> accountContainer  = new ConcurrentLinkedQueue();
-        ConcurrentLinkedQueue<String> existingAccountContainer = symbolOrderContainer.putIfAbsent(val, accountContainer);
+        final ConcurrentLinkedQueue<String> accountContainer  = new ConcurrentLinkedQueue();
+        final ConcurrentLinkedQueue<String> existingAccountContainer = symbolOrderContainer.putIfAbsent(val, accountContainer);
         if(existingAccountContainer == null){
             accountContainer.offer(account);
-            bidInserted.incrementAndGet();
+            askInserted.incrementAndGet();
         } else {
+            askInserted.incrementAndGet();
             existingAccountContainer.offer(account);
-            bidInserted.incrementAndGet();
         }
     }
 
     public Long size(){
         AtomicLong res = new AtomicLong(0l);
-        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> entry : bidContainer.entrySet()){
+        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> entry : askContainer.entrySet()){
             ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> map = entry.getValue();
             for(ConcurrentLinkedQueue<String> list : map.values()){
                 res.getAndAdd(list.size());
@@ -78,8 +79,7 @@ public class BidContainer {
         return res.get();
     }
 
-    public long getBidInserted() {
-        return bidInserted.get();
+    public long getAskInserted() {
+        return askInserted.get();
     }
-
 }

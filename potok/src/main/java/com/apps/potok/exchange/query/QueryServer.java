@@ -1,8 +1,8 @@
-package com.apps.potok.server.query;
+package com.apps.potok.exchange.query;
 
-import com.apps.potok.server.exchange.AskContainer;
-import com.apps.potok.server.exchange.BidContainer;
-import com.apps.potok.server.mkdata.Route;
+import com.apps.potok.exchange.core.AskContainer;
+import com.apps.potok.exchange.core.BidContainer;
+import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.quote.Quote;
 import com.apps.potok.soketio.model.quote.QuoteResponse;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,10 @@
-package com.apps.potok.server.init;
+package com.apps.potok.exchange.init;
 
 
-import com.apps.potok.server.exchange.AskComparator;
-import com.apps.potok.server.exchange.Order;
-import com.apps.potok.server.exchange.SymbolContainer;
-import com.apps.potok.server.mkdata.Route;
+import com.apps.potok.exchange.core.AskComparator;
+import com.apps.potok.exchange.core.Order;
+import com.apps.potok.exchange.core.SymbolContainer;
+import com.apps.potok.exchange.mkdata.Route;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static com.apps.potok.server.mkdata.Route.BUY;
+import static com.apps.potok.exchange.mkdata.Route.BUY;
 
 @Service
 public class Initiator {

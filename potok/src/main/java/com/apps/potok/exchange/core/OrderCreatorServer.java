@@ -1,6 +1,6 @@
-package com.apps.potok.server.exchange;
+package com.apps.potok.exchange.core;
 
-import com.apps.potok.server.mkdata.Route;
+import com.apps.potok.exchange.mkdata.Route;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.apps.potok.server.mkdata.Route.BUY;
-import static com.apps.potok.server.mkdata.Route.SELL;
+import static com.apps.potok.exchange.mkdata.Route.BUY;
+import static com.apps.potok.exchange.mkdata.Route.SELL;
 
 @Service
 public class OrderCreatorServer extends Thread {

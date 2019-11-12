@@ -1,4 +1,4 @@
-package com.apps.potok.server.exchange;
+package com.apps.potok.exchange.core;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;

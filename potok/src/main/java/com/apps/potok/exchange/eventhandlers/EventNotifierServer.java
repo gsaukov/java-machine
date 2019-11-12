@@ -1,10 +1,9 @@
-package com.apps.potok.server.eventhandlers;
+package com.apps.potok.exchange.eventhandlers;
 
-import com.apps.potok.server.query.QueryServer;
+import com.apps.potok.exchange.query.QueryServer;
 import com.apps.potok.soketio.model.quote.QuoteResponse;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.UUID;

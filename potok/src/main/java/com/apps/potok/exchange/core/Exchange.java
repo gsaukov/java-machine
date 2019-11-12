@@ -1,8 +1,8 @@
-package com.apps.potok.server.exchange;
+package com.apps.potok.exchange.core;
 
-import com.apps.potok.server.eventhandlers.EventNotifierServerV2;
-import com.apps.potok.server.mkdata.MkData;
-import com.apps.potok.server.mkdata.MkDataServer;
+import com.apps.potok.exchange.eventhandlers.EventNotifierServerV2;
+import com.apps.potok.exchange.mkdata.MkData;
+import com.apps.potok.exchange.mkdata.MkDataServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.apps.potok.server.mkdata.Route.BUY;
+import static com.apps.potok.exchange.mkdata.Route.BUY;
 
 @Service
 public class Exchange extends Thread {
@@ -75,7 +75,6 @@ public class Exchange extends Thread {
 
     private void fireBuy(Order order) {
         ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> map = bidContainer.get(order.getSymbol());
-
         ConcurrentNavigableMap<Integer, ConcurrentLinkedQueue<String>> toFire = map.headMap(order.getVal(), true);
 
         for(Map.Entry<Integer, ConcurrentLinkedQueue<String>> fired : toFire.entrySet()){
@@ -88,14 +87,11 @@ public class Exchange extends Thread {
                 }
             }
         }
-
         askContainer.insertAsk(order.getSymbol(), order.getVal(), order.getAccount());
-
     }
 
     private void fireSell(Order order) {
         ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>> map = askContainer.get(order.getSymbol());
-
         ConcurrentNavigableMap<Integer, ConcurrentLinkedQueue<String>> toFire = map.headMap(order.getVal(), true);
 
         for(Map.Entry<Integer, ConcurrentLinkedQueue<String>> fired : toFire.entrySet()){
@@ -109,7 +105,6 @@ public class Exchange extends Thread {
                 }
             }
         }
-
         bidContainer.insertBid(order.getSymbol(), order.getVal(), order.getAccount());
     }
 

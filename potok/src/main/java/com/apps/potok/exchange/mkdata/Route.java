@@ -1,4 +1,4 @@
-package com.apps.potok.server.mkdata;
+package com.apps.potok.exchange.mkdata;
 
 public enum Route {
     BUY,

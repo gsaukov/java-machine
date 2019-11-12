@@ -1,7 +1,6 @@
-package com.apps.potok.server.eventhandlers;
+package com.apps.potok.exchange.eventhandlers;
 
 import com.corundumstudio.socketio.SocketIOServer;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

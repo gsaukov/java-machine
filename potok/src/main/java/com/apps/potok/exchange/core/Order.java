@@ -1,6 +1,6 @@
-package com.apps.potok.server.exchange;
+package com.apps.potok.exchange.core;
 
-import com.apps.potok.server.mkdata.Route;
+import com.apps.potok.exchange.mkdata.Route;
 
 public class Order {
 

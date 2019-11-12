@@ -1,10 +1,10 @@
-package com.apps.potok.server.config;
+package com.apps.potok.exchange.config;
 
-import com.apps.potok.server.eventhandlers.EventNotifierServerV2;
-import com.apps.potok.server.exchange.AskContainer;
-import com.apps.potok.server.exchange.BidContainer;
-import com.apps.potok.server.exchange.OrderCreatorServer;
-import com.apps.potok.server.exchange.Exchange;
+import com.apps.potok.exchange.eventhandlers.EventNotifierServerV2;
+import com.apps.potok.exchange.core.AskContainer;
+import com.apps.potok.exchange.core.BidContainer;
+import com.apps.potok.exchange.core.OrderCreatorServer;
+import com.apps.potok.exchange.core.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

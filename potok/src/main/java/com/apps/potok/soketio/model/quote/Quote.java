@@ -1,6 +1,6 @@
 package com.apps.potok.soketio.model.quote;
 
-import com.apps.potok.server.mkdata.Route;
+import com.apps.potok.exchange.mkdata.Route;
 
 import java.io.Serializable;
 
