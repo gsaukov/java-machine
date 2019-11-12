@@ -7,13 +7,15 @@ public class Order {
     private final String symbol;
     private final String account;
     private final Route route;
-    private final int val;
+    private final Integer val;
+    private final Integer volume;
 
-    public Order(String symbol, String account, Route route, int val) {
+    public Order(String symbol, String account, Route route, Integer val, Integer volume) {
         this.symbol = symbol;
         this.account = account;
         this.route = route;
         this.val = val;
+        this.volume = volume;
     }
 
     public String getSymbol() {
@@ -28,8 +30,13 @@ public class Order {
         return route;
     }
 
-    public int getVal() {
+    public Integer getVal() {
         return val;
     }
+
+    public Integer getVolume() {
+        return volume;
+    }
+
 
 }

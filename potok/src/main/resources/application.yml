@@ -31,4 +31,11 @@ certificate:
 
 session.test-mode-authentication: true
 
+exchange:
+  order-size: 10000
+  symbol-size: 1000
+  price:
+    min-range: 10
+    max-range: 90
+
 logging.level.org.springframework: DEBUG

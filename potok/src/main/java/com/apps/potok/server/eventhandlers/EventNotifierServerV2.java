@@ -6,32 +6,36 @@ import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class EventNotifierServerV2 extends Thread  {
 
-    private final ConcurrentLinkedQueue<String> eventQueue;
-
     private QueryServer queryServer;
     private SocketIOServer server;
+    private final AtomicBoolean running = new AtomicBoolean(true);
+    private final ConcurrentLinkedQueue<String> eventQueue = new ConcurrentLinkedQueue<>();
 
     public EventNotifierServerV2(QueryServer queryServer, SocketIOServer server){
         super.setDaemon(true);
         super.setName("EventNotifierThread");
         this.queryServer = queryServer;
         this.server = server;
-        eventQueue = new ConcurrentLinkedQueue<>();
     }
 
     @Override
     public void run() {
-        while (true){
+        while (running.get()){
             String symbol = eventQueue.poll();
             if(symbol != null){
                 QuoteResponse response = queryServer.searchAllOffers(symbol);
                 server.getRoomOperations(symbol).sendEvent("quoteResponse", response);
             }
         }
+    }
+
+    public void stopEventNotifier (){
+        running.getAndSet(false);
     }
 
     public void pushEvent (String symbol) {

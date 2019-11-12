@@ -2,8 +2,10 @@ package com.apps.potok.server.exchange;
 
 import com.apps.potok.server.init.Initiator;
 import com.apps.potok.server.mkdata.Route;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,16 +17,21 @@ import java.util.concurrent.atomic.AtomicLong;
 // Sell orders
 public class BidContainer {
 
-    private final SymbolContainer symbolContainer;
+    @Value("${exchange.order-size}")
+    private Integer orderSize;
+
     private final Initiator initiator;
-    public final AtomicLong bidInserted = new AtomicLong(0l);
+    private final AtomicLong bidInserted = new AtomicLong(0l);
 
     private final ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> bidContainer = new ConcurrentHashMap<>();
 
-    public BidContainer(SymbolContainer symbolContainer, Initiator initiator) {
+    public BidContainer(Initiator initiator) {
         this.initiator = initiator;
-        this.symbolContainer = symbolContainer;
-        initiator.initiateContainer(10000, bidContainer, Route.SELL);
+    }
+
+    @PostConstruct
+    private void postConstruct (){
+        initiator.initiateContainer(orderSize, bidContainer, Route.SELL);
     }
 
     public ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> get() {
@@ -70,4 +77,9 @@ public class BidContainer {
         }
         return res.get();
     }
+
+    public long getBidInserted() {
+        return bidInserted.get();
+    }
+
 }

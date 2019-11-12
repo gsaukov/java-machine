@@ -2,31 +2,38 @@ package com.apps.potok.server.exchange;
 
 import com.apps.potok.server.init.Initiator;
 import com.apps.potok.server.mkdata.Route;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 //Buy orders
 public class AskContainer {
 
-    private final SymbolContainer symbolContainer;
+    @Value("${exchange.order-size}")
+    private Integer orderSize;
+
     private final Initiator initiator;
     public final AtomicLong askInserted = new AtomicLong(0l);
 
     private final ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> askContainer = new ConcurrentHashMap<>();
 
-    public AskContainer(SymbolContainer symbolContainer, Initiator initiator) {
+    public AskContainer(Initiator initiator) {
         this.initiator = initiator;
-        this.symbolContainer = symbolContainer;
-        initiator.initiateContainer(10000, askContainer, Route.BUY);
     }
+
+    @PostConstruct
+    private void postConstruct (){
+        initiator.initiateContainer(orderSize, askContainer, Route.BUY);
+    }
+
 
     public ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<String>>> get() {
         return askContainer;
@@ -72,4 +79,7 @@ public class AskContainer {
         return res.get();
     }
 
+    public long getAskInserted() {
+        return askInserted.get();
+    }
 }

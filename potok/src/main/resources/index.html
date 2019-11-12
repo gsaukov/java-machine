@@ -42,6 +42,7 @@
                     rejectUnauthorized: false,
                     extraHeaders: {'x-clientid': 'bazooka'},
                     query : {'SESSIONID': 'NGZhMWE0OGEtOTdiZS00MjEyLWJhNTYtMDcwOTZiNGY1Y2Ji'},
+                    upgrade: false
                 });
 
 		socket.on('connect', function() {
@@ -89,7 +90,7 @@
         function buildBidAskTable(quoteResponse) {
             let quotes = JSON.parse(quoteResponse);
             let bidData = quotes.bidQuotes;
-            let askData = quotes.askQuotes.reverse();
+            let askData = quotes.askQuotes;
             let bidTable = buildHtmlTable(bidData);
             let askTable = buildHtmlTable(askData);
             $("#tradingWindowBidTable").html(bidTable);

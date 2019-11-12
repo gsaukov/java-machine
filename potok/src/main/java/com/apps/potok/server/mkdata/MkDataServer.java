@@ -34,7 +34,8 @@ public class MkDataServer {
         String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
         Route route = getRoute();
         Integer val = getVal(symbol);
-        return new MkData(symbol, val, route, "mk_maker");
+        Integer volume = RandomUtils.nextInt(0, 100) * 10;
+        return new MkData(symbol, "mk_maker", route, val, volume);
     }
 
     private Route getRoute() {
