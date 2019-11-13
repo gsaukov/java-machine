@@ -81,8 +81,23 @@ public class Exchange extends Thread {
             if(!tier.isEmpty()) {
                 Order matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
-                    bid.getAndIncrement();
-                    return;
+                    if(matchingOrder.getVolume().compareTo(order.getVolume()) > 0){
+                        //order is filled produce execution notification
+                        //matching order partfilled produce part fill notification and return it to rhe head of the queue
+                        bid.getAndAdd(order.getVolume());
+                        matchingOrder.partFill(order);
+                        tier.offerFirst(matchingOrder);
+                        return;
+                    } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
+                        //order is part filled produce partfill execution notification continue the loop
+                        //matching order filled produce fill notification
+                        bid.getAndAdd(matchingOrder.getVolume());
+                        order.partFill(matchingOrder);
+                    } else {
+                        bid.getAndAdd(order.getVolume());
+                        //both are filled produce execution notifications for both
+                        return;
+                    }
                 }
             }
         }
@@ -97,8 +112,23 @@ public class Exchange extends Thread {
             if(!tier.isEmpty()) {
                 Order matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
-                    ask.getAndIncrement();
-                    return;
+                    if(matchingOrder.getVolume().compareTo(order.getVolume()) > 0){
+                        //order is filled produce execution notification
+                        //matching order partfilled produce part fill notification and return to rhe head of the queue
+                        ask.getAndAdd(order.getVolume());
+                        matchingOrder.partFill(order);
+                        tier.offerFirst(matchingOrder);
+                        return;
+                    } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
+                        //order is part filled produce partfill execution notification continue the loop
+                        //matching order filled produce fill notification
+                        ask.getAndAdd(matchingOrder.getVolume());
+                        order.partFill(matchingOrder);
+                    } else {
+                        //both are filled produce execution notifications for both
+                        ask.getAndAdd(order.getVolume());
+                        return;
+                    }
                 }
             }
         }

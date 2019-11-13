@@ -8,11 +8,13 @@ public class Quote implements Serializable {
 
     private final String symbol;
     private final Integer price;
+    private final Integer volume;
     private final Route route;
 
-    public Quote(String symbol, Integer price, Route route) {
+    public Quote(String symbol, Integer price, Integer volume, Route route) {
         this.symbol = symbol;
         this.price = price;
+        this.volume = volume;
         this.route = route;
     }
 
@@ -22,6 +24,10 @@ public class Quote implements Serializable {
 
     public Integer getPrice() {
         return price;
+    }
+
+    public Integer getVolume() {
+        return volume;
     }
 
     public Route getRoute() {

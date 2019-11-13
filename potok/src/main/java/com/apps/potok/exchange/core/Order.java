@@ -3,6 +3,7 @@ package com.apps.potok.exchange.core;
 import com.apps.potok.exchange.mkdata.Route;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.UUID.randomUUID;
 
@@ -13,7 +14,7 @@ public class Order {
     private final String account;
     private final Route route;
     private final Integer val;
-    private final Integer volume;
+    private final AtomicInteger volume;
 
     public Order(String symbol, String account, Route route, Integer val, Integer volume) {
         this.uuid = randomUUID();
@@ -21,7 +22,7 @@ public class Order {
         this.account = account;
         this.route = route;
         this.val = val;
-        this.volume = volume;
+        this.volume = new AtomicInteger(volume);
     }
 
     public UUID getUuid() {
@@ -45,7 +46,11 @@ public class Order {
     }
 
     public Integer getVolume() {
-        return volume;
+        return volume.get();
+    }
+
+    public void partFill(Order order) {
+        volume.getAndAdd(-order.getVolume()); //decrement
     }
 
 

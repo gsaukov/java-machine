@@ -5,6 +5,7 @@ import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
 import com.apps.potok.exchange.core.OrderCreatorServer;
 import com.apps.potok.exchange.core.Exchange;
+import com.apps.potok.exchange.init.Initiator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import javax.annotation.PreDestroy;
 public class ServerConfigurator implements ApplicationListener<ApplicationReadyEvent> {
 
     private Logger logger = LoggerFactory.getLogger(ServerConfigurator.class);
+
+    @Autowired
+    private Initiator initiator;
 
     @Autowired
     @Qualifier("potokServerRunner")
@@ -73,17 +77,19 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         exchange.stopExchange();
         eventNotifierServer.stopEventNotifier();
 
+        long askInit = initiator.getAskInit();
         long askLeft = askContainer.size();
         long askInserted = askContainer.getAskInserted();
         long askDecrement = exchange.getAskExecutions();
 
+        long bidInit = initiator.getBidInit();
         long bidLeft = bidContainer.size();
         long bidInserted = bidContainer.getBidInserted();
         long bidDecrement = exchange.getBidExecutions();
 
 
-        logger.info("AskInit: 10000 AskLeft: " + askLeft + " AskInserted: " + askInserted + " AskDecrement: " + askDecrement + " check: askInit + askInserted - askDecremen = " + (10000 + askInserted - askDecrement) + " must equal to ask left." );
-        logger.info("BidInit: 10000 BidLeft: " + bidLeft + " BidInserted: " + bidInserted + " BidDecrement: " + bidDecrement + " check: bidInit + bidInserted - bidDecremen = " + (10000 + bidInserted - bidDecrement) + " must equal to bid left." );
+        logger.info("AskInit: " + askInit + " AskLeft: " + askLeft + " AskInserted: " + askInserted + " AskDecrement: " + askDecrement + " check: askInit + askInserted - askDecremen = " + (askInit + askInserted - askDecrement) + " must equal to ask left." );
+        logger.info("BidInit: " + bidInit + " BidLeft: " + bidLeft + " BidInserted: " + bidInserted + " BidDecrement: " + bidDecrement + " check: bidInit + bidInserted - bidDecremen = " + (bidInit + bidInserted - bidDecrement) + " must equal to bid left." );
         logger.info("Total check: askInserted + askDecremen + bidInserted + bidDecremen = " + (askInserted + askDecrement + bidInserted + bidDecrement) + " must equal to total Order/MkData Issued");
     }
 

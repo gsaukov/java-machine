@@ -59,11 +59,20 @@ public class QueryServer {
             for(Map.Entry<Integer, ConcurrentLinkedDeque<Order>> entry : offers.entrySet()){
                 if(entry.getValue() != null && !entry.getValue().isEmpty()) {
                     Integer value = entry.getKey();
-                    quotes.add(new Quote(symbolName, value, route));
+                    Integer tierVolume = getTierVolume(entry.getValue());
+                    quotes.add(new Quote(symbolName, value, tierVolume, route));
                 }
             }
         }
         return quotes;
+    }
+
+    private Integer getTierVolume(ConcurrentLinkedDeque<Order> priceTier){
+        Integer tierVolume = new Integer(0);
+        for(Order order : priceTier){
+            tierVolume += order.getVolume();
+        }
+        return tierVolume;
     }
 
 }

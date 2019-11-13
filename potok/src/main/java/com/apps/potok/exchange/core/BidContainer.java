@@ -60,10 +60,10 @@ public class BidContainer {
         ConcurrentLinkedDeque<Order> existingAccountContainer = symbolOrderContainer.putIfAbsent(order.getVal(), accountContainer);
         if(existingAccountContainer == null){
             accountContainer.offer(order);
-            bidInserted.incrementAndGet();
+            bidInserted.getAndAdd(order.getVolume());
         } else {
             existingAccountContainer.offer(order);
-            bidInserted.incrementAndGet();
+            bidInserted.getAndAdd(order.getVolume());
         }
     }
 
@@ -72,7 +72,9 @@ public class BidContainer {
         for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> entry : bidContainer.entrySet()){
             ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> map = entry.getValue();
             for(ConcurrentLinkedDeque<Order> list : map.values()){
-                res.getAndAdd(list.size());
+                for(Order order : list){
+                    res.getAndAdd(order.getVolume());
+                }
             }
         }
         return res.get();

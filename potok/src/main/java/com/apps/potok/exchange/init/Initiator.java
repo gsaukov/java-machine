@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.exchange.mkdata.Route.BUY;
 
@@ -21,6 +22,9 @@ import static com.apps.potok.exchange.mkdata.Route.BUY;
 public class Initiator {
 
     private SymbolContainer symbolContainer;
+
+    private AtomicLong askInit = new AtomicLong(0l);
+    private AtomicLong bidInit = new AtomicLong(0l);
 
     public Initiator(SymbolContainer symbolContainer) {
         this.symbolContainer = symbolContainer;
@@ -68,7 +72,9 @@ public class Initiator {
             String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
             Integer val = getVal(symbol, route);
             Integer volume = RandomUtils.nextInt(0, 100) * 10;
-            orders.add(new Order(symbol, customer, route, val, volume));
+            Order order = new Order(symbol, customer, route, val, volume);
+            count(order);
+            orders.add(order);
         }
         return orders;
     }
@@ -90,5 +96,21 @@ public class Initiator {
         } else {
             return RandomUtils.nextInt(val - 1, 100);
         }
+    }
+
+    private void count(Order order) {
+        if(BUY.equals(order.getRoute())){
+            askInit.getAndAdd(order.getVolume());
+        } else {
+            bidInit.getAndAdd(order.getVolume());
+        }
+    }
+
+    public long getAskInit() {
+        return askInit.get();
+    }
+
+    public long getBidInit() {
+        return bidInit.get();
     }
 }
