@@ -1,6 +1,7 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.eventhandlers.EventNotifierServerV2;
+import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
+import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
 import com.apps.potok.exchange.mkdata.MkData;
 import com.apps.potok.exchange.mkdata.MkDataServer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,10 @@ public class Exchange extends Thread {
     private final MkDataServer mkDataServer;
 
     @Autowired
-    private EventNotifierServerV2 eventNotifierServer;
+    private QuoteNotifierServer quoteNotifierServer;
+
+    @Autowired
+    private ExecutionNotifierServer executionNotifierServer;
 
     public Exchange(BidContainer bidContainer, AskContainer askContainer, MkDataServer mkDataServer){
         super.setName("EventNotifierServer");
@@ -70,7 +74,7 @@ public class Exchange extends Thread {
         } else {
             fireSell(order);
         }
-        eventNotifierServer.pushEvent(order.getSymbol());
+        quoteNotifierServer.pushQuote(order.getSymbol());
     }
 
     private void fireBuy(Order order) {
@@ -87,15 +91,27 @@ public class Exchange extends Thread {
                         bid.getAndAdd(order.getVolume());
                         matchingOrder.partFill(order);
                         tier.offerFirst(matchingOrder);
+
+                        notifyFilled(order, matchingOrder.getVal());
+                        notifyPartFilled(matchingOrder, matchingOrder.getVal(), order.getVolume());
+
                         return;
                     } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
                         //order is part filled produce partfill execution notification continue the loop
                         //matching order filled produce fill notification
                         bid.getAndAdd(matchingOrder.getVolume());
                         order.partFill(matchingOrder);
+
+                        notifyFilled(matchingOrder, order.getVal());
+                        notifyPartFilled(order, order.getVal(), matchingOrder.getVolume());
+
                     } else {
                         bid.getAndAdd(order.getVolume());
                         //both are filled produce execution notifications for both
+
+                        notifyFilled(matchingOrder, matchingOrder.getVal());
+                        notifyFilled(order, order.getVal());
+
                         return;
                     }
                 }
@@ -118,15 +134,27 @@ public class Exchange extends Thread {
                         ask.getAndAdd(order.getVolume());
                         matchingOrder.partFill(order);
                         tier.offerFirst(matchingOrder);
+
+                        notifyFilled(order, matchingOrder.getVal());
+                        notifyPartFilled(matchingOrder, matchingOrder.getVal(), order.getVolume());
+
                         return;
                     } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
                         //order is part filled produce partfill execution notification continue the loop
                         //matching order filled produce fill notification
                         ask.getAndAdd(matchingOrder.getVolume());
                         order.partFill(matchingOrder);
+
+                        notifyFilled(matchingOrder, order.getVal());
+                        notifyPartFilled(order, order.getVal(), matchingOrder.getVolume());
+
                     } else {
                         //both are filled produce execution notifications for both
                         ask.getAndAdd(order.getVolume());
+
+                        notifyFilled(matchingOrder, matchingOrder.getVal());
+                        notifyFilled(order, order.getVal());
+
                         return;
                     }
                 }
@@ -137,6 +165,14 @@ public class Exchange extends Thread {
 
     private Order toOrder(MkData event){
         return new Order(event.getSymbol(), event.getAccount(), event.getRoute(), event.getVal(), event.getVolume());
+    }
+
+    private void notifyPartFilled(Order order, Integer fillPrice, Integer quantity){
+        executionNotifierServer.pushPartFill(order, fillPrice, quantity);
+    }
+
+    private void notifyFilled(Order order, Integer fillPrice){
+        executionNotifierServer.pushFill(order, fillPrice);
     }
 
     public long getAskExecutions() {

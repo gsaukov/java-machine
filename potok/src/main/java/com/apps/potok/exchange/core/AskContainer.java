@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -47,8 +46,10 @@ public class AskContainer {
         return askContainer.containsKey(symbolName);
     }
 
-    public void put(String symbolName, SortedMap<Integer, ConcurrentLinkedDeque<Order>> toLeave) {
-        askContainer.put(symbolName, new ConcurrentSkipListMap<>(toLeave));
+    public boolean removeAsk(Order order) {
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> symbolOrderContainer = askContainer.get(order.getSymbol());
+        ConcurrentLinkedDeque<Order> accountContainer = symbolOrderContainer.get(order.getVal());
+        return accountContainer.remove(order);
     }
 
     public void insertAsk(Order order) {

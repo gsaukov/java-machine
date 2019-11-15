@@ -46,8 +46,10 @@ public class BidContainer {
         return bidContainer.containsKey(symbolName);
     }
 
-    public void put(String symbolName, SortedMap<Integer, ConcurrentLinkedDeque<Order>> toLeave) {
-        bidContainer.put(symbolName, new ConcurrentSkipListMap<>(toLeave));
+    public boolean removeBid(Order order) {
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> symbolOrderContainer = bidContainer.get(order.getSymbol());
+        ConcurrentLinkedDeque<Order> accountContainer = symbolOrderContainer.get(order.getVal());
+        return accountContainer.remove(order);
     }
 
     public void insertBid(Order order) {

@@ -36,6 +36,9 @@ public class SpringConfig {
     @Autowired
     private SeesionAuthorizationListener seesionAuthorizationListener;
 
+    @Autowired
+    private SeesionConnectListener seesionConnectListener;
+
     @Bean(name="webSocketServer")
     public SocketIOServer webSocketServer() throws IOException {
 
@@ -45,20 +48,9 @@ public class SpringConfig {
         config.setKeyStorePassword(keystorePassword);
         config.setKeyStore(keystore.getInputStream());
         config.setAuthorizationListener(seesionAuthorizationListener);
-        final SocketIOServer server = new SocketIOServer(config);
 
-        server.addConnectListener(new ConnectListener() {
-            @Override
-            public void onConnect(SocketIOClient client) {
-                for(int i=0;i<10;i++){
-                    LogFile log = new LogFile();
-                    log.setLine("data from server line ["+i+"]");
-                    Packet packet = new Packet(PacketType.MESSAGE);
-                    packet.setData(log);
-                    server.getBroadcastOperations().send(packet);
-                }
-            }
-        });
+        final SocketIOServer server = new SocketIOServer(config);
+        server.addConnectListener(seesionConnectListener);
 
         return server;
 

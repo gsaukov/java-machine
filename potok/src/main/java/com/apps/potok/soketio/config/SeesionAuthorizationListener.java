@@ -27,12 +27,9 @@ public class SeesionAuthorizationListener implements AuthorizationListener {
             return true;
         }
 
-        String cookie = data.getSingleUrlParam("SESSIONID");
-        if(cookie != null) {
-            String sessionId = new String(Base64.getDecoder().decode(cookie));
-            Session session = sessionRepository.findById(sessionId);
-            SecurityContext securityContext = (SecurityContext)session.getAttribute("SPRING_SECURITY_CONTEXT");
-            OAuth2Authentication oAuth2Authentication = (OAuth2Authentication)securityContext.getAuthentication();
+        OAuth2Authentication oAuth2Authentication = SessionUtil.getOAuth2Authentication(data, sessionRepository);
+
+        if(oAuth2Authentication != null) {
             return oAuth2Authentication.isAuthenticated();
         } else {
             return false;
