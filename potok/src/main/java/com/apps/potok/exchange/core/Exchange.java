@@ -77,6 +77,8 @@ public class Exchange extends Thread {
         quoteNotifierServer.pushQuote(order.getSymbol());
     }
 
+    //TODO i think after part fill incoming orders should refired ot fireBuy/fireSell since market could have changed.
+
     private void fireBuy(Order order) {
         ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> map = bidContainer.get(order.getSymbol());
         ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<Order>> toFire = map.headMap(order.getVal(), true);
@@ -125,7 +127,7 @@ public class Exchange extends Thread {
         ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<Order>> toFire = map.headMap(order.getVal(), true);
         for(Map.Entry<Integer, ConcurrentLinkedDeque<Order>> fired : toFire.entrySet()){
             ConcurrentLinkedDeque<Order> tier = fired.getValue();
-            if(!tier.isEmpty()) {
+            if(tier.isEmpty()) {
                 Order matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
                     if(matchingOrder.getVolume().compareTo(order.getVolume()) > 0){

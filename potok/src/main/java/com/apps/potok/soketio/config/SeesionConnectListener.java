@@ -1,5 +1,7 @@
 package com.apps.potok.soketio.config;
 
+import com.apps.potok.exchange.core.SymbolContainer;
+import com.apps.potok.soketio.model.LogFile;
 import com.apps.potok.soketio.server.AccountContainer;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
@@ -10,6 +12,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.session.data.redis.RedisOperationsSessionRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SeesionConnectListener implements ConnectListener {
@@ -23,11 +27,15 @@ public class SeesionConnectListener implements ConnectListener {
     private RedisOperationsSessionRepository sessionRepository;
 
     @Autowired
+    private SymbolContainer symbolContainer;
+
+    @Autowired
     private AccountContainer accountContainer;
 
     @Override
     public void onConnect(SocketIOClient client) {
         assignAccountId(client);
+        sendClientSymbols(client);
     }
 
     private void assignAccountId(SocketIOClient client){
@@ -50,5 +58,16 @@ public class SeesionConnectListener implements ConnectListener {
             }
         }
         return null;
+    }
+
+    private void sendClientSymbols(SocketIOClient client) {
+        client.sendEvent("message", getTenSymbols());
+    }
+
+    private LogFile getTenSymbols() {
+        List<String> symols = symbolContainer.getSymbols().subList(0, 10);
+        LogFile logFile = new LogFile();
+        logFile.setLine(symols.toString());
+        return logFile;
     }
 }
