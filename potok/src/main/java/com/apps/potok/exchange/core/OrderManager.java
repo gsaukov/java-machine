@@ -25,7 +25,7 @@ public class OrderManager {
     }
 
     public boolean removeOrder(UUID uuid, String accountId) {
-        Order orderToRemove = orderPool.get(uuid);
+        Order orderToRemove = orderPool.remove(uuid);
         if (orderToRemove != null && orderToRemove.getAccount().equals(accountId)){
             if(BUY.equals(orderToRemove.getRoute())){
                 return askContainer.removeAsk(orderToRemove);
@@ -41,6 +41,5 @@ public class OrderManager {
         // should be done for down stream processing persistance, accounting, transaction journalization.
         orderPool.remove(uuid);
     }
-
 
 }
