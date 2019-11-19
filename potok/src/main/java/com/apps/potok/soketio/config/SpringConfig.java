@@ -1,13 +1,6 @@
 package com.apps.potok.soketio.config;
 
-import com.apps.potok.soketio.model.LogFile;
-import com.corundumstudio.socketio.AckRequest;
-import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.ConnectListener;
-import com.corundumstudio.socketio.listener.DataListener;
-import com.corundumstudio.socketio.protocol.Packet;
-import com.corundumstudio.socketio.protocol.PacketType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,10 +27,13 @@ public class SpringConfig {
     private String keystorePassword;
 
     @Autowired
-    private SeesionAuthorizationListener seesionAuthorizationListener;
+    private SessionAuthorizationListener sessionAuthorizationListener;
 
     @Autowired
-    private SeesionConnectListener seesionConnectListener;
+    private SessionConnectListener sessionConnectListener;
+
+    @Autowired
+    private SessionDisconnectListener sessionDisconnectListener;
 
     @Bean(name="webSocketServer")
     public SocketIOServer webSocketServer() throws IOException {
@@ -47,10 +43,11 @@ public class SpringConfig {
         config.setPort(port);
         config.setKeyStorePassword(keystorePassword);
         config.setKeyStore(keystore.getInputStream());
-        config.setAuthorizationListener(seesionAuthorizationListener);
+        config.setAuthorizationListener(sessionAuthorizationListener);
 
-        final SocketIOServer server = new SocketIOServer(config);
-        server.addConnectListener(seesionConnectListener);
+        SocketIOServer server = new SocketIOServer(config);
+        server.addConnectListener(sessionConnectListener);
+        server.addDisconnectListener(sessionDisconnectListener);
 
         return server;
 

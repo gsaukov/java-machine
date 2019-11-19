@@ -1,5 +1,6 @@
 package com.apps.potok.exchange.config;
 
+import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
 import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
@@ -52,11 +53,15 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     @Autowired
     private QuoteNotifierServer quoteNotifierServer;
 
+    @Autowired
+    private ExecutionNotifierServer executionNotifierServer;
+
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
         runQuoteNotifierServer();
         runExchange();
         runOrderCreatorServer();
+        runExecutionNotifier();
     }
 
     public void runExchange() {
@@ -71,11 +76,16 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         executor.execute(quoteNotifierServer);
     }
 
+    public void runExecutionNotifier() {
+        executor.execute(executionNotifierServer);
+    }
+
     @PreDestroy
     public void shutDownHook(){
         orderCreatorServer.stopOrderCreator();
         exchange.stopExchange();
         quoteNotifierServer.stopQuoteNotifier();
+        executionNotifierServer.stopQuoteNotifier();
 
         long askInit = initiator.getAskInit();
         long askLeft = askContainer.size();

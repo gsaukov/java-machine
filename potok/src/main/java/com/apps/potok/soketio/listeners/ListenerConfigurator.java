@@ -1,6 +1,7 @@
 package com.apps.potok.soketio.listeners;
 
 import com.apps.potok.soketio.model.LogFile;
+import com.apps.potok.soketio.model.order.CancelOrder;
 import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.soketio.model.quote.QuoteRequest;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -25,10 +26,14 @@ public class ListenerConfigurator {
     @Autowired
     private NewOrderListener newOrderListener;
 
+    @Autowired
+    private CancelOrderListener cancelOrderListener;
+
     @PostConstruct
     public void webSocketServer() throws IOException {
         server.addEventListener("message", LogFile.class, chatMessageListener);
         server.addEventListener("quoteRequest", QuoteRequest.class, quoteMessageListener);
         server.addEventListener("newOrder", NewOrder.class, newOrderListener);
+        server.addEventListener("cancelOrder", CancelOrder.class, cancelOrderListener);
     }
 }

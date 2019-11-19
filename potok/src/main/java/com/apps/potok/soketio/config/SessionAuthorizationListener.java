@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Base64;
 
 @Component
-public class SeesionAuthorizationListener implements AuthorizationListener {
+public class SessionAuthorizationListener implements AuthorizationListener {
 
     @Value("${session.test-mode-authentication}")
     private boolean testModeAuthentication;

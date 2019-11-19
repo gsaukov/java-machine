@@ -2,23 +2,38 @@ package com.apps.potok.soketio.server;
 
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Component
 public class AccountContainer {
 
-    private ConcurrentHashMap<String, String> accountContainer = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, ConcurrentLinkedDeque<UUID>> accountContainer = new ConcurrentHashMap<>();
 
-    public void addAccount(String account){
-        final String existingAccount = accountContainer.putIfAbsent(account, account);
+    public void addAccount(String account, UUID client){
+        ConcurrentLinkedDeque<UUID> newAccount = new ConcurrentLinkedDeque();
+        ConcurrentLinkedDeque<UUID> existingAccount = accountContainer.putIfAbsent(account, newAccount);
         if(existingAccount == null){
-            // in future if multi session is needed
+            newAccount.offer(client);
         } else {
-            // in future if multi session is needed
+            existingAccount.offer(client);
         }
     }
 
     public boolean containsAccount(String account){
         return accountContainer.contains(account);
+    }
+
+    public ConcurrentLinkedDeque<UUID> getAccountClients(String account){
+        return accountContainer.get(account);
+    }
+
+    public ConcurrentLinkedDeque<UUID> removeAccountClient(String account, UUID client){
+        ConcurrentLinkedDeque<UUID> clients = accountContainer.get(account);
+        if(clients != null && !clients.isEmpty()){
+            clients.remove(client);
+        }
+        return clients;
     }
 }

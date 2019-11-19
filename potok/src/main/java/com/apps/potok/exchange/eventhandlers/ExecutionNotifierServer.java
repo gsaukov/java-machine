@@ -8,7 +8,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,7 +23,7 @@ public class ExecutionNotifierServer extends Thread  {
 
     public ExecutionNotifierServer(SocketIOServer server, AccountContainer accountContainer, OrderManager orderManager){
         super.setDaemon(true);
-        super.setName("EventNotifierThread");
+        super.setName("ExecutionNotifierThread");
         this.server = server;
         this.accountContainer = accountContainer;
         this.orderManager = orderManager;
@@ -34,10 +34,15 @@ public class ExecutionNotifierServer extends Thread  {
         while (running.get()){
             Execution execution = eventQueue.poll();
             if(execution != null){
-                orderManager.executeOrder(execution.getOrderUuid(), execution.getAccountId());
-                SocketIOClient client = getClient(execution, server.getAllClients());
-                if(client != null){
-                    client.sendEvent("execution", execution);
+                Order executedOrder = orderManager.executeOrder(execution.getOrderUuid(), execution.getAccountId());
+                ConcurrentLinkedDeque<UUID> clients = getClients(execution);
+                if(clients != null && !clients.isEmpty()){
+                    for(UUID clientUuid : clients){
+                        SocketIOClient client = server.getClient(clientUuid);
+                        if (client != null){
+                            client.sendEvent("execution", execution);
+                        }
+                    }
                 }
             }
         }
@@ -61,12 +66,7 @@ public class ExecutionNotifierServer extends Thread  {
         }
     }
 
-    private SocketIOClient getClient(Execution execution, Collection<SocketIOClient> clients) {
-        for(SocketIOClient client : clients){
-            if(client.get(execution.getAccountId())){
-                return client;
-            }
-        }
-        return null;
+    private ConcurrentLinkedDeque<UUID> getClients(Execution execution) {
+        return accountContainer.getAccountClients(execution.getAccountId());
     }
 }

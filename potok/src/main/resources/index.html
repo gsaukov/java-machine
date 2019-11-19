@@ -60,14 +60,18 @@
         socket.on('orderConfirm', function(data) {
             output(JSON.stringify(data));
         });
+
+        socket.on('execution', function(data) {
+            output(JSON.stringify(data));
+        });
 		
 		socket.on('disconnect', function() {
 			output('<span class="disconnect-msg">The client has disconnected!</span>');
 		});
 
-                function sendDisconnect() {
-                        socket.disconnect();
-                }
+        function sendDisconnect() {
+                socket.disconnect();
+        }
 		
 		function sendMessage() {
                         var message = $('#msg').val();
@@ -101,6 +105,13 @@
             }
 
             socket.emit('newOrder', newOrder);
+        }
+
+        function cancelOrder() {
+            var message = $('#msg').val();
+
+            var jsonObject = {'@class': 'com.apps.potok.soketio.model.order.CancelOrder', uuid: message};
+            socket.emit('cancelOrder', jsonObject);
         }
 
 		function output(message) {
@@ -148,6 +159,7 @@
         <button type="button" onClick="subscribe()" class="btn">Subscribe</button>
         <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
         <button type="button" onClick="newOrder()" class="btn">Order</button>
+        <button type="button" onClick="cancelOrder()" class="btn">Cancel</button>
     </form>
 
     <div class="row-container">

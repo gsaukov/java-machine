@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class SeesionConnectListener implements ConnectListener {
+import static com.apps.potok.soketio.config.SessionUtil.ACCOUNT_ID;
 
-    public static final String ACCOUNT_ID = "ACCOUNT_ID";
+@Service
+public class SessionConnectListener implements ConnectListener {
 
     @Value("${session.test-mode-authentication}")
     private boolean testModeAuthentication;
@@ -48,7 +48,7 @@ public class SeesionConnectListener implements ConnectListener {
             accountId = getAccountId(oAuth2Authentication.getUserAuthentication());
         }
         client.set(ACCOUNT_ID, accountId);
-        accountContainer.addAccount(accountId);
+        accountContainer.addAccount(accountId, client.getSessionId());
     }
 
     private String getAccountId(Authentication auth){

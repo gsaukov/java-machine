@@ -24,22 +24,26 @@ public class OrderManager {
         orderPool.put(order.getUuid(), order);
     }
 
-    public boolean removeOrder(UUID uuid, String accountId) {
+    // returns removed order, returns null if order is already executed or not found.
+    public Order cancelOrder(UUID uuid, String accountId) {
         Order orderToRemove = orderPool.remove(uuid);
         if (orderToRemove != null && orderToRemove.getAccount().equals(accountId)){
             if(BUY.equals(orderToRemove.getRoute())){
-                return askContainer.removeAsk(orderToRemove);
+                if(askContainer.removeAsk(orderToRemove)){
+                    return orderToRemove;
+                }
             } else {
-                return bidContainer.removeBid(orderToRemove);
+                if (bidContainer.removeBid(orderToRemove)) {
+                    return orderToRemove;
+                }
             }
-        } else {
-            return false;
         }
+        return null;
     }
 
-    public void executeOrder(UUID uuid, String accountId) {
+    public Order executeOrder(UUID uuid, String accountId) {
         // should be done for down stream processing persistance, accounting, transaction journalization.
-        orderPool.remove(uuid);
+        return orderPool.remove(uuid);
     }
 
 }

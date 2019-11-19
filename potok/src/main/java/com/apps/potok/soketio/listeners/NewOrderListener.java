@@ -11,10 +11,10 @@ import com.corundumstudio.socketio.listener.DataListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.apps.potok.soketio.config.SessionUtil.getAccountId;
+
 @Component
 public class NewOrderListener implements DataListener<NewOrder> {
-
-    public static final String ACCOUNT_ID = "ACCOUNT_ID";
 
     @Autowired
     private Exchange exchange;
@@ -36,10 +36,5 @@ public class NewOrderListener implements DataListener<NewOrder> {
     private Route getRoute(NewOrder newOrder) {
         return Route.valueOf(newOrder.getRoute());
     }
-
-    private String getAccountId(SocketIOClient client) {
-        return client.get(ACCOUNT_ID);
-    }
-
 
 }
