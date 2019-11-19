@@ -127,7 +127,7 @@ public class Exchange extends Thread {
         ConcurrentNavigableMap<Integer, ConcurrentLinkedDeque<Order>> toFire = map.headMap(order.getVal(), true);
         for(Map.Entry<Integer, ConcurrentLinkedDeque<Order>> fired : toFire.entrySet()){
             ConcurrentLinkedDeque<Order> tier = fired.getValue();
-            if(tier.isEmpty()) {
+            if(!tier.isEmpty()) {
                 Order matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
                     if(matchingOrder.getVolume().compareTo(order.getVolume()) > 0){
