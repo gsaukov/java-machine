@@ -28,8 +28,6 @@
 	
 	<script>
 
-        var userName = 'user' + Math.floor((Math.random()*1000)+1);
-
         // const socket = io('localhost:9092', { transports: ['websocket'], forceNew: true, path : ''})
         // Before creating wss ssl go visit this page in browser, to accept certificate other wise you will get
         // [#### can’t establish a connection to the server at] Exception.
@@ -64,6 +62,7 @@
 
         socket.on('execution', function(data) {
             output(JSON.stringify(data));
+            processExecution(data)
         });
 		
 		socket.on('disconnect', function() {
@@ -135,21 +134,32 @@
             var table = document.getElementById("orderTable");
             var row = table.insertRow(1);
 
-            var UUID = row.insertCell(0);
-            var SYMBOL = row.insertCell(1);
-            var ROUTE = row.insertCell(2);
-            var PRICE = row.insertCell(3);
-            var QUANTITY = row.insertCell(4);
-            var FILLED = row.insertCell(5);
-            var LEFT = row.insertCell(6);
+            row.id = 'orderRow' + newOrder.uuid;
+            var uuid = row.insertCell(0);
+            var symbol = row.insertCell(1);
+            var route = row.insertCell(2);
+            var price = row.insertCell(3);
+            var quantity = row.insertCell(4);
+            var filled = row.insertCell(5);
+            var left = row.insertCell(6);
 
-            UUID.innerHTML = newOrder.uuid;
-            SYMBOL.innerHTML = newOrder.symbol;
-            ROUTE.innerHTML = newOrder.route;
-            PRICE.innerHTML = newOrder.val;
-            QUANTITY.innerHTML = newOrder.volume;
-            FILLED.innerHTML = 0;
-            LEFT.innerHTML = newOrder.volume;
+            uuid.innerHTML = newOrder.uuid;
+            symbol.innerHTML = newOrder.symbol;
+            route.innerHTML = newOrder.route;
+            price.innerHTML = newOrder.val;
+            quantity.innerHTML = newOrder.volume;
+            filled.innerHTML = 0;
+            left.innerHTML = newOrder.volume;
+        }
+
+        function processExecution(execution) {
+            var row = document.getElementById('orderRow' + execution.orderUuid);
+
+            var filled = row.cells[5];
+            var left = row.cells[6];
+
+            filled.innerHTML = parseInt(filled.innerHTML) + parseInt(execution.quantity);
+            left.innerHTML = parseInt(left.innerHTML) - parseInt(execution.quantity);
         }
 
         function readCookie(name) {
