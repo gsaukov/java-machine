@@ -59,6 +59,7 @@
 
         socket.on('orderConfirm', function(data) {
             output(JSON.stringify(data));
+            addOrderToTable(data);
         });
 
         socket.on('execution', function(data) {
@@ -130,6 +131,27 @@
             $("#tradingWindowAskTable").html(askTable);
         }
 
+        function addOrderToTable(newOrder) {
+            var table = document.getElementById("orderTable");
+            var row = table.insertRow(1);
+
+            var UUID = row.insertCell(0);
+            var SYMBOL = row.insertCell(1);
+            var ROUTE = row.insertCell(2);
+            var PRICE = row.insertCell(3);
+            var QUANTITY = row.insertCell(4);
+            var FILLED = row.insertCell(5);
+            var LEFT = row.insertCell(6);
+
+            UUID.innerHTML = newOrder.uuid;
+            SYMBOL.innerHTML = newOrder.symbol;
+            ROUTE.innerHTML = newOrder.route;
+            PRICE.innerHTML = newOrder.val;
+            QUANTITY.innerHTML = newOrder.volume;
+            FILLED.innerHTML = 0;
+            LEFT.innerHTML = newOrder.volume;
+        }
+
         function readCookie(name) {
             var nameEQ = name + "=";
             var ca = document.cookie.split(';');
@@ -160,15 +182,33 @@
         <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
         <button type="button" onClick="newOrder()" class="btn">Order</button>
         <button type="button" onClick="cancelOrder()" class="btn">Cancel</button>
+        <button type="button" onClick="addOrderToTable()" class="btn">AddOrder</button>
     </form>
 
-    <div class="row-container">
+    <div class="row-container" style="height: 500px">
         <div id="tradingWindowBidTable"></div>
         <div id="tradingWindowAskTable"></div>
     </div>
-	<div id="console" class="well"/>
-    
 
+   <table id="orderTable" class="table table-striped table-bordered table-sm" cellspacing="0"
+           width="100%">
+        <thead>
+        <tr>
+            <th class="th-sm">UUID</th>
+            <th class="th-sm">SYMBOL</th>
+            <th class="th-sm">ROUTE</th>
+            <th class="th-sm">PRICE</th>
+            <th class="th-sm">QUANTITY</th>
+            <th class="th-sm">FILLED</th>
+            <th class="th-sm">LEFT</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <div id="console" class="well"/>
 	
 </body>
 

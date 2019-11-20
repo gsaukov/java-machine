@@ -22,7 +22,7 @@ public class AccountContainer {
     }
 
     public boolean containsAccount(String account){
-        return accountContainer.contains(account);
+        return accountContainer.containsKey(account);
     }
 
     public ConcurrentLinkedDeque<UUID> getAccountClients(String account){
