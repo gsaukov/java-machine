@@ -4,6 +4,7 @@ import com.apps.potok.exchange.mkdata.Route;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.UUID.randomUUID;
@@ -16,6 +17,7 @@ public class Order {
     private final Route route;
     private final Integer val;
     private final AtomicInteger volume;
+    private final AtomicBoolean active;
 
     public Order(String symbol, String account, Route route, Integer val, Integer volume) {
         this.uuid = randomUUID();
@@ -24,6 +26,7 @@ public class Order {
         this.route = route;
         this.val = val;
         this.volume = new AtomicInteger(volume);
+        this.active = new AtomicBoolean(true);
     }
 
     public UUID getUuid() {
@@ -52,6 +55,14 @@ public class Order {
 
     public void partFill(Order order) {
         volume.getAndAdd(-order.getVolume()); //decrement
+    }
+
+    public void cancel() {
+        active.getAndSet(false);
+    }
+
+    public boolean isActive() {
+        return active.get();
     }
 
     @Override

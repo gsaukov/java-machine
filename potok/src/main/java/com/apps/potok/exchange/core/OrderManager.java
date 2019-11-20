@@ -26,8 +26,9 @@ public class OrderManager {
 
     // returns removed order, returns null if order is already executed or not found.
     public Order cancelOrder(UUID uuid, String accountId) {
-        Order orderToRemove = orderPool.remove(uuid);
+        Order orderToRemove = orderPool.get(uuid);
         if (orderToRemove != null && orderToRemove.getAccount().equals(accountId)){
+            orderToRemove.cancel();
             if(BUY.equals(orderToRemove.getRoute())){
                 if(askContainer.removeAsk(orderToRemove)){
                     return orderToRemove;
@@ -43,7 +44,7 @@ public class OrderManager {
 
     public Order executeOrder(UUID uuid, String accountId) {
         // should be done for down stream processing persistance, accounting, transaction journalization.
-        return orderPool.remove(uuid);
+        return orderPool.get(uuid);
     }
 
 }

@@ -87,6 +87,9 @@ public class Exchange extends Thread {
             if(!tier.isEmpty()) {
                 Order matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
+                    if(!matchingOrder.isActive()){
+                        return; //order was cancelled.
+                    }
                     if(matchingOrder.getVolume().compareTo(order.getVolume()) > 0){
                         //order is filled produce execution notification
                         //matching order partfilled produce part fill notification and return it to rhe head of the queue
@@ -130,6 +133,9 @@ public class Exchange extends Thread {
             if(!tier.isEmpty()) {
                 Order matchingOrder;
                 while ((matchingOrder = tier.poll()) != null) {
+                    if(!matchingOrder.isActive()){
+                        return; //order was cancelled.
+                    }
                     if(matchingOrder.getVolume().compareTo(order.getVolume()) > 0){
                         //order is filled produce execution notification
                         //matching order partfilled produce part fill notification and return to rhe head of the queue
