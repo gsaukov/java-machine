@@ -2,6 +2,7 @@ package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,6 +13,7 @@ import static java.util.UUID.randomUUID;
 public class Order {
 
     private final UUID uuid;
+    private final Date timestamp;
     private final String symbol;
     private final String account;
     private final Route route;
@@ -21,6 +23,7 @@ public class Order {
 
     public Order(String symbol, String account, Route route, Integer val, Integer volume) {
         this.uuid = randomUUID();
+        this.timestamp = new Date();
         this.symbol = symbol;
         this.account = account;
         this.route = route;
@@ -31,6 +34,10 @@ public class Order {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
     }
 
     public String getSymbol() {

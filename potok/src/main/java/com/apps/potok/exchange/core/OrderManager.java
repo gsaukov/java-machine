@@ -1,9 +1,11 @@
 package com.apps.potok.exchange.core;
 
+import com.apps.potok.exchange.mkdata.Route;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.exchange.mkdata.Route.BUY;
 
@@ -47,4 +49,13 @@ public class OrderManager {
         return orderPool.get(uuid);
     }
 
-}
+    public long getCancelled(Route route){
+        AtomicLong res = new AtomicLong(0l);
+        for(Order order : orderPool.values()){
+            if(!order.isActive() && order.getRoute().equals(route)) {
+                res.getAndAdd(order.getVolume());
+            }
+        }
+        return res.get();
+    }
+ }

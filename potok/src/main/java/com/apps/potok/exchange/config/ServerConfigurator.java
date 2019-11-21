@@ -1,5 +1,6 @@
 package com.apps.potok.exchange.config;
 
+import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
 import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
 import com.apps.potok.exchange.core.AskContainer;
@@ -7,6 +8,7 @@ import com.apps.potok.exchange.core.BidContainer;
 import com.apps.potok.exchange.core.OrderCreatorServer;
 import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.init.Initiator;
+import com.apps.potok.exchange.mkdata.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,9 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     private OrderCreatorServer orderCreatorServer;
 
     @Autowired
+    private OrderManager orderManager;
+
+    @Autowired
     private QuoteNotifierServer quoteNotifierServer;
 
     @Autowired
@@ -90,12 +95,12 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         long askInit = initiator.getAskInit();
         long askLeft = askContainer.size();
         long askInserted = askContainer.getAskInserted();
-        long askDecrement = exchange.getAskExecutions();
+        long askDecrement = exchange.getAskExecutions() + orderManager.getCancelled(Route.BUY);
 
         long bidInit = initiator.getBidInit();
         long bidLeft = bidContainer.size();
         long bidInserted = bidContainer.getBidInserted();
-        long bidDecrement = exchange.getBidExecutions();
+        long bidDecrement = exchange.getBidExecutions() + orderManager.getCancelled(Route.SELL);;
 
 
         logger.info("AskInit: " + askInit + " AskLeft: " + askLeft + " AskInserted: " + askInserted + " AskDecrement: " + askDecrement + " check: askInit + askInserted - askDecremen = " + (askInit + askInserted - askDecrement) + " must equal to ask left." );
