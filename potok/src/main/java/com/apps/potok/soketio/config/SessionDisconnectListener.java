@@ -1,6 +1,6 @@
 package com.apps.potok.soketio.config;
 
-import com.apps.potok.soketio.server.AccountContainer;
+import com.apps.potok.soketio.server.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class SessionDisconnectListener implements DisconnectListener {
     private boolean testModeAuthentication;
 
     @Autowired
-    private AccountContainer accountContainer;
+    private AccountManager accountManager;
 
     @Override
     public void onDisconnect(SocketIOClient client) {
@@ -25,6 +25,6 @@ public class SessionDisconnectListener implements DisconnectListener {
 
     private void removeAccountId(SocketIOClient client){
         String accountId = getAccountId(client);
-        accountContainer.removeAccountClient(accountId, client.getSessionId());
+        accountManager.removeAccountClient(accountId, client.getSessionId());
     }
 }

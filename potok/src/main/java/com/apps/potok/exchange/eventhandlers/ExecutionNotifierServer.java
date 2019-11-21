@@ -3,7 +3,7 @@ package com.apps.potok.exchange.eventhandlers;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.soketio.model.execution.Execution;
-import com.apps.potok.soketio.server.AccountContainer;
+import com.apps.potok.soketio.server.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
@@ -16,16 +16,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ExecutionNotifierServer extends Thread  {
 
     private SocketIOServer server;
-    private AccountContainer accountContainer;
+    private AccountManager accountManager;
     private final OrderManager orderManager;
     private final AtomicBoolean running = new AtomicBoolean(true);
     private final ConcurrentLinkedDeque<Execution> eventQueue = new ConcurrentLinkedDeque<>();
 
-    public ExecutionNotifierServer(SocketIOServer server, AccountContainer accountContainer, OrderManager orderManager){
+    public ExecutionNotifierServer(SocketIOServer server, AccountManager accountManager, OrderManager orderManager){
         super.setDaemon(true);
         super.setName("ExecutionNotifierThread");
         this.server = server;
-        this.accountContainer = accountContainer;
+        this.accountManager = accountManager;
         this.orderManager = orderManager;
     }
 
@@ -53,20 +53,20 @@ public class ExecutionNotifierServer extends Thread  {
     }
 
     public void pushFill(Order order, Integer fillPrice) {
-        if (accountContainer.containsAccount(order.getAccount())){
+        if (accountManager.containsAccount(order.getAccount())){
             Execution execution = new Execution(order.getUuid(), order.getAccount(), fillPrice, order.getVolume(), true);
             eventQueue.offer(execution);
         }
     }
 
     public void pushPartFill(Order order, Integer fillPrice, Integer quantity) {
-        if (accountContainer.containsAccount(order.getAccount())){
+        if (accountManager.containsAccount(order.getAccount())){
             Execution execution = new Execution(order.getUuid(), order.getAccount(), fillPrice, quantity, false);
             eventQueue.offer(execution);
         }
     }
 
     private ConcurrentLinkedDeque<UUID> getClients(Execution execution) {
-        return accountContainer.getAccountClients(execution.getAccountId());
+        return accountManager.getAccountClients(execution.getAccountId());
     }
 }

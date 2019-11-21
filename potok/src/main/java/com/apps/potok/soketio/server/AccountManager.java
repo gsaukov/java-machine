@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Component
-public class AccountContainer {
+public class AccountManager {
 
     private ConcurrentHashMap<String, ConcurrentLinkedDeque<UUID>> accountContainer = new ConcurrentHashMap<>();
 

@@ -2,7 +2,7 @@ package com.apps.potok.soketio.config;
 
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.soketio.model.LogFile;
-import com.apps.potok.soketio.server.AccountContainer;
+import com.apps.potok.soketio.server.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class SessionConnectListener implements ConnectListener {
     private SymbolContainer symbolContainer;
 
     @Autowired
-    private AccountContainer accountContainer;
+    private AccountManager accountManager;
 
     @Override
     public void onConnect(SocketIOClient client) {
@@ -48,7 +48,7 @@ public class SessionConnectListener implements ConnectListener {
             accountId = getAccountId(oAuth2Authentication.getUserAuthentication());
         }
         client.set(ACCOUNT_ID, accountId);
-        accountContainer.addAccount(accountId, client.getSessionId());
+        accountManager.addAccount(accountId, client.getSessionId());
     }
 
     private String getAccountId(Authentication auth){
