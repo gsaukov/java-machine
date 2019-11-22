@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,11 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AccountContainer {
 
     public final static String MK_MAKER = "MK_MAKER";
+    public final static String TEST_ACCOUNT_ID = "TEST_ACCOUNT_ID";
 
     @Value("${exchange.accounts-size}")
     private Integer accountsSize;
 
     private final ConcurrentHashMap<String, Account> accountContainer;
+    private final List<String> accountIds = new ArrayList<>();
 
     public AccountContainer() {
         this.accountContainer = new ConcurrentHashMap<>();
@@ -33,12 +35,16 @@ public class AccountContainer {
             Account account = new Account(accountId, RandomUtils.nextLong(100000l, 10000000l));
             accountContainer.put(accountId, account);
         }
+        accountIds.addAll(accountContainer.keySet());
+        Collections.unmodifiableList(accountIds);
         Account mkMaker = new Account(MK_MAKER, 9999999999l);
         accountContainer.put(MK_MAKER, mkMaker);
+        Account testAccount = new Account(TEST_ACCOUNT_ID, 9999999l);
+        accountContainer.put(TEST_ACCOUNT_ID, testAccount);
     }
 
-    public List<String> getAllAccountIds() {
-        return new ArrayList<>(accountContainer.keySet());
+    public List<String> getAllAccountIds() { //for random exchange activity only.
+        return accountIds;
     }
 
     public void addAccount(String accountId, UUID client){

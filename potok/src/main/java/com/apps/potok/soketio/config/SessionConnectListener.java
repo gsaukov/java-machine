@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.apps.potok.soketio.config.SessionUtil.ACCOUNT_ID;
+import static com.apps.potok.soketio.server.AccountContainer.TEST_ACCOUNT_ID;
 
 @Service
 public class SessionConnectListener implements ConnectListener {
@@ -41,7 +42,7 @@ public class SessionConnectListener implements ConnectListener {
     private void assignAccountId(SocketIOClient client){
         String accountId = null;
         if(testModeAuthentication){
-            accountId = "test_account_id";
+            accountId = TEST_ACCOUNT_ID;
         } else {
             OAuth2Authentication oAuth2Authentication = SessionUtil.getOAuth2Authentication(client.getHandshakeData(),
                     sessionRepository);
