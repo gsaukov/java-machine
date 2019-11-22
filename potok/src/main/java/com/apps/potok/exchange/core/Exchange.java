@@ -104,15 +104,15 @@ public class Exchange extends Thread {
                         bid.getAndAdd(matchingOrder.getVolume());
                         order.partFill(matchingOrder);
 
-                        notifyFilled(matchingOrder, order.getVal());
-                        notifyPartFilled(order, order.getVal(), matchingOrder.getVolume());
+                        notifyFilled(matchingOrder, matchingOrder.getVal());
+                        notifyPartFilled(order, matchingOrder.getVal(), matchingOrder.getVolume());
 
                     } else {
                         bid.getAndAdd(order.getVolume());
                         //both are filled produce execution notifications for both
 
                         notifyFilled(matchingOrder, matchingOrder.getVal());
-                        notifyFilled(order, order.getVal());
+                        notifyFilled(order, matchingOrder.getVal());
 
                         return;
                     }
@@ -147,15 +147,15 @@ public class Exchange extends Thread {
                         ask.getAndAdd(matchingOrder.getVolume());
                         order.partFill(matchingOrder);
 
-                        notifyFilled(matchingOrder, order.getVal());
-                        notifyPartFilled(order, order.getVal(), matchingOrder.getVolume());
+                        notifyFilled(matchingOrder, matchingOrder.getVal());
+                        notifyPartFilled(order, matchingOrder.getVal(), matchingOrder.getVolume());
 
                     } else {
                         //both are filled produce execution notifications for both
                         ask.getAndAdd(order.getVolume());
 
                         notifyFilled(matchingOrder, matchingOrder.getVal());
-                        notifyFilled(order, order.getVal());
+                        notifyFilled(order, matchingOrder.getVal());
 
                         return;
                     }
