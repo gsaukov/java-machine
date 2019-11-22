@@ -1,6 +1,7 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.soketio.server.AccountContainer;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,18 @@ public class OrderCreatorServer extends Thread {
     private final Exchange exchange;
     private final SymbolContainer symbolContainer;
     private final AtomicBoolean running = new AtomicBoolean(true);
+    private final List<String> symbols;
+    private final List<String> accounts;
 
-    public OrderCreatorServer(Exchange exchange, SymbolContainer symbolContainer) {
+    public OrderCreatorServer(Exchange exchange, SymbolContainer symbolContainer, AccountContainer accountContainer) {
         super.setDaemon(true);
         super.setName("OrderCreatorThread");
 
         this.exchange = exchange;
         this.symbolContainer = symbolContainer;
+
+        this.symbols = symbolContainer.getSymbols();
+        this.accounts = accountContainer.getAllAccountIds();
     }
 
     @Override
@@ -39,12 +45,12 @@ public class OrderCreatorServer extends Thread {
     }
 
     private Order randomOrder(){
-        List<String> symbols = symbolContainer.getSymbols();
         String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
+        String accountId = accounts.get(RandomUtils.nextInt(0, accounts.size()));
         Route route = getRoute();
         Integer val = getDynamicPrice(symbol);
         Integer volume = RandomUtils.nextInt(0, 100) * 10;
-        return new Order(symbol, RandomStringUtils.randomAlphabetic(4), route, val, volume);
+        return new Order(symbol, accountId, route, val, volume);
     }
 
     private Route getRoute() {

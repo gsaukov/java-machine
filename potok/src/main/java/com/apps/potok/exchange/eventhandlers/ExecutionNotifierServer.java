@@ -3,11 +3,13 @@ package com.apps.potok.exchange.eventhandlers;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.soketio.model.execution.Execution;
+import com.apps.potok.soketio.server.Account;
 import com.apps.potok.soketio.server.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,7 +37,7 @@ public class ExecutionNotifierServer extends Thread  {
             Execution execution = eventQueue.poll();
             if(execution != null){
                 Order executedOrder = orderManager.executeOrder(execution.getOrderUuid(), execution.getAccountId());
-                ConcurrentLinkedDeque<UUID> clients = getClients(execution);
+                List<UUID> clients = getClients(execution);
                 if(clients != null && !clients.isEmpty()){
                     for(UUID clientUuid : clients){
                         SocketIOClient client = server.getClient(clientUuid);
@@ -66,7 +68,7 @@ public class ExecutionNotifierServer extends Thread  {
         }
     }
 
-    private ConcurrentLinkedDeque<UUID> getClients(Execution execution) {
+    private List<UUID> getClients(Execution execution) {
         return accountManager.getAccountClients(execution.getAccountId());
     }
 }

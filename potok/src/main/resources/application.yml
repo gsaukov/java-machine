@@ -37,5 +37,6 @@ exchange:
   price:
     min-range: 10
     max-range: 90
+  accounts-size: 1000
 
 logging.level.org.springframework: DEBUG
