@@ -3,6 +3,7 @@ package com.apps.potok.exchange.eventhandlers;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.soketio.model.execution.Execution;
+import com.apps.potok.soketio.server.Account;
 import com.apps.potok.soketio.server.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -35,8 +36,9 @@ public class ExecutionNotifierServer extends Thread  {
         while (running.get()){
             Execution execution = eventQueue.poll();
             if(execution != null){
-                Order executedOrder = orderManager.executeOrder(execution.getOrderUuid(), execution.getAccountId());
-                List<UUID> clients = getClients(execution);
+                Account account = getAccount(execution);
+                Order executedOrder = orderManager.executeOrder(execution.getOrderUuid(), account);
+                List<UUID> clients = account.getClientUuids();
                 if(clients != null && !clients.isEmpty()){
                     for(UUID clientUuid : clients){
                         SocketIOClient client = server.getClient(clientUuid);
@@ -67,7 +69,7 @@ public class ExecutionNotifierServer extends Thread  {
         }
     }
 
-    private List<UUID> getClients(Execution execution) {
-        return accountManager.getAccountClients(execution.getAccountId());
+    private Account getAccount(Execution execution) {
+        return accountManager.getAccount(execution.getAccountId());
     }
 }

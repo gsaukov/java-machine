@@ -12,6 +12,10 @@ public class AccountManager {
     @Autowired
     private AccountContainer accountContainer;
 
+    public Account getAccount(String account){
+        return accountContainer.getAccount(account);
+    }
+
     public void addAccount(String account, UUID client){
         accountContainer.addAccount(account, client);
     }

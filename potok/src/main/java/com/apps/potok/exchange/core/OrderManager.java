@@ -1,6 +1,7 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.soketio.server.Account;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -44,8 +45,8 @@ public class OrderManager {
         return null;
     }
 
-    public Order executeOrder(UUID uuid, String accountId) {
-        // should be done for down stream processing persistance, accounting, transaction journalization.
+    public Order executeOrder(UUID uuid, Account accountId) {
+        // should be done for down stream processing persistance, accounting, transaction journalization and balance update.
         return orderPool.get(uuid);
     }
 

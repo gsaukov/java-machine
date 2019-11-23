@@ -65,4 +65,8 @@ public class AccountContainer {
     public List<UUID> removeAccountClient(String account, UUID client){
         return accountContainer.get(account).removeClient(client);
     }
+
+    public Account getAccount(String account) {
+        return accountContainer.get(account);
+    }
 }

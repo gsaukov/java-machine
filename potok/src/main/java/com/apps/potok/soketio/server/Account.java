@@ -32,4 +32,30 @@ public class Account {
         }
         return getClientUuids();
     }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public long getBalance() {
+        return balance.get();
+    }
+
+    //could be optimised with LongUnaryOperator
+    public boolean doNegativeOrderBalance(long risk, long change) {
+        long prev, next;
+        do {
+            prev = balance.get();
+            if(prev - risk > 0){
+                return false;
+            }
+            next = prev - change;
+        } while (!balance.compareAndSet(prev, next));
+        return true;
+    }
+
+    public boolean doPositiveOrderBalance(long change) {
+        balance.getAndAdd(change);
+        return true;
+    }
 }
