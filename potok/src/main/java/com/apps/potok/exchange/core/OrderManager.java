@@ -1,7 +1,11 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.soketio.model.execution.Execution;
+import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.soketio.server.Account;
+import com.apps.potok.soketio.server.AccountManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -13,9 +17,17 @@ import static com.apps.potok.exchange.mkdata.Route.BUY;
 @Service
 public class OrderManager {
 
+    private final int RISK_FACTOR = 10;
+
     private final ConcurrentHashMap<UUID, Order> orderPool;
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
+
+    @Autowired
+    private SymbolContainer symbolContainer;
+
+    @Autowired
+    private AccountManager accountManager;
 
     public OrderManager(BidContainer bidContainer, AskContainer askContainer) {
         this.askContainer = askContainer;
@@ -23,11 +35,33 @@ public class OrderManager {
         this.orderPool = new ConcurrentHashMap();
     }
 
-    public void addOrder(Order order) {
-        orderPool.put(order.getUuid(), order);
+    public Order manageNew(NewOrder newOrder, Account account){
+        Route route = getRoute(newOrder);
+        if(BUY.equals(route)){
+            return newOrderBalanceProcessor(newOrder, account, route);
+        } else {
+            return createOrder(newOrder, account, route);
+        }
+    }
+
+    private Order newOrderBalanceProcessor(NewOrder newOrder, Account account, Route route){
+        long predictedAmount = newOrder.getVolume() * symbolContainer.getQuote(newOrder.getSymbol());
+        long balanceRisk = predictedAmount + predictedAmount/RISK_FACTOR;
+        long balanceChange = newOrder.getVolume() * newOrder.getVal();
+        boolean success = account.doNegativeOrderBalance(balanceRisk, balanceChange);
+        if(success){
+            return createOrder(newOrder, account, route);
+        } else {
+            return null;
+        }
+    }
+
+    private Order addOrder(Order order) {
+        return orderPool.put(order.getUuid(), order);
     }
 
     // returns removed order, returns null if order is already executed or not found.
+    // TODO: BUY balance on cancel should be returned assuming that it could be executed by other threads so be careful.
     public Order cancelOrder(UUID uuid, String accountId) {
         Order orderToRemove = orderPool.get(uuid);
         if (orderToRemove != null && orderToRemove.getAccount().equals(accountId)){
@@ -45,9 +79,30 @@ public class OrderManager {
         return null;
     }
 
-    public Order executeOrder(UUID uuid, Account accountId) {
+    public Order manageExecution(Execution execution) {
+        Order order = orderPool.get(execution.getOrderUuid());
+        if (order != null) { // TODO update initiator to update orer pool.
+            Account account = accountManager.getAccount(order.getAccount());
+            if(BUY.equals(order.getRoute())){
+                buyExecutionBalanceProcessor(execution, order, account);
+            } else {
+                sellExecutionBalanceProcessor(execution, account);
+            }
+        }
         // should be done for down stream processing persistance, accounting, transaction journalization and balance update.
-        return orderPool.get(uuid);
+        return order;
+    }
+
+    private void buyExecutionBalanceProcessor(Execution execution, Order order, Account account){
+        if(order.getVal() !=  execution.getFillPrice()){
+            long returnAmount = (order.getVal() - execution.getFillPrice()) * execution.getQuantity();
+            account.doPositiveOrderBalance(returnAmount);
+        }
+    }
+
+    private void sellExecutionBalanceProcessor(Execution execution, Account account){
+        long returnAmount = execution.getFillPrice() * execution.getQuantity();
+        account.doPositiveOrderBalance(returnAmount);
     }
 
     public long getCancelled(Route route){
@@ -58,5 +113,14 @@ public class OrderManager {
             }
         }
         return res.get();
+    }
+
+    private Order createOrder (NewOrder newOrder, Account account, Route route) {
+        Order order = new Order(newOrder.getSymbol(), account.getAccountId(), route, newOrder.getVal(), newOrder.getVolume());
+        return addOrder(order);
+    }
+
+    private Route getRoute(NewOrder newOrder) {
+        return Route.valueOf(newOrder.getRoute());
     }
  }

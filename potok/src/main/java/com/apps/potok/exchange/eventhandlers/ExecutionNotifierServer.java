@@ -36,23 +36,26 @@ public class ExecutionNotifierServer extends Thread  {
         while (running.get()){
             Execution execution = eventQueue.poll();
             if(execution != null){
-                Account account = getAccount(execution);
-                Order executedOrder = orderManager.executeOrder(execution.getOrderUuid(), account);
-                List<UUID> clients = account.getClientUuids();
-                if(clients != null && !clients.isEmpty()){
-                    for(UUID clientUuid : clients){
-                        SocketIOClient client = server.getClient(clientUuid);
-                        if (client != null){
-                            client.sendEvent("execution", execution);
-                        }
-                    }
-                }
+                Order executedOrder = orderManager.manageExecution(execution);
+                notifyClients(getAccount(execution), execution);
             }
         }
     }
 
     public void stopQuoteNotifier(){
         running.getAndSet(false);
+    }
+
+    private void notifyClients(Account account, Execution execution) {
+        List<UUID> clients = account.getClientUuids();
+        if(clients != null && !clients.isEmpty()){
+            for(UUID clientUuid : clients){
+                SocketIOClient client = server.getClient(clientUuid);
+                if (client != null){
+                    client.sendEvent("execution", execution);
+                }
+            }
+        }
     }
 
     public void pushFill(Order order, Integer fillPrice) {

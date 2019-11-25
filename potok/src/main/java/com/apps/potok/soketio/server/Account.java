@@ -46,7 +46,7 @@ public class Account {
         long prev, next;
         do {
             prev = balance.get();
-            if(prev - risk > 0){
+            if(prev - risk < 0){
                 return false;
             }
             next = prev - change;
