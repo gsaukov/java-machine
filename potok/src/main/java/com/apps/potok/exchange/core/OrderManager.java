@@ -56,8 +56,9 @@ public class OrderManager {
         }
     }
 
-    private Order addOrder(Order order) {
-        return orderPool.put(order.getUuid(), order);
+    public Order addOrder(Order order) {
+        orderPool.put(order.getUuid(), order);
+        return order;
     }
 
     // returns removed order, returns null if order is already executed or not found.
@@ -81,13 +82,11 @@ public class OrderManager {
 
     public Order manageExecution(Execution execution) {
         Order order = orderPool.get(execution.getOrderUuid());
-        if (order != null) { // TODO update initiator to update orer pool.
-            Account account = accountManager.getAccount(order.getAccount());
-            if(BUY.equals(order.getRoute())){
-                buyExecutionBalanceProcessor(execution, order, account);
-            } else {
-                sellExecutionBalanceProcessor(execution, account);
-            }
+        Account account = accountManager.getAccount(order.getAccount());
+        if(BUY.equals(order.getRoute())){
+            buyExecutionBalanceProcessor(execution, order, account);
+        } else {
+            sellExecutionBalanceProcessor(execution, account);
         }
         // should be done for down stream processing persistance, accounting, transaction journalization and balance update.
         return order;

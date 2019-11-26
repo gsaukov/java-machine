@@ -3,6 +3,7 @@ package com.apps.potok.soketio.listeners;
 import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
+import com.apps.potok.soketio.model.LogFile;
 import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.soketio.server.Account;
 import com.apps.potok.soketio.server.AccountManager;
@@ -31,12 +32,14 @@ public class NewOrderListener implements DataListener<NewOrder> {
         String accountId = getAccountId(client);
         Account account = accountManager.getAccount(accountId);
         Order order = orderManager.manageNew(newOrder, account);
-        if(order!=null){
+        if(order != null){
             newOrder.setUuid(order.getUuid().toString());
             client.sendEvent("orderConfirm", newOrder);
             exchange.fireOrder(order);
         } else {
-            client.sendEvent("message", "order failed", newOrder );
+            LogFile logFile = new LogFile();
+            logFile.setLine("order failed " + newOrder.getRoute() + " " + newOrder.getSymbol());
+            client.sendEvent("message", logFile);
         }
     }
 

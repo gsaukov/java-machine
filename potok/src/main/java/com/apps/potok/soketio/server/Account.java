@@ -46,10 +46,10 @@ public class Account {
         long prev, next;
         do {
             prev = balance.get();
-            if(prev - risk < 0){
+            next = prev - change;
+            if(prev - risk < 0 || next < 0){
                 return false;
             }
-            next = prev - change;
         } while (!balance.compareAndSet(prev, next));
         return true;
     }

@@ -2,10 +2,12 @@ package com.apps.potok.exchange.init;
 
 import com.apps.potok.exchange.core.AskComparator;
 import com.apps.potok.exchange.core.Order;
+import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.server.AccountContainer;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,10 +25,10 @@ public class Initiator {
     private SymbolContainer symbolContainer;
     private AccountContainer accountContainer;
 
-    private AtomicLong askInit = new AtomicLong(0l);
-    private AtomicLong bidInit = new AtomicLong(0l);
+    private final AtomicLong askInit = new AtomicLong(0l);
+    private final AtomicLong bidInit = new AtomicLong(0l);
 
-    public Initiator(SymbolContainer symbolContainer, AccountContainer accountContainer) {
+    public Initiator(SymbolContainer symbolContainer, AccountContainer accountContainer, OrderManager orderManager) {
         this.symbolContainer = symbolContainer;
         this.accountContainer = accountContainer;
     }
