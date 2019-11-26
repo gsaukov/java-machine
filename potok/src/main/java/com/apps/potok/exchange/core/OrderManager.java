@@ -1,5 +1,6 @@
 package com.apps.potok.exchange.core;
 
+import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
 import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.execution.Execution;
 import com.apps.potok.soketio.model.order.NewOrder;
@@ -29,6 +30,9 @@ public class OrderManager {
     @Autowired
     private AccountManager accountManager;
 
+    @Autowired
+    private BalanceNotifierServer balanceNotifier;
+
     public OrderManager(BidContainer bidContainer, AskContainer askContainer) {
         this.askContainer = askContainer;
         this.bidContainer = bidContainer;
@@ -50,6 +54,7 @@ public class OrderManager {
         long balanceChange = newOrder.getVolume() * newOrder.getVal();
         boolean success = account.doNegativeOrderBalance(balanceRisk, balanceChange);
         if(success){
+            balanceNotifier.pushBalance(account);
             return createOrder(newOrder, account, route);
         } else {
             return null;
@@ -93,15 +98,17 @@ public class OrderManager {
     }
 
     private void buyExecutionBalanceProcessor(Execution execution, Order order, Account account){
-        if(order.getVal() !=  execution.getFillPrice()){
+        if(order.getVal() != execution.getFillPrice()){
             long returnAmount = (order.getVal() - execution.getFillPrice()) * execution.getQuantity();
             account.doPositiveOrderBalance(returnAmount);
+            balanceNotifier.pushBalance(account);
         }
     }
 
     private void sellExecutionBalanceProcessor(Execution execution, Account account){
         long returnAmount = execution.getFillPrice() * execution.getQuantity();
         account.doPositiveOrderBalance(returnAmount);
+        balanceNotifier.pushBalance(account);
     }
 
     public long getCancelled(Route route){

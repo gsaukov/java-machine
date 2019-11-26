@@ -1,5 +1,6 @@
 package com.apps.potok.exchange.eventhandlers;
 
+import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.soketio.model.execution.Execution;
@@ -12,19 +13,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
-public class ExecutionNotifierServer extends Thread  {
+public class ExecutionNotifierServer extends AbstractExchangeServer {
 
     private SocketIOServer server;
     private AccountManager accountManager;
     private final OrderManager orderManager;
-    private final AtomicBoolean running = new AtomicBoolean(true);
     private final ConcurrentLinkedDeque<Execution> eventQueue = new ConcurrentLinkedDeque<>();
 
     public ExecutionNotifierServer(SocketIOServer server, AccountManager accountManager, OrderManager orderManager){
-        super.setDaemon(true);
         super.setName("ExecutionNotifierThread");
         this.server = server;
         this.accountManager = accountManager;
@@ -32,19 +30,16 @@ public class ExecutionNotifierServer extends Thread  {
     }
 
     @Override
-    public void run() {
-        while (running.get()){
-            Execution execution = eventQueue.poll();
-            if(execution != null){
-                Order executedOrder = orderManager.manageExecution(execution);
-                notifyClients(getAccount(execution), execution);
-            }
+    public void runExchangeServer() {
+        Execution execution = eventQueue.poll();
+        if(execution != null){
+            Order executedOrder = orderManager.manageExecution(execution);
+            notifyClients(getAccount(execution), execution);
         }
     }
 
-    public void stopQuoteNotifier(){
-        running.getAndSet(false);
-    }
+    @Override
+    public void speedControl() {}
 
     private void notifyClients(Account account, Execution execution) {
         List<UUID> clients = account.getClientUuids();

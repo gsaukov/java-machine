@@ -1,13 +1,15 @@
 package com.apps.potok.exchange.config;
 
+import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.core.OrderManager;
+import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
 import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
 import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
 import com.apps.potok.exchange.core.OrderCreatorServer;
-import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.init.Initiator;
+import com.apps.potok.exchange.mkdata.MkDataServer;
 import com.apps.potok.exchange.mkdata.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +56,9 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     private Exchange exchange;
 
     @Autowired
+    private MkDataServer mkDataServer;
+
+    @Autowired
     private OrderCreatorServer orderCreatorServer;
 
     @Autowired
@@ -65,18 +70,22 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     @Autowired
     private ExecutionNotifierServer executionNotifierServer;
 
+    @Autowired
+    private BalanceNotifierServer balanceNotifierServer;
+
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
-        initiator.initiateContainer(orderSize, askContainer.get(), Route.BUY);
-        initiator.initiateContainer(orderSize, bidContainer.get(), Route.SELL);
+        initiator.initiateContainer(orderSize * 10, askContainer.get(), Route.BUY);
+        initiator.initiateContainer(orderSize * 10, bidContainer.get(), Route.SELL);
         runQuoteNotifierServer();
-        runExchange();
+        runMkDataServer();
         runOrderCreatorServer();
         runExecutionNotifier();
+        runBalanceNotifier();
     }
 
-    public void runExchange() {
-        executor.execute(exchange);
+    public void runMkDataServer() {
+        executor.execute(mkDataServer);
     }
 
     public void runOrderCreatorServer() {
@@ -91,12 +100,17 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         executor.execute(executionNotifierServer);
     }
 
+    public void runBalanceNotifier() {
+        executor.execute(balanceNotifierServer);
+    }
+
     @PreDestroy
     public void shutDownHook(){
-        orderCreatorServer.stopOrderCreator();
-        exchange.stopExchange();
-        quoteNotifierServer.stopQuoteNotifier();
-        executionNotifierServer.stopQuoteNotifier();
+        orderCreatorServer.stopExchangeServer();
+        mkDataServer.stopExchangeServer();
+        quoteNotifierServer.stopExchangeServer();
+        executionNotifierServer.stopExchangeServer();
+        balanceNotifierServer.stopExchangeServer();
 
         long askInit = initiator.getAskInit();
         long askLeft = askContainer.size();

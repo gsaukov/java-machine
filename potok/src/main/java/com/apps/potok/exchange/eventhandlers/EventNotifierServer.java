@@ -21,7 +21,6 @@ public class EventNotifierServer extends Thread  {
     private SocketIOServer server;
 
     public EventNotifierServer(QuoteSubscribers quoteSubscribers, QueryServer queryServer, SocketIOServer server){
-        super.setDaemon(true);
         super.setName("EventNotifierThread");
         this.quoteSubscribers = quoteSubscribers;
         this.queryServer = queryServer;

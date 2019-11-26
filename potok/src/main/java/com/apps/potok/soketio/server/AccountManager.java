@@ -47,11 +47,12 @@ public class AccountManager {
         return accountIds;
     }
 
-    public void addAccount(String accountId, UUID client){
+    public Account addAccount(String accountId, UUID client){
         Account account = accountContainer.get(accountId);
         if (account != null) {
             account.addClientUuid(client);
         }
+        return account;
     }
 
     public boolean containsAccount(String account){

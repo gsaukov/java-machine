@@ -7,27 +7,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.apps.potok.exchange.mkdata.Route.BUY;
 import static com.apps.potok.exchange.mkdata.Route.SELL;
 
 @Service
-public class OrderCreatorServer extends Thread {
+public class OrderCreatorServer extends AbstractExchangeServer {
 
     private final Exchange exchange;
-    private final OrderManager orderManager;
     private final SymbolContainer symbolContainer;
-    private final AtomicBoolean running = new AtomicBoolean(true);
     private final List<String> symbols;
     private final List<String> accounts;
 
-    public OrderCreatorServer(Exchange exchange, SymbolContainer symbolContainer, AccountManager accountContainer, OrderManager orderManager) {
-        super.setDaemon(true);
+    public OrderCreatorServer(Exchange exchange, SymbolContainer symbolContainer, AccountManager accountContainer) {
         super.setName("OrderCreatorThread");
 
         this.exchange = exchange;
-        this.orderManager = orderManager;
         this.symbolContainer = symbolContainer;
 
         this.symbols = symbolContainer.getSymbols();
@@ -35,16 +30,13 @@ public class OrderCreatorServer extends Thread {
     }
 
     @Override
-    public void run() {
-        while(running.get()){
-            Order order = randomOrder();
-            orderManager.addOrder(order);
-            exchange.fireOrder(order);
-        }
+    public void runExchangeServer() {
+        exchange.fireOrder(randomOrder());
     }
 
-    public void stopOrderCreator(){
-        running.getAndSet(false);
+    @Override
+    public void speedControl() {
+        exchangeSpeed.orderServerSpeedControl();
     }
 
     private Order randomOrder(){

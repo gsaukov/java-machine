@@ -32,11 +32,19 @@ certificate:
 session.test-mode-authentication: true
 
 exchange:
-  order-size: 10000
-  symbol-size: 1000
+  order-size: 100 #Chunk size that is being pulled from MkDataServer and initialization.
+  symbol-size: 100
   price:
     min-range: 10
     max-range: 90
   accounts-size: 1000
+  speed: MAX #programm argument: --exchange.speed=NORMAL
+  #speed available options:
+    #MAX production mode no thread sleep almost 100% CPU consupmtion. Mostly used for no functional testing to reveal concurrent issues.
+    #FAST 1 ms OrderCreator 300 ms MkDataServer thread sleep
+    #NORMAL 10 ms OrderCreator 3000 ms MkDataServer thread sleep
+    #SLOW 100 ms OrderCreator 30000 ms MkDataServer thread sleep
+    #DEAD 1000 ms OrderCreator 300000 ms MkDataServer thread sleep
+    #STOP OrderCreator/MkDataServe not started
 
 logging.level.org.springframework: DEBUG

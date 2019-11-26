@@ -1,8 +1,13 @@
 package com.apps.potok.exchange.mkdata;
 
+import com.apps.potok.exchange.core.AbstractExchangeServer;
+import com.apps.potok.exchange.core.Exchange;
+import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.soketio.server.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,14 +18,42 @@ import static com.apps.potok.exchange.mkdata.Route.BUY;
 import static com.apps.potok.exchange.mkdata.Route.SELL;
 
 @Service
-public class MkDataServer {
+public class MkDataServer extends AbstractExchangeServer {
+
+    @Value("${exchange.order-size}")
+    private Integer orderSize;
+
+    @Autowired
+    private Exchange exchange;
 
     private final SymbolContainer symbolContainer;
     private final List<String> symbols;
 
     public MkDataServer(SymbolContainer symbolContainer) {
+        super.setName("MkDataServer");
         this.symbolContainer = symbolContainer;
         this.symbols = symbolContainer.getSymbols();
+    }
+
+    @Override
+    public void runExchangeServer() {
+        pullMkData(orderSize);
+    }
+
+    @Override
+    public void speedControl() {
+        exchangeSpeed.mkDataServerSpeedControl();
+    }
+
+    private void pullMkData(int size) {
+        List<MkData> events = getMkData(size);
+        for(MkData event : events) {
+            fireEvent(event);
+        }
+    }
+
+    private void fireEvent(MkData order) {
+        exchange.fireOrder(toOrder(order));
     }
 
     public List<MkData> getMkData(int size){
@@ -61,5 +94,9 @@ public class MkDataServer {
         } else {
             return val + coefficient;
         }
+    }
+
+    private Order toOrder(MkData event){
+        return new Order(event.getSymbol(), event.getAccount(), event.getRoute(), event.getVal(), event.getVolume());
     }
 }

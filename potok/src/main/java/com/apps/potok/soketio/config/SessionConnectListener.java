@@ -2,6 +2,7 @@ package com.apps.potok.soketio.config;
 
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.soketio.model.LogFile;
+import com.apps.potok.soketio.server.Account;
 import com.apps.potok.soketio.server.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
@@ -35,11 +36,12 @@ public class SessionConnectListener implements ConnectListener {
 
     @Override
     public void onConnect(SocketIOClient client) {
-        assignAccountId(client);
+        Account account = assignAccountId(client);
         sendClientSymbols(client);
+        sendBalance(account, client);
     }
 
-    private void assignAccountId(SocketIOClient client){
+    private Account assignAccountId(SocketIOClient client){
         String accountId = null;
         if(testModeAuthentication){
             accountId = TEST_ACCOUNT_ID;
@@ -49,7 +51,7 @@ public class SessionConnectListener implements ConnectListener {
             accountId = getAccountId(oAuth2Authentication.getUserAuthentication());
         }
         client.set(ACCOUNT_ID, accountId);
-        accountManager.addAccount(accountId, client.getSessionId());
+        return accountManager.addAccount(accountId, client.getSessionId());
     }
 
     private String getAccountId(Authentication auth){
@@ -70,5 +72,9 @@ public class SessionConnectListener implements ConnectListener {
         LogFile logFile = new LogFile();
         logFile.setLine(symols.toString());
         return logFile;
+    }
+
+    private void sendBalance(Account account, SocketIOClient client) {
+        client.sendEvent("balance", account.getBalance());
     }
 }
