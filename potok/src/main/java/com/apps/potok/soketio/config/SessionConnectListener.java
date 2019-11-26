@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.apps.potok.soketio.config.SessionUtil.ACCOUNT_ID;
-import static com.apps.potok.soketio.server.AccountContainer.TEST_ACCOUNT_ID;
+import static com.apps.potok.soketio.server.AccountManager.TEST_ACCOUNT_ID;
 
 @Service
 public class SessionConnectListener implements ConnectListener {

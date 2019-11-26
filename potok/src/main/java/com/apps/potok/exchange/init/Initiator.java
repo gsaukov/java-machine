@@ -5,9 +5,8 @@ import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.mkdata.Route;
-import com.apps.potok.soketio.server.AccountContainer;
+import com.apps.potok.soketio.server.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,14 +22,16 @@ import static com.apps.potok.exchange.mkdata.Route.BUY;
 public class Initiator {
 
     private SymbolContainer symbolContainer;
-    private AccountContainer accountContainer;
+    private AccountManager accountContainer;
+    private OrderManager orderManager;
 
     private final AtomicLong askInit = new AtomicLong(0l);
     private final AtomicLong bidInit = new AtomicLong(0l);
 
-    public Initiator(SymbolContainer symbolContainer, AccountContainer accountContainer, OrderManager orderManager) {
+    public Initiator(SymbolContainer symbolContainer, AccountManager accountContainer, OrderManager orderManager) {
         this.symbolContainer = symbolContainer;
         this.accountContainer = accountContainer;
+        this.orderManager = orderManager;
     }
 
     public void initiateContainer (int size, ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> orderContainer, Route route){
@@ -52,6 +53,7 @@ public class Initiator {
         }
 
         insertPrice(symbolOrderContainer, order);
+        orderManager.addOrder(order);
     }
 
     private void insertPrice(ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> symbolOrderContainer, Order order) {

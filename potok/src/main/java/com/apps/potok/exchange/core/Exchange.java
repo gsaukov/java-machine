@@ -39,6 +39,9 @@ public class Exchange extends Thread {
     @Autowired
     private ExecutionNotifierServer executionNotifierServer;
 
+    @Autowired
+    private OrderManager orderManager;
+
     public Exchange(BidContainer bidContainer, AskContainer askContainer, MkDataServer mkDataServer){
         super.setName("EventNotifierServer");
         this.askContainer = askContainer;
@@ -49,6 +52,7 @@ public class Exchange extends Thread {
     @Override
     public void run() {
         while(running.get()){
+            //todo rewrite make market data external.
             pullMkData(orderSize);
         }
      }
@@ -65,7 +69,7 @@ public class Exchange extends Thread {
     }
 
     public void fireEvent(MkData order) {
-        fireOrder(toOrder(order));
+        fireOrder(orderManager.addOrder(toOrder(order)));
     }
 
     public void fireOrder(Order order) {

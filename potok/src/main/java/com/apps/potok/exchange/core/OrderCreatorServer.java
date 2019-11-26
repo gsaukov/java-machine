@@ -1,8 +1,7 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
-import com.apps.potok.soketio.server.AccountContainer;
-import org.apache.commons.lang3.RandomStringUtils;
+import com.apps.potok.soketio.server.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +16,18 @@ import static com.apps.potok.exchange.mkdata.Route.SELL;
 public class OrderCreatorServer extends Thread {
 
     private final Exchange exchange;
+    private final OrderManager orderManager;
     private final SymbolContainer symbolContainer;
     private final AtomicBoolean running = new AtomicBoolean(true);
     private final List<String> symbols;
     private final List<String> accounts;
 
-    public OrderCreatorServer(Exchange exchange, SymbolContainer symbolContainer, AccountContainer accountContainer) {
+    public OrderCreatorServer(Exchange exchange, SymbolContainer symbolContainer, AccountManager accountContainer, OrderManager orderManager) {
         super.setDaemon(true);
         super.setName("OrderCreatorThread");
 
         this.exchange = exchange;
+        this.orderManager = orderManager;
         this.symbolContainer = symbolContainer;
 
         this.symbols = symbolContainer.getSymbols();
@@ -36,7 +37,9 @@ public class OrderCreatorServer extends Thread {
     @Override
     public void run() {
         while(running.get()){
-            exchange.fireOrder(randomOrder());
+            Order order = randomOrder();
+            orderManager.addOrder(order);
+            exchange.fireOrder(order);
         }
     }
 

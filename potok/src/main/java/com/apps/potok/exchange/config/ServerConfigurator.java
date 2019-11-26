@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,9 @@ import javax.annotation.PreDestroy;
 public class ServerConfigurator implements ApplicationListener<ApplicationReadyEvent> {
 
     private Logger logger = LoggerFactory.getLogger(ServerConfigurator.class);
+
+    @Value("${exchange.order-size}")
+    private Integer orderSize;
 
     @Autowired
     private Initiator initiator;
@@ -63,6 +67,8 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
 
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
+        initiator.initiateContainer(orderSize, askContainer.get(), Route.BUY);
+        initiator.initiateContainer(orderSize, bidContainer.get(), Route.SELL);
         runQuoteNotifierServer();
         runExchange();
         runOrderCreatorServer();

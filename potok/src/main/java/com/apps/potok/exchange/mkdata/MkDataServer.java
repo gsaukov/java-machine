@@ -1,7 +1,7 @@
 package com.apps.potok.exchange.mkdata;
 
 import com.apps.potok.exchange.core.SymbolContainer;
-import com.apps.potok.soketio.server.AccountContainer;
+import com.apps.potok.soketio.server.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +33,11 @@ public class MkDataServer {
     }
 
     private MkData randomMkData(){
-        List<String> symbols = symbolContainer.getSymbols();
         String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
         Route route = getRoute();
         Integer val = getVal(symbol);
         Integer volume = RandomUtils.nextInt(0, 100) * 10;
-        return new MkData(symbol, AccountContainer.MK_MAKER, route, val, volume);
+        return new MkData(symbol, AccountManager.MK_MAKER, route, val, volume);
     }
 
     private Route getRoute() {
