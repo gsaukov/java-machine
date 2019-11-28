@@ -169,8 +169,8 @@
             averagePerformance.innerHTML = position.averagePerformance;
         }
 
-        function processPositionUpdate(execution, row) {
-            var volume = row.cells[5];
+        function processPositionUpdate(position, row) {
+            var volume = row.cells[4];
             var weightedAveragePrice = row.cells[5];
             var averagePerformance = row.cells[6];
 

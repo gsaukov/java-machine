@@ -98,7 +98,7 @@ public class OrderManager {
             sellExecutionBalanceProcessor(execution, account);
         }
         Position position = account.doExecution(execution);
-        positionNotifier.pushPosition(position);
+        positionNotifier.pushPositionNotification(position.getAccountId(), position.getSymbol());
         // should be done for down stream processing persistance, accounting, transaction journalization and balance update.
         return order;
     }

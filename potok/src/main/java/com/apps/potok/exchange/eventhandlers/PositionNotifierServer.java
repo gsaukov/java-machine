@@ -18,7 +18,7 @@ public class PositionNotifierServer extends AbstractExchangeServer {
 
     private AccountManager accountManager;
     private SocketIOServer server;
-    private final ConcurrentLinkedDeque<Position> eventQueue = new ConcurrentLinkedDeque<>();
+    private final ConcurrentLinkedDeque<SymbolAccount> eventQueue = new ConcurrentLinkedDeque<>();
 
     public PositionNotifierServer(SocketIOServer server, AccountManager accountManager) {
         super.setName("PositionNotifierServer");
@@ -28,19 +28,20 @@ public class PositionNotifierServer extends AbstractExchangeServer {
 
     @Override
     public void runExchangeServer() {
-        Position position = eventQueue.poll();
-        if(position != null){
-            notifyClients(position);
+        SymbolAccount symbolAccount = eventQueue.poll();
+        if(symbolAccount != null){
+            notifyClients(symbolAccount);
         }
     }
 
     @Override
     public void speedControl() {}
 
-    private void notifyClients(Position position) {
-        Account account = getAccount(position);
+    private void notifyClients(SymbolAccount symbolAccount) {
+        Account account = getAccount(symbolAccount.getAccountId());
         List<UUID> clients = account.getClientUuids();
         if(clients != null && !clients.isEmpty()){
+            Position position = account.getPosition(symbolAccount.getSymbol());
             PositionNotification notification = new PositionNotification(position);
             for(UUID clientUuid : clients){
                 SocketIOClient client = server.getClient(clientUuid);
@@ -51,14 +52,32 @@ public class PositionNotifierServer extends AbstractExchangeServer {
         }
     }
 
-    public void pushPosition(Position position) {
-        eventQueue.offer(position);
+    public void pushPositionNotification(String accountId, String symbol) {
+        eventQueue.offer(new SymbolAccount(accountId, symbol));
     }
 
-    private Account getAccount(Position position) {
-        return accountManager.getAccount(position.getAccountId());
+    private Account getAccount(String accountId) {
+        return accountManager.getAccount(accountId);
     }
 
+    private static class SymbolAccount {
 
+        private final String accountId;
+        private final String symbol;
+
+        SymbolAccount(String accountId, String symbol){
+            this.accountId = accountId;
+            this.symbol = symbol;
+        }
+
+        public String getAccountId() {
+            return accountId;
+        }
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+    }
 
 }

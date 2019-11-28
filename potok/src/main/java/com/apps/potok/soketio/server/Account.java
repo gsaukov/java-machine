@@ -64,6 +64,10 @@ public class Account {
         return true;
     }
 
+    public Position getPosition(String symbol){
+        return positions.get(symbol);
+    }
+
     public Position doExecution(Execution execution) {
         Position newPosition = new Position(execution);
         Position existingPosition = positions.putIfAbsent(execution.getSymbol(), newPosition);
