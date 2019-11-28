@@ -4,6 +4,7 @@ import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
 import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
+import com.apps.potok.exchange.eventhandlers.PositionNotifierServer;
 import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
@@ -73,6 +74,9 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     @Autowired
     private BalanceNotifierServer balanceNotifierServer;
 
+    @Autowired
+    private PositionNotifierServer positionNotifierServer;
+
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
         initiator.initiateContainer(orderSize * 10, askContainer.get(), Route.BUY);
@@ -82,6 +86,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         runOrderCreatorServer();
         runExecutionNotifier();
         runBalanceNotifier();
+        runPositionNotifier();
     }
 
     public void runMkDataServer() {
@@ -102,6 +107,10 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
 
     public void runBalanceNotifier() {
         executor.execute(balanceNotifierServer);
+    }
+
+    private void runPositionNotifier() {
+        executor.execute(positionNotifierServer);
     }
 
     @PreDestroy

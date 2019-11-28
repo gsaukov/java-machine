@@ -1,5 +1,8 @@
 package com.apps.potok.soketio.server;
 
+import com.apps.potok.exchange.core.Position;
+import com.apps.potok.soketio.model.execution.Execution;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -10,12 +13,14 @@ public class Account {
 
     private final String accountId;
     private final AtomicLong balance;
+    private final ConcurrentHashMap<String, Position> positions;
     private final ConcurrentHashMap<UUID, UUID> clientUuids;
 
     public Account(String accountId, long balance) {
         this.accountId = accountId;
         this.balance = new AtomicLong(balance);
-        this.clientUuids = new ConcurrentHashMap<UUID, UUID>();
+        this.clientUuids = new ConcurrentHashMap();
+        this.positions = new ConcurrentHashMap();
     }
 
     public void addClientUuid(UUID client){
@@ -58,4 +63,16 @@ public class Account {
         balance.getAndAdd(change);
         return true;
     }
+
+    public Position doExecution(Execution execution) {
+        Position newPosition = new Position(execution);
+        Position existingPosition = positions.putIfAbsent(execution.getSymbol(), newPosition);
+        if(existingPosition != null) {
+            existingPosition.applyExecution(execution);
+            return existingPosition;
+        } else {
+            return newPosition;
+        }
+    }
+
 }

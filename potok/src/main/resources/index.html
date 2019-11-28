@@ -68,6 +68,10 @@
         socket.on('balance', function(data) {
             processBalance(data)
         });
+
+        socket.on('positionNotification', function(data) {
+            processPositionTable(data)
+        });
 		
 		socket.on('disconnect', function() {
 			output('<span class="disconnect-msg">The client has disconnected!</span>');
@@ -132,6 +136,47 @@
             let askTable = buildHtmlTable(askData);
             $("#tradingWindowBidTable").html(bidTable);
             $("#tradingWindowAskTable").html(askTable);
+        }
+
+        function processPositionTable(position) {
+            let row = document.getElementById('positionRow' + position.uuid);
+            if (row === null) {
+                addPositionToTable(position);
+            } else {
+                processPositionUpdate(position, row);
+            }
+        }
+
+        function addPositionToTable(position) {
+            var table = document.getElementById("positionTable");
+            var row = table.insertRow(1);
+
+            row.id = 'positionRow' + position.uuid;
+            var uuid = row.insertCell(0);
+            var createdTimestamp = row.insertCell(1);
+            var symbol = row.insertCell(2);
+            var account = row.insertCell(3);
+            var volume = row.insertCell(4);
+            var weightedAveragePrice = row.insertCell(5);
+            var averagePerformance = row.insertCell(6);
+
+            uuid.innerHTML = position.uuid;
+            createdTimestamp.innerHTML = position.createdTimestamp;
+            symbol.innerHTML = position.symbol;
+            account.innerHTML = position.account;
+            volume.innerHTML = position.volume;
+            weightedAveragePrice.innerHTML = position.weightedAveragePrice;
+            averagePerformance.innerHTML = position.averagePerformance;
+        }
+
+        function processPositionUpdate(execution, row) {
+            var volume = row.cells[5];
+            var weightedAveragePrice = row.cells[5];
+            var averagePerformance = row.cells[6];
+
+            volume.innerHTML = position.volume;
+            weightedAveragePrice.innerHTML = position.weightedAveragePrice;
+            averagePerformance.innerHTML = position.averagePerformance;
         }
 
         function addOrderToTable(newOrder) {
@@ -215,6 +260,23 @@
         <div id="tradingWindowBidTable"></div>
         <div id="tradingWindowAskTable"></div>
     </div>
+
+   <table id="positionTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+       <thead>
+       <tr>
+           <th class="th-sm">uuid</th>
+           <th class="th-sm">createdTimestamp</th>
+           <th class="th-sm">symbol</th>
+           <th class="th-sm">account</th>
+           <th class="th-sm">volume</th>
+           <th class="th-sm">weightedAveragePrice</th>
+           <th class="th-sm">averagePerformance</th>
+       </tr>
+       </thead>
+       <tbody>
+
+       </tbody>
+   </table>
 
    <table id="orderTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>

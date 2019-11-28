@@ -1,6 +1,7 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
+import com.apps.potok.exchange.eventhandlers.PositionNotifierServer;
 import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.execution.Execution;
 import com.apps.potok.soketio.model.order.NewOrder;
@@ -32,6 +33,9 @@ public class OrderManager {
 
     @Autowired
     private BalanceNotifierServer balanceNotifier;
+
+    @Autowired
+    private PositionNotifierServer positionNotifier;
 
     public OrderManager(BidContainer bidContainer, AskContainer askContainer) {
         this.askContainer = askContainer;
@@ -93,6 +97,8 @@ public class OrderManager {
         } else {
             sellExecutionBalanceProcessor(execution, account);
         }
+        Position position = account.doExecution(execution);
+        positionNotifier.pushPosition(position);
         // should be done for down stream processing persistance, accounting, transaction journalization and balance update.
         return order;
     }
