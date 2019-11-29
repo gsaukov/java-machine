@@ -1,7 +1,10 @@
 package com.apps.potok.soketio.config;
 
+import com.apps.potok.exchange.core.Order;
+import com.apps.potok.exchange.core.Position;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.soketio.model.LogFile;
+import com.apps.potok.soketio.model.execution.PositionNotification;
 import com.apps.potok.soketio.server.Account;
 import com.apps.potok.soketio.server.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -39,6 +42,8 @@ public class SessionConnectListener implements ConnectListener {
         Account account = assignAccountId(client);
         sendClientSymbols(client);
         sendBalance(account, client);
+        sendPositions(account, client);
+        sendOrders(account, client);
     }
 
     private Account assignAccountId(SocketIOClient client){
@@ -76,5 +81,18 @@ public class SessionConnectListener implements ConnectListener {
 
     private void sendBalance(Account account, SocketIOClient client) {
         client.sendEvent("balance", account.getBalance());
+    }
+
+    private void sendPositions(Account account, SocketIOClient client) {
+        for(Position position : account.getPositions()) {
+            PositionNotification notification = new PositionNotification(position);
+            client.sendEvent("positionNotification", notification);
+        }
+    }
+
+    private void sendOrders(Account account, SocketIOClient client) {
+        for(Order order : account.getOrders()) {
+            client.sendEvent("orderConfirm", order);
+        }
     }
 }

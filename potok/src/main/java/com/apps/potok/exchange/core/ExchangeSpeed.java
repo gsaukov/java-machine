@@ -17,6 +17,10 @@ public class ExchangeSpeed {
         speedControl(speed.getMkDataServerSpeed());
     }
 
+    public void notifierSpeedControl() {
+        speedControl(5);
+    }
+
     public void speedControl(long timeout) {
         if (timeout > 0) {
             try {

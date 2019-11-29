@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
 public class ExecutionNotifierServer extends AbstractExchangeServer {
@@ -21,6 +23,7 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
     private AccountManager accountManager;
     private final OrderManager orderManager;
     private final ConcurrentLinkedDeque<Execution> eventQueue = new ConcurrentLinkedDeque<>();
+//    private final BlockingDeque<Execution> eventQueue = new LinkedBlockingDeque<>();
 
     public ExecutionNotifierServer(SocketIOServer server, AccountManager accountManager, OrderManager orderManager){
         super.setName("ExecutionNotifierThread");
@@ -35,6 +38,8 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
         if(execution != null){
             Order executedOrder = orderManager.manageExecution(execution);
             notifyClients(getAccount(execution), execution);
+        } else {
+            exchangeSpeed.notifierSpeedControl();
         }
     }
 

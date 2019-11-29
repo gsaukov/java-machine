@@ -66,6 +66,8 @@ public class OrderManager {
     }
 
     public Order addOrder(Order order) {
+        Account account = accountManager.getAccount(order.getAccount());
+        account.addOrder(order);
         orderPool.put(order.getUuid(), order);
         return order;
     }
@@ -73,7 +75,8 @@ public class OrderManager {
     // returns removed order, returns null if order is already executed or not found.
     // TODO: BUY balance on cancel should be returned assuming that it could be executed by other threads so be careful.
     public Order cancelOrder(UUID uuid, String accountId) {
-        Order orderToRemove = orderPool.get(uuid);
+        Account account = accountManager.getAccount(accountId);
+        Order orderToRemove = account.getOrder(uuid);
         if (orderToRemove != null && orderToRemove.getAccount().equals(accountId)){
             orderToRemove.cancel();
             if(BUY.equals(orderToRemove.getRoute())){
@@ -90,8 +93,8 @@ public class OrderManager {
     }
 
     public Order manageExecution(Execution execution) {
-        Order order = orderPool.get(execution.getOrderUuid());
-        Account account = accountManager.getAccount(order.getAccount());
+        Account account = accountManager.getAccount(execution.getAccountId());
+        Order order = account.getOrder(execution.getOrderUuid());
         if(BUY.equals(order.getRoute())){
             buyExecutionBalanceProcessor(execution, order, account);
         } else {
@@ -117,6 +120,7 @@ public class OrderManager {
         balanceNotifier.pushBalance(account);
     }
 
+    //this must be reworked when account balance calculation in shutdown hook is done.
     public long getCancelled(Route route){
         AtomicLong res = new AtomicLong(0l);
         for(Order order : orderPool.values()){
@@ -128,8 +132,7 @@ public class OrderManager {
     }
 
     private Order createOrder (NewOrder newOrder, Account account, Route route) {
-        Order order = new Order(newOrder.getSymbol(), account.getAccountId(), route, newOrder.getVal(), newOrder.getVolume());
-        return addOrder(order);
+        return new Order(newOrder.getSymbol(), account.getAccountId(), route, newOrder.getVal(), newOrder.getVolume());
     }
 
     private Route getRoute(NewOrder newOrder) {

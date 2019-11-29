@@ -2,6 +2,7 @@ package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.UUID.randomUUID;
 
-public class Order {
+public class Order implements Serializable {
 
     private final UUID uuid;
     private final Date timestamp;
@@ -18,6 +19,7 @@ public class Order {
     private final String account;
     private final Route route;
     private final Integer val;
+    private final Integer originalVolume;
     private final AtomicInteger volume;
     private final AtomicBoolean active;
 
@@ -28,6 +30,7 @@ public class Order {
         this.account = account;
         this.route = route;
         this.val = val;
+        this.originalVolume = volume;
         this.volume = new AtomicInteger(volume);
         this.active = new AtomicBoolean(true);
     }
@@ -54,6 +57,10 @@ public class Order {
 
     public Integer getVal() {
         return val;
+    }
+
+    public Integer getOriginalVolume() {
+        return originalVolume;
     }
 
     public Integer getVolume() {

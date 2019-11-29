@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
 public class BalanceNotifierServer extends AbstractExchangeServer {
     private SocketIOServer server;
     private final ConcurrentLinkedDeque<Account> eventQueue = new ConcurrentLinkedDeque<>();
+//    private final BlockingDeque<Account> eventQueue = new LinkedBlockingDeque<>();
 
     public BalanceNotifierServer(SocketIOServer server) {
         super.setName("BalanceNotifierServer");
@@ -25,6 +28,8 @@ public class BalanceNotifierServer extends AbstractExchangeServer {
         Account account = eventQueue.poll();
         if(account != null){
             notifyClients(account);
+        } else {
+            exchangeSpeed.notifierSpeedControl();
         }
     }
 

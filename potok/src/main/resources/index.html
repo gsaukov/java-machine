@@ -91,8 +91,6 @@
 
         function subscribe() {
             var message = $('#msg').val();
-            $('#msg').val('');
-
             var jsonObject = {'@class': 'com.apps.potok.soketio.model.quote.QuoteRequest', symbol: message};
             socket.emit('quoteRequest', jsonObject);
         }
@@ -115,10 +113,8 @@
             socket.emit('newOrder', newOrder);
         }
 
-        function cancelOrder() {
-            var message = $('#msg').val();
-
-            var jsonObject = {'@class': 'com.apps.potok.soketio.model.order.CancelOrder', uuid: message};
+        function cancelOrder(orderUuid) {
+            var jsonObject = {'@class': 'com.apps.potok.soketio.model.order.CancelOrder', uuid: orderUuid};
             socket.emit('cancelOrder', jsonObject);
         }
 
@@ -192,12 +188,13 @@
             var filled = row.insertCell(5);
             var left = row.insertCell(6);
 
-            uuid.innerHTML = newOrder.uuid;
+            uuid.innerHTML = newOrder.uuid + ' ' + "<a href='#' class='btn btn-default btn-close' aria-label='Cancel' onclick=\"cancelOrder('" + newOrder.uuid + "');\" style='font-size: 40px; line-height: 0'>&times;</a>";
+
             symbol.innerHTML = newOrder.symbol;
             route.innerHTML = newOrder.route;
             price.innerHTML = newOrder.val;
-            quantity.innerHTML = newOrder.volume;
-            filled.innerHTML = 0;
+            quantity.innerHTML = newOrder.originalVolume;
+            filled.innerHTML = parseInt(newOrder.originalVolume) - parseInt(newOrder.volume);
             left.innerHTML = newOrder.volume;
         }
 
@@ -231,57 +228,64 @@
 </head>
 
 <body>
+    <div class="row-container">
 
-    <div class="row">
-        <div class="col-12 col-md-9"><h2>Exchange</h2></div>
-        <div class="col-6 col-md-3">
-            <div class="row-container">
-                <h2>Balance: </h2>
-                <h2><div id="balanceIndicator"></div></h2>
-            </div>
+        <div class="row-container" style="width: 500px; height: 600px">
+            <div id="tradingWindowBidTable"></div>
+            <div id="tradingWindowAskTable"></div>
         </div>
-    </div>
 
-	<br/>
+        <div>
+            <form id="tradeform" action="#" onsubmit="return false;">
+                <div class="column-container">
+                        <fieldset class="form-group">
+                            <div class="row-container">
+                                <input id="msg" class="form-control" type="text" placeholder="Symbol.." style="width: 10em; margin-right: 20px;"/>
+                                <select id="rte" class="form-control" style="width: 6em; margin-right: 20px;">
+                                    <option value="BUY">BUY</option>
+                                    <option value="SELL">SELL</option>
+                                </select>
+                                <input id="vol" class="form-control" type="text" placeholder="Volume..." style="width: 10em; margin-right: 20px;"/>
+                                <input id="val" class="form-control" type="text" placeholder="Price..."  style="width: 10em; margin-right: 20px;"/>
+                                <button type="button" onClick="subscribe()" class="btn btn-default leftMerge" style="width: 7em;" >Subscribe</button>
+                                <button type="button" onClick="newOrder()" class="btn btn-default rightMerge" style="margin-right: 20px; width: 7em;" >Order</button>
+                                <div class="row">
+                                    <div class="col-6 col-md-3">
+                                        <div class="row-container" >
+                                            <h2>Balance:</h2>
+                                            <h2><div id="balanceIndicator" style="margin-left: 5px; margin-right: 5px"></div></h2>
+                                            <a href='#' class='btn btn-default btn-close' aria-label='Disconnect' onclick='sendDisconnect()' style="font-size: 40px; line-height: 0">&times;</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                </div>
+            </form>
 
-    <form class="well form-inline" onsubmit="return false;">
-        <input id="msg" class="input-xlarge" type="text" placeholder="Symbol.."/>
-        <input id="rte" class="input-xlarge" type="text" placeholder="Route..."/>
-        <input id="vol" class="input-xlarge" type="text" placeholder="Volume..."/>
-        <input id="val" class="input-xlarge" type="text" placeholder="Price..."/>
-        <button type="button" onClick="sendMessage()" class="btn">Send</button>
-        <button type="button" onClick="subscribe()" class="btn">Subscribe</button>
-        <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
-        <button type="button" onClick="newOrder()" class="btn">Order</button>
-        <button type="button" onClick="cancelOrder()" class="btn">Cancel</button>
-    </form>
+           <table id="positionTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+               <thead>
+               <tr>
+                   <th class="th-sm">POSITION UUID</th>
+                   <th class="th-sm">CREATION TIME</th>
+                   <th class="th-sm">SYMBOL</th>
+                   <th class="th-sm">ACCOUNT</th>
+                   <th class="th-sm">VOLUME</th>
+                   <th class="th-sm">WAP</th>
+                   <th class="th-sm">AP</th>
+               </tr>
+               </thead>
+               <tbody>
 
-    <div class="row-container" style="height: 500px">
-        <div id="tradingWindowBidTable"></div>
-        <div id="tradingWindowAskTable"></div>
-    </div>
-
-   <table id="positionTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-       <thead>
-       <tr>
-           <th class="th-sm">uuid</th>
-           <th class="th-sm">createdTimestamp</th>
-           <th class="th-sm">symbol</th>
-           <th class="th-sm">account</th>
-           <th class="th-sm">volume</th>
-           <th class="th-sm">weightedAveragePrice</th>
-           <th class="th-sm">averagePerformance</th>
-       </tr>
-       </thead>
-       <tbody>
-
-       </tbody>
-   </table>
+               </tbody>
+           </table>
+       </div>
+   </div>
 
    <table id="orderTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
         <tr>
-            <th class="th-sm">UUID</th>
+            <th class="th-sm">ORDER UUID</th>
             <th class="th-sm">SYMBOL</th>
             <th class="th-sm">ROUTE</th>
             <th class="th-sm">PRICE</th>

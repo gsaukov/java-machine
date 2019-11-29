@@ -34,7 +34,7 @@ public class NewOrderListener implements DataListener<NewOrder> {
         Order order = orderManager.manageNew(newOrder, account);
         if(order != null){
             newOrder.setUuid(order.getUuid().toString());
-            client.sendEvent("orderConfirm", newOrder);
+            client.sendEvent("orderConfirm", order);
             exchange.fireOrder(order);
         } else {
             LogFile logFile = new LogFile();

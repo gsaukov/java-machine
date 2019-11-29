@@ -1,9 +1,12 @@
 package com.apps.potok.soketio.server;
 
+import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.Position;
 import com.apps.potok.soketio.model.execution.Execution;
+import org.springframework.security.access.method.P;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,12 +16,14 @@ public class Account {
 
     private final String accountId;
     private final AtomicLong balance;
+    private final ConcurrentHashMap<UUID, Order> orders;
     private final ConcurrentHashMap<String, Position> positions;
     private final ConcurrentHashMap<UUID, UUID> clientUuids;
 
     public Account(String accountId, long balance) {
         this.accountId = accountId;
         this.balance = new AtomicLong(balance);
+        this.orders = new ConcurrentHashMap();
         this.clientUuids = new ConcurrentHashMap();
         this.positions = new ConcurrentHashMap();
     }
@@ -32,7 +37,7 @@ public class Account {
     }
 
     public List<UUID> removeClient(UUID client) {
-        if(clientUuids != null && !clientUuids.isEmpty()){
+        if(!clientUuids.isEmpty()){
             clientUuids.remove(client);
         }
         return getClientUuids();
@@ -68,6 +73,10 @@ public class Account {
         return positions.get(symbol);
     }
 
+    public Collection<Position> getPositions(){
+        return positions.values();
+    }
+
     public Position doExecution(Execution execution) {
         Position newPosition = new Position(execution);
         Position existingPosition = positions.putIfAbsent(execution.getSymbol(), newPosition);
@@ -79,4 +88,15 @@ public class Account {
         }
     }
 
+    public void addOrder(Order order){
+        orders.put(order.getUuid(), order);
+    }
+
+    public Collection<Order> getOrders(){
+        return orders.values();
+    }
+
+    public Order getOrder(UUID uuid){
+        return orders.get(uuid);
+    }
 }

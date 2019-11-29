@@ -1,6 +1,7 @@
 package com.apps.potok.exchange.eventhandlers;
 
 import com.apps.potok.exchange.core.AbstractExchangeServer;
+import com.apps.potok.exchange.core.ExchangeSpeed;
 import com.apps.potok.exchange.core.Position;
 import com.apps.potok.soketio.model.execution.PositionNotification;
 import com.apps.potok.soketio.server.Account;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
 public class PositionNotifierServer extends AbstractExchangeServer {
@@ -19,6 +22,8 @@ public class PositionNotifierServer extends AbstractExchangeServer {
     private AccountManager accountManager;
     private SocketIOServer server;
     private final ConcurrentLinkedDeque<SymbolAccount> eventQueue = new ConcurrentLinkedDeque<>();
+//    private final BlockingDeque<SymbolAccount> eventQueue = new LinkedBlockingDeque<>();
+
 
     public PositionNotifierServer(SocketIOServer server, AccountManager accountManager) {
         super.setName("PositionNotifierServer");
@@ -31,6 +36,8 @@ public class PositionNotifierServer extends AbstractExchangeServer {
         SymbolAccount symbolAccount = eventQueue.poll();
         if(symbolAccount != null){
             notifyClients(symbolAccount);
+        } else {
+            exchangeSpeed.notifierSpeedControl();
         }
     }
 
