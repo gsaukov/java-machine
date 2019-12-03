@@ -26,7 +26,7 @@ public class OrderManager {
 
     private final int RISK_FACTOR = 10;
 
-    ScheduledExecutorService executorService;
+    private final ScheduledExecutorService executorService;
     private final ConcurrentHashMap<UUID, Order> orderPool;
     private final AskContainer askContainer;
     private final BidContainer bidContainer;

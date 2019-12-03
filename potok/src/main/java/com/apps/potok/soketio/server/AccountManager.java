@@ -39,7 +39,7 @@ public class AccountManager {
         Collections.unmodifiableList(accountIds);
         Account mkMaker = new Account(MK_MAKER, 9999999999l);
         accountContainer.put(MK_MAKER, mkMaker);
-        Account testAccount = new Account(TEST_ACCOUNT_ID, 9999999l);
+        Account testAccount = new Account(TEST_ACCOUNT_ID, 10000000l);
         accountContainer.put(TEST_ACCOUNT_ID, testAccount);
     }
 
