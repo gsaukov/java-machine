@@ -19,7 +19,7 @@ public class CancelOrderBalanceReturnTask implements Runnable {
 
     @Override
     public void run() {
-        if(BUY.equals(canceledOrder.getRoute())){
+        if(BUY.equals(canceledOrder.getRoute())){ //todo cancelBuyShort
             cancelBuyOrderBalanceProcessor(canceledOrder, account);
         } else {
             cancelSellOrderBalanceProcessor(canceledOrder, account);

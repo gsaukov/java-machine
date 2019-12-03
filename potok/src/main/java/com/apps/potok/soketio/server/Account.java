@@ -11,7 +11,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.apps.potok.exchange.mkdata.Route.BUY;
+import static com.apps.potok.exchange.mkdata.Route.SELL;
+import static com.apps.potok.exchange.mkdata.Route.SHORT;
 
 public class Account {
     //todo to resolve issue with balance modification/ position on sell orders due to multiple clients account should have order queue.
@@ -19,6 +20,7 @@ public class Account {
     private final AtomicLong balance;
     private final ConcurrentHashMap<UUID, Order> orders;
     private final ConcurrentHashMap<String, Position> positions;
+    private final ConcurrentHashMap<String, Position> shortPositions;
     private final ConcurrentHashMap<UUID, UUID> clientUuids;
 
     public Account(String accountId, long balance) {
@@ -27,6 +29,7 @@ public class Account {
         this.orders = new ConcurrentHashMap();
         this.clientUuids = new ConcurrentHashMap();
         this.positions = new ConcurrentHashMap();
+        this.shortPositions = new ConcurrentHashMap();
     }
 
     public void addClientUuid(UUID client){
@@ -74,6 +77,10 @@ public class Account {
         return positions.get(symbol);
     }
 
+    public Position getShortPosition(String symbol){
+        return shortPositions.get(symbol);
+    }
+
     public Collection<Position> getPositions(){
         return positions.values();
     }
@@ -81,7 +88,7 @@ public class Account {
     public long getExistingSellOrderVolume(String symbol) {
         long res = 0l;
         for(Order order : getOrders()){
-            if(!BUY.equals(order.getRoute()) && order.getSymbol().equals(symbol) && order.isActive()){
+            if(SELL.equals(order.getRoute()) && order.getSymbol().equals(symbol) && order.isActive()){
                 res += order.getVolume();
             }
         }
@@ -98,8 +105,27 @@ public class Account {
     }
 
     public Position doExecution(Execution execution) {
+        if (SHORT.equals(execution.getRoute())) {
+            return doShortExecution(execution);
+        } else {
+            return doBuySellExecution(execution);
+        }
+    }
+
+    private Position doBuySellExecution (Execution execution) {
         Position newPosition = new Position(execution);
         Position existingPosition = positions.putIfAbsent(execution.getSymbol(), newPosition);
+        if(existingPosition != null) {
+            existingPosition.applyExecution(execution);
+            return existingPosition;
+        } else {
+            return newPosition;
+        }
+    }
+
+    private Position doShortExecution(Execution execution) {
+        Position newPosition = new Position(execution);
+        Position existingPosition = shortPositions.putIfAbsent(execution.getSymbol(), newPosition);
         if(existingPosition != null) {
             existingPosition.applyExecution(execution);
             return existingPosition;

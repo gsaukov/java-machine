@@ -73,7 +73,7 @@ public class MkDataServer extends AbstractExchangeServer {
         return new MkData(symbol, AccountManager.MK_MAKER, route, val, volume);
     }
 
-    private Route getRoute() {
+    private Route getRoute() { //MkData Can be only buy or sell
         if(RandomUtils.nextBoolean()){
             return BUY;
         } else {

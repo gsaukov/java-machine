@@ -19,6 +19,7 @@ public class Position {
     private final String symbol;
     private final String accountId;
     private final AtomicInteger volume;
+    private final Route route;
     private final ConcurrentHashMap<Integer, AtomicInteger> buyPriceValueAggregation;
     private final ConcurrentHashMap<UUID, Execution> buyExecutions;
     private final ConcurrentHashMap<Integer, AtomicInteger> sellPriceValueAggregation;
@@ -29,6 +30,7 @@ public class Position {
         this.createdTimestamp = new Date();
         this.symbol = execution.getSymbol();
         this.accountId = execution.getAccountId();
+        this.route = execution.getRoute();
         this.buyPriceValueAggregation = new ConcurrentHashMap<>();
         this.buyExecutions = new ConcurrentHashMap<>();
         this.sellPriceValueAggregation = new ConcurrentHashMap<>();
@@ -42,7 +44,7 @@ public class Position {
             if(BUY.equals(execution.getRoute())) {
                 applyBuyExecution(execution);
             } else {
-                applySellExecution(execution);
+                applySellShortExecution(execution);
             }
         }
     }
@@ -58,7 +60,7 @@ public class Position {
     }
 
 
-    private void applySellExecution (Execution execution) {
+    private void applySellShortExecution(Execution execution) {
         AtomicInteger newVolume = new AtomicInteger(execution.getQuantity());
         AtomicInteger existingVolume = sellPriceValueAggregation.putIfAbsent(execution.getFillPrice(), newVolume);
         if(existingVolume != null) {
@@ -66,22 +68,6 @@ public class Position {
         }
         sellExecutions.put(execution.getExecutionUuid(), execution);
         volume.getAndAdd(-execution.getQuantity());
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public Date getCreatedTimestamp() {
-        return createdTimestamp;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public String getAccountId() {
-        return accountId;
     }
 
     public Double calculateWeightedAveragePrice() {
@@ -102,6 +88,26 @@ public class Position {
     public Double calculateAveragePerformance() {
         //todo think, implement
         return 0d;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public Date getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public Route getRoute() {
+        return route;
     }
 
     public Integer getVolume() {

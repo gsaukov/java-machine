@@ -41,7 +41,7 @@ public class Exchange {
         if (BUY.equals(order.getRoute())) {
             fireBuy(order);
         } else {
-            fireSell(order);
+            fireSell(order); //or short
         }
         quoteNotifierServer.pushQuote(order.getSymbol());
     }

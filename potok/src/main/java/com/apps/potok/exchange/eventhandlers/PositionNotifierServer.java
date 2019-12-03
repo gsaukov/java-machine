@@ -3,6 +3,7 @@ package com.apps.potok.exchange.eventhandlers;
 import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.core.ExchangeSpeed;
 import com.apps.potok.exchange.core.Position;
+import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.execution.PositionNotification;
 import com.apps.potok.soketio.server.Account;
 import com.apps.potok.soketio.server.AccountManager;
@@ -15,6 +16,8 @@ import java.util.UUID;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.LinkedBlockingDeque;
+
+import static com.apps.potok.exchange.mkdata.Route.SHORT;
 
 @Service
 public class PositionNotifierServer extends AbstractExchangeServer {
@@ -48,7 +51,7 @@ public class PositionNotifierServer extends AbstractExchangeServer {
         Account account = getAccount(symbolAccount.getAccountId());
         List<UUID> clients = account.getClientUuids();
         if(clients != null && !clients.isEmpty()){
-            Position position = account.getPosition(symbolAccount.getSymbol());
+            Position position = getPosition(account, symbolAccount);
             PositionNotification notification = new PositionNotification(position);
             for(UUID clientUuid : clients){
                 SocketIOClient client = server.getClient(clientUuid);
@@ -59,22 +62,32 @@ public class PositionNotifierServer extends AbstractExchangeServer {
         }
     }
 
-    public void pushPositionNotification(String accountId, String symbol) {
-        eventQueue.offer(new SymbolAccount(accountId, symbol));
+    public void pushPositionNotification(String accountId, String symbol, Route route) {
+        eventQueue.offer(new SymbolAccount(accountId, symbol, route));
     }
 
     private Account getAccount(String accountId) {
         return accountManager.getAccount(accountId);
     }
 
+    private Position getPosition(Account account, SymbolAccount symbolAccount){
+        if(SHORT.equals(symbolAccount.getRoute())){
+            return account.getShortPosition(symbolAccount.getSymbol());
+        } else {
+            return account.getPosition(symbolAccount.getSymbol());
+        }
+    }
+
     private static class SymbolAccount {
 
         private final String accountId;
         private final String symbol;
+        private final Route route;
 
-        SymbolAccount(String accountId, String symbol){
+        SymbolAccount(String accountId, String symbol, Route route){
             this.accountId = accountId;
             this.symbol = symbol;
+            this.route = route;
         }
 
         public String getAccountId() {
@@ -85,6 +98,9 @@ public class PositionNotifierServer extends AbstractExchangeServer {
             return symbol;
         }
 
+        public Route getRoute() {
+            return route;
+        }
     }
 
 }
