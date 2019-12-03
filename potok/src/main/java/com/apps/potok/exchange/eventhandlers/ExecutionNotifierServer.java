@@ -59,17 +59,13 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
     }
 
     public void pushFill(Order order, Integer fillPrice) {
-        if (accountManager.containsAccount(order.getAccount())){
-            Execution execution = new Execution(order, fillPrice, order.getVolume(), true);
-            eventQueue.offer(execution);
-        }
+        Execution execution = new Execution(order, fillPrice, order.getVolume(), true);
+        eventQueue.offer(execution);
     }
 
     public void pushPartFill(Order order, Integer fillPrice, Integer quantity) {
-        if (accountManager.containsAccount(order.getAccount())){
-            Execution execution = new Execution(order, fillPrice, quantity, false);
-            eventQueue.offer(execution);
-        }
+        Execution execution = new Execution(order, fillPrice, quantity, false);
+        eventQueue.offer(execution);
     }
 
     private Account getAccount(Execution execution) {

@@ -10,8 +10,13 @@ import com.apps.potok.soketio.server.AccountManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.exchange.mkdata.Route.BUY;
@@ -21,6 +26,7 @@ public class OrderManager {
 
     private final int RISK_FACTOR = 10;
 
+    ScheduledExecutorService executorService;
     private final ConcurrentHashMap<UUID, Order> orderPool;
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
@@ -41,18 +47,19 @@ public class OrderManager {
         this.askContainer = askContainer;
         this.bidContainer = bidContainer;
         this.orderPool = new ConcurrentHashMap();
+        this.executorService = Executors.newScheduledThreadPool(1);
     }
 
     public Order manageNew(NewOrder newOrder, Account account){
         Route route = getRoute(newOrder);
         if(BUY.equals(route)){
-            return newOrderBalanceProcessor(newOrder, account, route);
+            return newBuyOrderBalanceProcessor(newOrder, account, route);
         } else {
-            return createOrder(newOrder, account, route);
+            return newSellOrderBalanceProcessor(newOrder, account, route);
         }
     }
 
-    private Order newOrderBalanceProcessor(NewOrder newOrder, Account account, Route route){
+    private Order newBuyOrderBalanceProcessor(NewOrder newOrder, Account account, Route route){
         long predictedAmount = newOrder.getVolume() * symbolContainer.getQuote(newOrder.getSymbol());
         long balanceRisk = predictedAmount + predictedAmount/RISK_FACTOR;
         long balanceChange = newOrder.getVolume() * newOrder.getVal();
@@ -65,6 +72,41 @@ public class OrderManager {
         }
     }
 
+    //todo it is not thread safe for account with many client connections, needs to be fixed.
+    private Order newSellOrderBalanceProcessor(NewOrder newOrder, Account account, Route route){
+        long existingSellOrder = account.getExistingSellOrderVolume(newOrder.getSymbol());
+        long existingPositivePosition = account.getExistingPositivePositionVolume(newOrder.getSymbol());
+        long existingPositionDiff = existingPositivePosition - existingSellOrder;
+        long newPositionDiff = existingPositionDiff - newOrder.getVolume();
+        if(newPositionDiff < 0) {
+            if (existingPositionDiff <= 0) { //full amount should be taken from the balance.
+                long predictedAmount = newOrder.getVolume() * symbolContainer.getQuote(newOrder.getSymbol());
+                long balanceRisk = predictedAmount + predictedAmount / RISK_FACTOR;
+                long balanceChange = newOrder.getVolume() * newOrder.getVal();
+                boolean success = account.doNegativeOrderBalance(balanceRisk, balanceChange);
+                if (success) {
+                    balanceNotifier.pushBalance(account);
+                    return createOrder(newOrder, account, route);
+                } else {
+                    return null;
+                }
+            } else {// some positive part of existing position
+                long predictedAmount = newPositionDiff * symbolContainer.getQuote(newOrder.getSymbol());
+                long balanceRisk = predictedAmount + predictedAmount / RISK_FACTOR;
+                long balanceChange = newPositionDiff * newOrder.getVal();
+                boolean success = account.doNegativeOrderBalance(balanceRisk, balanceChange);
+                if (success) {
+                    balanceNotifier.pushBalance(account);
+                    return createOrder(newOrder, account, route);
+                } else {
+                    return null;
+                }
+            }
+        } else { // closing existing position
+            return createOrder(newOrder, account, route);
+        }
+    }
+
     public Order addOrder(Order order) {
         Account account = accountManager.getAccount(order.getAccount());
         account.addOrder(order);
@@ -73,7 +115,7 @@ public class OrderManager {
     }
 
     // returns removed order, returns null if order is already executed or not found.
-    // TODO: BUY balance on cancel should be returned assuming that it could be executed by other threads so be careful.
+    // BUY balance on cancel should be returned assuming that it could be executed by other threads so be careful.
     public Order cancelOrder(UUID uuid, String accountId) {
         Account account = accountManager.getAccount(accountId);
         Order orderToRemove = account.getOrder(uuid);
@@ -89,6 +131,7 @@ public class OrderManager {
                 }
             }
         }
+        executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), 10, TimeUnit.SECONDS);
         return null;
     }
 
@@ -133,6 +176,10 @@ public class OrderManager {
 
     private Order createOrder (NewOrder newOrder, Account account, Route route) {
         return new Order(newOrder.getSymbol(), account.getAccountId(), route, newOrder.getVal(), newOrder.getVolume());
+    }
+
+    private CancelOrderBalanceReturnTask createCancelOrderBalanceReturnTask (Order order, Account account) {
+        return new CancelOrderBalanceReturnTask(order, account, this.balanceNotifier);
     }
 
     private Route getRoute(NewOrder newOrder) {

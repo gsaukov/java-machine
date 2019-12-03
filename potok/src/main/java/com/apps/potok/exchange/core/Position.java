@@ -1,5 +1,6 @@
 package com.apps.potok.exchange.core;
 
+import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.execution.Execution;
 
 import java.util.Date;
@@ -28,13 +29,12 @@ public class Position {
         this.createdTimestamp = new Date();
         this.symbol = execution.getSymbol();
         this.accountId = execution.getAccountId();
-        this.volume = new AtomicInteger(execution.getQuantity());
         this.buyPriceValueAggregation = new ConcurrentHashMap<>();
-        this.buyPriceValueAggregation.put(execution.getFillPrice(), new AtomicInteger(execution.getQuantity()));
         this.buyExecutions = new ConcurrentHashMap<>();
-        this.buyExecutions.put(execution.getExecutionUuid(), execution);
         this.sellPriceValueAggregation = new ConcurrentHashMap<>();
         this.sellExecutions = new ConcurrentHashMap<>();
+        this.volume = new AtomicInteger(0);
+        applyExecution(execution);
     }
 
     public void applyExecution (Execution execution) {

@@ -3,7 +3,6 @@ package com.apps.potok.soketio.server;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.Position;
 import com.apps.potok.soketio.model.execution.Execution;
-import org.springframework.security.access.method.P;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,8 +11,10 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Account {
+import static com.apps.potok.exchange.mkdata.Route.BUY;
 
+public class Account {
+    //todo to resolve issue with balance modification/ position on sell orders due to multiple clients account should have order queue.
     private final String accountId;
     private final AtomicLong balance;
     private final ConcurrentHashMap<UUID, Order> orders;
@@ -75,6 +76,25 @@ public class Account {
 
     public Collection<Position> getPositions(){
         return positions.values();
+    }
+
+    public long getExistingSellOrderVolume(String symbol) {
+        long res = 0l;
+        for(Order order : getOrders()){
+            if(!BUY.equals(order.getRoute()) && order.getSymbol().equals(symbol) && order.isActive()){
+                res += order.getVolume();
+            }
+        }
+        return res;
+    }
+
+    public long getExistingPositivePositionVolume(String symbol) {
+        long res = 0l;
+        Position position = getPosition(symbol);
+        if(position != null && position.getVolume() > 0){
+            res = position.getVolume();
+        }
+        return res;
     }
 
     public Position doExecution(Execution execution) {
