@@ -1,7 +1,7 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
-import com.apps.potok.soketio.server.Account;
+import com.apps.potok.exchange.account.Account;
 
 import static com.apps.potok.exchange.mkdata.Route.SELL;
 

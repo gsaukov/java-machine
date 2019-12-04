@@ -5,8 +5,8 @@ import com.apps.potok.exchange.eventhandlers.PositionNotifierServer;
 import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.execution.Execution;
 import com.apps.potok.soketio.model.order.NewOrder;
-import com.apps.potok.soketio.server.Account;
-import com.apps.potok.soketio.server.AccountManager;
+import com.apps.potok.exchange.account.Account;
+import com.apps.potok.exchange.account.AccountManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

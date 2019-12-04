@@ -5,8 +5,8 @@ import com.apps.potok.exchange.core.Position;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.soketio.model.LogFile;
 import com.apps.potok.soketio.model.execution.PositionNotification;
-import com.apps.potok.soketio.server.Account;
-import com.apps.potok.soketio.server.AccountManager;
+import com.apps.potok.exchange.account.Account;
+import com.apps.potok.exchange.account.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.apps.potok.soketio.config.SessionUtil.ACCOUNT_ID;
-import static com.apps.potok.soketio.server.AccountManager.TEST_ACCOUNT_ID;
+import static com.apps.potok.exchange.account.AccountManager.TEST_ACCOUNT_ID;
 
 @Service
 public class SessionConnectListener implements ConnectListener {

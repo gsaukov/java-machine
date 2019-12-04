@@ -4,17 +4,15 @@ import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.soketio.model.execution.Execution;
-import com.apps.potok.soketio.server.Account;
-import com.apps.potok.soketio.server.AccountManager;
+import com.apps.potok.exchange.account.Account;
+import com.apps.potok.exchange.account.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
 public class ExecutionNotifierServer extends AbstractExchangeServer {

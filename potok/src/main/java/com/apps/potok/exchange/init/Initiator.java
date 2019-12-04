@@ -5,7 +5,7 @@ import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.mkdata.Route;
-import com.apps.potok.soketio.server.AccountManager;
+import com.apps.potok.exchange.account.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 

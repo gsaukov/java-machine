@@ -1,4 +1,4 @@
-package com.apps.potok.soketio.server;
+package com.apps.potok.soketio.config;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.beans.factory.annotation.Autowired;

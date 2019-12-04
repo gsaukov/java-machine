@@ -4,7 +4,7 @@ import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.SymbolContainer;
-import com.apps.potok.soketio.server.AccountManager;
+import com.apps.potok.exchange.account.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

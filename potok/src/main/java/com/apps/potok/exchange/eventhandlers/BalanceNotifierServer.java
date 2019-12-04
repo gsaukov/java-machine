@@ -1,16 +1,14 @@
 package com.apps.potok.exchange.eventhandlers;
 
 import com.apps.potok.exchange.core.AbstractExchangeServer;
-import com.apps.potok.soketio.server.Account;
+import com.apps.potok.exchange.account.Account;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
 public class BalanceNotifierServer extends AbstractExchangeServer {

@@ -1,6 +1,6 @@
 package com.apps.potok.soketio.config;
 
-import com.apps.potok.soketio.server.AccountManager;
+import com.apps.potok.exchange.account.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import org.springframework.beans.factory.annotation.Autowired;

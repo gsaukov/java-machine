@@ -1,7 +1,7 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
-import com.apps.potok.soketio.server.AccountManager;
+import com.apps.potok.exchange.account.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 

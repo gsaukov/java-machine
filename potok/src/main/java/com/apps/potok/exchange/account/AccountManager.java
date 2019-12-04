@@ -1,4 +1,4 @@
-package com.apps.potok.soketio.server;
+package com.apps.potok.exchange.account;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
