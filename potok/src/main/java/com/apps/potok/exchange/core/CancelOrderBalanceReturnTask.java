@@ -3,7 +3,7 @@ package com.apps.potok.exchange.core;
 import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
 import com.apps.potok.soketio.server.Account;
 
-import static com.apps.potok.exchange.mkdata.Route.BUY;
+import static com.apps.potok.exchange.mkdata.Route.SELL;
 
 public class CancelOrderBalanceReturnTask implements Runnable {
 
@@ -19,21 +19,21 @@ public class CancelOrderBalanceReturnTask implements Runnable {
 
     @Override
     public void run() {
-        if(BUY.equals(canceledOrder.getRoute())){ //todo cancelBuyShort
-            cancelBuyOrderBalanceProcessor(canceledOrder, account);
-        } else {
+        if(SELL.equals(canceledOrder.getRoute())){
             cancelSellOrderBalanceProcessor(canceledOrder, account);
+        } else {
+            cancelBuyShortOrderBalanceProcessor(canceledOrder, account);
         }
         balanceNotifier.pushBalance(account);
     }
 
-    private void cancelBuyOrderBalanceProcessor(Order canceledOrder, Account account) {
+    private void cancelBuyShortOrderBalanceProcessor(Order canceledOrder, Account account) {
         long balanceChange = canceledOrder.getVal() * canceledOrder.getVolume();
         account.doPositiveOrderBalance(balanceChange);
     }
 
     private void cancelSellOrderBalanceProcessor(Order canceledOrder, Account account) {
-        //todo return balance
+        //Sell orders do not block any balance so there is nothing to return.
     }
 
 }

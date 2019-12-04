@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.exchange.mkdata.Route.BUY;
+import static com.apps.potok.exchange.mkdata.Route.SELL;
 
 @Service
 public class OrderManager {
@@ -50,7 +51,7 @@ public class OrderManager {
 
     public Order manageNew(NewOrder newOrder, Account account) {
         Route route = getRoute(newOrder);
-        if (!BUY.equals(route)) {
+        if (SELL.equals(route)) {
             return newSellOrderBalanceProcessor(newOrder, account, route);
         } else {
             return newBuyShortOrderBalanceProcessor(newOrder, account, route);
@@ -114,7 +115,7 @@ public class OrderManager {
     public Order manageExecution(Execution execution) {
         Account account = accountManager.getAccount(execution.getAccountId());
         Order order = account.getOrder(execution.getOrderUuid());
-        if (BUY.equals(order.getRoute())) {
+        if (SELL.equals(order.getRoute())) {
             sellExecutionBalanceProcessor(execution, account);
         } else {
             buyShortExecutionBalanceProcessor(execution, order, account);
@@ -125,9 +126,15 @@ public class OrderManager {
         return order;
     }
 
+    // Buy Short Execution could happen only at same or better price, the abs difference we return to account balance.
+    // Example of buying 1 share:
+    // |route	| order	| execution	| return absolute	|
+    // |buy 	| 40	| 30		| 10				|
+    // |short	| 20	| 40		| 20				|
+
     private void buyShortExecutionBalanceProcessor(Execution execution, Order order, Account account) {
         if (order.getVal() != execution.getFillPrice()) {
-            long returnAmount = (order.getVal() - execution.getFillPrice()) * execution.getQuantity();
+            long returnAmount = Math.abs(order.getVal() - execution.getFillPrice()) * execution.getQuantity();
             account.doPositiveOrderBalance(returnAmount);
             balanceNotifier.pushBalance(account);
         }
