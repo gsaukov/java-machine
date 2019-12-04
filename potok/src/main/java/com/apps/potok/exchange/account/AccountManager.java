@@ -70,4 +70,8 @@ public class AccountManager {
     public Account getAccount(String account) {
         return accountContainer.get(account);
     }
+
+    public void addNewAccount(Account account){
+        accountContainer.put(account.getAccountId(), account);
+    }
 }
