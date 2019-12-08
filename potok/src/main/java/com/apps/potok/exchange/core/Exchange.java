@@ -66,6 +66,8 @@ public class Exchange {
                         notifyFilled(order, matchingOrder.getVal());
                         notifyPartFilled(matchingOrder, matchingOrder.getVal(), order.getVolume());
 
+                        order.fullFill();
+
                         return;
                     } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
                         //order is part filled produce partfill execution notification continue the loop
@@ -76,6 +78,8 @@ public class Exchange {
                         notifyFilled(matchingOrder, matchingOrder.getVal());
                         notifyPartFilled(order, matchingOrder.getVal(), matchingOrder.getVolume());
 
+                        matchingOrder.fullFill();
+
                     } else {
                         bid.getAndAdd(order.getVolume());
                         //both are filled produce execution notifications for both
@@ -83,6 +87,8 @@ public class Exchange {
                         notifyFilled(matchingOrder, matchingOrder.getVal());
                         notifyFilled(order, matchingOrder.getVal());
 
+                        matchingOrder.fullFill();
+                        order.fullFill();
                         return;
                     }
                 }
@@ -109,6 +115,7 @@ public class Exchange {
                         notifyFilled(order, matchingOrder.getVal());
                         notifyPartFilled(matchingOrder, matchingOrder.getVal(), order.getVolume());
 
+                        order.fullFill();
                         return;
                     } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
                         //order is part filled produce partfill execution notification continue the loop
@@ -118,7 +125,7 @@ public class Exchange {
 
                         notifyFilled(matchingOrder, matchingOrder.getVal());
                         notifyPartFilled(order, matchingOrder.getVal(), matchingOrder.getVolume());
-
+                        matchingOrder.fullFill();
                     } else {
                         //both are filled produce execution notifications for both
                         ask.getAndAdd(order.getVolume());
@@ -126,6 +133,8 @@ public class Exchange {
                         notifyFilled(matchingOrder, matchingOrder.getVal());
                         notifyFilled(order, matchingOrder.getVal());
 
+                        matchingOrder.fullFill();
+                        order.fullFill();
                         return;
                     }
                 }

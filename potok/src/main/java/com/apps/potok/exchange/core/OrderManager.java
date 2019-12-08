@@ -8,6 +8,7 @@ import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -29,6 +30,9 @@ public class OrderManager {
     private final ConcurrentHashMap<UUID, Order> orderPool;
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
+
+    @Value("${exchange.cancel-balance-return-delay}")
+    private Integer cancelBalanceReturnDelay;
 
     @Autowired
     private SymbolContainer symbolContainer;
@@ -96,20 +100,16 @@ public class OrderManager {
     public Order cancelOrder(UUID uuid, String accountId) {
         Account account = accountManager.getAccount(accountId);
         Order orderToRemove = account.getOrder(uuid);
-        if (orderToRemove != null && orderToRemove.getAccount().equals(accountId)) {
+        if (orderToRemove != null && orderToRemove.getAccount().equals(accountId) && orderToRemove.isActive()) {
             orderToRemove.cancel();
             if (BUY.equals(orderToRemove.getRoute())) {
-                if (askContainer.removeAsk(orderToRemove)) {
-                    return orderToRemove;
-                }
+                askContainer.removeAsk(orderToRemove);
             } else {
-                if (bidContainer.removeBid(orderToRemove)) {
-                    return orderToRemove;
-                }
+                bidContainer.removeBid(orderToRemove);
             }
         }
-        executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), 10, TimeUnit.SECONDS);
-        return null;
+        executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), cancelBalanceReturnDelay, TimeUnit.SECONDS);
+        return orderToRemove;
     }
 
     public Order manageExecution(Execution execution) {

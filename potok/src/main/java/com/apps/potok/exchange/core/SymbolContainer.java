@@ -39,6 +39,10 @@ public class SymbolContainer {
         return new ArrayList<>(symbolsContainer.keySet());
     }
 
+    public void addSymbol(String symbol, Integer val) {
+        symbolsContainer.put(symbol, val);
+    }
+
     public Integer getQuote(String symbol) {
         return symbolsContainer.get(symbol);
     }

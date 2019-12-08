@@ -71,6 +71,10 @@ public class Order implements Serializable {
         volume.getAndAdd(-order.getVolume()); //decrement
     }
 
+    public void fullFill() {
+        volume.set(0); //decrement
+    }
+
     public void cancel() {
         active.getAndSet(false);
     }

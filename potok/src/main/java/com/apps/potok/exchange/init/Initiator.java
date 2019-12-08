@@ -40,7 +40,7 @@ public class Initiator {
         }
     }
 
-    private void insertOrder(ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> allOrderContainer, Order order, Route route) {
+    public void insertOrder(ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> allOrderContainer, Order order, Route route) {
         ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> symbolOrderContainer = allOrderContainer.get(order.getSymbol());
 
         if(symbolOrderContainer == null){
