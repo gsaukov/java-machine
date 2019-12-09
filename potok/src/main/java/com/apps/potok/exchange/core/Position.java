@@ -20,6 +20,7 @@ public class Position {
     private final String accountId;
     private final AtomicInteger volume;
     private final Route route;
+    private final Integer blockedPrice;
     private final ConcurrentHashMap<Integer, AtomicInteger> buyPriceValueAggregation;
     private final ConcurrentHashMap<UUID, Execution> buyExecutions;
     private final ConcurrentHashMap<Integer, AtomicInteger> sellPriceValueAggregation;
@@ -35,6 +36,7 @@ public class Position {
         this.buyExecutions = new ConcurrentHashMap<>();
         this.sellPriceValueAggregation = new ConcurrentHashMap<>();
         this.sellExecutions = new ConcurrentHashMap<>();
+        this.blockedPrice = execution.getBlockedPrice();
         this.volume = new AtomicInteger(0);
         applyExecution(execution);
     }

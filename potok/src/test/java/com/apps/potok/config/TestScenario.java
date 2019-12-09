@@ -2,9 +2,7 @@ package com.apps.potok.config;
 
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.core.Order;
-import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.order.NewOrder;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,7 @@ public class TestScenario {
     private Account account;
     private List<NewOrder> newOrders = new ArrayList();
     private List<Order> orders = new ArrayList();
+    private List<ExchangeCondition> exchangeConditions = new ArrayList();
 
     public String getSymbol() {
         return symbol;
@@ -47,7 +46,24 @@ public class TestScenario {
         this.orders.add(order);
     }
 
+    public List<ExchangeCondition> getExchangeConditions() {
+        return this.exchangeConditions;
+    }
 
+    public void addExchangeCondition(ExchangeCondition exchangeCondition) {
+        this.exchangeConditions.add(exchangeCondition);
+    }
 
+    public void addExchangeConditions(List<ExchangeCondition> exchangeConditions) {
+        this.exchangeConditions.addAll(exchangeConditions);
+    }
+
+    public String getAccountId() {
+        return account.getAccountId();
+    }
+
+    public long getBalance() {
+        return account.getBalance();
+    }
 
 }

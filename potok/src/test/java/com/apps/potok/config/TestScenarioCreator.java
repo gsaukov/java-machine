@@ -14,6 +14,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestComponent;
 
+import java.util.List;
+
 @TestComponent
 public class TestScenarioCreator {
 
@@ -45,7 +47,22 @@ public class TestScenarioCreator {
         testScenario.setSymbol(symbol);
         Account account = createAccount(balance);
         testScenario.setAccount(account);
-        prepareExchange(symbol);
+        Account exchangeAccount = createAccount(100000);
+        ExchangeCondition exchangeCondition = new ExchangeCondition(exchangeAccount, symbol, 4, 5, 6, 1);
+        prepareExchange(exchangeCondition);
+        testScenario.addExchangeCondition(exchangeCondition);
+        return testScenario;
+    }
+
+    public TestScenario newTestScenario(String symbol, int balance, List<ExchangeCondition> exchangeConditions) {
+        TestScenario testScenario = new TestScenario();
+        testScenario.setSymbol(symbol);
+        Account account = createAccount(balance);
+        testScenario.setAccount(account);
+        for(ExchangeCondition exchangeCondition :exchangeConditions){
+            prepareExchange(exchangeCondition);
+        }
+        testScenario.addExchangeConditions(exchangeConditions);
         return testScenario;
     }
 
@@ -57,19 +74,18 @@ public class TestScenarioCreator {
     // | 3     1   | 8     1   |
     // | 2     1   | 9     1   |
 
-    public void prepareExchange(String symbol) {
-        prepareExchange(symbol, 4, 5, 6, 1);
-    }
 
-    public void prepareExchange(String symbol, int tiers, int askPrice, int bidPrice, int volume) {
-        symbolContainer.addSymbol(symbol, askPrice);
-        Account exchangeAccount = createAccount(100000);
-        for(int i = 0; i < tiers; i++) {
-            initiator.insertOrder(askContainer.get(), createExchangeOrder(symbol, exchangeAccount, Route.BUY, askPrice - i, volume), Route.BUY);
+    public void prepareExchange(ExchangeCondition exchangeCondition) {
+        symbolContainer.addSymbol(exchangeCondition.getSymbol(), exchangeCondition.getAskPrice());
+        if(exchangeCondition.getAskPrice() != 0){
+            for(int i = 0; i < exchangeCondition.getTiers(); i++) {
+                initiator.insertOrder(askContainer.get(), createExchangeOrder(exchangeCondition.getSymbol(), exchangeCondition.getExchangeAccount(), Route.BUY, exchangeCondition.getAskPrice() - i, exchangeCondition.getVolume()), Route.BUY);
+            }
         }
-
-        for(int i = 0; i < tiers; i++) {
-            initiator.insertOrder(bidContainer.get(), createExchangeOrder(symbol, exchangeAccount, Route.SELL, bidPrice + i, volume), Route.SELL);
+        if(exchangeCondition.getBidPrice() != 0){
+            for(int i = 0; i < exchangeCondition.getTiers(); i++) {
+                initiator.insertOrder(bidContainer.get(), createExchangeOrder(exchangeCondition.getSymbol(), exchangeCondition.getExchangeAccount(), Route.SELL, exchangeCondition.getBidPrice() + i, exchangeCondition.getVolume()), Route.SELL);
+            }
         }
     }
 

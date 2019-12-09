@@ -33,64 +33,64 @@ public class AccountBalanceTest extends BaseTest {
 
     @Test
     public void balanceCancelBuy() throws InterruptedException {
-        long balance = testScenario.getAccount().getBalance();
+        long balance = testScenario.getBalance();
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.BUY, BUY_PRICE, 1);
-        assertEquals(testScenario.getAccount().getBalance(), balance - BUY_PRICE);
-        orderManager.cancelOrder(order.getUuid(), testScenario.getAccount().getAccountId());
+        assertEquals(testScenario.getBalance(), balance - BUY_PRICE);
+        orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
-        assertEquals(testScenario.getAccount().getBalance(), balance);
+        assertEquals(testScenario.getBalance(), balance);
     }
 
     @Test
     public void balanceCancelShort() throws InterruptedException {
-        long balance = testScenario.getAccount().getBalance();
+        long balance = testScenario.getBalance();
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.SHORT, SHORT_PRICE, 1);
-        assertEquals(testScenario.getAccount().getBalance(), balance - SHORT_PRICE);
-        orderManager.cancelOrder(order.getUuid(), testScenario.getAccount().getAccountId());
+        assertEquals(testScenario.getBalance(), balance - SHORT_PRICE);
+        orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
-        assertEquals(testScenario.getAccount().getBalance(), balance);
+        assertEquals(testScenario.getBalance(), balance);
     }
 
     @Test
     public void balanceCancelSell() throws InterruptedException {
         //create position
-        long balance = testScenario.getAccount().getBalance();
+        long balance = testScenario.getBalance();
         Order buyOrder = testScenarioCreator.sendNewOrder(testScenario, Route.BUY, SELL_PRICE, 1);
         long newBalance =  balance - SELL_PRICE;
-        assertEquals(testScenario.getAccount().getBalance(), newBalance);
+        assertEquals(testScenario.getBalance(), newBalance);
         Thread.sleep(10);
         assertNotNull(testScenario.getAccount().getPosition(testScenario.getSymbol()));
 
         //sell position it does not affect balace
         Order sellOrder = testScenarioCreator.sendNewOrder(testScenario, Route.SELL, SELL_PRICE, 1);
-        assertEquals(testScenario.getAccount().getBalance(), newBalance);
-        orderManager.cancelOrder(sellOrder.getUuid(), testScenario.getAccount().getAccountId());
+        assertEquals(testScenario.getBalance(), newBalance);
+        orderManager.cancelOrder(sellOrder.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
-        assertEquals(testScenario.getAccount().getBalance(), newBalance);
+        assertEquals(testScenario.getBalance(), newBalance);
     }
 
     @Test
     public void balanceCancelPartFilledBuy() throws InterruptedException {
         int volume = 2;
-        long balance = testScenario.getAccount().getBalance();
+        long balance = testScenario.getBalance();
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.BUY, SELL_PRICE, volume);
         assertEquals(order.getVolume().intValue(), 1);
-        assertEquals(testScenario.getAccount().getBalance(), balance - (SELL_PRICE * volume));
-        orderManager.cancelOrder(order.getUuid(), testScenario.getAccount().getAccountId());
+        assertEquals(testScenario.getBalance(), balance - (SELL_PRICE * volume));
+        orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
-        assertEquals(testScenario.getAccount().getBalance(), balance - SELL_PRICE);
+        assertEquals(testScenario.getBalance(), balance - SELL_PRICE);
     }
 
     @Test
     public void balanceCancelPartFilledShort() throws InterruptedException {
         int volume = 2;
-        long balance = testScenario.getAccount().getBalance();
+        long balance = testScenario.getBalance();
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.BUY, SHORT_PRICE, volume);
         assertEquals(order.getVolume().intValue(), 1);
-        assertEquals(testScenario.getAccount().getBalance(), balance - (SHORT_PRICE * volume));
-        orderManager.cancelOrder(order.getUuid(), testScenario.getAccount().getAccountId());
+        assertEquals(testScenario.getBalance(), balance - (SHORT_PRICE * volume));
+        orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
-        assertEquals(testScenario.getAccount().getBalance(), balance - SHORT_PRICE);
+        assertEquals(testScenario.getBalance(), balance - SHORT_PRICE);
     }
 
 }

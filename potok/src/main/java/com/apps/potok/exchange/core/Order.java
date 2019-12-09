@@ -22,8 +22,14 @@ public class Order implements Serializable {
     private final Integer originalVolume;
     private final AtomicInteger volume;
     private final AtomicBoolean active;
+    private final Integer blockedPrice; //used to block balance for short.
+
 
     public Order(String symbol, String account, Route route, Integer val, Integer volume) {
+        this(symbol, account, route, val, volume, 0);
+   }
+
+    public Order(String symbol, String account, Route route, Integer val, Integer volume, Integer blockedPrice) {
         this.uuid = randomUUID();
         this.timestamp = new Date();
         this.symbol = symbol;
@@ -33,6 +39,7 @@ public class Order implements Serializable {
         this.originalVolume = volume;
         this.volume = new AtomicInteger(volume);
         this.active = new AtomicBoolean(true);
+        this.blockedPrice = blockedPrice;
     }
 
     public UUID getUuid() {
@@ -67,6 +74,14 @@ public class Order implements Serializable {
         return volume.get();
     }
 
+    public Integer getBlockedPrice() {
+        return blockedPrice;
+    }
+
+    public boolean isActive() {
+        return active.get();
+    }
+
     public void partFill(Order order) {
         volume.getAndAdd(-order.getVolume()); //decrement
     }
@@ -77,10 +92,6 @@ public class Order implements Serializable {
 
     public void cancel() {
         active.getAndSet(false);
-    }
-
-    public boolean isActive() {
-        return active.get();
     }
 
     @Override

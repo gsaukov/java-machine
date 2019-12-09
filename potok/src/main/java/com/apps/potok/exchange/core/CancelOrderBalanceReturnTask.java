@@ -3,6 +3,7 @@ package com.apps.potok.exchange.core;
 import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
 import com.apps.potok.exchange.account.Account;
 
+import static com.apps.potok.exchange.mkdata.Route.BUY;
 import static com.apps.potok.exchange.mkdata.Route.SELL;
 
 public class CancelOrderBalanceReturnTask implements Runnable {
@@ -21,14 +22,21 @@ public class CancelOrderBalanceReturnTask implements Runnable {
     public void run() {
         if(SELL.equals(canceledOrder.getRoute())){
             cancelSellOrderBalanceProcessor(canceledOrder, account);
-        } else {
-            cancelBuyShortOrderBalanceProcessor(canceledOrder, account);
+        } else if (BUY.equals(canceledOrder.getRoute())) {
+            cancelBuyOrderBalanceProcessor(canceledOrder, account);
+        } else { //short
+            cancelShortOrderBalanceProcessor(canceledOrder, account);
         }
         balanceNotifier.pushBalance(account);
     }
 
-    private void cancelBuyShortOrderBalanceProcessor(Order canceledOrder, Account account) {
+    private void cancelBuyOrderBalanceProcessor(Order canceledOrder, Account account) {
         long balanceChange = canceledOrder.getVal() * canceledOrder.getVolume();
+        account.doPositiveOrderBalance(balanceChange);
+    }
+
+    private void cancelShortOrderBalanceProcessor(Order canceledOrder, Account account) {
+        long balanceChange = canceledOrder.getBlockedPrice() * canceledOrder.getVolume();
         account.doPositiveOrderBalance(balanceChange);
     }
 

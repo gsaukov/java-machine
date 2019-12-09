@@ -57,12 +57,14 @@ public class OrderManager {
         Route route = getRoute(newOrder);
         if (SELL.equals(route)) {
             return newSellOrderBalanceProcessor(newOrder, account, route);
-        } else {
-            return newBuyShortOrderBalanceProcessor(newOrder, account, route);
+        } else if (BUY.equals(route)) {
+            return buyOrderBalanceProcessor(newOrder, account, route);
+        } else { //short
+            return shortOrderBalanceProcessor(newOrder, account, route);
         }
     }
 
-    private Order newBuyShortOrderBalanceProcessor(NewOrder newOrder, Account account, Route route) {
+    private Order buyOrderBalanceProcessor(NewOrder newOrder, Account account, Route route) {
         long predictedAmount = newOrder.getVolume() * symbolContainer.getQuote(newOrder.getSymbol());
         long balanceRisk = predictedAmount + predictedAmount / RISK_FACTOR;
         long balanceChange = newOrder.getVolume() * newOrder.getVal();
@@ -70,6 +72,19 @@ public class OrderManager {
         if (success) {
             balanceNotifier.pushBalance(account);
             return createOrder(newOrder, account, route);
+        } else {
+            return null;
+        }
+    }
+
+    private Order shortOrderBalanceProcessor(NewOrder newOrder, Account account, Route route) {
+        Integer blockedPrice = symbolContainer.getQuote(newOrder.getSymbol());
+        blockedPrice = blockedPrice + blockedPrice / RISK_FACTOR;
+        long blockedBalance = newOrder.getVolume() * blockedPrice;
+        boolean success = account.doNegativeOrderBalance(blockedBalance, blockedBalance);
+        if (success) {
+            balanceNotifier.pushBalance(account);
+            return createShortOrder(newOrder, account, route, blockedPrice);
         } else {
             return null;
         }
@@ -117,8 +132,10 @@ public class OrderManager {
         Order order = account.getOrder(execution.getOrderUuid());
         if (SELL.equals(order.getRoute())) {
             sellExecutionBalanceProcessor(execution, account);
+        } else if (BUY.equals(order.getRoute())) {
+            buyExecutionBalanceProcessor(execution, order, account);
         } else {
-            buyShortExecutionBalanceProcessor(execution, order, account);
+            shortExecutionBalanceProcessor(execution, order, account);
         }
         Position position = account.doExecution(execution);
         positionNotifier.pushPositionNotification(position.getAccountId(), position.getSymbol(), position.getRoute());
@@ -132,12 +149,16 @@ public class OrderManager {
     // |buy 	| 40	| 30		| 10				|
     // |short	| 20	| 40		| 20				|
 
-    private void buyShortExecutionBalanceProcessor(Execution execution, Order order, Account account) {
+    private void buyExecutionBalanceProcessor(Execution execution, Order order, Account account) {
         if (order.getVal() != execution.getFillPrice()) {
-            long returnAmount = Math.abs(order.getVal() - execution.getFillPrice()) * execution.getQuantity();
+            long returnAmount = (order.getVal() - execution.getFillPrice()) * execution.getQuantity();
             account.doPositiveOrderBalance(returnAmount);
             balanceNotifier.pushBalance(account);
         }
+    }
+
+    private void shortExecutionBalanceProcessor(Execution execution, Order order, Account account) {
+        //do not return anything only on close short.
     }
 
     private void sellExecutionBalanceProcessor(Execution execution, Account account) {
@@ -159,6 +180,10 @@ public class OrderManager {
 
     private Order createOrder(NewOrder newOrder, Account account, Route route) {
         return new Order(newOrder.getSymbol(), account.getAccountId(), route, newOrder.getVal(), newOrder.getVolume());
+    }
+
+    private Order createShortOrder(NewOrder newOrder, Account account, Route route, Integer blockedBalance) {
+        return new Order(newOrder.getSymbol(), account.getAccountId(), route, newOrder.getVal(), newOrder.getVolume(), blockedBalance);
     }
 
     private CancelOrderBalanceReturnTask createCancelOrderBalanceReturnTask(Order order, Account account) {

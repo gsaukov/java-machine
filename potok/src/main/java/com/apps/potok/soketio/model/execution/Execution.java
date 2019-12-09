@@ -18,6 +18,7 @@ public class Execution implements Serializable {
     private final String accountId;
     private final Route route;
     private final Integer fillPrice;
+    private final Integer blockedPrice;
     private final Integer quantity;
     private final boolean filled;
 
@@ -29,6 +30,7 @@ public class Execution implements Serializable {
         this.accountId = order.getAccount();
         this.route = order.getRoute();
         this.fillPrice = fillPrice;
+        this.blockedPrice = order.getBlockedPrice();
         this.quantity = quantity;
         this.filled = filled;
     }
@@ -59,6 +61,10 @@ public class Execution implements Serializable {
 
     public Integer getFillPrice() {
         return fillPrice;
+    }
+
+    public Integer getBlockedPrice() {
+        return blockedPrice;
     }
 
     public Integer getQuantity() {
