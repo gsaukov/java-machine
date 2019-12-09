@@ -45,7 +45,7 @@ public class AccountBalanceTest extends BaseTest {
     public void balanceCancelShort() throws InterruptedException {
         long balance = testScenario.getBalance();
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.SHORT, SHORT_PRICE, 1);
-        assertEquals(testScenario.getBalance(), balance - SHORT_PRICE);
+        assertEquals(testScenario.getBalance(), balance - order.getBlockedPrice());
         orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
         assertEquals(testScenario.getBalance(), balance);
