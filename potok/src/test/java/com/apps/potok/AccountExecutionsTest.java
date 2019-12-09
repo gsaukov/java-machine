@@ -152,14 +152,10 @@ public class AccountExecutionsTest extends BaseTest {
         Thread.sleep(10);
         assertEquals(order.getVolume().intValue(), 0); // fully filled
 
-        //  3 * 5 = 15
-        //  2 * 5 = 10
-        //      10| 25
-
-        assertEquals(testScenario.getBalance(), BALANCE - 170 - 70 + 105 - 25);
+        assertEquals(testScenario.getBalance(), BALANCE - 170 - 70 + 105 - (order.getBlockedPrice() * order.getOriginalVolume()));
 
         Position shortPosition = testScenario.getAccount().getShortPosition(symbol);
-        assertEquals(shortPosition.getVolume().intValue(), 10);
+        assertEquals(shortPosition.getVolume().intValue(), -10);
 
         List<Map.Entry<Integer, AtomicInteger>> shortAggregations = new ArrayList(shortPosition.getSellPriceValueAggregation().entrySet());
         assertEquals(shortAggregations.size(), 2);
@@ -169,7 +165,7 @@ public class AccountExecutionsTest extends BaseTest {
         assertEquals(shortAggregations.get(1).getValue().intValue(), 5);
 
         ArrayList<Execution> shortExecutions = new ArrayList(shortPosition.getSellExecutions().values());
-        sellExecutions.sort(new ExecutionsComparator());
+        shortExecutions.sort(new ExecutionsComparator());
 
         assertEquals(shortExecutions.get(0).getFillPrice().intValue(), 2);
         assertEquals(shortExecutions.get(0).getQuantity().intValue(), 5);
