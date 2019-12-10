@@ -3,6 +3,8 @@ package com.apps.potok.exchange.core;
 import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
 import com.apps.potok.exchange.eventhandlers.PositionNotifierServer;
 import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.soketio.model.execution.CloseShortPosition;
+import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.apps.potok.soketio.model.execution.Execution;
 import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.exchange.account.Account;
@@ -20,6 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.exchange.mkdata.Route.BUY;
 import static com.apps.potok.exchange.mkdata.Route.SELL;
+import static com.apps.potok.exchange.mkdata.Route.SHORT;
 
 @Service
 public class OrderManager {
@@ -176,6 +179,18 @@ public class OrderManager {
             }
         }
         return res.get();
+    }
+
+    public CloseShortPosition manageCloseShort(CloseShortPositionRequest request, Account account) {
+        CloseShortPosition closeShortPosition = new CloseShortPosition(account.getAccountId(), request.getSymbol(), request.getAmount());
+        boolean success = account.doCloseShortPosition(closeShortPosition);
+        if (success){
+            balanceNotifier.pushBalance(account);
+            positionNotifier.pushPositionNotification(account.getAccountId(), request.getSymbol(), BUY);
+            positionNotifier.pushPositionNotification(account.getAccountId(), request.getSymbol(), SHORT);
+        }
+
+        return closeShortPosition;
     }
 
     private Order createOrder(NewOrder newOrder, Account account, Route route) {

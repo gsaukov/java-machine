@@ -6,9 +6,12 @@ import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
 import com.apps.potok.exchange.core.ExchangeApplication;
 import com.apps.potok.exchange.core.Order;
+import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.init.Initiator;
 import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.soketio.model.execution.CloseShortPosition;
+import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.apps.potok.soketio.model.order.NewOrder;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,9 @@ public class TestScenarioCreator {
 
     @Autowired
     private AccountManager accountManager;
+
+    @Autowired
+    private OrderManager orderManager;
 
     @Autowired
     private SymbolContainer symbolContainer;
@@ -110,6 +116,13 @@ public class TestScenarioCreator {
         Order order = exchangeApplication.manageNew(newOrder, testScenario.getAccount());
         testScenario.addOrder(order);
         return order;
+    }
+
+    public CloseShortPosition manageCloseShort(TestScenario testScenario, String symbol, Integer amount) {
+        CloseShortPositionRequest request = new CloseShortPositionRequest();
+        request.setSymbol(symbol);
+        request.setAmount(amount);
+        return orderManager.manageCloseShort(request, testScenario.getAccount());
     }
 
 }

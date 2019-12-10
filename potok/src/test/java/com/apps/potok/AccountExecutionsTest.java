@@ -175,6 +175,9 @@ public class AccountExecutionsTest extends BaseTest {
         assertEquals(shortExecutions.get(1).getQuantity().intValue(), 5);
         assertEquals(shortExecutions.get(1).getOrderUuid(), order.getUuid());
         assertEquals(shortExecutions.get(1).getAccountId(), testScenario.getAccountId());
+
+        testScenarioCreator.manageCloseShort(testScenario, symbol, 5);
+        assertEquals(testScenario.getBalance(), BALANCE - 170 - 70 + 105 - (order.getBlockedPrice() * order.getOriginalVolume()) + (order.getBlockedPrice() * 5));
     }
 
     // prepares new exchange conditions.

@@ -1,6 +1,7 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.soketio.model.execution.CloseShortPosition;
 import com.apps.potok.soketio.model.execution.Execution;
 
 import java.util.Date;
@@ -25,6 +26,7 @@ public class Position {
     private final ConcurrentHashMap<UUID, Execution> buyExecutions;
     private final ConcurrentHashMap<Integer, AtomicInteger> sellPriceValueAggregation;
     private final ConcurrentHashMap<UUID, Execution> sellExecutions;
+    private final ConcurrentHashMap<UUID, CloseShortPosition> closeShort;
 
     public Position(Execution execution) {
         this.uuid = UUID.randomUUID();
@@ -36,6 +38,7 @@ public class Position {
         this.buyExecutions = new ConcurrentHashMap<>();
         this.sellPriceValueAggregation = new ConcurrentHashMap<>();
         this.sellExecutions = new ConcurrentHashMap<>();
+        this.closeShort = new ConcurrentHashMap<>();
         this.blockedPrice = execution.getBlockedPrice();
         this.volume = new AtomicInteger(0);
         applyExecution(execution);
@@ -70,6 +73,15 @@ public class Position {
         }
         sellExecutions.put(execution.getExecutionUuid(), execution);
         volume.getAndAdd(-execution.getQuantity());
+    }
+
+    public void closeShort(CloseShortPosition closeShortPosition, Position positivePosition){
+        this.closeShort.put(closeShortPosition.getUuid(), closeShortPosition);
+        positivePosition.closeShort.put(closeShortPosition.getUuid(), closeShortPosition);
+        this.volume.getAndAdd(closeShortPosition.getAmount());
+        positivePosition.volume.getAndAdd(-closeShortPosition.getAmount());
+        closeShortPosition.setPositivePosition(positivePosition.getUuid());
+        closeShortPosition.setShortPosition(this.uuid);
     }
 
     public Double calculateWeightedAveragePrice() {
@@ -110,6 +122,10 @@ public class Position {
 
     public Route getRoute() {
         return route;
+    }
+
+    public Integer getBlockedPrice() {
+        return blockedPrice;
     }
 
     public Integer getVolume() {

@@ -2,6 +2,7 @@ package com.apps.potok.exchange.account;
 
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.Position;
+import com.apps.potok.soketio.model.execution.CloseShortPosition;
 import com.apps.potok.soketio.model.execution.Execution;
 
 import java.util.ArrayList;
@@ -72,6 +73,34 @@ public class Account {
         balance.getAndAdd(change);
         return true;
     }
+
+    public boolean doCloseShortPosition(CloseShortPosition closeShortPosition) {
+        Position positivePosition = getPosition(closeShortPosition.getSymbol());
+        Position shortPosition = getShortPosition(closeShortPosition.getSymbol());
+        long sellOrderSize = getExistingSellOrderVolume(closeShortPosition.getSymbol());
+        if(canCloseShort(closeShortPosition, positivePosition, shortPosition, sellOrderSize)){
+            shortPosition.closeShort(closeShortPosition, positivePosition);
+            balance.getAndAdd(shortPosition.getBlockedPrice() * closeShortPosition.getAmount());
+        }
+        return true;
+    }
+
+    private boolean canCloseShort(CloseShortPosition closeShortPosition, Position positivePosition, Position shortPosition, long sellOrderSize) {
+        if(positivePosition == null){
+            return false;
+        }
+        if(shortPosition == null){
+            return false;
+        }
+        if((positivePosition.getVolume() - sellOrderSize) >= closeShortPosition.getAmount()){
+            return false;
+        }
+        if(Math.abs(shortPosition.getVolume()) <= closeShortPosition.getAmount()){
+            return false;
+        }
+        return true;
+    }
+
 
     public Position getPosition(String symbol){
         return positions.get(symbol);
