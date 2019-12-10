@@ -92,10 +92,10 @@ public class Account {
         if(shortPosition == null){
             return false;
         }
-        if((positivePosition.getVolume() - sellOrderSize) <= closeShortPosition.getAmount()){
+        if((positivePosition.getVolume() - sellOrderSize) < closeShortPosition.getAmount()){
             return false;
         }
-        if(Math.abs(shortPosition.getVolume()) <= closeShortPosition.getAmount()){
+        if(Math.abs(shortPosition.getVolume()) < closeShortPosition.getAmount()){
             return false;
         }
         return true;
