@@ -161,7 +161,9 @@ public class OrderManager {
     }
 
     private void shortExecutionBalanceProcessor(Execution execution, Order order, Account account) {
-        //do not return anything only on close short.
+        long returnAmount = execution.getFillPrice() * execution.getQuantity();
+        account.doPositiveOrderBalance(returnAmount);
+        balanceNotifier.pushBalance(account);
     }
 
     private void sellExecutionBalanceProcessor(Execution execution, Account account) {
