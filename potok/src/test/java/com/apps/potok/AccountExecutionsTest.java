@@ -152,7 +152,11 @@ public class AccountExecutionsTest extends BaseTest {
         Thread.sleep(10);
         assertEquals(order.getVolume().intValue(), 0); // fully filled
 
-        assertEquals(testScenario.getBalance(), BALANCE - 170 - 70 + 105 - (order.getBlockedPrice() * order.getOriginalVolume()));
+        //  2 * 5 = 10
+        //  3 * 5 = 15
+        //     10 | 25
+
+        assertEquals(testScenario.getBalance(), BALANCE - 170 - 70 + 105 - (order.getBlockedPrice() * order.getOriginalVolume()) + 25);
 
         Position shortPosition = testScenario.getAccount().getShortPosition(symbol);
         assertEquals(shortPosition.getVolume().intValue(), -10);
@@ -177,7 +181,7 @@ public class AccountExecutionsTest extends BaseTest {
         assertEquals(shortExecutions.get(1).getAccountId(), testScenario.getAccountId());
 
         testScenarioCreator.manageCloseShort(testScenario, symbol, 5);
-        assertEquals(testScenario.getBalance(), BALANCE - 170 - 70 + 105 - (order.getBlockedPrice() * order.getOriginalVolume()) + (order.getBlockedPrice() * 5));
+        assertEquals(testScenario.getBalance(), BALANCE - 170 - 70 + 105 - (order.getBlockedPrice() * order.getOriginalVolume()) + 25 + (order.getBlockedPrice() * 5));
     }
 
     // prepares new exchange conditions.
