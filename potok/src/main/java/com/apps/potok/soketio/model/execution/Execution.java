@@ -7,12 +7,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
-
 //Execution from exchange source for a position.
 public class Execution implements Serializable, Accountable {
 
     private final UUID executionUuid;
+    private final UUID counterExecutionUuid;
     private final UUID orderUuid;
     private final Date timestamp;
     private final String symbol;
@@ -23,10 +22,11 @@ public class Execution implements Serializable, Accountable {
     private final Integer quantity;
     private final boolean filled;
 
-    public Execution (Order order, Integer fillPrice, Integer quantity, boolean filled) {
-        this.executionUuid = randomUUID();
-        this.timestamp = new Date();
+    public Execution (UUID executionUuid, UUID counterExecutionUuid, Order order, Integer fillPrice, Integer quantity, boolean filled) {
+        this.executionUuid = executionUuid;
+        this.counterExecutionUuid = counterExecutionUuid;
         this.orderUuid = order.getUuid();
+        this.timestamp = new Date();
         this.symbol = order.getSymbol();
         this.accountId = order.getAccount();
         this.route = order.getRoute();
@@ -39,6 +39,10 @@ public class Execution implements Serializable, Accountable {
     @Override
     public UUID getUuid() {
         return executionUuid;
+    }
+
+    public UUID getCounterExecutionUuid() {
+        return counterExecutionUuid;
     }
 
     @Override

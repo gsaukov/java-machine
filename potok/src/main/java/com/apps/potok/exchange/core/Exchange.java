@@ -2,10 +2,12 @@ package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
 import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
+import com.apps.potok.soketio.model.execution.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -61,11 +63,10 @@ public class Exchange {
                         //matching order partfilled produce part fill notification and return it to rhe head of the queue
                         bid.getAndAdd(order.getVolume());
                         matchingOrder.partFill(order);
+
+                        notifyPartFilledFilled(matchingOrder, order, matchingOrder.getVal(), order.getVolume());
+
                         tier.offerFirst(matchingOrder);
-
-                        notifyFilled(order, matchingOrder.getVal());
-                        notifyPartFilled(matchingOrder, matchingOrder.getVal(), order.getVolume());
-
                         order.fullFill();
 
                         return;
@@ -75,8 +76,7 @@ public class Exchange {
                         bid.getAndAdd(matchingOrder.getVolume());
                         order.partFill(matchingOrder);
 
-                        notifyFilled(matchingOrder, matchingOrder.getVal());
-                        notifyPartFilled(order, matchingOrder.getVal(), matchingOrder.getVolume());
+                        notifyPartFilledFilled(order, matchingOrder, matchingOrder.getVal(), matchingOrder.getVolume());
 
                         matchingOrder.fullFill();
 
@@ -84,8 +84,7 @@ public class Exchange {
                         bid.getAndAdd(order.getVolume());
                         //both are filled produce execution notifications for both
 
-                        notifyFilled(matchingOrder, matchingOrder.getVal());
-                        notifyFilled(order, matchingOrder.getVal());
+                        notifyFilledFilled(matchingOrder, order, matchingOrder.getVal(), matchingOrder.getVolume());
 
                         matchingOrder.fullFill();
                         order.fullFill();
@@ -110,11 +109,10 @@ public class Exchange {
                         //matching order partfilled produce part fill notification and return to rhe head of the queue
                         ask.getAndAdd(order.getVolume());
                         matchingOrder.partFill(order);
+
+                        notifyPartFilledFilled(matchingOrder, order, matchingOrder.getVal(), order.getVolume());
+
                         tier.offerFirst(matchingOrder);
-
-                        notifyFilled(order, matchingOrder.getVal());
-                        notifyPartFilled(matchingOrder, matchingOrder.getVal(), order.getVolume());
-
                         order.fullFill();
                         return;
                     } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
@@ -123,15 +121,14 @@ public class Exchange {
                         ask.getAndAdd(matchingOrder.getVolume());
                         order.partFill(matchingOrder);
 
-                        notifyFilled(matchingOrder, matchingOrder.getVal());
-                        notifyPartFilled(order, matchingOrder.getVal(), matchingOrder.getVolume());
+                        notifyPartFilledFilled(order, matchingOrder, matchingOrder.getVal(), matchingOrder.getVolume());
+
                         matchingOrder.fullFill();
                     } else {
                         //both are filled produce execution notifications for both
                         ask.getAndAdd(order.getVolume());
 
-                        notifyFilled(matchingOrder, matchingOrder.getVal());
-                        notifyFilled(order, matchingOrder.getVal());
+                        notifyFilledFilled(matchingOrder, order, matchingOrder.getVal(), matchingOrder.getVolume());
 
                         matchingOrder.fullFill();
                         order.fullFill();
@@ -143,12 +140,24 @@ public class Exchange {
         bidContainer.insertBid(order);
     }
 
-    private void notifyPartFilled(Order order, Integer fillPrice, Integer quantity){
-        executionNotifierServer.pushPartFill(order, fillPrice, quantity);
+    private void notifyPartFilledFilled(Order partFilledOrder, Order filledOrder, Integer fillPrice, Integer quantity){
+        UUID partFilledExecutionUuid = UUID.randomUUID();
+        UUID filledExecutionUuid = UUID.randomUUID();
+
+        Execution partFilledExecution = new Execution(partFilledExecutionUuid, filledExecutionUuid, partFilledOrder, fillPrice, quantity, false);
+        Execution filledExecution  = new Execution(filledExecutionUuid, partFilledExecutionUuid, filledOrder, fillPrice, quantity, true);
+        executionNotifierServer.pushExecution(partFilledExecution);
+        executionNotifierServer.pushExecution(filledExecution);
     }
 
-    private void notifyFilled(Order order, Integer fillPrice){
-        executionNotifierServer.pushFill(order, fillPrice);
+    private void notifyFilledFilled(Order filledOrder1, Order filledOrder2, Integer fillPrice, Integer quantity){
+        UUID filledExecution1Uuid = UUID.randomUUID();
+        UUID filledExecution2Uuid = UUID.randomUUID();
+
+        Execution filledExecution1 = new Execution(filledExecution1Uuid, filledExecution2Uuid, filledOrder1, fillPrice, quantity, true);
+        Execution filledExecution2  = new Execution(filledExecution2Uuid, filledExecution1Uuid, filledOrder2, fillPrice, quantity, true);
+        executionNotifierServer.pushExecution(filledExecution1);
+        executionNotifierServer.pushExecution(filledExecution2);
     }
 
     public long getAskExecutions() {

@@ -56,13 +56,7 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
         }
     }
 
-    public void pushFill(Order order, Integer fillPrice) {
-        Execution execution = new Execution(order, fillPrice, order.getVolume(), true);
-        eventQueue.offer(execution);
-    }
-
-    public void pushPartFill(Order order, Integer fillPrice, Integer quantity) {
-        Execution execution = new Execution(order, fillPrice, quantity, false);
+    public void pushExecution(Execution execution) {
         eventQueue.offer(execution);
     }
 
