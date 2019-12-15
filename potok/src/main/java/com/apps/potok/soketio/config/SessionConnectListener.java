@@ -56,7 +56,7 @@ public class SessionConnectListener implements ConnectListener {
             accountId = getAccountId(oAuth2Authentication.getUserAuthentication());
         }
         client.set(ACCOUNT_ID, accountId);
-        return accountManager.addAccount(accountId, client.getSessionId());
+        return accountManager.addClient(accountId, client.getSessionId());
     }
 
     private String getAccountId(Authentication auth){

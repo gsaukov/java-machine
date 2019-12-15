@@ -1,6 +1,7 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.soketio.model.execution.Accountable;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
 import com.apps.potok.soketio.model.execution.Execution;
 
@@ -23,28 +24,32 @@ public class Position {
     private final Route route;
     private final Integer blockedPrice;
     private final ConcurrentHashMap<Integer, AtomicInteger> buyPriceValueAggregation;
-    private final ConcurrentHashMap<UUID, Execution> buyExecutions;
+    private final ConcurrentHashMap<UUID, Accountable> buyExecutions;
     private final ConcurrentHashMap<Integer, AtomicInteger> sellPriceValueAggregation;
-    private final ConcurrentHashMap<UUID, Execution> sellExecutions;
+    private final ConcurrentHashMap<UUID, Accountable> sellExecutions;
     private final ConcurrentHashMap<UUID, CloseShortPosition> closeShort;
 
-    public Position(Execution execution) {
-        this.uuid = UUID.randomUUID();
+    public Position(Accountable accountable) {
+        if(accountable.isDeposit()){
+            this.uuid = accountable.getUuid();
+        } else {
+            this.uuid = UUID.randomUUID();
+        }
         this.createdTimestamp = new Date();
-        this.symbol = execution.getSymbol();
-        this.accountId = execution.getAccountId();
-        this.route = execution.getRoute();
+        this.symbol = accountable.getSymbol();
+        this.accountId = accountable.getAccountId();
+        this.route = accountable.getRoute();
         this.buyPriceValueAggregation = new ConcurrentHashMap<>();
         this.buyExecutions = new ConcurrentHashMap<>();
         this.sellPriceValueAggregation = new ConcurrentHashMap<>();
         this.sellExecutions = new ConcurrentHashMap<>();
         this.closeShort = new ConcurrentHashMap<>();
-        this.blockedPrice = execution.getBlockedPrice();
+        this.blockedPrice = accountable.getBlockedPrice();
         this.volume = new AtomicInteger(0);
-        applyExecution(execution);
+        applyExecution(accountable);
     }
 
-    public void applyExecution (Execution execution) {
+    public void applyExecution (Accountable execution) {
         if(!buyExecutions.containsKey(execution) && !sellExecutions.containsKey(execution)) {
             if(BUY.equals(execution.getRoute())) {
                 applyBuyExecution(execution);
@@ -54,24 +59,24 @@ public class Position {
         }
     }
 
-    private void applyBuyExecution (Execution execution) {
+    private void applyBuyExecution (Accountable execution) {
         AtomicInteger newVolume = new AtomicInteger(execution.getQuantity());
         AtomicInteger existingVolume = buyPriceValueAggregation.putIfAbsent(execution.getFillPrice(), newVolume);
         if(existingVolume != null) {
             existingVolume.addAndGet(newVolume.get());
         }
-        buyExecutions.put(execution.getExecutionUuid(), execution);
+        buyExecutions.put(execution.getUuid(), execution);
         volume.getAndAdd(execution.getQuantity());
     }
 
 
-    private void applySellShortExecution(Execution execution) {
+    private void applySellShortExecution(Accountable execution) {
         AtomicInteger newVolume = new AtomicInteger(execution.getQuantity());
         AtomicInteger existingVolume = sellPriceValueAggregation.putIfAbsent(execution.getFillPrice(), newVolume);
         if(existingVolume != null) {
             existingVolume.addAndGet(newVolume.get());
         }
-        sellExecutions.put(execution.getExecutionUuid(), execution);
+        sellExecutions.put(execution.getUuid(), execution);
         volume.getAndAdd(-execution.getQuantity());
     }
 
@@ -132,11 +137,11 @@ public class Position {
         return volume.get();
     }
 
-    public ConcurrentHashMap<UUID, Execution> getBuyExecutions() {
+    public ConcurrentHashMap<UUID, Accountable> getBuyExecutions() {
         return buyExecutions;
     }
 
-    public ConcurrentHashMap<UUID, Execution> getSellExecutions() {
+    public ConcurrentHashMap<UUID, Accountable> getSellExecutions() {
         return sellExecutions;
     }
 

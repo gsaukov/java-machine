@@ -1,19 +1,14 @@
 package com.apps.potok.soketio.model.execution;
 
-import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.mkdata.Route;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
+//Overnight/Existing position of an account in deposit source for position.
+public class Deposit implements Accountable {
 
-//Execution from exchange source for a position.
-public class Execution implements Serializable, Accountable {
-
-    private final UUID executionUuid;
-    private final UUID orderUuid;
+    private final UUID depositUuid;
     private final Date timestamp;
     private final String symbol;
     private final String accountId;
@@ -21,33 +16,27 @@ public class Execution implements Serializable, Accountable {
     private final Integer fillPrice;
     private final Integer blockedPrice;
     private final Integer quantity;
-    private final boolean filled;
 
-    public Execution (Order order, Integer fillPrice, Integer quantity, boolean filled) {
-        this.executionUuid = randomUUID();
-        this.timestamp = new Date();
-        this.orderUuid = order.getUuid();
-        this.symbol = order.getSymbol();
-        this.accountId = order.getAccount();
-        this.route = order.getRoute();
+    //used to create position from deposit
+    public Deposit(UUID depositUuid, Date timestamp, String symbol, String accountId, Route route, Integer fillPrice, Integer blockedPrice, Integer quantity) {
+        this.depositUuid = depositUuid;
+        this.timestamp = timestamp;
+        this.symbol = symbol;
+        this.accountId = accountId;
+        this.route = route;
         this.fillPrice = fillPrice;
-        this.blockedPrice = order.getBlockedPrice();
+        this.blockedPrice = blockedPrice;
         this.quantity = quantity;
-        this.filled = filled;
     }
 
     @Override
     public UUID getUuid() {
-        return executionUuid;
+        return depositUuid;
     }
 
     @Override
     public Date getTimestamp() {
         return timestamp;
-    }
-
-    public UUID getOrderUuid() {
-        return orderUuid;
     }
 
     @Override
@@ -78,10 +67,6 @@ public class Execution implements Serializable, Accountable {
     @Override
     public Integer getQuantity() {
         return quantity;
-    }
-
-    public boolean isFilled() {
-        return filled;
     }
 
     @Override

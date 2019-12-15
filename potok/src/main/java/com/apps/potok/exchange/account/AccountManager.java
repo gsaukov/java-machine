@@ -47,7 +47,7 @@ public class AccountManager {
         return accountIds;
     }
 
-    public Account addAccount(String accountId, UUID client){
+    public Account addClient(String accountId, UUID client){
         Account account = accountContainer.get(accountId);
         if (account != null) {
             account.addClientUuid(client);

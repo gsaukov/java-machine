@@ -39,7 +39,7 @@ public class PositionV1 {
         this.buyOriginatingOrders = new ConcurrentHashMap<>();
         this.buyOriginatingOrders.put(execution.getOrderUuid(), execution.getOrderUuid());
         this.buyExecutions = new ConcurrentHashMap<>();
-        this.buyExecutions.put(execution.getExecutionUuid(), execution);
+        this.buyExecutions.put(execution.getUuid(), execution);
         this.sellOriginatingOrders = new ConcurrentHashMap<>();
         this.sellExecutions = new ConcurrentHashMap<>();
     }
@@ -57,7 +57,7 @@ public class PositionV1 {
     private void applyBuyExecution (Execution execution) {
         applyBuyWeightedAveragePriceAndVolume(execution);
         buyOriginatingOrders.put(execution.getOrderUuid(), execution.getOrderUuid());
-        buyExecutions.put(execution.getExecutionUuid(), execution);
+        buyExecutions.put(execution.getUuid(), execution);
     }
 
     // Cant use compare and set since two  2 values volume and weightedAveragePrice has to be rewritten.
@@ -92,7 +92,7 @@ public class PositionV1 {
             lock.unlock();
         }
         sellOriginatingOrders.put(execution.getOrderUuid(), execution.getOrderUuid());
-        sellExecutions.put(execution.getExecutionUuid(), execution);
+        sellExecutions.put(execution.getUuid(), execution);
     }
 
     public UUID getUuid() {
