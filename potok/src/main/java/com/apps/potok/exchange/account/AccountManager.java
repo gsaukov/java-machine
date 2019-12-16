@@ -20,7 +20,10 @@ public class AccountManager {
     }
 
     public List<String> getAllAccountIds() { //for random exchange activity only, initialization use only.
-        return Collections.list(accountContainer.keys());
+        List<String> res = Collections.list(accountContainer.keys());
+        res.remove(MK_MAKER);
+        res.remove(TEST_ACCOUNT_ID);
+        return res;
     }
 
     public Account addClient(String accountId, UUID client){

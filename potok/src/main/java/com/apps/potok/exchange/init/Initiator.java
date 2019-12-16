@@ -164,6 +164,7 @@ public class Initiator {
             Order order = new Order(position.getSymbol(), account.getAccountId(), SELL, val, volume);
             orderManager.addOrder(order);
             bidContainer.insertBid(order);
+            count(order);
         }
     }
 

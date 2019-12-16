@@ -37,7 +37,7 @@ exchange:
   price:
     min-range: 10
     max-range: 90
-  accounts-size: 1000
+  accounts-size: 200
   cancel-balance-return-delay: 10
   speed: MAX #programm argument: --exchange.speed=NORMAL
   #speed available options:
