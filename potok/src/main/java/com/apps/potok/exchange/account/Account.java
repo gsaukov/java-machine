@@ -114,6 +114,10 @@ public class Account {
         return positions.values();
     }
 
+    public Collection<Position> getShortPositions(){
+        return shortPositions.values();
+    }
+
     public long getExistingSellOrderVolume(String symbol) {
         long res = 0l;
         for(Order order : getOrders()){

@@ -1,12 +1,7 @@
 package com.apps.potok.exchange.account;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -18,33 +13,14 @@ public class AccountManager {
     public final static String MK_MAKER = "MK_MAKER";
     public final static String TEST_ACCOUNT_ID = "TEST_ACCOUNT_ID";
 
-    @Value("${exchange.accounts-size}")
-    private Integer accountsSize;
-
     private final ConcurrentHashMap<String, Account> accountContainer;
-    private final List<String> accountIds = new ArrayList<>();
 
     public AccountManager() {
         this.accountContainer = new ConcurrentHashMap<>();
     }
 
-    @PostConstruct
-    private void postConstruct (){
-        for(int i = 0 ; i < accountsSize ; i++){
-            String accountId = RandomStringUtils.randomAlphabetic(9).toUpperCase();
-            Account account = new Account(accountId, RandomUtils.nextLong(100000l, 10000000l));
-            accountContainer.put(accountId, account);
-        }
-        accountIds.addAll(accountContainer.keySet());
-        Collections.unmodifiableList(accountIds);
-        Account mkMaker = new Account(MK_MAKER, 9999999999l);
-        accountContainer.put(MK_MAKER, mkMaker);
-        Account testAccount = new Account(TEST_ACCOUNT_ID, 10000000l);
-        accountContainer.put(TEST_ACCOUNT_ID, testAccount);
-    }
-
-    public List<String> getAllAccountIds() { //for random exchange activity only.
-        return accountIds;
+    public List<String> getAllAccountIds() { //for random exchange activity only, initialization use only.
+        return Collections.list(accountContainer.keys());
     }
 
     public Account addClient(String accountId, UUID client){

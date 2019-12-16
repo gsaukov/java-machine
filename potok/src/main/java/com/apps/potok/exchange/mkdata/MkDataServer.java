@@ -27,12 +27,10 @@ public class MkDataServer extends AbstractExchangeServer {
     private Exchange exchange;
 
     private final SymbolContainer symbolContainer;
-    private final List<String> symbols;
 
     public MkDataServer(SymbolContainer symbolContainer) {
         super.setName("MkDataServer");
         this.symbolContainer = symbolContainer;
-        this.symbols = symbolContainer.getSymbols();
     }
 
     @Override
@@ -66,7 +64,7 @@ public class MkDataServer extends AbstractExchangeServer {
     }
 
     private MkData randomMkData(){
-        String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
+        String symbol = symbolContainer.get(RandomUtils.nextInt(0, symbolContainer.getSymbols().size()));
         Route route = getRoute();
         Integer val = getVal(symbol);
         Integer volume = RandomUtils.nextInt(0, 100) * 10;

@@ -23,6 +23,10 @@ public class BidContainer {
         return bidContainer;
     }
 
+    public void put(String symbol, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> symbolContainer) {
+        bidContainer.put(symbol, symbolContainer);
+    }
+
     public ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> get(String symbol) {
         return bidContainer.get(symbol);
     }

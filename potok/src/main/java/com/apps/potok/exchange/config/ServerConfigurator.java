@@ -79,8 +79,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
 
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
-        initiator.initiateContainer(orderSize * 10, askContainer.get(), Route.BUY);
-        initiator.initiateContainer(orderSize * 10, bidContainer.get(), Route.SELL);
+        initiator.initiate();
         runQuoteNotifierServer();
         runMkDataServer();
         runOrderCreatorServer();

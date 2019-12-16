@@ -28,6 +28,10 @@ public class AskContainer {
         return askContainer.get(symbol);
     }
 
+    public void put(String symbol, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> symbolContainer) {
+        askContainer.put(symbol, symbolContainer);
+    }
+
     public boolean containsKey(String symbolName) {
         return askContainer.containsKey(symbolName);
     }

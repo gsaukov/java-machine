@@ -5,6 +5,7 @@ import com.apps.potok.exchange.account.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -16,21 +17,19 @@ public class OrderCreatorServer extends AbstractExchangeServer {
 
     private final Exchange exchange;
     private final SymbolContainer symbolContainer;
-    private final List<String> symbols;
-    private final List<String> accounts;
+    private final AccountManager accountManager;
+    private final List<String> accounts = new ArrayList<>();
 
-    public OrderCreatorServer(Exchange exchange, SymbolContainer symbolContainer, AccountManager accountContainer) {
+    public OrderCreatorServer(Exchange exchange, SymbolContainer symbolContainer, AccountManager accountManager) {
         super.setName("OrderCreatorThread");
-
         this.exchange = exchange;
         this.symbolContainer = symbolContainer;
-
-        this.symbols = symbolContainer.getSymbols();
-        this.accounts = accountContainer.getAllAccountIds();
+        this.accountManager = accountManager;
     }
 
     @Override
     public void runExchangeServer() {
+        accounts.addAll(accountManager.getAllAccountIds());
         exchange.fireOrder(randomOrder());
     }
 
@@ -40,7 +39,7 @@ public class OrderCreatorServer extends AbstractExchangeServer {
     }
 
     private Order randomOrder(){
-        String symbol = symbols.get(RandomUtils.nextInt(0, symbols.size()));
+        String symbol = symbolContainer.get(RandomUtils.nextInt(0, symbolContainer.getSymbols().size()));
         String accountId = accounts.get(RandomUtils.nextInt(0, accounts.size()));
         Route route = getRoute();
         Integer val = getDynamicPrice(symbol);
