@@ -3,7 +3,6 @@ package com.apps.potok.exchange.core;
 import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.execution.Accountable;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
-import com.apps.potok.soketio.model.execution.Execution;
 
 import java.util.Date;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class Position {
         } else {
             this.uuid = UUID.randomUUID();
         }
-        this.createdTimestamp = new Date();
+        this.createdTimestamp = accountable.getTimestamp();
         this.symbol = accountable.getSymbol();
         this.accountId = accountable.getAccountId();
         this.route = accountable.getRoute();

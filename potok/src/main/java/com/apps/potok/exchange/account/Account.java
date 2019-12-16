@@ -2,8 +2,8 @@ package com.apps.potok.exchange.account;
 
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.Position;
+import com.apps.potok.soketio.model.execution.Accountable;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
-import com.apps.potok.soketio.model.execution.Execution;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -133,7 +133,7 @@ public class Account {
         return res;
     }
 
-    public Position doExecution(Execution execution) {
+    public Position doExecution(Accountable execution) {
         if (SHORT.equals(execution.getRoute())) {
             return doShortExecution(execution);
         } else {
@@ -141,7 +141,7 @@ public class Account {
         }
     }
 
-    private Position doBuySellExecution (Execution execution) {
+    private Position doBuySellExecution (Accountable execution) {
         Position newPosition = new Position(execution);
         Position existingPosition = positions.putIfAbsent(execution.getSymbol(), newPosition);
         if(existingPosition != null) {
@@ -152,7 +152,7 @@ public class Account {
         }
     }
 
-    private Position doShortExecution(Execution execution) {
+    private Position doShortExecution(Accountable execution) {
         Position newPosition = new Position(execution);
         Position existingPosition = shortPositions.putIfAbsent(execution.getSymbol(), newPosition);
         if(existingPosition != null) {
