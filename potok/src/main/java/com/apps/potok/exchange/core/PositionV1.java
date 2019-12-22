@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.apps.potok.exchange.mkdata.Route.BUY;
+import static com.apps.potok.exchange.core.Route.BUY;
 
 @Deprecated // working but blocking implementation
 public class PositionV1 {

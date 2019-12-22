@@ -1,7 +1,5 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.mkdata.Route;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;

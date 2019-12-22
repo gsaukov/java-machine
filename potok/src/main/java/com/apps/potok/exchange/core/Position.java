@@ -1,6 +1,5 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.execution.Accountable;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
 
@@ -10,7 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.apps.potok.exchange.mkdata.Route.BUY;
+import static com.apps.potok.exchange.core.Route.BUY;
 
 //Non blocking position
 public class Position {

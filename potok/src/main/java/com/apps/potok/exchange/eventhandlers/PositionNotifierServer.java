@@ -2,7 +2,7 @@ package com.apps.potok.exchange.eventhandlers;
 
 import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.core.Position;
-import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.exchange.core.Route;
 import com.apps.potok.soketio.model.execution.PositionNotification;
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-import static com.apps.potok.exchange.mkdata.Route.SHORT;
+import static com.apps.potok.exchange.core.Route.SHORT;
 
 @Service
 public class PositionNotifierServer extends AbstractExchangeServer {

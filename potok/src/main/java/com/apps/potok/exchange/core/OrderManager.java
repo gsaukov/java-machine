@@ -2,7 +2,6 @@ package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
 import com.apps.potok.exchange.eventhandlers.PositionNotifierServer;
-import com.apps.potok.exchange.mkdata.Route;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
 import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.apps.potok.soketio.model.execution.Execution;
@@ -20,9 +19,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.apps.potok.exchange.mkdata.Route.BUY;
-import static com.apps.potok.exchange.mkdata.Route.SELL;
-import static com.apps.potok.exchange.mkdata.Route.SHORT;
+import static com.apps.potok.exchange.core.Route.BUY;
+import static com.apps.potok.exchange.core.Route.SELL;
+import static com.apps.potok.exchange.core.Route.SHORT;
 
 @Service
 public class OrderManager {

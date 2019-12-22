@@ -3,6 +3,7 @@ package com.apps.potok.exchange.mkdata;
 import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.core.Order;
+import com.apps.potok.exchange.core.Route;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.account.AccountManager;
 import org.apache.commons.lang3.RandomUtils;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.apps.potok.exchange.mkdata.Route.BUY;
-import static com.apps.potok.exchange.mkdata.Route.SELL;
+import static com.apps.potok.exchange.core.Route.BUY;
+import static com.apps.potok.exchange.core.Route.SELL;
 
 @Service
 public class MkDataServer extends AbstractExchangeServer {

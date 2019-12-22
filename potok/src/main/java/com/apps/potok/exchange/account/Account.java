@@ -12,8 +12,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.apps.potok.exchange.mkdata.Route.SELL;
-import static com.apps.potok.exchange.mkdata.Route.SHORT;
+import static com.apps.potok.exchange.core.Route.SELL;
+import static com.apps.potok.exchange.core.Route.SHORT;
 
 public class Account {
     //todo to resolve issue with balance modification/ position on sell orders due to multiple clients account should have order queue.

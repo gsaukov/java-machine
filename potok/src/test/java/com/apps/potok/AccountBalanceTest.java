@@ -5,7 +5,7 @@ import com.apps.potok.config.TestScenario;
 import com.apps.potok.config.TestScenarioCreator;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
-import com.apps.potok.exchange.mkdata.Route;
+import com.apps.potok.exchange.core.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
