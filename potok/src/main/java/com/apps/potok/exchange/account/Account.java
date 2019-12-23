@@ -17,6 +17,7 @@ import static com.apps.potok.exchange.core.Route.SHORT;
 
 public class Account {
     //todo to resolve issue with balance modification/ position on sell orders due to multiple clients account should have order queue.
+    //todo orders should be replaced with following structure: ConcurrentHashMap<String, ConcurrentHashMap<UUID, Order>> for performance.
     private final String accountId;
     private final AtomicLong balance;
     private final ConcurrentHashMap<UUID, Order> orders;

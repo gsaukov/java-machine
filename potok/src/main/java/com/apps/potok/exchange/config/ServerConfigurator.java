@@ -10,7 +10,7 @@ import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
 import com.apps.potok.exchange.mkdata.OrderCreatorServer;
 import com.apps.potok.exchange.init.Initiator;
-import com.apps.potok.exchange.mkdata.MkDataServer;
+import com.apps.potok.exchange.mkdata.MkMakerServer;
 import com.apps.potok.exchange.core.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +57,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     private Exchange exchange;
 
     @Autowired
-    private MkDataServer mkDataServer;
+    private MkMakerServer mkDataServer;
 
     @Autowired
     private OrderCreatorServer orderCreatorServer;

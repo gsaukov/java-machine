@@ -1,11 +1,12 @@
 package com.apps.potok.exchange.mkdata;
 
+import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.core.AbstractExchangeServer;
-import com.apps.potok.exchange.core.Exchange;
-import com.apps.potok.exchange.core.Order;
+import com.apps.potok.exchange.core.ExchangeApplication;
 import com.apps.potok.exchange.core.Route;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.account.AccountManager;
+import com.apps.potok.soketio.model.order.NewOrder;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,19 +20,24 @@ import static com.apps.potok.exchange.core.Route.BUY;
 import static com.apps.potok.exchange.core.Route.SELL;
 
 @Service
-public class MkDataServer extends AbstractExchangeServer {
+public class MkMakerServer extends AbstractExchangeServer {
 
     @Value("${exchange.order-size}")
     private Integer orderSize;
 
     @Autowired
-    private Exchange exchange;
+    private ExchangeApplication exchangeApplication;
 
     private final SymbolContainer symbolContainer;
 
-    public MkDataServer(SymbolContainer symbolContainer) {
+    private final AccountManager accountManager;
+
+    private Account mkMaker;
+
+    public MkMakerServer(SymbolContainer symbolContainer, AccountManager accountManager) {
         super.setName("MkDataServer");
         this.symbolContainer = symbolContainer;
+        this.accountManager = accountManager;
     }
 
     @Override
@@ -45,31 +51,36 @@ public class MkDataServer extends AbstractExchangeServer {
     }
 
     private void pullMkData(int size) {
-        List<MkData> events = getMkData(size);
-        for(MkData event : events) {
+        List<NewOrder> events = getMkData(size);
+        for(NewOrder event : events) {
             fireEvent(event);
         }
     }
 
-    private void fireEvent(MkData order) {
-        exchange.fireOrder(toOrder(order));
+    private void fireEvent(NewOrder newOrder) {
+        exchangeApplication.manageNew(newOrder, mkMaker);
     }
 
-    public List<MkData> getMkData(int size){
-        List<MkData> mkDatas = new ArrayList<>();
-
-        for(int i = 0 ; i < size; i++){
-            mkDatas.add(randomMkData());
+    public List<NewOrder> getMkData(int size){
+        if(mkMaker == null) {
+            this.mkMaker = accountManager.getAccount(AccountManager.MK_MAKER);
         }
-        return mkDatas;
+        List<NewOrder> mkData = new ArrayList<>();
+        for(int i = 0 ; i < size; i++){
+            mkData.add(randomMkData());
+        }
+        return mkData;
     }
 
-    private MkData randomMkData(){
+    private NewOrder randomMkData(){
         String symbol = symbolContainer.get(RandomUtils.nextInt(0, symbolContainer.getSymbols().size()));
         Route route = getRoute();
         Integer val = getVal(symbol);
-        Integer volume = RandomUtils.nextInt(0, 100) * 10;
-        return new MkData(symbol, AccountManager.MK_MAKER, route, val, volume);
+        Integer volume = RandomUtils.nextInt(1, 100) * 10;
+        if(volume > (mkMaker.getExistingPositivePositionVolume(symbol) + mkMaker.getExistingSellOrderVolume(symbol))) { // if position  is less than order then buy.
+            route = BUY;
+        }
+        return toNewOrder(symbol, route.name(), val, volume);
     }
 
     private Route getRoute() { //MkData Can be only buy or sell
@@ -95,7 +106,12 @@ public class MkDataServer extends AbstractExchangeServer {
         }
     }
 
-    private Order toOrder(MkData event){
-        return new Order(event.getSymbol(), event.getAccount(), event.getRoute(), event.getVal(), event.getVolume());
+    private NewOrder toNewOrder(String symbol, String route, Integer val, Integer volume){
+        NewOrder newOrder = new NewOrder();
+        newOrder.setSymbol(symbol);
+        newOrder.setRoute(route);
+        newOrder.setVal(val);
+        newOrder.setVolume(volume);
+        return newOrder;
     }
 }

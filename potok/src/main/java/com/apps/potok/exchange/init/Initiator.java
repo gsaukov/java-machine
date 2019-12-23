@@ -110,6 +110,7 @@ public class Initiator {
         }
         Account mkMaker = new Account(MK_MAKER, 9999999999l);
         accountManager.addNewAccount(mkMaker);
+        createMkMakerPositions(mkMaker);
         Account testAccount = new Account(TEST_ACCOUNT_ID, 10000000l);
         accountManager.addNewAccount(testAccount);
     }
@@ -144,7 +145,7 @@ public class Initiator {
         Set<String> symbols = getRandomSymbols(15);
         for (String symbol : symbols) {
             Integer val = getVal(symbol, BUY);
-            Integer volume = RandomUtils.nextInt(0, 100) * 10;
+            Integer volume = RandomUtils.nextInt(1, 100) * 10;
             Order order = new Order(symbol, account.getAccountId(), BUY, val, volume);
             orderManager.addOrder(order);
             askContainer.insertAsk(order);
@@ -159,7 +160,7 @@ public class Initiator {
                 continue; //only ~60% chance of a sell order on existing position
             }
             Integer val = getVal(position.getSymbol(), SELL);
-            Integer volume = RandomUtils.nextInt(10, position.getVolume());
+            Integer volume = (RandomUtils.nextInt(10, position.getVolume()) / 10) * 10 ;
             Order order = new Order(position.getSymbol(), account.getAccountId(), SELL, val, volume);
             orderManager.addOrder(order);
             bidContainer.insertBid(order);
@@ -216,6 +217,13 @@ public class Initiator {
             askInit.getAndAdd(order.getVolume());
         } else {
             bidInit.getAndAdd(order.getVolume());
+        }
+    }
+
+    private void createMkMakerPositions (Account account) {
+        for(String symbol : symbolContainer.getSymbols()) {
+            Deposit deposit = new Deposit(UUID.randomUUID(), new Date(), symbol, account.getAccountId(), BUY, getVal(symbol), 0, 10000 );
+            account.doExecution(deposit);
         }
     }
 

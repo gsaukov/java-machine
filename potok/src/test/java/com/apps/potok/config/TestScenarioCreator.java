@@ -2,6 +2,7 @@ package com.apps.potok.config;
 
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
+import com.apps.potok.exchange.core.AskComparator;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
 import com.apps.potok.exchange.core.ExchangeApplication;
@@ -18,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestComponent;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 @TestComponent
 public class TestScenarioCreator {
@@ -83,14 +86,32 @@ public class TestScenarioCreator {
 
     public void prepareExchange(ExchangeCondition exchangeCondition) {
         symbolContainer.addSymbol(exchangeCondition.getSymbol(), exchangeCondition.getAskPrice());
+
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> askSymbolOrderContainer = askContainer.get(exchangeCondition.getSymbol());
+        if(askSymbolOrderContainer == null){
+            askSymbolOrderContainer = new ConcurrentSkipListMap(new AskComparator());
+            askContainer.put(exchangeCondition.getSymbol(), askSymbolOrderContainer);
+        }
+
         if(exchangeCondition.getAskPrice() != 0){
             for(int i = 0; i < exchangeCondition.getTiers(); i++) {
-                initiator.insertOrder(askContainer.get(), createExchangeOrder(exchangeCondition.getSymbol(), exchangeCondition.getExchangeAccount(), Route.BUY, exchangeCondition.getAskPrice() - i, exchangeCondition.getVolume()), Route.BUY);
+                Order order = createExchangeOrder(exchangeCondition.getSymbol(), exchangeCondition.getExchangeAccount(), Route.BUY, exchangeCondition.getAskPrice() - i, exchangeCondition.getVolume());
+                askContainer.insertAsk(order);
+                orderManager.addOrder(order);
             }
         }
+
+        ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> bidSymbolOrderContainer = bidContainer.get(exchangeCondition.getSymbol());
+        if(bidSymbolOrderContainer == null){
+            bidSymbolOrderContainer = new ConcurrentSkipListMap();
+            bidContainer.put(exchangeCondition.getSymbol(), bidSymbolOrderContainer);
+        }
+
         if(exchangeCondition.getBidPrice() != 0){
             for(int i = 0; i < exchangeCondition.getTiers(); i++) {
-                initiator.insertOrder(bidContainer.get(), createExchangeOrder(exchangeCondition.getSymbol(), exchangeCondition.getExchangeAccount(), Route.SELL, exchangeCondition.getBidPrice() + i, exchangeCondition.getVolume()), Route.SELL);
+                Order order = createExchangeOrder(exchangeCondition.getSymbol(), exchangeCondition.getExchangeAccount(), Route.SELL, exchangeCondition.getBidPrice() + i, exchangeCondition.getVolume());
+                bidContainer.insertBid(order);
+                orderManager.addOrder(order);
             }
         }
     }
