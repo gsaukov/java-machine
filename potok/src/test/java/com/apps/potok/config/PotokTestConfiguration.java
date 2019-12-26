@@ -1,6 +1,7 @@
 package com.apps.potok.config;
 
 import com.apps.potok.exchange.config.ServerConfigurator;
+import com.apps.potok.exchange.config.ShutDowner;
 import com.apps.potok.exchange.eventhandlers.QuoteSubscribersV2;
 import com.apps.potok.soketio.config.SpringConfig;
 import com.corundumstudio.socketio.BroadcastOperations;
@@ -36,6 +37,9 @@ public class PotokTestConfiguration {
 
     @Autowired
     private ServerTestConfigurator serverTestConfigurator;
+
+    @MockBean
+    ShutDowner shutDowner;
 
     @PostConstruct
     public void runAllServers () {
