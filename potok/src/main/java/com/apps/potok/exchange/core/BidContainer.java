@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 // Sell orders
 public class BidContainer {
-    private final AtomicLong bidInserted = new AtomicLong(0l);
 
     private final ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> bidContainer;
 
@@ -51,28 +50,8 @@ public class BidContainer {
         ConcurrentLinkedDeque<Order> existingAccountContainer = symbolOrderContainer.putIfAbsent(order.getVal(), accountContainer);
         if(existingAccountContainer == null){
             accountContainer.offer(order);
-            bidInserted.getAndAdd(order.getVolume());
         } else {
             existingAccountContainer.offer(order);
-            bidInserted.getAndAdd(order.getVolume());
         }
     }
-
-    public Long size(){
-        AtomicLong res = new AtomicLong(0l);
-        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> entry : bidContainer.entrySet()){
-            ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> map = entry.getValue();
-            for(ConcurrentLinkedDeque<Order> list : map.values()){
-                for(Order order : list){
-                    res.getAndAdd(order.getVolume());
-                }
-            }
-        }
-        return res.get();
-    }
-
-    public long getBidInserted() {
-        return bidInserted.get();
-    }
-
 }

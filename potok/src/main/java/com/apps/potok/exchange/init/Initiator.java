@@ -5,12 +5,14 @@ import com.apps.potok.exchange.account.AccountManager;
 import com.apps.potok.exchange.core.AskComparator;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
+import com.apps.potok.exchange.core.ExchangeApplication;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.core.Position;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.core.Route;
 import com.apps.potok.soketio.model.execution.Deposit;
+import com.apps.potok.soketio.model.order.NewOrder;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,14 +20,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.exchange.core.Route.BUY;
 import static com.apps.potok.exchange.core.Route.SELL;
@@ -51,20 +54,18 @@ public class Initiator {
 
     private final SymbolContainer symbolContainer;
     private final AccountManager accountManager;
-    private final OrderManager orderManager;
+
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
-
-    private final AtomicLong askInit = new AtomicLong(0l);
-    private final AtomicLong bidInit = new AtomicLong(0l);
+    private final ExchangeApplication exchangeApplication;
 
     public Initiator(SymbolContainer symbolContainer, AccountManager accountManager, OrderManager orderManager,
-                     AskContainer askContainer, BidContainer bidContainer) {
+                     AskContainer askContainer, BidContainer bidContainer, ExchangeApplication exchangeApplication) {
         this.symbolContainer = symbolContainer;
         this.accountManager = accountManager;
-        this.orderManager = orderManager;
         this.askContainer = askContainer;
         this.bidContainer = bidContainer;
+        this.exchangeApplication = exchangeApplication;
     }
 
     public void initiate (){
@@ -103,7 +104,7 @@ public class Initiator {
     private void createAccounts (){
         for(int i = 0 ; i < accountsSize ; i++){
             String accountId = RandomStringUtils.randomAlphabetic(9).toUpperCase();
-            Account account = new Account(accountId, RandomUtils.nextLong(100000l, 10000000l));
+            Account account = new Account(accountId, RandomUtils.nextLong(1000000l, 10000000l));
             accountManager.addNewAccount(account);
             createPositions(account, 60, 100);
             createOrders(account);
@@ -146,10 +147,8 @@ public class Initiator {
         for (String symbol : symbols) {
             Integer val = getVal(symbol, BUY);
             Integer volume = RandomUtils.nextInt(1, 100) * 10;
-            Order order = new Order(symbol, account.getAccountId(), BUY, val, volume);
-            orderManager.addOrder(order);
-            askContainer.insertAsk(order);
-            count(order);
+            NewOrder newOrder = toNewOrder(symbol, BUY.name(), val, volume);
+            exchangeApplication.manageNew(newOrder, account);
         }
     }
 
@@ -161,10 +160,8 @@ public class Initiator {
             }
             Integer val = getVal(position.getSymbol(), SELL);
             Integer volume = (RandomUtils.nextInt(10, position.getVolume()) / 10) * 10 ;
-            Order order = new Order(position.getSymbol(), account.getAccountId(), SELL, val, volume);
-            orderManager.addOrder(order);
-            bidContainer.insertBid(order);
-            count(order);
+            NewOrder newOrder = toNewOrder(position.getSymbol(), BUY.name(), val, volume);
+            exchangeApplication.manageNew(newOrder, account);
         }
     }
 
@@ -212,14 +209,6 @@ public class Initiator {
         }
     }
 
-    private void count(Order order) {
-        if(BUY.equals(order.getRoute())){
-            askInit.getAndAdd(order.getVolume());
-        } else {
-            bidInit.getAndAdd(order.getVolume());
-        }
-    }
-
     private void createMkMakerPositions (Account account) {
         for(String symbol : symbolContainer.getSymbols()) {
             Deposit deposit = new Deposit(UUID.randomUUID(), new Date(), symbol, account.getAccountId(), BUY, getVal(symbol), 0, 10000 );
@@ -227,11 +216,12 @@ public class Initiator {
         }
     }
 
-    public long getAskInit() {
-        return askInit.get();
-    }
-
-    public long getBidInit() {
-        return bidInit.get();
+    private NewOrder toNewOrder(String symbol, String route, Integer val, Integer volume){
+        NewOrder newOrder = new NewOrder();
+        newOrder.setSymbol(symbol);
+        newOrder.setRoute(route);
+        newOrder.setVal(val);
+        newOrder.setVolume(volume);
+        return newOrder;
     }
 }

@@ -151,4 +151,8 @@ public class Position {
         return sellPriceValueAggregation;
     }
 
+    public ConcurrentHashMap<UUID, CloseShortPosition> getCloseShort() {
+        return closeShort;
+    }
+
 }

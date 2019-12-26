@@ -11,7 +11,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.exchange.core.Route.BUY;
 
@@ -20,9 +19,6 @@ public class Exchange {
 
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
-
-    private final AtomicLong ask = new AtomicLong(0l);
-    private final AtomicLong bid = new AtomicLong(0l);
 
     @Autowired
     private QuoteNotifierServer quoteNotifierServer;
@@ -61,7 +57,6 @@ public class Exchange {
                     if(matchingOrder.getVolume().compareTo(order.getVolume()) > 0){
                         //order is filled produce execution notification
                         //matching order partfilled produce part fill notification and return it to rhe head of the queue
-                        bid.getAndAdd(order.getVolume());
                         matchingOrder.partFill(order);
 
                         notifyPartFilledFilled(matchingOrder, order, matchingOrder.getVal(), order.getVolume());
@@ -73,7 +68,6 @@ public class Exchange {
                     } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
                         //order is part filled produce partfill execution notification continue the loop
                         //matching order filled produce fill notification
-                        bid.getAndAdd(matchingOrder.getVolume());
                         order.partFill(matchingOrder);
 
                         notifyPartFilledFilled(order, matchingOrder, matchingOrder.getVal(), matchingOrder.getVolume());
@@ -81,7 +75,6 @@ public class Exchange {
                         matchingOrder.fullFill();
 
                     } else {
-                        bid.getAndAdd(order.getVolume());
                         //both are filled produce execution notifications for both
 
                         notifyFilledFilled(matchingOrder, order, matchingOrder.getVal(), matchingOrder.getVolume());
@@ -107,7 +100,6 @@ public class Exchange {
                     if(matchingOrder.getVolume().compareTo(order.getVolume()) > 0){
                         //order is filled produce execution notification
                         //matching order partfilled produce part fill notification and return to rhe head of the queue
-                        ask.getAndAdd(order.getVolume());
                         matchingOrder.partFill(order);
 
                         notifyPartFilledFilled(matchingOrder, order, matchingOrder.getVal(), order.getVolume());
@@ -118,7 +110,6 @@ public class Exchange {
                     } else if (matchingOrder.getVolume().compareTo(order.getVolume()) < 0) {
                         //order is part filled produce partfill execution notification continue the loop
                         //matching order filled produce fill notification
-                        ask.getAndAdd(matchingOrder.getVolume());
                         order.partFill(matchingOrder);
 
                         notifyPartFilledFilled(order, matchingOrder, matchingOrder.getVal(), matchingOrder.getVolume());
@@ -126,7 +117,6 @@ public class Exchange {
                         matchingOrder.fullFill();
                     } else {
                         //both are filled produce execution notifications for both
-                        ask.getAndAdd(order.getVolume());
 
                         notifyFilledFilled(matchingOrder, order, matchingOrder.getVal(), matchingOrder.getVolume());
 
@@ -158,13 +148,5 @@ public class Exchange {
         Execution filledExecution2  = new Execution(filledExecution2Uuid, filledExecution1Uuid, filledOrder2, fillPrice, quantity, true);
         executionNotifierServer.pushExecution(filledExecution1);
         executionNotifierServer.pushExecution(filledExecution2);
-    }
-
-    public long getAskExecutions() {
-        return ask.get();
-    }
-
-    public long getBidExecutions() {
-        return bid.get();
     }
 }

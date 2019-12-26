@@ -12,8 +12,6 @@ import java.util.concurrent.atomic.AtomicLong;
 //Buy orders
 public class AskContainer {
 
-    public final AtomicLong askInserted = new AtomicLong(0l);
-
     private final ConcurrentHashMap<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> askContainer;
 
     public AskContainer() {
@@ -52,27 +50,8 @@ public class AskContainer {
         final ConcurrentLinkedDeque<Order> existingAccountContainer = symbolOrderContainer.putIfAbsent(order.getVal(), accountContainer);
         if(existingAccountContainer == null){
             accountContainer.offer(order);
-            askInserted.getAndAdd(order.getVolume());
         } else {
             existingAccountContainer.offer(order);
-            askInserted.getAndAdd(order.getVolume());
         }
-    }
-
-    public Long size(){
-        AtomicLong res = new AtomicLong(0l);
-        for(Map.Entry<String, ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>>> entry : askContainer.entrySet()){
-            ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> map = entry.getValue();
-            for(ConcurrentLinkedDeque<Order> list : map.values()){
-                for(Order order : list){
-                    res.getAndAdd(order.getVolume());
-                }
-            }
-        }
-        return res.get();
-    }
-
-    public long getAskInserted() {
-        return askInserted.get();
     }
 }

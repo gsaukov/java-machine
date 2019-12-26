@@ -1,5 +1,6 @@
 package com.apps.potok.exchange.config;
 
+import com.apps.potok.exchange.account.BalanceCalculator;
 import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
@@ -77,6 +78,9 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     @Autowired
     private PositionNotifierServer positionNotifierServer;
 
+    @Autowired
+    private BalanceCalculator balanceCalculator;
+
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
         initiator.initiate();
@@ -117,23 +121,17 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         orderCreatorServer.stopExchangeServer();
         mkDataServer.stopExchangeServer();
         quoteNotifierServer.stopExchangeServer();
+
+        try {
+            Thread.sleep(20000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         executionNotifierServer.stopExchangeServer();
         balanceNotifierServer.stopExchangeServer();
 
-        long askInit = initiator.getAskInit();
-        long askLeft = askContainer.size();
-        long askInserted = askContainer.getAskInserted();
-        long askDecrement = exchange.getAskExecutions() + orderManager.getCancelled(Route.BUY);
-
-        long bidInit = initiator.getBidInit();
-        long bidLeft = bidContainer.size();
-        long bidInserted = bidContainer.getBidInserted();
-        long bidDecrement = exchange.getBidExecutions() + orderManager.getCancelled(Route.SELL);;
-
-
-        logger.info("AskInit: " + askInit + " AskLeft: " + askLeft + " AskInserted: " + askInserted + " AskDecrement: " + askDecrement + " check: askInit + askInserted - askDecremen = " + (askInit + askInserted - askDecrement) + " must equal to ask left." );
-        logger.info("BidInit: " + bidInit + " BidLeft: " + bidLeft + " BidInserted: " + bidInserted + " BidDecrement: " + bidDecrement + " check: bidInit + bidInserted - bidDecremen = " + (bidInit + bidInserted - bidDecrement) + " must equal to bid left." );
-        logger.info("Total check: askInserted + askDecremen + bidInserted + bidDecremen = " + (askInserted + askDecrement + bidInserted + bidDecrement) + " must equal to total Order/MkData Issued");
+        balanceCalculator.calculateBalance();
     }
 
 }

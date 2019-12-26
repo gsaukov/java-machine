@@ -14,7 +14,7 @@ public abstract class AbstractExchangeServer extends Thread {
 
     @Override
     public void run() {
-        while(running.get() || !Thread.currentThread().isInterrupted()){
+        while(running.get() && !Thread.currentThread().isInterrupted()){
             speedControl();
             runExchangeServer();
         }

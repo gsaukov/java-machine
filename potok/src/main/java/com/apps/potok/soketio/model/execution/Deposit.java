@@ -71,6 +71,6 @@ public class Deposit implements Accountable {
 
     @Override
     public boolean isDeposit() {
-        return false;
+        return true;
     }
 }

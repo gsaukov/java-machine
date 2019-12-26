@@ -19,6 +19,7 @@ public class Account {
     //todo to resolve issue with balance modification/ position on sell orders due to multiple clients account should have order queue.
     //todo orders should be replaced with following structure: ConcurrentHashMap<String, ConcurrentHashMap<UUID, Order>> for performance.
     private final String accountId;
+    private final Long initializedBalance;
     private final AtomicLong balance;
     private final ConcurrentHashMap<UUID, Order> orders;
     private final ConcurrentHashMap<String, Position> positions;
@@ -27,6 +28,7 @@ public class Account {
 
     public Account(String accountId, long balance) {
         this.accountId = accountId;
+        this.initializedBalance = balance;
         this.balance = new AtomicLong(balance);
         this.orders = new ConcurrentHashMap();
         this.clientUuids = new ConcurrentHashMap();
@@ -178,5 +180,9 @@ public class Account {
 
     public Order getOrder(UUID uuid){
         return orders.get(uuid);
+    }
+
+    public Long getInitializedBalance() {
+        return initializedBalance;
     }
 }

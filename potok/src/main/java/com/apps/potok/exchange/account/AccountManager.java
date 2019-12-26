@@ -26,6 +26,10 @@ public class AccountManager {
         return allAccountIds;
     }
 
+    public List<Account> getAllAccounts() {
+        return new ArrayList<>(accountContainer.values());
+    }
+
     public Account addClient(String accountId, UUID client){
         Account account = accountContainer.get(accountId);
         if (account != null) {
