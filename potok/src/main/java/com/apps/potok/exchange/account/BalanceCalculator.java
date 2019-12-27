@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.apps.potok.exchange.core.Route.BUY;
 import static com.apps.potok.exchange.core.Route.SHORT;
@@ -23,15 +25,20 @@ public class BalanceCalculator {
     @Autowired
     private AccountManager accountManager;
 
-    public void calculateBalance() {
+    public Map<String, Long> calculateBalance() {
         logger.info("Starting Balance calculation");
+        Map<String, Long> deviations = new HashMap<>();
         for(Account account : accountManager.getAllAccounts()) {
-            calculateAccountBalance(account);
+            long deviation = calculateAccountBalance(account);
+            if(deviation != 0){
+                deviations.put(account.getAccountId(), deviation);
+            }
         }
         logger.info("Balance calculation complete");
+        return deviations;
     }
 
-    private void calculateAccountBalance(Account account) {
+    private long calculateAccountBalance(Account account) {
         long initializedBalance = account.getInitializedBalance();
         long finalBalance = account.getBalance();
         long ordersNegativeBalance =  calculateOrdersBalance(account.getOrders());
@@ -39,11 +46,14 @@ public class BalanceCalculator {
         long executionsBalance =  calculateExecutionsBalance(account.getPositions());
         long actualDiff = initializedBalance - finalBalance;
         long expectedDiff = executionsShortBalance + executionsBalance - ordersNegativeBalance;
-        if(actualDiff + expectedDiff != 0){
-            logger.info("Balance mismatch initializedBalance " + initializedBalance + " finalBalance " + finalBalance + " ordersNegativeBalance " +
-                    ordersNegativeBalance + " executionsShortBalance " + executionsShortBalance + " executionsBalance " + executionsBalance + " actualDiff " +
-                    actualDiff  + " expectedDiff " + expectedDiff);
+        long deviation = actualDiff + expectedDiff;
+        if(deviation != 0){
+            logger.info("Balance mismatch accountId " + account.getAccountId() + " initializedBalance " + initializedBalance +
+                    " finalBalance " + finalBalance + " ordersNegativeBalance " + ordersNegativeBalance + " executionsShortBalance "
+                    + executionsShortBalance + " executionsBalance " + executionsBalance + " actualDiff " + actualDiff  +
+                    " expectedDiff " + expectedDiff);
         }
+        return deviation;
     }
 
     private long calculateExecutionsBalance(Collection<Position> positions) {

@@ -5,6 +5,7 @@ import com.apps.potok.config.ExchangeCondition;
 import com.apps.potok.config.TestScenario;
 import com.apps.potok.config.TestScenarioCreator;
 import com.apps.potok.exchange.account.Account;
+import com.apps.potok.exchange.account.BalanceCalculator;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.Position;
 import com.apps.potok.exchange.core.Route;
@@ -20,12 +21,15 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 public class AccountExecutionsTest extends BaseTest {
 
     @Autowired
     private TestScenarioCreator testScenarioCreator;
 
+    @Autowired
+    private BalanceCalculator balanceCalculator;
 
     private TestScenario testScenario;
     private final int BALANCE = 100000;
@@ -178,6 +182,10 @@ public class AccountExecutionsTest extends BaseTest {
 
         testScenarioCreator.manageCloseShort(testScenario, symbol, 5);
         assertEquals(testScenario.getBalance(), BALANCE - 170 - 70 + 105 - (order.getBlockedPrice() * order.getOriginalVolume()) + 25 + (order.getBlockedPrice() * 5));
+
+        Thread.sleep(100);
+        Map<String, Long> deviations = balanceCalculator.calculateBalance();
+        assertNull(deviations.get(testScenario.getAccount().getAccountId()));
     }
 
     // prepares new exchange conditions.

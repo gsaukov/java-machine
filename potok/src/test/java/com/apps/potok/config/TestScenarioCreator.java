@@ -26,9 +26,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class TestScenarioCreator {
 
     @Autowired
-    private Initiator initiator;
-
-    @Autowired
     private AccountManager accountManager;
 
     @Autowired
@@ -128,11 +125,7 @@ public class TestScenarioCreator {
     }
 
     public Order sendNewOrder(TestScenario testScenario, Route route, Integer val, Integer volume) {
-        NewOrder newOrder = new NewOrder();
-        newOrder.setRoute(route.name());
-        newOrder.setSymbol(testScenario.getSymbol());
-        newOrder.setVal(val);
-        newOrder.setVolume(volume);
+        NewOrder newOrder = toNewOrder(testScenario.getSymbol(), route.name(), val, volume);
         testScenario.addNewOrder(newOrder);
         Order order = exchangeApplication.manageNew(newOrder, testScenario.getAccount());
         testScenario.addOrder(order);
@@ -144,6 +137,15 @@ public class TestScenarioCreator {
         request.setSymbol(symbol);
         request.setAmount(amount);
         return orderManager.manageCloseShort(request, testScenario.getAccount());
+    }
+
+    private NewOrder toNewOrder(String symbol, String route, Integer val, Integer volume){
+        NewOrder newOrder = new NewOrder();
+        newOrder.setSymbol(symbol);
+        newOrder.setRoute(route);
+        newOrder.setVal(val);
+        newOrder.setVolume(volume);
+        return newOrder;
     }
 
 }
