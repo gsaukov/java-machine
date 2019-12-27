@@ -82,7 +82,7 @@ public class TestScenarioCreator {
 
 
     public void prepareExchange(ExchangeCondition exchangeCondition) {
-        symbolContainer.addSymbol(exchangeCondition.getSymbol(), exchangeCondition.getAskPrice());
+        symbolContainer.addSymbol(exchangeCondition.getSymbol(), Math.max(exchangeCondition.getAskPrice(), exchangeCondition.getBidPrice()));
 
         ConcurrentSkipListMap<Integer, ConcurrentLinkedDeque<Order>> askSymbolOrderContainer = askContainer.get(exchangeCondition.getSymbol());
         if(askSymbolOrderContainer == null){

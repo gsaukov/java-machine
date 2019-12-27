@@ -95,16 +95,19 @@ public class BalanceCalculator {
         long executionShortBalance = 0l;
         long executionQuantity = 0l;
         long closedShortQuantity = 0l;
+        long executionSellBalance = 0l;
         for(CloseShortPosition closeShortPosition : position.getCloseShort().values()) {
             closedShortQuantity = closedShortQuantity + closeShortPosition.getAmount();
         }
         for(Accountable execution : position.getSellExecutions().values()) {
             if(!execution.isDeposit()){
                 executionQuantity = executionQuantity + execution.getQuantity();
+                executionSellBalance = executionSellBalance + (execution.getQuantity() * execution.getFillPrice());
             }
         }
+
         executionShortBalance = (closedShortQuantity - executionQuantity) * position.getBlockedPrice();
-        return executionShortBalance;
+        return executionShortBalance + executionSellBalance;
     }
 
     private long calculateOrdersBalance(Collection<Order> orders) {
@@ -121,7 +124,7 @@ public class BalanceCalculator {
             if(BUY.equals(order.getRoute())){
                 orderBalance = order.getVolume() * order.getVal();
             } else if (SHORT.equals(order.getRoute())){
-                orderBalance = order.getOriginalVolume() * order.getBlockedPrice();
+                orderBalance = order.getVolume() * order.getBlockedPrice();
             }
         }
         return orderBalance;
