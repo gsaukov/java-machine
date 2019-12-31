@@ -188,6 +188,19 @@ public class AccountExecutionsTest extends BaseTest {
         assertNull(deviations.get(testScenario.getAccount().getAccountId()));
     }
 
+    @Test
+    public void shortBalanceCalculation() throws InterruptedException {
+        String symbol = "SYMBOL_" + RandomStringUtils.randomAlphabetic(10).toUpperCase();
+        testScenario = testScenarioCreator.newTestScenario(symbol, BALANCE, exchangeConditions(symbol));
+
+        Order order = testScenarioCreator.sendNewOrder(testScenario, Route.SHORT, 5, 10);
+        Thread.sleep(300);
+        order = testScenarioCreator.sendNewOrder(testScenario, Route.SHORT, 5, 10);
+        Thread.sleep(300);
+        balanceCalculator.calculateBalance();
+
+    }
+
     // prepares new exchange conditions.
     // | ASK BUY    | BID SELL   |
     // | price qty  | price qty  |

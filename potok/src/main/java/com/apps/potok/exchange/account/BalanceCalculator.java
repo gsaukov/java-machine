@@ -101,11 +101,10 @@ public class BalanceCalculator {
         }
         for(Accountable execution : position.getSellExecutions().values()) {
             if(!execution.isDeposit()){
-                executionQuantity = executionQuantity + execution.getQuantity();
-                executionSellBalance = executionSellBalance + (execution.getQuantity() * execution.getFillPrice());
+                executionQuantity = executionQuantity + execution.getQuantity(); //negative for account is taken from his balance
+                executionSellBalance = executionSellBalance + Math.abs((execution.getQuantity() * execution.getFillPrice()));
             }
         }
-
         executionShortBalance = (closedShortQuantity - executionQuantity) * position.getBlockedPrice();
         return executionShortBalance + executionSellBalance;
     }

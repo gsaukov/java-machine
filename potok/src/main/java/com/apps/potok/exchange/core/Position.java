@@ -48,7 +48,7 @@ public class Position {
     }
 
     public void applyExecution (Accountable execution) {
-        if(!buyExecutions.containsKey(execution) && !sellExecutions.containsKey(execution)) {
+        if(!buyExecutions.containsKey(execution.getUuid()) && !sellExecutions.containsKey(execution.getUuid())) {
             if(BUY.equals(execution.getRoute())) {
                 applyBuyExecution(execution);
             } else {

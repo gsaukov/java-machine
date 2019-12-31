@@ -58,6 +58,7 @@ public class Initiator {
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
     private final ExchangeApplication exchangeApplication;
+    private final OrderManager orderManager;
 
     public Initiator(SymbolContainer symbolContainer, AccountManager accountManager, OrderManager orderManager,
                      AskContainer askContainer, BidContainer bidContainer, ExchangeApplication exchangeApplication) {
@@ -66,6 +67,7 @@ public class Initiator {
         this.askContainer = askContainer;
         this.bidContainer = bidContainer;
         this.exchangeApplication = exchangeApplication;
+        this.orderManager = orderManager;
     }
 
     public void initiate (){
@@ -131,7 +133,7 @@ public class Initiator {
         Integer volume = RandomUtils.nextInt(1, avgVolume) * 10;
         Integer blockedPrice = 0;
         if (SHORT.equals(route)) {
-            blockedPrice = val + val / 10;
+            blockedPrice = orderManager.getShortBlockedPrice(symbol);
         }
         return new Deposit(depositUuid, timestamp, symbol, accountId, route, val, blockedPrice, volume);
     }

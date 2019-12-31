@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static com.apps.potok.exchange.core.Route.BUY;
 import static com.apps.potok.exchange.core.Route.SELL;
@@ -80,8 +79,7 @@ public class OrderManager {
     }
 
     private Order shortOrderBalanceProcessor(NewOrder newOrder, Account account, Route route) {
-        Integer blockedPrice = symbolContainer.getQuote(newOrder.getSymbol());
-        blockedPrice = blockedPrice + blockedPrice / RISK_FACTOR;
+        Integer blockedPrice = getShortBlockedPrice(newOrder.getSymbol());
         long blockedBalance = newOrder.getVolume() * blockedPrice;
         boolean success = account.doNegativeOrderBalance(blockedBalance, blockedBalance);
         if (success) {
@@ -90,6 +88,11 @@ public class OrderManager {
         } else {
             return null;
         }
+    }
+
+    public Integer getShortBlockedPrice(String symbol) {
+        Integer blockedPrice = symbolContainer.getQuote(symbol);
+        return blockedPrice + blockedPrice / RISK_FACTOR;
     }
 
     //todo it is not thread safe for account with many client connections, sell orders could change, needs to be fixed, could
@@ -117,15 +120,15 @@ public class OrderManager {
     public Order cancelOrder(UUID uuid, String accountId) {
         Account account = accountManager.getAccount(accountId);
         Order orderToRemove = account.getOrder(uuid);
-        if (orderToRemove != null && orderToRemove.getAccount().equals(accountId) && orderToRemove.isActive()) {
+        if (orderToRemove != null && orderToRemove.getAccount().equals(accountId) && orderToRemove.isActive() && orderToRemove.getVolume() > 0) {
             orderToRemove.cancel();
             if (BUY.equals(orderToRemove.getRoute())) {
                 askContainer.removeAsk(orderToRemove);
             } else {
                 bidContainer.removeBid(orderToRemove);
             }
+            executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), cancelBalanceReturnDelay, TimeUnit.SECONDS);
         }
-        executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), cancelBalanceReturnDelay, TimeUnit.SECONDS);
         return orderToRemove;
     }
 
@@ -171,15 +174,8 @@ public class OrderManager {
         balanceNotifier.pushBalance(account);
     }
 
-    //this must be reworked when account balance calculation in shutdown hook is done.
-    public long getCancelled(Route route) {
-        AtomicLong res = new AtomicLong(0l);
-        for (Order order : orderPool.values()) {
-            if (!order.isActive() && order.getRoute().equals(route)) {
-                res.getAndAdd(order.getVolume());
-            }
-        }
-        return res.get();
+    public Order getOrder(UUID orderUuid) {
+        return orderPool.get(orderUuid);
     }
 
     public CloseShortPosition manageCloseShort(CloseShortPositionRequest request, Account account) {

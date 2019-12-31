@@ -130,6 +130,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
 
         executionNotifierServer.stopExchangeServer();
         balanceNotifierServer.stopExchangeServer();
+        positionNotifierServer.stopExchangeServer();
 
         balanceCalculator.calculateBalance();
     }
