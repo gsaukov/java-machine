@@ -47,5 +47,5 @@ exchange:
     #SLOW 100 ms OrderCreator 30000 ms MkDataServer thread sleep
     #DEAD 1000 ms OrderCreator 300000 ms MkDataServer thread sleep
     #STOP OrderCreator/MkDataServer not started
-
+  shutdowner.timeout: 0 #milliseconds 0 disabled.
 logging.level.org.springframework: DEBUG

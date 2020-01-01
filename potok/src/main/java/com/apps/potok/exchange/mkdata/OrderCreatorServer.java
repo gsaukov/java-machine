@@ -101,7 +101,7 @@ public class OrderCreatorServer extends AbstractExchangeServer {
         String symbol = symbolContainer.get(r.nextInt(0, symbolContainer.getSymbols().size()));
         Integer val = getDynamicPrice(symbol);
         Integer volume = r.nextInt(1, 10) * 10;
-        return toNewOrder(symbol, SHORT.name(), 100, volume);
+        return toNewOrder(symbol, SHORT.name(), val, volume);
     }
 
     private void addToCancel(Order order) {
@@ -120,7 +120,7 @@ public class OrderCreatorServer extends AbstractExchangeServer {
 
 
     private Route getRoute() {
-        int chance = r.nextInt(0, 100);
+        int chance = r.nextInt(1, 101);
         if(chance < 48){
             return BUY;
         } else if (chance < 96) {
