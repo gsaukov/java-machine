@@ -88,6 +88,10 @@ public class SessionConnectListener implements ConnectListener {
             PositionNotification notification = new PositionNotification(position);
             client.sendEvent("positionNotification", notification);
         }
+        for(Position position : account.getShortPositions()) {
+            PositionNotification notification = new PositionNotification(position);
+            client.sendEvent("positionNotification", notification);
+        }
     }
 
     private void sendOrders(Account account, SocketIOClient client) {
