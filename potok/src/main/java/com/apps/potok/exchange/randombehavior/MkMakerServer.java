@@ -1,4 +1,4 @@
-package com.apps.potok.exchange.mkdata;
+package com.apps.potok.exchange.randombehavior;
 
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.core.AbstractExchangeServer;
