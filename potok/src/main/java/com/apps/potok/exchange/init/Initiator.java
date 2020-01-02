@@ -14,16 +14,13 @@ import com.apps.potok.exchange.core.Route;
 import com.apps.potok.soketio.model.execution.Deposit;
 import com.apps.potok.soketio.model.order.NewOrder;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -59,6 +56,7 @@ public class Initiator {
     private final BidContainer bidContainer;
     private final ExchangeApplication exchangeApplication;
     private final OrderManager orderManager;
+    private ThreadLocalRandom r;
 
     public Initiator(SymbolContainer symbolContainer, AccountManager accountManager, OrderManager orderManager,
                      AskContainer askContainer, BidContainer bidContainer, ExchangeApplication exchangeApplication) {
@@ -68,6 +66,7 @@ public class Initiator {
         this.bidContainer = bidContainer;
         this.exchangeApplication = exchangeApplication;
         this.orderManager = orderManager;
+        this.r = ThreadLocalRandom.current();
     }
 
     public void initiate (){
@@ -79,7 +78,7 @@ public class Initiator {
 
     private void createSymbols (){
         for(int i = 0 ; i < symbolSize ; i++){
-            symbolContainer.addSymbol(RandomStringUtils.randomAlphabetic(4).toUpperCase(), RandomUtils.nextInt(minRange, maxRange));
+            symbolContainer.addSymbol(RandomStringUtils.randomAlphabetic(4).toUpperCase(), r.nextInt(minRange, maxRange));
         }
     }
 
@@ -106,9 +105,9 @@ public class Initiator {
     private void createAccounts (){
         for(int i = 0 ; i < accountsSize ; i++){
             String accountId = RandomStringUtils.randomAlphabetic(9).toUpperCase();
-            Account account = new Account(accountId, RandomUtils.nextLong(1000000l, 10000000l));
+            Account account = new Account(accountId, r.nextLong(10000000l, 100000000l));
             accountManager.addNewAccount(account);
-            createPositions(account, 60, 100);
+            createPositions(account, 60);
             createOrders(account);
         }
         Account mkMaker = new Account(MK_MAKER, 9999999999l);
@@ -118,19 +117,19 @@ public class Initiator {
         accountManager.addNewAccount(testAccount);
     }
 
-    private void createPositions(Account account, int number, int volume){
+    private void createPositions(Account account, int number){
         Set<String> symbols = getRandomSymbols(number);
         for (String symbol : symbols) {
-            account.doExecution(createDeposit(account.getAccountId(), symbol, volume));
+            account.doExecution(createDeposit(account.getAccountId(), symbol));
         }
     }
 
-    private Deposit createDeposit(String accountId, String symbol, int avgVolume){
+    private Deposit createDeposit(String accountId, String symbol){
         UUID depositUuid = UUID.randomUUID();
         Date timestamp = new Date();
-        Route route = getRoute();
+        Route route = getDepositeRoute();
         Integer val = getVal(symbol);
-        Integer volume = RandomUtils.nextInt(1, avgVolume) * 10;
+        Integer volume = r.nextInt(10, 200) * 10;
         Integer blockedPrice = 0;
         if (SHORT.equals(route)) {
             blockedPrice = orderManager.getShortBlockedPrice(symbol);
@@ -148,7 +147,7 @@ public class Initiator {
         Set<String> symbols = getRandomSymbols(15);
         for (String symbol : symbols) {
             Integer val = getVal(symbol, BUY);
-            Integer volume = RandomUtils.nextInt(1, 100) * 10;
+            Integer volume = r.nextInt(1, 100) * 10;
             NewOrder newOrder = toNewOrder(symbol, BUY.name(), val, volume);
             exchangeApplication.manageNew(newOrder, account);
         }
@@ -157,12 +156,12 @@ public class Initiator {
     private void createSellOrders(Account account) {
         List<Position> positions = new ArrayList<>(account.getPositions());
         for (Position position : positions) {
-            if(RandomUtils.nextInt(0, 9) < 5){
+            if(r.nextInt(0, 9) < 6){
                 continue; //only ~60% chance of a sell order on existing position
             }
             Integer val = getVal(position.getSymbol(), SELL);
-            Integer volume = (RandomUtils.nextInt(10, position.getVolume()) / 10) * 10 ;
-            NewOrder newOrder = toNewOrder(position.getSymbol(), BUY.name(), val, volume);
+            Integer volume = (r.nextInt(10, position.getVolume()) / 10) * 10 ;
+            NewOrder newOrder = toNewOrder(position.getSymbol(), SELL.name(), val, volume);
             exchangeApplication.manageNew(newOrder, account);
         }
     }
@@ -176,11 +175,11 @@ public class Initiator {
     }
 
     private String getRandomSymbol() {
-        return symbolContainer.get(RandomUtils.nextInt(0, symbolContainer.getSymbols().size()));
+        return symbolContainer.get(r.nextInt(0, symbolContainer.getSymbols().size()));
     }
 
-    private Route getRoute () { //Deposit position can be only buy or short
-        if(RandomUtils.nextInt(0, 9) < 8){
+    private Route getDepositeRoute() { //Deposit position can be only buy or short
+        if(r.nextInt(0, 9) < 8){
             return BUY; //90%
         } else {
             return SHORT; //10%
@@ -190,9 +189,9 @@ public class Initiator {
     private Integer getVal(String symbol, Route route) {
         Integer val = symbolContainer.getQuote(symbol);
         if(BUY.equals(route)){
-            return RandomUtils.nextInt(1, val);
+            return r.nextInt(1, val);
         } else {
-            return RandomUtils.nextInt(val - 1, 100);
+            return r.nextInt(val - 1, 100);
         }
     }
 
@@ -202,9 +201,8 @@ public class Initiator {
     }
 
     private Integer getDynamicPrice (Integer val) {
-        ThreadLocalRandom r = ThreadLocalRandom.current();
         int coefficient = Math.toIntExact(Math.round(val * 0.1d + 0.5 + r.nextGaussian()));
-        if(RandomUtils.nextBoolean()){
+        if(r.nextBoolean()){
             return val - coefficient;
         } else {
             return val + coefficient;

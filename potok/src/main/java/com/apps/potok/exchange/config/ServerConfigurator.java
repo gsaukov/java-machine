@@ -32,9 +32,6 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
 
     private Logger logger = LoggerFactory.getLogger(ServerConfigurator.class);
 
-    @Value("${exchange.order-size}")
-    private Integer orderSize;
-
     @Autowired
     private Initiator initiator;
 
