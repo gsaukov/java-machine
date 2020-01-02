@@ -9,6 +9,7 @@ import com.apps.potok.exchange.core.Position;
 import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.core.Route;
 import com.apps.potok.exchange.account.AccountManager;
+import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.apps.potok.soketio.model.order.NewOrder;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,18 @@ public class OrderCreatorServer extends AbstractExchangeServer {
             addToCancel(order);
         }
         cancelRandom();
+        closeRandomShort(account);
+    }
+
+    private void closeRandomShort(Account account) {
+        for(Position shortPosition : account.getShortPositions()) {
+            Position position = account.getPosition(shortPosition.getSymbol());
+            if(position != null) {
+                Integer closeAmount = Math.min(Math.abs(shortPosition.getVolume()), position.getVolume());
+                orderManager.manageCloseShort(toCloseShortPositionRequest(position.getSymbol(), closeAmount), account);
+                return;
+            }
+        }
     }
 
     @Override
@@ -105,7 +118,7 @@ public class OrderCreatorServer extends AbstractExchangeServer {
     }
 
     private void addToCancel(Order order) {
-        if(r.nextInt(0, 9) == 8 && order != null){ //every 10th order
+        if(r.nextInt(0, 9) > 6 && order != null){ //every 5th order
             orderToCancel.add(order.getUuid());
         }
     }
@@ -147,5 +160,12 @@ public class OrderCreatorServer extends AbstractExchangeServer {
         newOrder.setVal(val);
         newOrder.setVolume(volume);
         return newOrder;
+    }
+
+    private CloseShortPositionRequest toCloseShortPositionRequest(String symbol, Integer amount){
+        CloseShortPositionRequest closeShortPositionRequest = new CloseShortPositionRequest();
+        closeShortPositionRequest.setSymbol(symbol);
+        closeShortPositionRequest.setAmount(amount);
+        return closeShortPositionRequest;
     }
 }

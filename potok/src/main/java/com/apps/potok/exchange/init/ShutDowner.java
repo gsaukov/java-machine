@@ -19,7 +19,7 @@ public class ShutDowner extends AbstractExchangeServer {
 
     @PostConstruct
     public void postConstruct() {
-        if(timeout < 0){
+        if(timeout > 0){
             serverConfigurator.taskExecutor().execute(this);
         }
     }

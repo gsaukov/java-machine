@@ -78,6 +78,7 @@ public class Position {
         volume.getAndAdd(-execution.getQuantity());
     }
 
+    //this method is always invoked on short position
     public void closeShort(CloseShortPosition closeShortPosition, Position positivePosition){
         this.closeShort.put(closeShortPosition.getUuid(), closeShortPosition);
         positivePosition.closeShort.put(closeShortPosition.getUuid(), closeShortPosition);
