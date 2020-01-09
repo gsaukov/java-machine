@@ -1,12 +1,5 @@
 package com.apps.amazon;
 
-import com.github.andrewoma.dexx.collection.ArrayList;
-import com.github.andrewoma.dexx.collection.List;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution2 {
 
 
