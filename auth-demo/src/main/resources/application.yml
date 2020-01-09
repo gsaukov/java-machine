@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: Authdemo
+  thymeleaf.cache: false
+  thymeleaf.enabled: true
+  thymeleaf.prefix: classpath:/templates/
+  thymeleaf.suffix: .html
+
+  mvc.throw-exception-if-no-handler-found: true
+  mvc.static-path-pattern: /static/**
+
+
+  datasource:
+    url: jdbc:mysql://localhost:55555/authdemo?useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: authdemo
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 20
+      idleTimeout: 30000
+      maxLifetime: 2000000
+      connectionTimeout: 30000
+
+  liquibase:
+    change-log: classpath:db/changelog-master.yaml
+
+server:
+  port: 8097
+  ssl: #keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+    key-store: classpath:keystore.p12
+    key-store-password: srch4app
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+  error.whitelabel.enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+          include: "*"
+
+socket-io-server:
+  host: localhost
+  port: 9092
+
+certificate:
+  store:
+    key-store: classpath:keystore.p12
+    key-store-password: srch4app
+
+logging.level.org.springframework: DEBUG
