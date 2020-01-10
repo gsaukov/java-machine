@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8">
     <link href="http://localhost:9020/static/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
     <script src="http://localhost:9020/static/js/external/jquery-3.3.1.min.js"></script>
@@ -23,6 +24,35 @@
             height: 800px;
         }
     </style>
+
+    <script>
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '2930956966914426',
+              cookie     : true,
+              xfbml      : true,
+              version    : 'v5.0'
+            });
+
+            FB.AppEvents.logPageView();
+
+          };
+
+          (function(d, s, id){
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement(s); js.id = id;
+             js.src = "https://connect.facebook.net/en_US/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+
+          function checkLoginState() {
+              FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+                Console.log(response)
+              });
+          }
+    </script>
 
 </head>
 <body>
@@ -49,6 +79,8 @@
                 </form>
             </div>
         </div>
+        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button>
     </div>
 
     <div id="slides" class="carousel slide" data-ride="carousel" >
