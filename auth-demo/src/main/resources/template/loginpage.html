@@ -26,6 +26,9 @@
     </style>
 
     <script>
+
+        localStorage.setItem('wellData', new Array());
+
           window.fbAsyncInit = function() {
             FB.init({
               appId      : '2930956966914426',
@@ -33,9 +36,7 @@
               xfbml      : true,
               version    : 'v5.0'
             });
-
             FB.AppEvents.logPageView();
-
           };
 
           (function(d, s, id){
@@ -46,12 +47,11 @@
              fjs.parentNode.insertBefore(js, fjs);
           }(document, 'script', 'facebook-jssdk'));
 
-        var accessToken
-<!--https://graph.facebook.com/me?fields=id,name,picture&access_token=EAAppsJjdaXoBAER7aaQzKiv9KUxb6Ic10xNSgdp0NkdPRnkGGwIRJ5JSZCgz5EtQ1LQZCllVRaAPZC4jS8W9FFs189QKUjXWbPOQz7PFebIVhZClBdMyEeGqKuyZA0IIgpGCD7EBirJsv2A3CJh1luZCDtTlBfZCjpbrFeT2XKCq8Vyuy0ZAEUSI4zHHgAZC0ZASjKIzMMbdrHtwZDZD-->
+        var accessToken;
           function checkLoginState() {
               FB.getLoginStatus(function(response) {
                   if (response.status === 'connected') {
-                  	document.getElementById('status').innerHTML = 'Connected.';
+                  	document.getElementById('fbstatus').innerHTML = 'Connected.';
                     accessToken = response.authResponse.accessToken;
                     console.log(accessToken)
                   }
@@ -59,13 +59,18 @@
               });
           }
     </script>
+    <!--https://graph.facebook.com/me?fields=id,name,picture&access_token=EAAppsJjdaXoBAER7aaQzKiv9KUxb6Ic10xNSgdp0NkdPRnkGGwIRJ5JSZCgz5EtQ1LQZCllVRaAPZC4jS8W9FFs189QKUjXWbPOQz7PFebIVhZClBdMyEeGqKuyZA0IIgpGCD7EBirJsv2A3CJh1luZCDtTlBfZCjpbrFeT2XKCq8Vyuy0ZAEUSI4zHHgAZC0ZASjKIzMMbdrHtwZDZD-->
+
 
 
     <script>
 		// getting basic user info
 		function getInfo() {
-			FB.api('/me', 'GET', {fields: 'first_name,last_name,name,id,picture.width(300).height(300)'}, function(response) {
-				document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>";
+			FB.api('/me', 'GET', {fields: 'email,first_name,last_name,name,id,picture.width(300).height(300)'}, function(response) {
+				document.getElementById('fbuserpicture').innerHTML = "<img src='" + response.picture.data.url + "'>";
+                document.getElementById('fbemail').innerHTML = response.email;
+                document.getElementById('fbusername').innerHTML = response.first_name + " " + response.last_name ;
+                document.getElementById('fbuserid').innerHTML = response.id;
 			});
 		}
 	</script>
@@ -109,11 +114,29 @@
                 </form>
             </div>
         </div>
-        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
-        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button>
-
-        <div id="status"></div>
-        <button onclick="getInfo()">Get info with picture</button>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div>
+<!--                        <fb:login-button data-size="large" data-button-type="login_with" scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button>-->
+                        <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="true" autologoutlink="true" onlogin="checkLoginState();"></div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Get Info" class="btn btn-default" onclick="getInfo()" style="margin-top: 10px; font-size: 19px; height: 42px">
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div id="fbuserpicture"></div>
+                </div>
+                <div class="col-sm">
+                    <div id="fbstatus" style="margin-top: 5px; font-size: 19px;"></div>
+                    <div id="fbuserid" style="margin-top: 5px; font-size: 19px;"></div>
+                    <div id="fbusername" style="margin-top: 5px; font-size: 19px;"></div>
+                    <div id="fbemail" style="margin-top: 5px; font-size: 19px;"></div>
+                </div>
+            </div>
+        </div>
+<!--        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"></div>-->
     </div>
 
     <div id="slides" class="carousel slide" data-ride="carousel" >
@@ -205,8 +228,35 @@
                 interval: false
             })
         </script>
+        <script>
+            // remember last slide posisition;
+            $('.carousel').bind('slide.bs.carousel', function(e){
+                var slideFrom = $(this).find('.active').index();
+                var slideTo = $(e.relatedTarget).index();
+                console.log(slideFrom+' => '+slideTo);
+                localStorage.setItem('slide', slideTo)
+            });
+        </script>
+        <script>
+            var slide = localStorage.getItem('slide');
+            if (slide === null) {
+                // do nothing
+            } else {
+                // return to last saved slide
+                $('.carousel').carousel(parseInt(slide));
+            }
+        </script>
+
     </div>
 
+    <div id="console" class="well"/>
 
+    <script>
+        function output(message) {
+            var currentTime = "<span class='time'>" +  Date.now() + "</span>";
+            var element = $("<div>" + currentTime + " " + message + "</div>");
+            $('#console').prepend(element);
+        }
+    </script>
 </body>
 </html>
