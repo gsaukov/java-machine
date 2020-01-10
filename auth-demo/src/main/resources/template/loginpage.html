@@ -48,8 +48,11 @@
 
           function checkLoginState() {
               FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-                Console.log(response)
+                  if (response.status === 'connected') {
+                    var accessToken = response.authResponse.accessToken;
+                    console.log(accessToken)
+                  }
+
               });
           }
     </script>
