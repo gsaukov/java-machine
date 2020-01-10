@@ -46,10 +46,12 @@
              fjs.parentNode.insertBefore(js, fjs);
           }(document, 'script', 'facebook-jssdk'));
 
+        var accessToken
+<!--https://graph.facebook.com/me?fields=id,name,picture&access_token=EAAppsJjdaXoBAER7aaQzKiv9KUxb6Ic10xNSgdp0NkdPRnkGGwIRJ5JSZCgz5EtQ1LQZCllVRaAPZC4jS8W9FFs189QKUjXWbPOQz7PFebIVhZClBdMyEeGqKuyZA0IIgpGCD7EBirJsv2A3CJh1luZCDtTlBfZCjpbrFeT2XKCq8Vyuy0ZAEUSI4zHHgAZC0ZASjKIzMMbdrHtwZDZD-->
           function checkLoginState() {
               FB.getLoginStatus(function(response) {
                   if (response.status === 'connected') {
-                    var accessToken = response.authResponse.accessToken;
+                    accessToken = response.authResponse.accessToken;
                     console.log(accessToken)
                   }
 
