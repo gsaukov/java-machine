@@ -89,6 +89,67 @@
 </head>
 <body>
 
+<div class="row-container" style="position: absolute; right: 10px; top: 15px">
+    <output id="sessionTimer" style="font-size: 19px;">00:00.000</output>
+    <script>
+            let timeBegan = Date.parse(JSON.parse(localStorage.getItem("timeBegan"))) || null
+            , timeStopped = Date.parse(JSON.parse(localStorage.getItem("timeStopped"))) || null
+            , stoppedDuration = 0
+            , started = null;
+
+            function startTimer() {
+                if (timeBegan === null) {
+                    timeBegan = new Date();
+                    localStorage.setItem('timeBegan', JSON.stringify(timeBegan));
+                }
+
+                if (timeStopped !== null) {
+                    stoppedDuration += (new Date() - timeStopped);
+                }
+                started = setInterval(clockRunning, 10);
+            }
+
+            function stopTimer() {
+                timeStopped = new Date();
+                clearInterval(started);
+            }
+
+            function resetTimer() {
+                clearInterval(started);
+                stoppedDuration = 0;
+                timeBegan = null;
+                timeStopped = null;
+                localStorage.removeItem('timeBegan');
+                localStorage.removeItem('timeStopped');
+                document.getElementById("sessionTimer").innerHTML = "00:00.000";
+            }
+
+            function clockRunning(){
+                let currentTime = new Date()
+                    , timeElapsed = new Date(currentTime - timeBegan - stoppedDuration);
+
+                document.getElementById("sessionTimer").innerHTML = timeToString(timeElapsed);
+            };
+
+            function timeToString(time) {
+                let min = time.getUTCMinutes()
+                    , sec = time.getUTCSeconds()
+                    , ms = time.getUTCMilliseconds();
+
+                if(sec % 10 === 0){
+                    localStorage.setItem('timeStopped', JSON.stringify(new Date()));
+                }
+
+
+                return (min > 9 ? min : "0" + min) + ":" +
+                    (sec > 9 ? sec : "0" + sec) + "." +
+                    (ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms);
+            }
+
+            startTimer();
+        </script>
+</div>
+
     <div class="row justify-content-left align-self-start" style="margin-top: 1em; margin-left: 1em;">
         <div class="col-2">
             <div class="form-group">
