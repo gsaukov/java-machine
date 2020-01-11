@@ -246,10 +246,15 @@
 
     </div>
 
-    <input id="consoleMessage" class="form-control" name="message" style="filter: none;">
-    <input type="submit" value="Message" class="btn btn-default" onclick="output($('#consoleMessage').val()); $('#consoleMessage').val('');" style="font-size: 19px; height: 42px">
-    <div id="console" class="well"/>
+    <div class="container">
+        <div class="row">
+            <input id="consoleMessage" class="form-control" name="message" style="filter: none;">
+            <input type="submit" value="Message" class="btn btn-default" onclick="output($('#consoleMessage').val()); $('#consoleMessage').val('');" style="font-size: 19px; height: 42px">
+            <input type="submit" value="Clear" class="btn btn-default" onclick="$('#console').empty(); localStorage.removeItem('wellData');" style="font-size: 19px; height: 42px">
+        </div>
+    </div>
 
+    <div id="console" class="well"/>
 
     <script>
 		function initWell() {
