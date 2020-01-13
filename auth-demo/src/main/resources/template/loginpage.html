@@ -162,10 +162,10 @@
             <li data-target="#slides" data-slide-to="2"></li>
             <li data-target="#slides" data-slide-to="3"></li>
         </ol>
-        <div class="carousel-inner">
+        <div class="carousel-inner" style="margin-top: 20em;">
             <div class="carousel-item active">
-                <div class="row justify-content-left align-self-start" style="margin-top: 1em; margin-left: 1em;">
-                    <div class="col-5">
+                <div class="row justify-content-left" style="margin-left: 20em;">
+                    <div class="col-3">
                         <div class="form-group">
                             <form th:action="@{/justitia-api/user/login}" method="POST" >
                                 <fieldset class="form-group">
@@ -175,19 +175,32 @@
                                     <input id="password" class="form-control" name="password" type="password" style="filter: none;">
                                 </fieldset>
                                 <div class="row" style="margin-top: 0; margin-left: 0;">
-                                    <select id="authtype" class="form-control" style="width: 12em; font-size: 20px; margin-right: 5px; height: 42px">
+                                    <select id="authtype" class="form-control" style="width: 15em; font-size: 20px; margin-right: 15px; height: 42px">
                                         <option value="BASIC">BASIC</option>
                                         <option value="FORM">FORM</option>
                                         <option value="CREDENTIALS">TOKEN CREDENTIALS</option>
                                         <option value="CODE">TOKEN CODE</option>
                                     </select>
-                                    <input type="submit" value="Login" class="btn btn-default" style="font-size: 19px; height: 42px">
+                                    <input type="submit" value="Login" class="btn btn-default" style="width: 5em; font-size: 19px; height: 42px">
                                 </div>
                             </form>
                         </div>
                     </div>
+                    <div class="col-9">
+                        <div>
+                            <h2><strong>Why WebSlides?</strong></h2>
+                            <p class="text-intro">Good karma &amp; Productivity.</p>
+                            <li>
+                                <h2>An opportunity to engage.</h2>
+                                <p>WebSlides is about good karma. This is about telling the story, and sharing it in a beautiful way. HTML and CSS as narrative elements.</p>
+                            </li>
+                            <li>
+                                <h2>Work better, faster.</h2>
+                                <p>Designers, marketers, and journalists can now focus on the content. Simply <a href="/demos" title="WebSlides Demos">choose a demo</a> and customize it in minutes.</p>
+                            </li>
+                        </div>
+                    </div>
                 </div>
-                <img class="d-block w-100" src="https://kor.ill.in.ua/m/610x386/2456343.jpg" alt="First slide">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>First slide label</h5>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
