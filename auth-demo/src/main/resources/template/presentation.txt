@@ -1,0 +1,28 @@
+Hi guys, welcome to Artifitial Trust talk.
+
+My name is Georgy Saukov and I m software enginer here at Wirecard Germany. Before that I was doing software in Moscow. Before Moscow I was growing and studing somwhere in central Asia. That living expirience showed me that trust is something very important I would evn say it is background for human social relations. Any social form of organisation family, company, state based on trust are the most effective. Human trust has biochemical origin and is regulated by Oxitacin without it you will not be able to love, befriend or be a parent.
+
+--Trust could also do evil things, recently I have watched Irishman, amazing movie about trust, betrail and remorse.
+
+For the digital world Trust has the same importance.
+
+Today I will show you how one of the most important Trust pro between Human and Computer works today (I on purpose dont want to call it security) later i will tell you why. How it volved with a time, what do we have now and where we going in nar future.
+
+I will talk only about small
+
+For that i ve prepared a JavaScript based tool integrated into this slides, set of backend servers Spring Security, Facebook Graph API and Spotify.
+
+https://www.youtube.com/watch?v=ytFXfY_Jpzk&t=868s
+
+PKCE
+
+IOT world becomes self sufficient and will play bigger role in our life the only unique thing digital they may have is token. People will have passwords and Biometrics, in exchange for that we will get tokens.
+
+
+
+Compromised passwords from old registrations.
+
+i m waiting for a time when device or a system will not authorize you daily rutin operation liek driwing a car Gretta.
+
+
+Interesting that during creation of this talk i caught myself on the idea that we now have living not living and digital.
