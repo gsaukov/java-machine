@@ -1,4 +1,4 @@
-Hi guys, welcome to Artifitial Trust talk.
+Hi guys, welcome to Digital Trust talk.
 
 My name is Georgy Saukov and I m software enginer here at Wirecard Germany. Before that I was doing software in Moscow. Before Moscow I was growing and studing somwhere in central Asia. That living expirience showed me that trust is something very important I would evn say it is background for human social relations. Any social form of organisation family, company, state based on trust are the most effective. Human trust has biochemical origin and is regulated by Oxitacin without it you will not be able to love, befriend or be a parent.
 
@@ -6,9 +6,49 @@ My name is Georgy Saukov and I m software enginer here at Wirecard Germany. Befo
 
 For the digital world Trust has the same importance.
 
-Today I will show you how one of the most important Trust pro between Human and Computer works today (I on purpose dont want to call it security) later i will tell you why. How it volved with a time, what do we have now and where we going in nar future.
+Today I will show you how one of the most important problems in Human Computer communication Authentication was solve last during last decade.
 
-I will talk only about small
+We will see how it evolved with a time, what do we have now and where we going in near future. Also I think that this decade 2020 - 2030 we or could be computers themselves will be solving Authentication problem between computer computer.
+
+Authentication answers very simple question. Who are you?
+
+Human brain has amazing capability, to identify other people. We do it fully based biometric of our face, body shape and voice. It makes impersonating another person very difficult because we are very unique ourselves. We store this data deep in our brain and match it every time we try to identify some one.
+The brain is so cool that it identify people through a time, you can identify peoples after a 40 years machines can not do it at all.
+If you want see what happens when your brain lose this capabilities i strongly recommend you movie "Memento" it is a criminal drama where protagonist suffers strong retrograde amnesia when can not event identify him self.
+
+Digital biometric authentication strongly inferior to human brain. So the only rational way to become unique for the computer is to keep in your memory unique combination of symbols that only you have. This symbol sequence password.
+
+The problem comes that you can not directly transmit data from your brain directly to computer that wants to Authentify you.
+
+You have too pass it through physical device(your PC or), operating system, application (browser or app) at some point it falls into network abyss where it flies through the servers, routers till.
+
+And of course first attempts to pass credentials via internet were completely insecure:
+
+Welcome to Basic Auth where password is trnasmitted via headers or url itself.
+
+There are a few issues with HTTP Basic Auth:
+
+    The password is sent over the wire in base64 encoding (which can be easily converted to plaintext).
+    The password is sent repeatedly, for each request. (Larger attack window)
+    The password is cached by the webbrowser, at a minimum for the length of the window / process. (Can be silently reused by any other request to the server, e.g. CSRF).
+    The password may be stored permanently in the browser, if the user requests. (Same as previous point, in addition might be stolen by another user on a shared machine).
+
+Of those, using SSL only solves the first. And even with that, SSL only protects until the webserver - any internal routing, server logging, etc, will see the plaintext password.
+
+So, as with anything it's important to look at the whole picture.
+
+Does HTTPS protect the password in transit? Yes.
+
+Is that enough? Usually, no.
+
+Next try is Form auth which was much safer because in exchange for password you would get authcookie that is stored in browser. So you dont need to resend password every time. Your password was by passed to the AuthServer in body mixed with tags and other parameters.
+
+But the problem that appeared that systems that would require you Authentication rapidly grew, increasing the risk of password leak on the back end if it is not properly secured you password could leak during attack or inside data steal.
+Human factor on the backend is overhelming, you dont need super smart attack just one system admin fell i n love in to wrong girl.
+
+(I on purpose dont want to call it security) later i will tell you why.
+
+I will talk only about
 
 For that i ve prepared a JavaScript based tool integrated into this slides, set of backend servers Spring Security, Facebook Graph API and Spotify.
 
