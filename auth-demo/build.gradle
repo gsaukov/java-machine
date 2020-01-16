@@ -24,7 +24,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile 'org.springframework.social:spring-social-facebook:2.0.3.RELEASE'
 
-//    runtime "mysql:mysql-connector-java:${mySqlVersion}"
+    runtime "mysql:mysql-connector-java:${mySqlVersion}"
 }
 
 sourceSets {

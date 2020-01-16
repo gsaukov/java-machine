@@ -10,21 +10,21 @@ spring:
   mvc.static-path-pattern: /static/**
 
 
-#  datasource:
-#    url: jdbc:mysql://localhost:55555/authdemo?useLegacyDatetimeCode=false&serverTimezone=UTC
-#    username: authdemo
-#    password: password
-#    driver-class-name: com.mysql.jdbc.Driver
-#
-#    hikari:
-#      minimumIdle: 5
-#      maximumPoolSize: 20
-#      idleTimeout: 30000
-#      maxLifetime: 2000000
-#      connectionTimeout: 30000
-#
-#  liquibase:
-#    change-log: classpath:db/changelog-master.yaml
+  datasource:
+    url: jdbc:mysql://localhost:55555/authdemo?useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: authdemo
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 20
+      idleTimeout: 30000
+      maxLifetime: 2000000
+      connectionTimeout: 30000
+
+  liquibase:
+    change-log: classpath:db/changelog-master.xml
 
 server:
   port: 8097

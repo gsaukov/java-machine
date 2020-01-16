@@ -2,6 +2,7 @@ package com.apps.authdemo.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -10,6 +11,10 @@ import java.util.Objects;
 public class User {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "ID")
+    private String id;
 
     @Column(name = "USERNAME")
     private String username;
