@@ -36,7 +36,7 @@ public class AppSecurityConfigurer
             .logoutSuccessUrl("/logedout")
             .invalidateHttpSession(true)
             .deleteCookies("SESSION")
-            .and().httpBasic().disable();
+            .and().httpBasic();
     }
 
     @Override

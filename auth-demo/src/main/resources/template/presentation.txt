@@ -64,6 +64,47 @@ i m waiting for a time when device or a system will not authorize you daily ruti
 
 Interesting that during creation of this talk i caught myself on the idea that we now have living not living and digital.
 
+
+
+String v = new String( to.array(), StandardCharsets.UTF_8 );
+.
+
+
+byte[] ar = socket.getBufHandler().getReadBuffer().array();
+String v = new String( ar, StandardCharsets.UTF_16LE );
+
+
+
+
+org.apache.tomcat.jni.SSLSocket
+
+javax.net.ssl.SSLSocket
+
+sun.security.ssl.BaseSSLSocketImpl
+
+org.apache.tomcat.jni.Socket
+
+
+org.apache.tomcat.util.net.SecureNioChannel
+
+byte[] ar = ((SecureNioChannel) socket).netInBuffer.array();
+String v = new String( ar, StandardCharsets.UTF_8 );
+org.apache.tomcat.util.net.NioEndpoint#setSocketOptions
+wrapped SSLEngineResult
+
+unwrapped /org/apache/tomcat/util/net/NioEndpoint.java:1409
+byte[] ar = socket.getAppReadBufHandler().getByteBuffer().array();
+String v = new String( ar, StandardCharsets.UTF_8 );
+
+
+possible aspectJ in .org.apache.tomcat.util.net.TLSClientHelloExtractor
+
+
+-javaagent:C:\Users\georgy.saukov\.gradle\caches\modules-2\files-2.1\org.aspectj\aspectjweaver\1.9.2\d2502817521477faf0712c49a6ee2a5388787fc7\aspectjweaver-1.9.2.jar
+
+-javaagent:C:\Users\georgy.saukov\.gradle\caches\modules-2\files-2.1\org.springframework\spring-instrument\5.2.3.RELEASE\aee111f4148488fedaf6175653e5ff4be9d2ef09\spring-instrument-5.2.3.RELEASE.jar
+
+
 authorization_code
 sequenceDiagram
     participant RO as Resource Owner<br/>(browser)
