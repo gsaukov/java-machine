@@ -96,15 +96,6 @@ unwrapped /org/apache/tomcat/util/net/NioEndpoint.java:1409
 byte[] ar = socket.getAppReadBufHandler().getByteBuffer().array();
 String v = new String( ar, StandardCharsets.UTF_8 );
 
-
-possible aspectJ in .org.apache.tomcat.util.net.TLSClientHelloExtractor
-
-
--javaagent:C:\Users\georgy.saukov\.gradle\caches\modules-2\files-2.1\org.aspectj\aspectjweaver\1.9.2\d2502817521477faf0712c49a6ee2a5388787fc7\aspectjweaver-1.9.2.jar
-
--javaagent:C:\Users\georgy.saukov\.gradle\caches\modules-2\files-2.1\org.springframework\spring-instrument\5.2.3.RELEASE\aee111f4148488fedaf6175653e5ff4be9d2ef09\spring-instrument-5.2.3.RELEASE.jar
-
-
 authorization_code
 sequenceDiagram
     participant RO as Resource Owner<br/>(browser)
