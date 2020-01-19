@@ -1,5 +1,6 @@
 package com.apps.authdemo.security;
 
+import com.apps.authdemo.security.filters.BasicAuthenticationFilterEnriched;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -10,12 +11,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -27,16 +30,19 @@ public class AppSecurityConfigurer
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+
         http.cors().and().csrf().disable().authorizeRequests()
             .antMatchers("/logedout").permitAll()
             .anyRequest().authenticated()
-//            .and().addFilterBefore(appAuthenticationFilter(), SessionManagementFilter.class)
-            .and().logout()
+            .and()
+                .addFilterBefore(basicAuthenticationFilterEnriched(), SessionManagementFilter.class)
+            .logout()
             .logoutUrl("/performlogout")
             .logoutSuccessUrl("/logedout")
             .invalidateHttpSession(true)
             .deleteCookies("SESSION")
-            .and().httpBasic();
+            .and().httpBasic().disable();
     }
 
     @Override
@@ -54,8 +60,8 @@ public class AppSecurityConfigurer
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
     @Bean
@@ -71,5 +77,10 @@ public class AppSecurityConfigurer
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public BasicAuthenticationFilterEnriched basicAuthenticationFilterEnriched() throws Exception {
+        return new BasicAuthenticationFilterEnriched(authenticationManager());
     }
 }
