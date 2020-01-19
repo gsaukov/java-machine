@@ -21,3 +21,10 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs += ['resources']
+        }
+    }
+}
