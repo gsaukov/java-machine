@@ -89,6 +89,8 @@ public class AppSecurityConfigurer
 
     @Bean
     public UsernamePasswordAuthenticationFilterEnriched usernamePasswordAuthenticationFilterEnriched() throws Exception {
-        return new UsernamePasswordAuthenticationFilterEnriched();
+        UsernamePasswordAuthenticationFilterEnriched filter = new UsernamePasswordAuthenticationFilterEnriched();
+        filter.setAuthenticationManager(authenticationManager());
+        return filter;
     }
 }

@@ -43,7 +43,7 @@ management:
 
 socket-io-server:
   host: localhost
-  port: 9092
+  port: 9093
 
 certificate:
   store:

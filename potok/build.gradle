@@ -26,7 +26,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-websocket"
     compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    compile "com.corundumstudio.socketio:netty-socketio:1.7.17"
+    compile "com.corundumstudio.socketio:netty-socketio:${nettySocketio}"
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "org.testng:testng:${testngVersion}"
 }
