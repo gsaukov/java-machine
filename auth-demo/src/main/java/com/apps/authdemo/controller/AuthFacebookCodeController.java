@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class AuthCodeController {
+public class AuthFacebookCodeController {
 
     static String[] PROFILE_FIELDS = {
             "id", "about", "age_range", "birthday", "cover", "currency", "devices", "education", "email",

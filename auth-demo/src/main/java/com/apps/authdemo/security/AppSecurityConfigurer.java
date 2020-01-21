@@ -36,6 +36,7 @@ public class AppSecurityConfigurer
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
         http.cors().and().csrf().disable().authorizeRequests()
             .antMatchers("/logedout").permitAll()
+            .antMatchers("/part1").permitAll()
             .anyRequest().authenticated()
             .and()
                 .addFilterBefore(usernamePasswordAuthenticationFilterEnriched(), SessionManagementFilter.class)

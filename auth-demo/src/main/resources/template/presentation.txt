@@ -18,6 +18,8 @@ If you want see what happens when your brain lose this capabilities i strongly r
 
 Digital biometric authentication strongly inferior to human brain. So the only rational way to become unique for the computer is to keep in your memory unique combination of symbols that only you have. This symbol sequence password.
 
+SSL/TLS has become an integral part of web technologies and continues to be refined and updated. If your clients use it, make certain that they choose a more secure TLS implementation, as SSL is out of date and has significant vulnerabilities.
+
 The problem comes that you can not directly transmit data from your brain directly to computer that wants to Authentify you.
 
 You have too pass it through physical device(your PC or), operating system, application (browser or app) at some point it falls into network abyss where it flies through the servers, routers till.

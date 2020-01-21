@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <link href="http://localhost:9020/static/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
+    <script src="../static/js/authdemo.js"></script>
     <script src="http://localhost:9020/static/js/external/jquery-3.3.1.min.js"></script>
     <script src="http://localhost:9020/static/js/external/socket.io.dev.js"></script>
     <script src="http://localhost:9020/static/js/external/popper.min.js" ></script>
@@ -28,52 +29,6 @@
         }
     </style>
 
-    <script>
-          window.fbAsyncInit = function() {
-            FB.init({
-              appId      : '2930956966914426',
-              cookie     : true,
-              xfbml      : true,
-              version    : 'v5.0'
-            });
-            FB.AppEvents.logPageView();
-          };
-
-          (function(d, s, id){
-             var js, fjs = d.getElementsByTagName(s)[0];
-             if (d.getElementById(id)) {return;}
-             js = d.createElement(s); js.id = id;
-             js.src = "https://connect.facebook.net/en_US/sdk.js";
-             fjs.parentNode.insertBefore(js, fjs);
-          }(document, 'script', 'facebook-jssdk'));
-
-        var accessToken;
-          function checkLoginState() {
-              FB.getLoginStatus(function(response) {
-                  if (response.status === 'connected') {
-                  	document.getElementById('fbstatus').innerHTML = 'Connected.';
-                    accessToken = response.authResponse.accessToken;
-                    console.log(accessToken)
-                  }
-
-              });
-          }
-    </script>
-    <!--https://graph.facebook.com/me?fields=id,name,picture&access_token=EAAppsJjdaXoBAER7aaQzKiv9KUxb6Ic10xNSgdp0NkdPRnkGGwIRJ5JSZCgz5EtQ1LQZCllVRaAPZC4jS8W9FFs189QKUjXWbPOQz7PFebIVhZClBdMyEeGqKuyZA0IIgpGCD7EBirJsv2A3CJh1luZCDtTlBfZCjpbrFeT2XKCq8Vyuy0ZAEUSI4zHHgAZC0ZASjKIzMMbdrHtwZDZD-->
-
-
-
-    <script>
-		// getting basic user info
-		function getInfo() {
-			FB.api('/me', 'GET', {fields: 'email,first_name,last_name,name,id,picture.width(300).height(300)'}, function(response) {
-				document.getElementById('fbuserpicture').innerHTML = "<img src='" + response.picture.data.url + "'>";
-                document.getElementById('fbemail').innerHTML = response.email;
-                document.getElementById('fbusername').innerHTML = response.first_name + " " + response.last_name ;
-                document.getElementById('fbuserid').innerHTML = response.id;
-			});
-		}
-	</script>
 
     <!--function HandlePopupResult(result) {-->
     <!--alert("result of popup is: " + result);-->
@@ -92,70 +47,9 @@
 
 </head>
 <body>
-
-
-
     <div class="row-container" style="position: absolute; right: 10px; top: 15px">
-    <output id="sessionTimer" ondblclick="resetTimer()" style="font-size: 19px;">00:00.000</output>
-    <script>
-            let timeBegan = Date.parse(JSON.parse(localStorage.getItem("timeBegan"))) || null
-            , timeStopped = Date.parse(JSON.parse(localStorage.getItem("timeStopped"))) || null
-            , stoppedDuration = 0
-            , started = null;
-
-            function startTimer() {
-                if (timeBegan === null) {
-                    timeBegan = new Date();
-                    localStorage.setItem('timeBegan', JSON.stringify(timeBegan));
-                }
-
-                if (timeStopped !== null) {
-                    stoppedDuration += (new Date() - timeStopped);
-                }
-                started = setInterval(clockRunning, 10);
-            }
-
-            function stopTimer() {
-                timeStopped = new Date();
-                clearInterval(started);
-            }
-
-            function resetTimer() {
-                clearInterval(started);
-                stoppedDuration = 0;
-                timeBegan = null;
-                timeStopped = null;
-                localStorage.removeItem('timeBegan');
-                localStorage.removeItem('timeStopped');
-                document.getElementById("sessionTimer").innerHTML = "00:00.000";
-                startTimer();
-            }
-
-            function clockRunning(){
-                let currentTime = new Date()
-                    , timeElapsed = new Date(currentTime - timeBegan - stoppedDuration);
-
-                document.getElementById("sessionTimer").innerHTML = timeToString(timeElapsed);
-            };
-
-            function timeToString(time) {
-                let min = time.getUTCMinutes()
-                    , sec = time.getUTCSeconds()
-                    , ms = time.getUTCMilliseconds();
-
-                if(sec % 10 === 0){
-                    localStorage.setItem('timeStopped', JSON.stringify(new Date()));
-                }
-
-
-                return (min > 9 ? min : "0" + min) + ":" +
-                    (sec > 9 ? sec : "0" + sec) + "." +
-                    (ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms);
-            }
-
-            startTimer();
-        </script>
-</div>
+        <output id="sessionTimer" ondblclick="resetTimer()" style="font-size: 19px;">00:00.000</output>
+    </div>
 
     <div id="slides" class="carousel slide" data-ride="carousel" >
         <ol class="carousel-indicators">
@@ -166,7 +60,7 @@
             <li data-target="#slides" data-slide-to="4"></li>
             <li data-target="#slides" data-slide-to="5"></li>
         </ol>
-        <div class="carousel-inner" style="margin-top: 20em;">
+        <div class="carousel-inner" style="margin-top: 2em;">
             <div class="carousel-item active">
                 <img class="d-block w-100" src="https://hsto.org/webt/eo/lb/db/eolbdb9w2spktbqwcwqektn-ykg.gif">
                 <div class="carousel-caption d-none d-md-block">
@@ -193,19 +87,16 @@
                 <div class="row justify-content-left" style="margin-left: 20em;">
                     <div class="col-3">
                         <div class="form-group">
-                            <form th:action="@{/justitia-api/user/login}" method="POST" >
+                            <form action="/login" method="GET" >
                                 <fieldset class="form-group">
-                                    <label for="username" style="font-size: 40px;" >Login:</label>
-                                    <input id="username" class="form-control" name="username" style="filter: none;">
-                                    <label for="password" style="font-size: 40px;" >Password:</label>
-                                    <input id="password" class="form-control" name="password" type="password" style="filter: none;">
+                                    <label for="basicAuthusername" style="font-size: 40px;" >Login:</label>
+                                    <input id="basicAuthusername" class="form-control" name="username" style="filter: none;">
+                                    <label for="basicAuthpassword" style="font-size: 40px;" >Password:</label>
+                                    <input id="basicAuthpassword" class="form-control" name="password" type="password" style="filter: none;">
                                 </fieldset>
                                 <div class="row" style="margin-top: 0; margin-left: 0;">
                                     <select id="authtype" class="form-control" style="width: 15em; font-size: 20px; margin-right: 15px; height: 42px">
                                         <option value="BASIC">BASIC</option>
-                                        <option value="FORM">FORM</option>
-                                        <option value="CREDENTIALS">TOKEN CREDENTIALS</option>
-                                        <option value="CODE">TOKEN CODE</option>
                                     </select>
                                     <input type="submit" value="Login" class="btn btn-default" style="width: 5em; font-size: 19px; height: 42px">
                                 </div>
@@ -267,7 +158,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"></div>-->
                 </div>
                 <img class="d-block w-100" src="https://kor.ill.in.ua/m/610x386/2456343.jpg" alt="Third slide">
                 <div class="carousel-caption d-none d-md-block">
@@ -340,7 +230,6 @@
             $('.carousel').bind('slide.bs.carousel', function(e){
                 var slideFrom = $(this).find('.active').index();
                 var slideTo = $(e.relatedTarget).index();
-                console.log(slideFrom+' => '+slideTo);
                 localStorage.setItem('slide', slideTo)
             });
         </script>
@@ -364,7 +253,7 @@
         <div class="row justify-content-end">
             <input type="submit" value="Clear" class="btn btn-default" onclick="$('#console').empty(); localStorage.removeItem('wellData');" style="font-size: 19px; height: 42px">
         </div>
-        <div id="console" class="well"/>
+        <div id="console" class="well" style="font-size: 20px;" />
     </div>
 
     <script>
@@ -393,27 +282,33 @@
         }
     </script>
 
-
     <script>
-        const socket = io('https://localhost:9093',
-            { transports: ['websocket'],
-                forceNew: true,
-                path : '',
-                secure: true,
-                rejectUnauthorized: false,
-                upgrade: false
-            });
+        // (function(send) {
+        //
+        //     XMLHttpRequest.prototype.send = function(data) {
+        //
+        //         // in this case I'm injecting an access token (eg. accessToken) in the request headers before it gets sent
+        //         // if(accessToken) this.setRequestHeader('x-access-token', accessToken);
+        //
+        //         send.call(this, data);
+        //     };
+        //
+        // })(XMLHttpRequest.prototype.send);
 
-        socket.on('connect', function() {
-            console.log('connected');
-        });
 
-        socket.on('orderConfirm', function(data) {
-            output(JSON.stringify(data));
-            addOrderToTable(data);
-        });
+        (function(open) {
+
+            XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
+
+                // this.addEventListener("readystatechange", function() {
+                //     console.log(this.readyState); // this one I changed
+                // }, false);
+
+                open.call(this, method, url, async, user, pass);
+            };
+
+        })(XMLHttpRequest.prototype.open);
 
     </script>
-
 </body>
 </html>
