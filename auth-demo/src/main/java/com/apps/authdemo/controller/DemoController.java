@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DemoController {
 
-        @GetMapping("/part1")
+        @GetMapping("/partone")
         public String partOneController(Model model) {
-            return "part1";
+            return "partone";
         }
 }

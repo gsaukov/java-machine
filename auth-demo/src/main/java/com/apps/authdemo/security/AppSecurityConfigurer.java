@@ -35,8 +35,9 @@ public class AppSecurityConfigurer
     public void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
         http.cors().and().csrf().disable().authorizeRequests()
+            .antMatchers("/static/**").permitAll()
             .antMatchers("/logedout").permitAll()
-            .antMatchers("/part1").permitAll()
+            .antMatchers("/partone").permitAll()
             .anyRequest().authenticated()
             .and()
                 .addFilterBefore(usernamePasswordAuthenticationFilterEnriched(), SessionManagementFilter.class)
