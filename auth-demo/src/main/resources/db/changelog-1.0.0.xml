@@ -3,7 +3,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="create_user" author="d.konstantopoulos">
+    <changeSet id="create_user" author="gsaukov">
         <createTable tableName="USER">
             <column name="ID" type="varchar(64)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -19,7 +19,7 @@
                              constraintName="UDX_USR_USERNAME"/>
     </changeSet>
 
-    <changeSet id="create_authority" author="d.konstantopoulos">
+    <changeSet id="create_authority" author="gsaukov">
         <createTable tableName="AUTHORITY">
             <column name="ID" type="varchar(64)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -36,7 +36,24 @@
         </createIndex>
     </changeSet>
 
-    <changeSet id="init_user" author="d.konstantopoulos">
+    <changeSet id="create_authority" author="gsaukov">
+        <createTable tableName="AUTHORITY">
+            <column name="ID" type="varchar(64)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="varchar(64)">
+                <constraints nullable="false" foreignKeyName="FK_AUT_USER" references="USER(ID)"/>
+            </column>
+            <column name="AUTHORITY" type="varchar(2048)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="AUTHORITY" indexName="IDX_AUT_USER" unique="false">
+            <column name="USER_ID" type="varchar(64)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="init_user" author="gsaukov">
         <insert tableName="USER">
             <column name="ID" type="varchar(64)" value="00000000000000000000000000000001"/>
             <column name="USERNAME" type="varchar(64)" value="admin"/>
@@ -47,11 +64,18 @@
             <column name="USERNAME" type="varchar(64)" value="user"/>
             <column name="PASSWORD" type="varchar(64)" value="$2a$10$f2BEwOMJLet0d7Bi4uxpKeedD6KNn7w55CikvKEdVdBPHGd4SShwK"/><!--qa123456-->
         </insert>
-        <insert tableName="USER">
-            <column name="ID" type="varchar(64)" value="00000000000000000000000000000003"/>
-            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
-            <column name="USERNAME" type="varchar(64)" value="nobody"/>
-            <column name="PASSWORD" type="varchar(64)" value="$2a$10$f2BEwOMJLet0d7Bi4uxpKeedD6KNn7w55CikvKEdVdBPHGd4SShwK"/><!--qa123456-->
+    </changeSet>
+
+    <changeSet id="init_authority" author="gsaukov">
+        <insert tableName="AUTHORITY">
+            <column name="ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+            <column name="AUTHORITY" type="varchar(64)" value="BRATAN"/>
+        </insert>
+        <insert tableName="AUTHORITY">
+            <column name="ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+            <column name="AUTHORITY" type="varchar(64)" value="NE_BRATAN"/>
         </insert>
     </changeSet>
 

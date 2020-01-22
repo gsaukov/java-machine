@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class DemoController {
-
-        @GetMapping("/partone")
-        public String partOneController(Model model) {
-            return "partone";
-        }
+    @GetMapping("/authdemo/partone")
+    public String partOneController(Model model) {
+        return "partone";
+    }
 }

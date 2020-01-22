@@ -5,6 +5,9 @@ function doBasicAuthorization() {
     var password = 'qa123456';
     var base64Credentials = btoa(username + ':' + password);
     var basicAuthHeaders = new Headers({'Authorization': 'Basic ' + base64Credentials});
+
+    output('<span class="connect-msg">C->>S https://localhost:8097/login GET with Header' + JSON.stringify(basicAuthHeaders) + '</span>');
+
     doFetch('https://localhost:8097/login', 'GET', null, basicAuthHeaders);
 }
 
@@ -43,7 +46,7 @@ function doFetch(url, method, data, headers) {
     }
 
     function doResponse(text, onResponse, extraDetails) {
-        output(text);
+        output('<span class="connect-msg">S->>C' + text + '</span>');
     }
 }
 
@@ -167,22 +170,21 @@ startTimer();
 
 //############# SOCKET IO SECTION ######################
 
-// const socket = io('https://localhost:9093',
-//     { transports: ['websocket'],
-//         forceNew: true,
-//         path : '',
-//         secure: true,
-//         rejectUnauthorized: false,
-//         upgrade: false
-//     });
-//
-// socket.on('connect', function() {
-//     console.log('connected');
-// });
-//
-// socket.on('orderConfirm', function(data) {
-//     output(JSON.stringify(data));
-//     addOrderToTable(data);
-// });
+const socket = io('https://localhost:9093',
+    { transports: ['websocket'],
+        forceNew: true,
+        path : '',
+        secure: true,
+        rejectUnauthorized: false,
+        upgrade: false
+    });
+
+socket.on('connect', function() {
+    console.log('connected');
+});
+
+socket.on('basicAuthFilter', function(data) {
+    output('<span class="connect-msg">S->>C' + JSON.stringify(data) + '</span>');
+});
 
 //############# SOCKET IO SECTION ######################

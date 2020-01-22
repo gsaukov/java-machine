@@ -45,6 +45,8 @@ Is that enough? Usually, no.
 
 Next try is Form auth which was much safer because in exchange for password you would get authcookie that is stored in browser. So you dont need to resend password every time. Your password was by passed to the AuthServer in body mixed with tags and other parameters.
 
+Whole password handling should be taken away from the application.
+
 But the problem that appeared that systems that would require you Authentication rapidly grew, increasing the risk of password leak on the back end if it is not properly secured you password could leak during attack or inside data steal.
 Human factor on the backend is overhelming, you dont need super smart attack just one system admin fell i n love in to wrong girl.
 

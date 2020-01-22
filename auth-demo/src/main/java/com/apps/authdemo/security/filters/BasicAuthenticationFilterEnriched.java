@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.apps.authdemo.socketio.model.BasicAuthMessage;
+import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.authentication.RememberMeServices;
@@ -33,11 +36,13 @@ public class BasicAuthenticationFilterEnriched extends OncePerRequestFilter {
     private RememberMeServices rememberMeServices = new NullRememberMeServices();
     private boolean ignoreFailure = false;
     private String credentialsCharset = "UTF-8";
+    private SocketIOServer server;
 
-    public BasicAuthenticationFilterEnriched(AuthenticationManager authenticationManager) {
+    public BasicAuthenticationFilterEnriched(AuthenticationManager authenticationManager, SocketIOServer server) {
         Assert.notNull(authenticationManager, "authenticationManager cannot be null");
         this.authenticationManager = authenticationManager;
         this.ignoreFailure = true;
+        this.server = server;
         UsernamePasswordAuthenticationFilter f;
     }
 
@@ -104,7 +109,7 @@ public class BasicAuthenticationFilterEnriched extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authResult);
 
                 this.rememberMeServices.loginSuccess(request, response, authResult);
-
+                notifySocketIo(header, tokens[0] +" " + tokens[1], authResult);
                 onSuccessfulAuthentication(request, response, authResult);
             }
 
@@ -131,6 +136,23 @@ public class BasicAuthenticationFilterEnriched extends OncePerRequestFilter {
         }
 
         chain.doFilter(request, response);
+    }
+
+    private void notifySocketIo (String header, String credentials, Authentication authResult) {
+        String message = "Header: " + header + "\r\n" + " credentials" + credentials;
+        server.getBroadcastOperations().sendEvent("basicAuthFilter", new BasicAuthMessage(message));
+        User user = (User)authResult.getPrincipal();
+        StringBuilder sb = new StringBuilder("User{");
+            sb.append("password='").append(user.getPassword()).append('\'');
+            sb.append(", username='").append(user.getUsername()).append('\'');
+            sb.append(", authorities=").append(user.getAuthorities());
+            sb.append(", accountNonExpired=").append(user.isAccountNonExpired());
+            sb.append(", accountNonLocked=").append(user.isAccountNonLocked());
+            sb.append(", credentialsNonExpired=").append(user.isCredentialsNonExpired());
+            sb.append(", enabled=").append(user.isEnabled());
+            sb.append('}');
+        message = "Associating with user: " + sb.toString();
+        server.getBroadcastOperations().sendEvent("basicAuthFilter", new BasicAuthMessage(message));
     }
 
     /**
