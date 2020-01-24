@@ -1,3 +1,4 @@
+
 Hi guys, welcome to Digital Trust talk.
 
 My name is Georgy Saukov and I m software enginer here at Wirecard Germany. Before that I was doing software in Moscow. Before Moscow I was growing and studing somwhere in central Asia. That living expirience showed me that trust is something very important I would evn say it is background for human social relations. Any social form of organisation family, company, state based on trust are the most effective. Human trust has biochemical origin and is regulated by Oxitacin without it you will not be able to love, befriend or be a parent.
@@ -68,6 +69,15 @@ i m waiting for a time when device or a system will not authorize you daily ruti
 
 Interesting that during creation of this talk i caught myself on the idea that we now have living not living and digital.
 
+Authentication schemes:
+
+    Basic (see RFC 7617, base64-encoded credentials. See below for more information.),
+    Bearer (see RFC 6750, bearer tokens to access OAuth 2.0-protected resources),
+    Digest (see RFC 7616, only md5 hashing is supported in Firefox, see баг 472823 for SHA encryption support),
+    HOBA (see RFC 7486 (draft), HTTP Origin-Bound Authentication, digital-signature-based),
+    Mutual (see draft-ietf-httpauth-mutual),
+
+    AWS4-HMAC-SHA256 (see AWS docs).
 
 
 String v = new String( to.array(), StandardCharsets.UTF_8 );
