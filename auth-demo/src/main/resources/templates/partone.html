@@ -98,7 +98,7 @@
                                     <select id="authtype" class="form-control" style="width: 15em; font-size: 20px; margin-right: 15px; height: 42px">
                                         <option value="BASIC">BASIC</option>
                                     </select>
-                                    <input type="submit" value="Login" class="btn btn-default" style="width: 5em; font-size: 19px; height: 42px">
+                                    <input type="submit" value="Login" class="btn btn-default" onClick="doBasicAuthorization($('#basicAuthusername').val(), $('#basicAuthpassword').val())" style="width: 5em; font-size: 19px; height: 42px">
                                 </div>
                             </form>
                         </div>

