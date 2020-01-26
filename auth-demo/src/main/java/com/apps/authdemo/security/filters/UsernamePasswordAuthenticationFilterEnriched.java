@@ -60,7 +60,7 @@ public class UsernamePasswordAuthenticationFilterEnriched extends
 	// ===================================================================================================
 
 	public UsernamePasswordAuthenticationFilterEnriched() {
-		super(new AntPathRequestMatcher("/login", "POST"));
+		super(new AntPathRequestMatcher("/formlogin", "POST"));
 	}
 
 	// ~ Methods
@@ -92,7 +92,9 @@ public class UsernamePasswordAuthenticationFilterEnriched extends
 		// Allow subclasses to set the "details" property
 		setDetails(request, authRequest);
 
-		return this.getAuthenticationManager().authenticate(authRequest);
+		Authentication authentication = this.getAuthenticationManager().authenticate(authRequest);
+
+		return authentication;
 	}
 
 	/**

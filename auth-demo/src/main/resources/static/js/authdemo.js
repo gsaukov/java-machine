@@ -1,10 +1,19 @@
 
 
-function doBasicAuthorization(username, password) {
+function doFormAuthentication(formId) {
+    var formData = buildData($('#' + formId).get(0))
+
+    output('<span class="client-msg">C->>S https://localhost:8097/login POST with Body: ' + formData.toString() + '</span>');
+
+    doFetch('https://localhost:8097/formlogin', 'POST', formData, null);
+}
+
+
+function doBasicAuthentication(username, password) {
     var base64Credentials = btoa(username + ':' + password);
     var basicAuthHeaders = new Headers({'Authorization': 'Basic ' + base64Credentials});
 
-    output('<span class="connect-msg">C->>S https://localhost:8097/login GET with Header: ' + JSON.stringify(basicAuthHeaders.entries().next()) + '</span>');
+    output('<span class="client-msg">C->>S https://localhost:8097/login GET with Header: ' + JSON.stringify(basicAuthHeaders.entries().next()) + '</span>');
 
     doFetch('https://localhost:8097/login', 'GET', null, basicAuthHeaders);
 }
@@ -16,7 +25,7 @@ function doFetch(url, method, data, headers) {
     fetch(url, {
         method: method,
         body: data,
-        headers: headers,
+        headers: headers || {},
     }).then(
         function(response){
             return doCall(response, {url: url, method: method, data: data});
@@ -29,15 +38,6 @@ function doFetch(url, method, data, headers) {
         console.log(error);
     });
 
-
-    function buildData(formElement) {
-        const data = new URLSearchParams();
-        for (const pair of new FormData(formElement)) {
-            data.append(pair[0], pair[1]);
-        }
-        return data;
-    }
-
     function doCall(response, request) {
         if(response.ok) {
             return response.text();
@@ -47,8 +47,16 @@ function doFetch(url, method, data, headers) {
     }
 
     function doResponse(text, onResponse, extraDetails) {
-        output('<span class="connect-msg">S->>C ' + text + '</span>');
+        output('<span class="server-msg">S->>C ' + text + '</span>');
     }
+}
+
+function buildData(formElement) {
+    const data = new URLSearchParams();
+    for (const pair of new FormData(formElement)) {
+        data.append(pair[0], pair[1]);
+    }
+    return data;
 }
 
 function tryPreventDefault() {
@@ -192,7 +200,7 @@ socket.on('connect', function() {
 });
 
 socket.on('basicAuthFilter', function(data) {
-    output('<span class="connect-msg">S->>C ' + JSON.stringify(data) + '</span>');
+    output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
 });
 
 //############# SOCKET IO SECTION ######################
@@ -216,3 +224,21 @@ socket.on('basicAuthFilter', function(data) {
 
 
 //############# KEY LOGGER  ######################
+
+
+//############# OUTPUT WELL  ######################
+
+    function output(message) {
+        var consoleMessage = "<div><span class='time'>" +  Date.now() + " " + message + "</span></div>";
+        var element = $(consoleMessage);
+        addToArrayStorage('wellData', consoleMessage)
+        $('#console').append(element);
+    }
+
+    function addToArrayStorage (itemName, element) {
+        var arr = JSON.parse(localStorage.getItem(itemName)) || [];
+        arr.push(element);
+        localStorage.setItem(itemName, JSON.stringify(arr));
+    }
+
+//############# OUTPUT WELL  ######################

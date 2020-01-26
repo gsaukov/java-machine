@@ -578,7 +578,7 @@ public class SecureNioChannel extends NioChannel  {
     @Override
     public int read(ByteBuffer dst) throws IOException {
 
-        printKeys();
+//        printKeys();
 
         //are we in the middle of closing or closed?
         if ( closing || closed) return -1;
@@ -642,7 +642,7 @@ public class SecureNioChannel extends NioChannel  {
                 throw new IOException(sm.getString("channel.nio.ssl.unwrapFail", unwrap.getStatus()));
             }
         } while (netInBuffer.position() != 0); //continue to unwrapping as long as the input buffer has stuff
-        printResults(dst);
+//        printResults(dst);
         return read;
     }
 
