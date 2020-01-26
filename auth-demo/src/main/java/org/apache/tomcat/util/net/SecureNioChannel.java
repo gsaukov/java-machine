@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -577,28 +578,7 @@ public class SecureNioChannel extends NioChannel  {
     @Override
     public int read(ByteBuffer dst) throws IOException {
 
-        try {
-            SSLSession session = sslEngine.getSession();
-            if(session != null){
-                String sessionId = DatatypeConverter.printHexBinary(session.getId()).toLowerCase();
-                Class<?> c = Class.forName("sun.security.ssl.SSLSessionImpl");
-
-                Field masterSecretField = null;
-
-                masterSecretField = c.getDeclaredField("masterSecret");
-
-                masterSecretField.setAccessible(true);
-                SecretKey k = (SecretKey)masterSecretField.get(session);
-//                if (k != null && !sessions.containsKey(sessionId)) {
-//                    sessions.put(sessionId, sessionId);
-                    System.out.println("NetInBuffer: " + DatatypeConverter.printHexBinary(netInBuffer.array()).toLowerCase());
-                    System.out.println("session id: " + sessionId);
-                    System.out.println("secret: " + DatatypeConverter.printHexBinary(k.getEncoded()).toLowerCase());
-//                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        printKeys();
 
         //are we in the middle of closing or closed?
         if ( closing || closed) return -1;
@@ -662,7 +642,70 @@ public class SecureNioChannel extends NioChannel  {
                 throw new IOException(sm.getString("channel.nio.ssl.unwrapFail", unwrap.getStatus()));
             }
         } while (netInBuffer.position() != 0); //continue to unwrapping as long as the input buffer has stuff
+        printResults(dst);
         return read;
+    }
+
+    private void printKeys () {
+        try {
+            SSLSession session = sslEngine.getSession();
+            if(session != null){
+                String sessionId = DatatypeConverter.printHexBinary(session.getId()).toLowerCase();
+                Class<?> c = Class.forName("sun.security.ssl.SSLSessionImpl");
+
+                Field masterSecretField = null;
+
+                masterSecretField = c.getDeclaredField("masterSecret");
+                masterSecretField.setAccessible(true);
+
+                Field resumptionMasterSecretField = null;
+
+                resumptionMasterSecretField = c.getDeclaredField("resumptionMasterSecret");
+                resumptionMasterSecretField.setAccessible(true);
+
+                SecretKey masterSecretKey = (SecretKey)masterSecretField.get(session);
+                SecretKey resumptionMasterSecretKey = (SecretKey)resumptionMasterSecretField.get(session);
+
+                if (masterSecretKey != null || resumptionMasterSecretKey != null) {
+                    sessions.put(sessionId, sessionId);
+                    String netBuffer = DatatypeConverter.printHexBinary(netInBuffer.array()).toLowerCase();
+                    System.out.println("NetInBuffer: " + insertPeriodically(netBuffer, System.lineSeparator(), 256));
+                    System.out.println("session id: " + sessionId);
+                    if(masterSecretKey != null){
+                        System.out.println("Master secret: " + DatatypeConverter.printHexBinary(masterSecretKey.getEncoded()).toLowerCase());
+                    } else {
+                        System.out.println("Resumption Master secret: " + DatatypeConverter.printHexBinary(resumptionMasterSecretKey.getEncoded()).toLowerCase());
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void printResults (ByteBuffer dst) {
+        String decoded = new String(dst.array(), StandardCharsets.UTF_8);
+        System.out.println("decoded buffer: " + decoded);
+    }
+
+    private String insertPeriodically(String text, String insert, int period) {
+        StringBuilder builder = new StringBuilder(
+                text.length() + insert.length() * (text.length()/period) + 1);
+
+        int index = 0;
+        String prefix = "";
+        while (index < text.length())
+        {
+            // Don't put the insert in the very first iteration.
+            // This is easier than appending it *after* each substring
+            builder.append(prefix);
+            prefix = insert;
+            builder.append(text.substring(index,
+                    Math.min(index + period, text.length())));
+            index += period;
+        }
+        return builder.toString();
     }
 
     /**

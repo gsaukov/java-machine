@@ -16,7 +16,7 @@ public class AuthController {
         for (GrantedAuthority grantedAuth : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuth.getAuthority();
         }
-        return "WELCOME BACK" + role;
+        return "WELCOME BACK " + role;
     }
 
 }

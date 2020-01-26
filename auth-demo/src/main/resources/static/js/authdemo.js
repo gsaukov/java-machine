@@ -4,12 +4,15 @@ function doBasicAuthorization(username, password) {
     var base64Credentials = btoa(username + ':' + password);
     var basicAuthHeaders = new Headers({'Authorization': 'Basic ' + base64Credentials});
 
-    output('<span class="connect-msg">C->>S https://localhost:8097/login GET with Header' + JSON.stringify(basicAuthHeaders) + '</span>');
+    output('<span class="connect-msg">C->>S https://localhost:8097/login GET with Header: ' + JSON.stringify(basicAuthHeaders.entries().next()) + '</span>');
 
     doFetch('https://localhost:8097/login', 'GET', null, basicAuthHeaders);
 }
 
 function doFetch(url, method, data, headers) {
+
+    tryPreventDefault();
+
     fetch(url, {
         method: method,
         body: data,
@@ -44,7 +47,14 @@ function doFetch(url, method, data, headers) {
     }
 
     function doResponse(text, onResponse, extraDetails) {
-        output('<span class="connect-msg">S->>C' + text + '</span>');
+        output('<span class="connect-msg">S->>C ' + text + '</span>');
+    }
+}
+
+function tryPreventDefault() {
+    let evt = this.event || window.event;
+    if(evt){
+        evt.preventDefault();
     }
 }
 
@@ -182,7 +192,7 @@ socket.on('connect', function() {
 });
 
 socket.on('basicAuthFilter', function(data) {
-    output('<span class="connect-msg">S->>C' + JSON.stringify(data) + '</span>');
+    output('<span class="connect-msg">S->>C ' + JSON.stringify(data) + '</span>');
 });
 
 //############# SOCKET IO SECTION ######################
