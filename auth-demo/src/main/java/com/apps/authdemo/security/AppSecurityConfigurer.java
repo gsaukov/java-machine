@@ -14,13 +14,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.session.SessionManagementFilter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -49,6 +56,12 @@ public class AppSecurityConfigurer
             .logoutSuccessUrl("/logedout")
             .invalidateHttpSession(true)
             .deleteCookies("SESSION")
+//            .and().formLogin().defaultSuccessUrl("/login",true).successHandler(new AuthenticationSuccessHandler() {
+//                @Override
+//                public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+//                    System.out.println("h");
+//                }
+//            })
             .and().httpBasic().disable();
     }
 
@@ -95,6 +108,12 @@ public class AppSecurityConfigurer
     public UsernamePasswordAuthenticationFilterEnriched usernamePasswordAuthenticationFilterEnriched() throws Exception {
         UsernamePasswordAuthenticationFilterEnriched filter = new UsernamePasswordAuthenticationFilterEnriched();
         filter.setAuthenticationManager(authenticationManager());
+        filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                System.out.println("h");
+            }
+        });
         return filter;
     }
 }
