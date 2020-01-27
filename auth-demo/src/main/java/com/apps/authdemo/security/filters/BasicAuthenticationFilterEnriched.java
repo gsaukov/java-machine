@@ -139,10 +139,10 @@ public class BasicAuthenticationFilterEnriched extends OncePerRequestFilter {
     }
 
     private void notifySocketIo (String header, String credentials, Authentication authResult) {
-        String message = "Header: <br>&emsp;" + " credentials " + credentials;
+        String message = "Header: " + header + " credentials " + credentials;
         server.getBroadcastOperations().sendEvent("basicAuthFilter", new BasicAuthMessage(message));
         User user = (User)authResult.getPrincipal();
-        StringBuilder sb = new StringBuilder("<br>&emsp;User{");
+        StringBuilder sb = new StringBuilder("User{");
             sb.append("password='").append(user.getPassword()).append('\'');
             sb.append(", username='").append(user.getUsername()).append('\'');
             sb.append(", authorities=").append(user.getAuthorities());

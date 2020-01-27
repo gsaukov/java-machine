@@ -44,8 +44,8 @@ public class AppSecurityConfigurer
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
-        http.cors().and().csrf().disable().authorizeRequests()
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().cors().and().csrf().disable().authorizeRequests()
             .antMatchers("/static/**").permitAll()
             .antMatchers("/logedout").permitAll()
             .antMatchers("/authdemo/**").permitAll()
@@ -102,13 +102,13 @@ public class AppSecurityConfigurer
 
     @Bean
     public UsernamePasswordAuthenticationFilterEnriched usernamePasswordAuthenticationFilterEnriched() throws Exception {
-        UsernamePasswordAuthenticationFilterEnriched filter = new UsernamePasswordAuthenticationFilterEnriched();
+        UsernamePasswordAuthenticationFilterEnriched filter = new UsernamePasswordAuthenticationFilterEnriched(server);
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
             private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                redirectStrategy.sendRedirect(request, response, "/login");
+//                redirectStrategy.sendRedirect(request, response, "/login");
             }
         });
         return filter;

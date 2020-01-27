@@ -16,16 +16,25 @@
 
 package com.apps.authdemo.security.filters;
 
+import com.apps.authdemo.socketio.model.BasicAuthMessage;
+import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Processes an authentication form submission. Called
@@ -55,12 +64,14 @@ public class UsernamePasswordAuthenticationFilterEnriched extends
 	private String usernameParameter = SPRING_SECURITY_FORM_USERNAME_KEY;
 	private String passwordParameter = SPRING_SECURITY_FORM_PASSWORD_KEY;
 	private boolean postOnly = true;
+	private SocketIOServer server;
 
 	// ~ Constructors
 	// ===================================================================================================
 
-	public UsernamePasswordAuthenticationFilterEnriched() {
+	public UsernamePasswordAuthenticationFilterEnriched(SocketIOServer server) {
 		super(new AntPathRequestMatcher("/formlogin", "POST"));
+		this.server = server;
 	}
 
 	// ~ Methods
@@ -75,6 +86,10 @@ public class UsernamePasswordAuthenticationFilterEnriched extends
 
 		String username = obtainUsername(request);
 		String password = obtainPassword(request);
+
+		if(isAlreadyAuthenticated(username)) {
+			return getContextAuthentication();
+		}
 
 		if (username == null) {
 			username = "";
@@ -94,7 +109,82 @@ public class UsernamePasswordAuthenticationFilterEnriched extends
 
 		Authentication authentication = this.getAuthenticationManager().authenticate(authRequest);
 
+		notifySocketIo (prepareParameterMap(request.getParameterMap()), authentication);
+
 		return authentication;
+	}
+
+	protected void successfulAuthentication(HttpServletRequest request,
+											HttpServletResponse response, FilterChain chain, Authentication authResult)
+			throws IOException, ServletException {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Authentication success. Updating SecurityContextHolder to contain: "
+					+ authResult);
+		}
+
+		SecurityContextHolder.getContext().setAuthentication(authResult);
+
+		getRememberMeServices().loginSuccess(request, response, authResult);
+
+		// Fire event
+		if (this.eventPublisher != null) {
+			eventPublisher.publishEvent(new InteractiveAuthenticationSuccessEvent(
+					authResult, this.getClass()));
+		}
+
+		getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
+
+		chain.doFilter(request, response);
+	}
+
+	private String prepareParameterMap(Map<String, String[]> parameterMap) {
+		StringBuilder sb = new StringBuilder(" {");
+		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+			sb.append(" " + entry + ":").append(prepareValuesArray(sb, entry.getValue()));
+		}
+		sb.append("}");
+		return sb.toString();
+	}
+
+	private String prepareValuesArray(StringBuilder sb, String[] values) {
+		sb.append("[");
+ 		for (String value : values) {
+			sb.append(" " + value);
+		}
+		sb.append("]");
+		return sb.toString();
+	}
+
+	private void notifySocketIo (String body, Authentication authResult) {
+		String message = "BODY: " + body;
+		server.getBroadcastOperations().sendEvent("userNamePasswordFilter", new BasicAuthMessage(message));
+		User user = (User)authResult.getPrincipal();
+		StringBuilder sb = new StringBuilder("User{");
+		sb.append("password='").append(user.getPassword()).append('\'');
+		sb.append(", username='").append(user.getUsername()).append('\'');
+		sb.append(", authorities=").append(user.getAuthorities());
+		sb.append(", accountNonExpired=").append(user.isAccountNonExpired());
+		sb.append(", accountNonLocked=").append(user.isAccountNonLocked());
+		sb.append(", credentialsNonExpired=").append(user.isCredentialsNonExpired());
+		sb.append(", enabled=").append(user.isEnabled());
+		sb.append("}");
+		message = "Associating with user: " + sb.toString();
+		server.getBroadcastOperations().sendEvent("userNamePasswordFilter", new BasicAuthMessage(message));
+	}
+
+	private boolean isAlreadyAuthenticated(String username) {
+		Authentication authentication = getContextAuthentication();
+		if (authentication != null) {
+			if(User.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
+				User user = (User)authentication.getPrincipal();
+				return authentication.isAuthenticated() && username.equals(user.getUsername());
+			}
+		}
+		return false;
+	}
+
+	private Authentication getContextAuthentication() {
+		return SecurityContextHolder.getContext().getAuthentication();
 	}
 
 	/**

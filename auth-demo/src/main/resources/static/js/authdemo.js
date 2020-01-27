@@ -203,6 +203,10 @@ socket.on('basicAuthFilter', function(data) {
     output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
 });
 
+socket.on('userNamePasswordFilter', function(data) {
+    output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
+});
+
 //############# SOCKET IO SECTION ######################
 
 
