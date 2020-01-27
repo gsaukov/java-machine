@@ -20,6 +20,8 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.session.SessionManagementFilter;
@@ -56,12 +58,6 @@ public class AppSecurityConfigurer
             .logoutSuccessUrl("/logedout")
             .invalidateHttpSession(true)
             .deleteCookies("SESSION")
-//            .and().formLogin().defaultSuccessUrl("/login",true).successHandler(new AuthenticationSuccessHandler() {
-//                @Override
-//                public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//                    System.out.println("h");
-//                }
-//            })
             .and().httpBasic().disable();
     }
 
@@ -109,9 +105,10 @@ public class AppSecurityConfigurer
         UsernamePasswordAuthenticationFilterEnriched filter = new UsernamePasswordAuthenticationFilterEnriched();
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
+            private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                System.out.println("h");
+                redirectStrategy.sendRedirect(request, response, "/login");
             }
         });
         return filter;
