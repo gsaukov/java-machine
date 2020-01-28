@@ -45,7 +45,7 @@ public class AppSecurityConfigurer
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().cors().and().csrf().disable().authorizeRequests()
+            .and().cors().and().authorizeRequests()
             .antMatchers("/static/**").permitAll()
             .antMatchers("/logedout").permitAll()
             .antMatchers("/authdemo/**").permitAll()
@@ -92,7 +92,7 @@ public class AppSecurityConfigurer
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoderEnriched(server);
     }
 
     @Bean
