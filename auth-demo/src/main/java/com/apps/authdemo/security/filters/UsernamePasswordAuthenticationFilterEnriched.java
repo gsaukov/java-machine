@@ -140,18 +140,9 @@ public class UsernamePasswordAuthenticationFilterEnriched extends
 	private String prepareParameterMap(Map<String, String[]> parameterMap) {
 		StringBuilder sb = new StringBuilder(" {");
 		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-			sb.append(" " + entry + ":").append(prepareValuesArray(sb, entry.getValue()));
+			sb.append(" " + entry.getKey() + ": ").append(entry.getValue()[0]);
 		}
 		sb.append("}");
-		return sb.toString();
-	}
-
-	private String prepareValuesArray(StringBuilder sb, String[] values) {
-		sb.append("[");
- 		for (String value : values) {
-			sb.append(" " + value);
-		}
-		sb.append("]");
 		return sb.toString();
 	}
 
