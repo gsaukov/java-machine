@@ -10,8 +10,8 @@ function doFormAuthentication(formId) {
 
     output('<span class="client-msg">C->>S https://localhost:8097/login POST with Body: ' + formData.toString() + '</span>');
 
-    let onResponse = function (response) {
-        var matches = response.match(/\[(.*?)\]/);
+    let onResponse = function (text) {
+        var matches = text.match(/\[(.*?)\]/);
         if (matches) {
             var csrf = matches[1];
             populateCsrfSelectOptions (csrf)
@@ -60,7 +60,7 @@ function doFetch(url, method, data, headers, onResponse) {
     }
 
     function doResponse(text, onResponse) {
-        if(onResponse) {
+        if(onResponse !== undefined) {
             onResponse(text);
         }
         output('<span class="server-msg">S->>C ' + text + '</span>');
@@ -220,6 +220,10 @@ socket.on('basicAuthFilter', function(data) {
 });
 
 socket.on('userNamePasswordFilter', function(data) {
+    output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
+});
+
+socket.on('csrfTokenFilter', function(data) {
     output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
 });
 

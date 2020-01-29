@@ -1,6 +1,7 @@
 package com.apps.authdemo.security;
 
 import com.apps.authdemo.security.filters.BasicAuthenticationFilterEnriched;
+import com.apps.authdemo.security.filters.CsrfFilterEnriched;
 import com.apps.authdemo.security.filters.UsernamePasswordAuthenticationFilterEnriched;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.session.SessionManagementFilter;
 
@@ -53,6 +55,7 @@ public class AppSecurityConfigurer
             .and()
                 .addFilterBefore(usernamePasswordAuthenticationFilterEnriched(), SessionManagementFilter.class)
                 .addFilterBefore(basicAuthenticationFilterEnriched(), UsernamePasswordAuthenticationFilterEnriched.class)
+                .addFilterBefore(csrfFilterEnriched(), BasicAuthenticationFilterEnriched.class)
             .logout()
             .logoutUrl("/performlogout")
             .logoutSuccessUrl("/logedout")
@@ -112,5 +115,10 @@ public class AppSecurityConfigurer
             }
         });
         return filter;
+    }
+
+    @Bean
+    public CsrfFilterEnriched csrfFilterEnriched() throws Exception {
+        return new CsrfFilterEnriched(server);
     }
 }
