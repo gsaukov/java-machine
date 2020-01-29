@@ -155,9 +155,12 @@
                                     </select>
                                     <input type="submit" value="Login" class="btn btn-default" onClick="doFormAuthentication('formAuth')" style="width: 5em; font-size: 19px; height: 42px">
                                 </div>
-                                <label for="csrfLabel" style="font-size: 40px;" >CSRF token:</label>
-                                <h5 id="csrfLabel"></h5>
-                                <script>$('#csrfLabel').text(document.getElementsByName('_csrf')[0].value)</script>
+                            </form>
+                            <form id="csrfSelectorForm">
+                                <label for="csrfSelector" style="font-size: 40px;" >CSRF token:</label>
+                                <select id="csrfSelector" onchange="document.getElementsByName('_csrf')[0].value = $('#csrfSelector').val()" class="form-control" style="width: 20em; font-size: 20px; margin-right: 15px; height: 42px"/>
+                                <input type="submit" style="display: none;">
+                                <script>populateCsrfSelectOptions(document.getElementsByName('_csrf')[0].value)</script>
                             </form>
                         </div>
                     </div>

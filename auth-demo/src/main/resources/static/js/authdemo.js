@@ -1,11 +1,24 @@
 
 
+function populateCsrfSelectOptions (csrf) {
+    let csrfSelect = $("#csrfSelector");
+    csrfSelect.append($("<option/>").attr("value", csrf).text(csrf));
+}
+
 function doFormAuthentication(formId) {
     var formData = buildData($('#' + formId).get(0))
 
     output('<span class="client-msg">C->>S https://localhost:8097/login POST with Body: ' + formData.toString() + '</span>');
 
-    doFetch('https://localhost:8097/formlogin', 'POST', formData, null);
+    let onResponse = function (response) {
+        var matches = response.match(/\[(.*?)\]/);
+        if (matches) {
+            var csrf = matches[1];
+            populateCsrfSelectOptions (csrf)
+        }
+    }
+
+    doFetch('https://localhost:8097/formlogin', 'POST', formData, null, onResponse);
 }
 
 
@@ -18,7 +31,7 @@ function doBasicAuthentication(username, password) {
     doFetch('https://localhost:8097/login', 'GET', null, basicAuthHeaders);
 }
 
-function doFetch(url, method, data, headers) {
+function doFetch(url, method, data, headers, onResponse) {
 
     tryPreventDefault();
 
@@ -32,7 +45,7 @@ function doFetch(url, method, data, headers) {
         }
     ).then(
         function(responseBody) {
-            return doResponse(responseBody);
+            return doResponse(responseBody, onResponse);
         }
     ).catch(function(error) {
         console.log(error);
@@ -46,7 +59,10 @@ function doFetch(url, method, data, headers) {
         }
     }
 
-    function doResponse(text, onResponse, extraDetails) {
+    function doResponse(text, onResponse) {
+        if(onResponse) {
+            onResponse(text);
+        }
         output('<span class="server-msg">S->>C ' + text + '</span>');
     }
 }
