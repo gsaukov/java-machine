@@ -578,7 +578,7 @@ public class SecureNioChannel extends NioChannel  {
     @Override
     public int read(ByteBuffer dst) throws IOException {
 
-//        printKeys();
+        printKeys();
 
         //are we in the middle of closing or closed?
         if ( closing || closed) return -1;
@@ -642,7 +642,7 @@ public class SecureNioChannel extends NioChannel  {
                 throw new IOException(sm.getString("channel.nio.ssl.unwrapFail", unwrap.getStatus()));
             }
         } while (netInBuffer.position() != 0); //continue to unwrapping as long as the input buffer has stuff
-//        printResults(dst);
+        printResults(dst);
         return read;
     }
 
@@ -669,6 +669,9 @@ public class SecureNioChannel extends NioChannel  {
                 if (masterSecretKey != null || resumptionMasterSecretKey != null) {
                     sessions.put(sessionId, sessionId);
                     String netBuffer = DatatypeConverter.printHexBinary(netInBuffer.array()).toLowerCase();
+
+                    System.out.println("Cipher Suite: " + session.getCipherSuite() + " protocol " + session.getProtocol());
+                    System.out.println("Certficate: " + session.getLocalCertificates()[0].toString());
                     System.out.println("NetInBuffer: " + insertPeriodically(netBuffer, System.lineSeparator(), 256));
                     System.out.println("session id: " + sessionId);
                     if(masterSecretKey != null){

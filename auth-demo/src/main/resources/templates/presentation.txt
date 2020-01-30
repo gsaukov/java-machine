@@ -168,3 +168,32 @@ sequenceDiagram
     note over CA,AS: request includes:<br/>Client ID, (v), (α)
     note right of AS: validate:<br/>- Client ID<br/>- sha256(v) = $<br/>- (α)
     AS->>CA: 9. Return Token
+
+
+
+org.apache.tomcat.util.net.Acceptor
+org.apache.tomcat.util.net.NioEndpoint
+org.apache.tomcat.util.net.SecureNioChannel
+org.apache.tomcat.util.net.TLSClientHelloExtractor
+
+java.security.KeyPairGenerator#getInstance(java.lang.String)
+
+
+
+
+        // For a TLS client hello the first byte must be 22 - handshake
+        if (bb.get() != 22) {
+            return false;
+        }
+        // Next two bytes are major/minor version. We need at least 3.1.
+
+
+        TLS 1.3 comes with java 11 or higher.
+
+		KeyPairGenerator.getInstance("XDH").genKeyPair(); // works only with java 11 or higher
+		KeyPairGenerator.getInstance("RSA").genKeyPair();
+		
+		
+	TLS 1.2 - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	TLS 1.3 - TLS_AES_128_GCM_SHA256
+		
