@@ -1,6 +1,6 @@
 package com.apps.authdemo.socketio.model;
 
-public class FormAuthMessage {
+public class FormAuthMessage implements SocketIoMessage {
 
     private String message;
 

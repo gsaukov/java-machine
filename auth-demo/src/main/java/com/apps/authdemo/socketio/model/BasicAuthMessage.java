@@ -1,6 +1,6 @@
 package com.apps.authdemo.socketio.model;
 
-public class BasicAuthMessage {
+public class BasicAuthMessage implements SocketIoMessage {
 
     private String message;
 

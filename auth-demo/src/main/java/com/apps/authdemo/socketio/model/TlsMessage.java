@@ -1,10 +1,10 @@
 package com.apps.authdemo.socketio.model;
 
-public class CsrfMessage implements SocketIoMessage {
+public class TlsMessage implements SocketIoMessage {
 
     private String message;
 
-    public CsrfMessage(String message) {
+    public TlsMessage(String message) {
         this.message = message;
     }
 

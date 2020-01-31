@@ -227,6 +227,10 @@ socket.on('csrfTokenFilter', function(data) {
     output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
 });
 
+socket.on('tlsMessage', function(data) {
+    outputTls('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
+});
+
 //############# SOCKET IO SECTION ######################
 
 
@@ -263,6 +267,12 @@ socket.on('csrfTokenFilter', function(data) {
         var arr = JSON.parse(localStorage.getItem(itemName)) || [];
         arr.push(element);
         localStorage.setItem(itemName, JSON.stringify(arr));
+    }
+
+    function outputTls(message) {
+        var consoleMessage = "<div><span>" + message + "</span></div>";
+        var element = $(consoleMessage);
+        $('#tlsMessageContainer').append(element);
     }
 
 //############# OUTPUT WELL  ######################
