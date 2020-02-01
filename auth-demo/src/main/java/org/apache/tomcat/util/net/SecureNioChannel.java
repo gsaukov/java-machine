@@ -676,14 +676,16 @@ public class SecureNioChannel extends NioChannel  {
 
                     socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Cipher Suite: " + session.getCipherSuite() + " protocol " + session.getProtocol()));
                     socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Certficate: " + session.getLocalCertificates()[0].toString()));
+                    System.out.println("Certficate: " + session.getLocalCertificates()[0].toString());
                     socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Session id: " + sessionId));
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("NetInBuffer: " + insertPeriodically(netBuffer, System.lineSeparator(), 256)));
 
                     if(masterSecretKey != null) {
                         socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Master secret: " + DatatypeConverter.printHexBinary(masterSecretKey.getEncoded()).toLowerCase()));
                     } else {
                         socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Resumption Master secret: " + DatatypeConverter.printHexBinary(resumptionMasterSecretKey.getEncoded()).toLowerCase()));
                     }
+
+                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("NetInBuffer: " + insertPeriodically(netBuffer, System.lineSeparator(), 256)));
                 }
             }
         } catch (Exception e) {

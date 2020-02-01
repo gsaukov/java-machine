@@ -33,7 +33,7 @@ server:
     key-store-password: srch4app
     keyStoreType: PKCS12
     keyAlias: tomcat
-    enabled-protocols: TLSv1.3 // only JAVA 11 and higher.
+    enabled-protocols: TLSv1.3 # only JAVA 11 and higher.
   error.whitelabel.enabled: true
 
 management:

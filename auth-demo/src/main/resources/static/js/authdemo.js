@@ -216,19 +216,22 @@ socket.on('connect', function() {
 });
 
 socket.on('basicAuthFilter', function(data) {
-    output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
+    output('<span class="server-msg">S->>C ' + JSON.stringify(data.message) + '</span>');
 });
 
 socket.on('userNamePasswordFilter', function(data) {
-    output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
+    output('<span class="server-msg">S->>C ' + JSON.stringify(data.message) + '</span>');
 });
 
 socket.on('csrfTokenFilter', function(data) {
-    output('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
+    output('<span class="server-msg">S->>C ' + JSON.stringify(data.message) + '</span>');
 });
 
 socket.on('tlsMessage', function(data) {
-    outputTls('<span class="server-msg">S->>C ' + JSON.stringify(data) + '</span>');
+    var str = JSON.stringify(data.message);
+    str = str.replace(/\\r/gm,'');
+    str = str.replace(/\\n/gm,'<br>');
+    outputTls(str);
 });
 
 //############# SOCKET IO SECTION ######################
