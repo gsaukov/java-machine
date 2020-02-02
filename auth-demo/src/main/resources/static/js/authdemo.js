@@ -279,3 +279,23 @@ socket.on('tlsMessage', function(data) {
     }
 
 //############# OUTPUT WELL  ######################
+
+
+//############# MODAL #############################
+
+    function showModal(label, body, options) {
+        $('#modalWindow').data('bs.modal', null); //clear previous data if any.
+        $('#modalWindowLabel').html(label);
+        $('#modalWindowBody').empty();
+        $('#modalWindowBody').append("<div id='modalWindowBodyScroll' style='width: 1000px; max-height: 700px; padding-right: 17px'></div>");
+        $('#modalWindowBodyScroll').html(body);
+        new SimpleBar(document.getElementById('modalWindowBodyScroll'));
+        if(options !== undefined && options.dataBackdrop !== undefined){
+            $('#modalWindow').modal({backdrop: options.dataBackdrop});
+        } else {
+            $('#modalWindow').modal({backdrop: 'static'});
+        }
+        $('#modalWindow').modal('show');
+    }
+
+//############# MODAL #############################

@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <link href="http://localhost:9020/static/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
+    <link href="http://localhost:9020/static/css/simplebar.css" rel="stylesheet" />
+    <script src="http://localhost:9020/static/js/external/simplebar.js"></script>
     <script src="http://localhost:9020/static/js/external/jquery-3.3.1.min.js"></script>
     <script src="http://localhost:9020/static/js/external/socket.io.dev.js"></script>
     <script src="http://localhost:9020/static/js/external/popper.min.js" ></script>
@@ -41,6 +43,23 @@
             margin: 3px;
             padding: 3px;
         }
+
+        .modal-content {
+            background: #323436;
+            -webkit-border-radius: 1px !important;
+            -moz-border-radius: 1px !important;
+            border-color: #a1afc3;
+            border-radius: 1px !important;
+        }
+
+        .modal-header {
+            border-bottom: 0 none;
+        }
+
+        .modal-footer {
+            border-top: 0 none;
+        }
+
     </style>
 
 
@@ -327,6 +346,25 @@
 <!--        </div>-->
         <a href="#" class="btn btn-default btn-close" onclick="$('#console').empty(); localStorage.removeItem('wellData');">&times;</a>
         <div id="console" class="well" style="font-size: 20px;" />
+    </div>
+
+    <!--showModal("Error", "<p>" + error.stack + "</p>" + "<p>" + error.message + "</p>");-->
+
+    <div class="modal fade" id="modalWindow" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="modalWindowLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <a href="#" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close"  style="position: absolute; right: 10px;">&times;</a>
+                <div class="modal-header">
+                    <h5 id="modalWindowLabel" class="modal-title" >Modal title</h5>
+                </div>
+                <div id="modalWindowBody" class="modal-body">
+                    Modal body
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
