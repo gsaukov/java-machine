@@ -1,6 +1,11 @@
 
 var globalMap = {};
 
+function doTLSHello() {
+    enableTlsMessaging();
+    doFetch('https://localhost:8097/authdemo/tlshello', 'GET', null, null);
+}
+
 function populateCsrfSelectOptions (csrf) {
     let csrfSelect = $("#csrfSelector");
     csrfSelect.append($("<option/>").attr("value", csrf).text(csrf));
@@ -235,6 +240,11 @@ socket.on('tlsMessage', function(data) {
     globalMap[data.type] = message;
     outputTls(data.type);
 });
+
+function enableTlsMessaging() {
+    var jsonObject = {'@class': 'com.apps.authdemo.socketio.model.EnableTlsMessagingRequest', request: ''};
+    socket.emit('enableTlsMessagingRequest', jsonObject);
+}
 
 //############# SOCKET IO SECTION ######################
 

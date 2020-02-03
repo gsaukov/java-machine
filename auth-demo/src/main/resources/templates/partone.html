@@ -132,10 +132,13 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <div class="container" style="max-width: 1800px;">
+                <div class="container">
                     <div class="row">
                         <div class="col align-self-center">
                             <a href="#" class="btn btn-default btn-close" onclick="$('#tlsMessageContainer').empty();">&times;</a>
+                            <form action="#" method="GET" >
+                                <input type="submit" value="TLS Hello" class="btn btn-default" onClick="doTLSHello()" style="margin-top: 2em; width: 9em; font-size: 19px; height: 42px">
+                            </form>
                             <div id="tlsMessageContainer" style="font-size: 18px;"></div>
                         </div>
                     </div>

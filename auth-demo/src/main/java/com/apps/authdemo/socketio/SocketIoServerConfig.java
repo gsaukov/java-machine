@@ -1,5 +1,6 @@
 package com.apps.authdemo.socketio;
 
+import com.apps.authdemo.socketio.model.EnableTlsMessagingRequest;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,9 @@ public class SocketIoServerConfig {
     @Autowired
     private SessionDisconnectListener sessionDisconnectListener;
 
+    @Autowired
+    private EnableTlsMessagingListener enableTlsMessagingListener;
+
     @Bean(name="webSocketServer")
     public SocketIOServer webSocketServer() throws IOException {
 
@@ -45,7 +49,7 @@ public class SocketIoServerConfig {
         SocketIOServer server = new SocketIOServer(config);
         server.addConnectListener(sessionConnectListener);
         server.addDisconnectListener(sessionDisconnectListener);
-
+        server.addEventListener("enableTlsMessagingRequest", EnableTlsMessagingRequest.class, enableTlsMessagingListener);
         return server;
 
     }

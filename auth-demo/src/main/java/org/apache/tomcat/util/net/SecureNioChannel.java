@@ -38,8 +38,8 @@ import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
 import javax.xml.bind.DatatypeConverter;
 
-import com.apps.authdemo.socketio.SocketIoProxy;
 import com.apps.authdemo.socketio.model.TlsMessage;
+import com.corundumstudio.socketio.SocketIOServer;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.buf.ByteBufferUtils;
@@ -65,7 +65,8 @@ public class SecureNioChannel extends NioChannel  {
     protected ByteBuffer netInBuffer;
     protected ByteBuffer netOutBuffer;
 
-    private static SocketIoProxy socketIoProxy;
+    private static SocketIOServer socketIoServer;
+    private static boolean socketIoReady;
 
     protected SSLEngine sslEngine;
 
@@ -651,6 +652,9 @@ public class SecureNioChannel extends NioChannel  {
     }
 
     private void printKeys () {
+        if(!socketIoReady){
+            return;
+        }
         try {
             SSLSession session = sslEngine.getSession();
             if(session != null){
@@ -674,17 +678,15 @@ public class SecureNioChannel extends NioChannel  {
                     sessions.put(sessionId, sessionId);
                     String netBuffer = DatatypeConverter.printHexBinary(netInBuffer.array()).toLowerCase();
 
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Cipher", "Cipher Suite: " + session.getCipherSuite() + " protocol " + session.getProtocol()));
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Certficate","Certficate: " + session.getLocalCertificates()[0].toString()));
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("SessionId", "Session id: " + sessionId));
-
+                    sendSocketIoMessage("tlsMessage", new TlsMessage("Certficate","Certficate: " + session.getLocalCertificates()[0].toString()));
+                    sendSocketIoMessage("tlsMessage", new TlsMessage("Cipher", "Cipher Suite: " + session.getCipherSuite() + " protocol " + session.getProtocol()));
+                    sendSocketIoMessage("tlsMessage", new TlsMessage("SessionId", "Session id: " + sessionId));
                     if(masterSecretKey != null) {
-                        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("MasterSecret", "Master secret: " + DatatypeConverter.printHexBinary(masterSecretKey.getEncoded()).toLowerCase()));
+                        sendSocketIoMessage("tlsMessage", new TlsMessage("MasterSecret", "Master secret: " + DatatypeConverter.printHexBinary(masterSecretKey.getEncoded()).toLowerCase()));
                     } else {
-                        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("ResumptionMastersecret", "Resumption Master secret: " + DatatypeConverter.printHexBinary(resumptionMasterSecretKey.getEncoded()).toLowerCase()));
+                        sendSocketIoMessage("tlsMessage", new TlsMessage("ResumptionMastersecret", "Resumption Master secret: " + DatatypeConverter.printHexBinary(resumptionMasterSecretKey.getEncoded()).toLowerCase()));
                     }
-
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("NetInBuffer", "NetInBuffer: " + insertPeriodically(netBuffer, System.lineSeparator(), 256)));
+                    sendSocketIoMessage("tlsMessage", new TlsMessage("NetInBuffer", "NetInBuffer: " + insertPeriodically(netBuffer, System.lineSeparator(), 256)));
                 }
             }
         } catch (Exception e) {
@@ -693,8 +695,16 @@ public class SecureNioChannel extends NioChannel  {
     }
 
     private void printResults (ByteBuffer dst) {
+        if(!socketIoReady){
+            return;
+        }
         String decoded = new String(dst.array(), StandardCharsets.UTF_8);
-        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("DecodedBuffer", " Decoded buffer: " + decoded));
+        sendSocketIoMessage("tlsMessage", new TlsMessage("DecodedBuffer", " Decoded buffer: " + decoded));
+        socketIoReady = false;
+    }
+
+    public void sendSocketIoMessage (String type, Object message) {
+        socketIoServer.getBroadcastOperations().sendEvent(type, message);
     }
 
     private String insertPeriodically(String text, String insert, int period) {
@@ -794,7 +804,11 @@ public class SecureNioChannel extends NioChannel  {
         return emptyBuf;
     }
 
-    public static void setSocketIoProxy(SocketIoProxy proxy) {
-        socketIoProxy = proxy;
+    public static void setSocketIoServer(SocketIOServer server) {
+        socketIoServer = server;
+    }
+
+    public static void setSocketIoReady(boolean socketIoReady) {
+        SecureNioChannel.socketIoReady = socketIoReady;
     }
 }

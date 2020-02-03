@@ -25,7 +25,8 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile "com.corundumstudio.socketio:netty-socketio:${nettySocketio}"
     compile 'org.springframework.social:spring-social-facebook:2.0.3.RELEASE'
-    
+    compile 'org.bouncycastle:bcprov-jdk15on'
+    compile 'org.bouncycastle:bcpkix-jdk15on'    
 
     runtime "mysql:mysql-connector-java:${mySqlVersion}"
     runtime "org.liquibase:liquibase-core:${liquibaseVersion}"

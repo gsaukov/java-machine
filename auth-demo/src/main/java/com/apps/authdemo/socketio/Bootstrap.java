@@ -3,7 +3,6 @@ package com.apps.authdemo.socketio;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.apache.tomcat.util.net.SecureNioChannel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,17 +17,12 @@ public class Bootstrap {
     @PostConstruct
     public void start() {
         server.start();
-        SecureNioChannel.setSocketIoProxy(socketIoProxy());
+        SecureNioChannel.setSocketIoServer(server);
     }
 
     @PreDestroy
     public void stop() {
         server.stop();
-    }
-
-    @Bean
-    private SocketIoProxy socketIoProxy() {
-        return new SocketIoProxy(server);
     }
 
 }
