@@ -674,18 +674,17 @@ public class SecureNioChannel extends NioChannel  {
                     sessions.put(sessionId, sessionId);
                     String netBuffer = DatatypeConverter.printHexBinary(netInBuffer.array()).toLowerCase();
 
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Cipher Suite: " + session.getCipherSuite() + " protocol " + session.getProtocol()));
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Certficate: " + session.getLocalCertificates()[0].toString()));
-                    System.out.println("Certficate: " + session.getLocalCertificates()[0].toString());
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Session id: " + sessionId));
+                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Cipher", "Cipher Suite: " + session.getCipherSuite() + " protocol " + session.getProtocol()));
+                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Certficate","Certficate: " + session.getLocalCertificates()[0].toString()));
+                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("SessionId", "Session id: " + sessionId));
 
                     if(masterSecretKey != null) {
-                        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Master secret: " + DatatypeConverter.printHexBinary(masterSecretKey.getEncoded()).toLowerCase()));
+                        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("MasterSecret", "Master secret: " + DatatypeConverter.printHexBinary(masterSecretKey.getEncoded()).toLowerCase()));
                     } else {
-                        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("Resumption Master secret: " + DatatypeConverter.printHexBinary(resumptionMasterSecretKey.getEncoded()).toLowerCase()));
+                        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("ResumptionMastersecret", "Resumption Master secret: " + DatatypeConverter.printHexBinary(resumptionMasterSecretKey.getEncoded()).toLowerCase()));
                     }
 
-                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("NetInBuffer: " + insertPeriodically(netBuffer, System.lineSeparator(), 256)));
+                    socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("NetInBuffer", "NetInBuffer: " + insertPeriodically(netBuffer, System.lineSeparator(), 256)));
                 }
             }
         } catch (Exception e) {
@@ -695,7 +694,7 @@ public class SecureNioChannel extends NioChannel  {
 
     private void printResults (ByteBuffer dst) {
         String decoded = new String(dst.array(), StandardCharsets.UTF_8);
-        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("decoded buffer: " + decoded));
+        socketIoProxy.sendSocketIoMessage("tlsMessage", new TlsMessage("DecodedBuffer", " Decoded buffer: " + decoded));
     }
 
     private String insertPeriodically(String text, String insert, int period) {

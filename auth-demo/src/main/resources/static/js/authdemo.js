@@ -1,4 +1,5 @@
 
+var globalMap = {};
 
 function populateCsrfSelectOptions (csrf) {
     let csrfSelect = $("#csrfSelector");
@@ -228,10 +229,11 @@ socket.on('csrfTokenFilter', function(data) {
 });
 
 socket.on('tlsMessage', function(data) {
-    var str = JSON.stringify(data.message);
-    str = str.replace(/\\r/gm,'');
-    str = str.replace(/\\n/gm,'<br>');
-    outputTls(str);
+    var message = JSON.stringify(data.message);
+    message = message.replace(/\\r/gm,'');
+    message = message.replace(/\\n/gm,'<br>');
+    globalMap[data.type] = message;
+    outputTls(data.type);
 });
 
 //############# SOCKET IO SECTION ######################
@@ -272,8 +274,8 @@ socket.on('tlsMessage', function(data) {
         localStorage.setItem(itemName, JSON.stringify(arr));
     }
 
-    function outputTls(message) {
-        var consoleMessage = "<div><span>" + message + "</span></div>";
+    function outputTls(type) {
+        var consoleMessage = "<div><a href='#' onclick=\"showModal('" + type + "')\">" + type + "</a></div>";
         var element = $(consoleMessage);
         $('#tlsMessageContainer').append(element);
     }
@@ -283,9 +285,10 @@ socket.on('tlsMessage', function(data) {
 
 //############# MODAL #############################
 
-    function showModal(label, body, options) {
+    function showModal(type, options) {
+        var body = globalMap[type];
         $('#modalWindow').data('bs.modal', null); //clear previous data if any.
-        $('#modalWindowLabel').html(label);
+        $('#modalWindowLabel').html(type);
         $('#modalWindowBody').empty();
         $('#modalWindowBody').append("<div id='modalWindowBodyScroll' style='width: 1000px; max-height: 700px; padding-right: 17px'></div>");
         $('#modalWindowBodyScroll').html(body);
