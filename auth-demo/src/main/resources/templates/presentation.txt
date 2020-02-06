@@ -203,4 +203,7 @@ Security scanners.
 https://securityheaders.com
 https://www.ssllabs.com/ssltest/
 	
+	
+	https://examples.javacodegeeks.com/core-java/nio/java-nio-ssl-example/
+	https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/
 		
