@@ -275,6 +275,8 @@ Presentation plan:
 
  https://letsencrypt.org/ free
 
+ https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html
+
 
 
 
