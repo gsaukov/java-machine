@@ -268,8 +268,12 @@ Presentation plan:
 
 9. To avoid situation when anyone can issue google.com certificate all certificates must be signed with a root certificate.
 	In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations like Google, Symantec, GoDaddy, LetsEncrypt and so on.
-	f encrypt(s, c) = y
-	f
+
+	f encrypt(s, c.hash) = y
+	y must equal to hash provided in certificate.
+
+	sun.security.provider.certpath.PKIXCertPathValidator
+    java.security.cert.CertPathValidator
 
 
 
