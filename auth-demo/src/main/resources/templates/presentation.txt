@@ -206,4 +206,78 @@ https://www.ssllabs.com/ssltest/
 	
 	https://examples.javacodegeeks.com/core-java/nio/java-nio-ssl-example/
 	https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/
+
+
+
+
+
+
+
+
+
+
+Presentation plan:
+
+1. Internet or web security is based on 4 things Encryption, Encryption, Encryption and Certificates who are
+
+2. Encryption f(x) = y. Phylosophy behind this: if you know x it is very easy to find y. If you know y it is almost impossible to find y.
+
+3. In reality of symmetric encription it is two functions:
+	f encrypt(x, z) = y.
+	f decrypt(x, y) = z;
+
+		x - secret, key, password.
+		z - payload.
+		y - encrypted data
+
+4. Symmetric encryption has a problem, if you want to add aprticipants to your encrypted comunication, you have to share x with them.
+	And it makes symmetric encryption very vulnerable to loss of the key or x.
+
+5. This vulnerability is solved by assymetric encryption. Where we split x on to two parts k public and s private.
+	There are two absolutely overhelming mathematical ways how to split x onto k and s parts but keep link between them:
+		one is RSA based on gigantic prime numbers.
+		second is Elliptic Curve algorithm based on two crossin elliptic curves.
+
+		*************************************
+		*	ELIPTIC CURVES PICTURE HERE		*
+		*************************************
+
+6. Assymetric encryption in this case would look like this:
+		f encrypt(s, z) = y.
+		f decrypt(k, y) = z;
+
+		*************************************
+		*	KEYS PICTURE HERE 				*
+		*************************************
+
+			s - public key. It lets anyone whom you gave the key encrypt the data.
+			k - private key. Only you can decrypt it.
+			z - payload.
+			y - encrypted data.
+
+7. Combination of this actions which could vary using different algorithms/compression methods and other properties is called CIPHER SUITE. more about cipher suits you can find here:
+	https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html
+
+8. The most famous use of Assymetric Encryption is Certificate signature.
+	Certificates. In short Certificates Are site or host identities. They also hold basic information like country, city, company.
+		Most important is [CN] or Common name and [SAN] Subject Alternative Names which tells you hostname or site that owns certificate. Like wikipedia.com for examples.
+
+		*************************************
+		*	CERTIFICATE PICTURE HERE 		*
+		*************************************
+
+9. To avoid situation when anyone can issue google.com certificate all certificates must be signed with a root certificate.
+	In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations like Google, Symantec, GoDaddy, LetsEncrypt and so on.
+	f encrypt(s, c) = y
+	f
+
+
+
+ https://letsencrypt.org/ free
+
+
+
+
+
+
 		
