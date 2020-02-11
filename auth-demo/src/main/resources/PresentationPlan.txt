@@ -1,0 +1,223 @@
+Presentation plan:
+
+1. Internet or web security is based on 4 things Encryption, Encryption, Encryption and Certificates who are 
+
+2. Encryption f(x) = y. Phylosophy behind this: if you know x it is very easy to find y. If you know y it is almost impossible to find y.
+
+3. In reality of symmetric encription it is two functions:
+	f encrypt(x, z) = y. 		
+	f decrypt(x, y) = z;
+	
+		x - secret, key, password. 
+		z - payload.
+		y - encrypted data
+		
+4. Symmetric encryption has a problem, if you want to add aprticipants to your encrypted comunication, you have to share x with them. 
+	And it makes symmetric encryption very vulnerable to loss of the key or x.
+
+5. This vulnerability is solved by assymetric encryption. Where we split x on to two parts k public and s private.
+	There are two absolutely overhelming mathematical ways how to split x onto k and s parts but keep link between them:
+		one is RSA based on gigantic prime numbers.
+		second is Elliptic Curve algorithm based on two crossin elliptic curves.
+		
+		*************************************
+		*	ELIPTIC CURVES PICTURE HERE		*
+		*************************************
+		
+6. Assymetric encryption in this case would look like this:
+		f encrypt(s, z) = y. 		
+		f decrypt(k, y) = z;
+	
+		*************************************
+		*	KEYS PICTURE HERE 				*
+		*************************************
+	
+			s - public key. It lets anyone whom you gave the key encrypt the data.
+			k - private key. Only you can decrypt it.
+			z - payload.
+			y - encrypted data.
+
+7. Combination of this actions which could vary using different algorithms/compression methods/hashing and other properties is called CIPHER SUITE. more about cipher suits you can find here:
+	https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html
+	
+8. The most famous use of Assymetric Encryption is Certificate signature.
+	Certificates. In short Certificates Are site or host identities. They also hold basic information like country, city, company.
+		Most important is [CN] or Common name and [SAN] Subject Alternative Names which tells you hostname or site that owns certificate. Like wikipedia.com for examples.
+
+		*************************************
+		*	CERTIFICATE PICTURE HERE 		*
+		*************************************
+	
+	Tools for managing and creating ceritificates you can use KeyTool from Oracle, or OpenSSL.
+	For programmatic/dynamic certificate creation/management BouncyCastle library.
+	
+
+9. To avoid situation when anyone can issue google.com certificate all certificates mu st be signed with a root certificate.
+	In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations (Certificate Authorities) like Google, Symantec, GoDaddy, LetsEncrypt and so on.
+
+	f encrypt(s, c) = y
+	
+	For succesfull validation y must equal to hash provided in certificate.
+	
+	s - public key. It lets anyone whom you gave the key encrypt the data.
+	c - certificate.
+	y - encrypted data.
+	
+	*************************************
+	*	ROOT CERTIFICATES PICTURE HERE	*
+	*************************************
+
+
+10. The place where you hold Root certificates or whom you trust is called Truststore. 
+	*************************************
+	*	TRUSTSTORE PICTURE HERE			*
+	*************************************
+
+The place where you hold your issued ceritificate with your private and public keys is called Keystore. 
+
+	*************************************
+	*	KEYSTORE PICTURE HERE			*
+	*************************************
+
+
+11. Above given very primitive Certificate signing and validation Algorithms. If Want to know more and how it really works? 
+	see X509 and PKIX. In Java you can find following classes:
+    sun.security.provider.certpath.PKIXCertPathValidator
+    java.security.cert.CertPathValidator
+	
+	link  https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html
+
+	https://letsencrypt.org/ if you want to generate free certificate for your site.
+	
+	Certificate Authorities "Trusted Organizations" a part of politics now since it is one keystone of internet regulations. Since they come usually preinstalled as a part of Software or Hardware.
+	If certificate mechanics goes wrong any one can impersonate anyone.
+	With growth of IOT world, certificates could be a part of Economical or corporational wars.
+	
+	Most of the smart phone or any other intelegent device control like locking, monitoring, misusing or getting orders from vendors is based on prebuiled encrypted trust stores and open ports.
+	
+	Keyword for those who are interested Intel Management Engine that is prebuild into every intell PC including mine. It operates system in paralell with OS and has access to all of you computer.
+	https://www.youtube.com/watch?v=Y2_-VXz9E-w 
+	In two words my pc is running MINIX unix based operating system and i dont know what it does. And intel tries to hide it from me as much as it can.
+	
+	And one more thing if you want to see how strong is CIPHER SUITES and Authority centers used by external resource here are some security scanners:
+	https://securityheaders.com
+	https://www.ssllabs.com/ssltest/
+	
+12. So now we have pretty much everything to start our journey to the server we trust. 
+
+	*****************************************************
+	*	PICTURE OF SUITS, CERTIFICATES, PICTURE HERE	*
+	*****************************************************
+	
+	Our first step is to do a handshake with him.
+	
+13. Process of establishing secure comunication between us and desired server is SSL or TLS Handshake. 
+	There is possibility to do RSA handshake respective to TLS 1.2 but we will do latest TLS 1.3
+	
+	*****************************
+	*	MAP PICTURE HERE		*
+	*****************************
+	
+	With traces and links:
+	
+	All the below operation are conducted as byte changing operations on Server side NetBuffer, Client and will exchange bytes and symulteneously or assynchronyously monitor it.
+	
+    1. Client hello: The client sends a client hello message with the protocol version, the client random, and a list of cipher suites.
+		// For a TLS client hello the first byte must be 22 - handshake.
+	2. Server hello: The server replies with its SSL certificate, its selected cipher suite, and the server random. In contrast to the RSA handshake described above, in this message the server also includes the following (step 3):
+    3. Server's digital signature: The server uses its private key to encrypt the client random, the server random, and its DH parameter*. This encrypted data functions as the server's digital signature, establishing that the server has the private key that matches with the public key from the SSL certificate.
+    4. Digital signature confirmed: The client decrypts the server's digital signature with the public key, verifying that the server controls the private key and is who it says it is. Client DH parameter: The client sends its DH parameter to the server.
+    
+	*********************************
+	*	FORGING PICTURE IN POPUP	*
+	********************************* 
+
+	
+	5. Client and server calculate the premaster secret: Instead of the client generating the premaster secret and sending it to the server, as in an RSA handshake, the client and server use the DH parameters they exchanged to calculate a matching premaster secret separately.
+    
+	*****************************
+	*	DH PICTURE IN POPUP		*
+	*****************************
+	
+	Diffie Hellman Key exchange is stronger than RSA key exchange because it doesnt involve public or private keys, so if private key used during RSA exchange is stolen it is possible to retrospectively decrypt previous session key exchanges and using gathered session keys decrypt all traffic.
+	With Diffie Hellman there are no stable keys everything exists session time, so there is no way to retrospectivly decrypt the trafic.
+		
+	6. Session keys created: Now, the client and server calculate session keys from the premaster secret, client random, and server random, just like in an RSA handshake.
+    7. Client is ready, Same as an RSA handshake, Server is ready.
+    8. Secure symmetric encryption achieved. Session key is created
+	9. Request is sent to server and can be decrypted with session key.
+	
+
+14. Lets see how it works in java:
+	
+	javax.net.ssl.SSLSocket
+	java.security.KeyPairGenerator
+	sun.security.ssl.BaseSSLSocketImpl
+	
+	Most important and secure guys:
+	sun.security.ssl.SSLEngineImpl
+	javax.net.ssl.SSLEngineResult
+	
+	org.apache.tomcat.jni.Socket
+	org.apache.tomcat.util.net.SecureNioChannel
+	org.apache.tomcat.util.net.Acceptor
+	org.apache.tomcat.util.net.NioEndpoint
+	org.apache.tomcat.util.net.SecureNioChannel
+	org.apache.tomcat.util.net.TLSClientHelloExtractor
+	org.apache.tomcat.jni.SSLSocket
+	
+15. If you want to play a bit more with key generation.
+
+    TLS 1.3 comes with java 11 or higher.
+
+	KeyPairGenerator.getInstance("XDH").genKeyPair(); // works only with java 11 or higher
+	KeyPairGenerator.getInstance("RSA").genKeyPair();
+		
+		
+	TLS 1.2 best cipher suite - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	TLS 1.3 best cipher suite - TLS_AES_128_GCM_SHA256
+	
+	Some usefull links:
+	Good entrypoint article about TLS  https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/
+	Handmade TLS in JAVA step by step with explanations and code: https://examples.javacodegeeks.com/core-java/nio/java-nio-ssl-example/
+
+	Questions what is not encrypted by SSL during the call?
+	Is there any difference between post put get HTTP requests decryption?
+	
+16. Now we have a securely established TLS 1.3 channel. And we know who is the server because we ve validate his certificate using trust store. But server knows nothing about who we are.
+	There is a way called two way TLS when we give server our client sertificate but in real life it is very rare. 
+	So we will use Basic Authentification to identify ourselfs on server side.
+	
+17. Basic auth page.
+
+	Authentication schemes:
+
+    Basic (see RFC 7617, base64-encoded credentials. See below for more information.),
+    Bearer (see RFC 6750, bearer tokens to access OAuth 2.0-protected resources),
+    Digest (see RFC 7616, only md5 hashing is supported in Firefox, see баг 472823 for SHA encryption support),
+    HOBA (see RFC 7486 (draft), HTTP Origin-Bound Authentication, digital-signature-based),
+    Mutual (see draft-ietf-httpauth-mutual),
+
+    AWS4-HMAC-SHA256 (see AWS docs).
+	
+18. There are a few issues with HTTP Basic Auth:
+
+		The password is sent over the wire in base64 encoding (which can be easily converted to plaintext).
+		The password is sent repeatedly, for each request. (Larger attack window)
+		The password is cached by the webbrowser, at a minimum for the length of the window / process. (Can be silently reused by any other request to the server, e.g. CSRF).
+		The password may be stored permanently in the browser, if the user requests. (Same as previous point, in addition might be stolen by another user on a shared machine).
+
+	Of those, using SSL only solves the first. And even with that, SSL only protects until the webserver - any internal routing, server logging, etc, will see the plaintext password.
+
+	So, as with anything it's important to look at the whole picture.
+
+	Does HTTPS protect the password in transit? Yes.
+
+	Is that enough? Usually, no.
+	
+	
+19. Form auth page.
+	
+
+
+
