@@ -179,6 +179,8 @@ The place where you hold your issued ceritificate with your private and public k
 	
 	Some usefull links:
 	Good entrypoint article about TLS  https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/
+	TLS 1.3 200 ms TLS 1.2 300 speed performance https://kinsta.com/blog/tls-1-3/
+	TLS 1.3 vs 1.2 Byte performance comparision https://www.wolfssl.com/tls-1-3-performance-part-2-full-handshake-2/
 	Handmade TLS in JAVA step by step with explanations and code: https://examples.javacodegeeks.com/core-java/nio/java-nio-ssl-example/
 
 	Questions what is not encrypted by SSL during the call?
