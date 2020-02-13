@@ -149,6 +149,15 @@ The place where you hold your issued ceritificate with your private and public k
 	
 
 14. Lets see how it works in java:
+
+To enable TLS  in Spring boot:
+
+  ssl: #keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+    key-store: classpath:keystore.p12
+    key-store-password: srch4app
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+    enabled-protocols: TLSv1.3 # only JAVA 11 and higher.
 	
 	javax.net.ssl.SSLSocket
 	java.security.KeyPairGenerator
