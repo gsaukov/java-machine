@@ -13,6 +13,7 @@
     <script src="http://localhost:9020/static/js/external/bootstrap.min.js"></script>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script src="../static/js/authdemo.js"></script>
+    <script src="../static/js/imageMapResizer.min.js"></script>
 
     <style>
         html {
@@ -71,6 +72,12 @@
 
         .modal-footer {
             border-top: 0 none;
+        }
+
+        img {
+           max-width:100%;
+           height:auto;
+           max-height:100%;
         }
 
     </style>
@@ -138,6 +145,34 @@
             </div>
             <div class="carousel-item" style="height:1100px;">
                 <img class="d-block w-100" src="../static/drawings/drawings_p0081.png" >
+            </div>
+            <div class="carousel-item" style="height:1100px;">
+                <img id="imgmapid" class="d-block w-100" src="../static/drawings/final/map.png"  usemap="#imgmap" />
+                <map id="imgareamapid" name="imgmap">
+                    <area shape="rect" coords="100,1600,1300,1800" href="http://www.examplea.com/">
+                    <area shape="rect" coords="100,1800,1300,2000" href="http://www.exampleb.com/">
+                    <area shape="rect" coords="100,2000,1500,2400" href="http://www.examplec.com/">
+                    <area shape="rect" coords="100,2400,1500,2800" href="http://www.exampled.com/">
+                    <area shape="rect" coords="100,2800,2000,3200" href="http://www.examplef.com/">
+                    <area shape="rect" coords="100,3200,2000,3500" href="http://www.exampleg.com/">
+                    <area shape="circle" coords="2271,1260,100" href="http://www.exampleg.com/">
+                    <area shape="circle" coords="2600,1900,75" href="http://www.exampleg.com/">
+                    <area shape="circle" coords="3360,1700,100" href="http://www.exampleg.com/">
+                    <area shape="circle" coords="4000,1570,100" href="http://www.exampleg.com/">
+                    <area shape="circle" coords="4185,1900,75" href="http://www.exampleg.com/">
+                    <area shape="circle" coords="4218,2300,75" href="http://www.exampleg.com/">
+                    <area shape="circle" coords="3420,2662,75" href="http://www.exampleg.com/">
+                </map>
+                <script>
+                    $('map').imageMapResize();
+
+                    var areas = document.getElementsByTagName( 'area' );
+
+                    for( var index = 0; index < areas.length; index++ ) {
+                        areas[index].addEventListener( 'mouseover', function () {this.focus();}, false );
+                        areas[index].addEventListener( 'mouseout', function () {this.blur();}, false );
+                    };
+                </script>
             </div>
             <div class="carousel-item" style="height:1100px;">
                 <img class="d-block w-100" src="../static/drawings/drawings_p0081.png" >
