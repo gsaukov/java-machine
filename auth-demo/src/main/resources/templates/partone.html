@@ -28,7 +28,7 @@
         }
 
         .carousel-item {
-            height: 800px;
+            height: 1100px;
         }
 
         .carousel-control-prev{
@@ -78,6 +78,11 @@
            max-width:100%;
            height:auto;
            max-height:100%;
+        }
+
+        .data-link{
+            font-weight: 500;
+            font-size: 30px;
         }
 
     </style>
@@ -140,13 +145,13 @@
                     <h5>Trust </h5>
                 </div>
             </div>
-            <div class="carousel-item" style="height:1100px;">
+            <div class="carousel-item">
                 <img class="d-block w-100" src="../static/drawings/drawings_p0071.png">
             </div>
-            <div class="carousel-item" style="height:1100px;">
+            <div class="carousel-item">
                 <img class="d-block w-100" src="../static/drawings/drawings_p0081.png" >
             </div>
-            <div class="carousel-item" style="height:1100px;">
+            <div class="carousel-item">
                 <img id="imgmapid" class="d-block w-100" src="../static/drawings/final/map.png"  usemap="#imgmap" />
                 <map id="imgareamapid" name="imgmap">
                     <area shape="rect" coords="100,1600,1300,1800" href="http://www.examplea.com/">
@@ -174,10 +179,10 @@
                     };
                 </script>
             </div>
-            <div class="carousel-item" style="height:1100px;">
+            <div class="carousel-item">
                 <img class="d-block w-100" src="../static/drawings/drawings_p0081.png" >
             </div>
-            <div class="carousel-item" style="height:1100px;">
+            <div class="carousel-item">
                 <img class="d-block w-100" src="https://filmgrimoire.files.wordpress.com/2014/06/pulpfiction_105pyxurz.jpg" >
             </div>
             <div class="carousel-item">
@@ -188,7 +193,7 @@
                             <form action="#" method="GET" >
                                 <input type="submit" value="TLS Hello" class="btn btn-default" onClick="doTLSHello()" style="margin-top: 2em; width: 9em; font-size: 19px; height: 42px">
                             </form>
-                            <div id="tlsMessageContainer" style="font-size: 18px;"></div>
+                            <div id="tlsMessageContainer"></div>
                         </div>
                     </div>
                 </div>
@@ -197,6 +202,7 @@
                 </div>
             </div>
             <div class="carousel-item">
+                <a href="#" class="btn btn-default btn-close" onclick="$('#BASICAuthMessageContainer').empty();">&times;</a>
                 <div class="row justify-content-left" style="margin-left: 20em;">
                     <div class="col-3">
                         <div class="form-group">
@@ -229,6 +235,7 @@
                                 <p>Designers, marketers, and journalists can now focus on the content. Simply <a href="/demos" title="WebSlides Demos">choose a demo</a> and customize it in minutes.</p>
                             </li>
                         </div>
+                        <div id="BASICAuthMessageContainer"></div>
                     </div>
                 </div>
                 <div class="carousel-caption d-none d-md-block">
@@ -237,6 +244,7 @@
                 </div>
             </div>
             <div class="carousel-item">
+                <a href="#" class="btn btn-default btn-close" onclick="$('#FORMAuthMessageContainer').empty();">&times;</a>
                 <div class="row justify-content-left" style="margin-left: 20em;">
                     <div class="col-3">
                         <div class="form-group">
@@ -275,6 +283,7 @@
                                 <p>Designers, marketers, and journalists can now focus on the content. Simply <a href="/demos" title="WebSlides Demos">choose a demo</a> and customize it in minutes.</p>
                             </li>
                         </div>
+                        <div id="FORMAuthMessageContainer"></div>
                     </div>
                 </div>
                 <div class="carousel-caption d-none d-md-block">

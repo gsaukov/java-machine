@@ -12,6 +12,7 @@ function populateCsrfSelectOptions (csrf) {
 }
 
 function doFormAuthentication(formId) {
+    setMessagingSource('FORM')
     var formData = buildData($('#' + formId).get(0))
 
     output('<span class="client-msg">C->>S https://localhost:8097/login POST with Body: ' + formData.toString() + '</span>');
@@ -29,6 +30,7 @@ function doFormAuthentication(formId) {
 
 
 function doBasicAuthentication(username, password) {
+    setMessagingSource('BASIC')
     var base64Credentials = btoa(username + ':' + password);
     var basicAuthHeaders = new Headers({'Authorization': 'Basic ' + base64Credentials});
 
@@ -238,12 +240,25 @@ socket.on('tlsMessage', function(data) {
     message = message.replace(/\\r/gm,'');
     message = message.replace(/\\n/gm,'<br>');
     globalMap[data.type] = message;
-    outputTls(data.type);
+    outputTlsMessage(data.type);
+});
+
+
+socket.on('filterMessage', function(data) {
+    var message = JSON.stringify(data.message);
+
+    globalMap[data.source + data.type] = message;
+    outputFilterMessage(data.source, data.type);
 });
 
 function enableTlsMessaging() {
     var jsonObject = {'@class': 'com.apps.authdemo.socketio.model.EnableTlsMessagingRequest', request: ''};
     socket.emit('enableTlsMessagingRequest', jsonObject);
+}
+
+function setMessagingSource(source) {
+    var jsonObject = {'@class': 'com.apps.authdemo.socketio.model.SetSourceRequest', request: source};
+    socket.emit('setSourceRequest', jsonObject);
 }
 
 //############# SOCKET IO SECTION ######################
@@ -284,10 +299,18 @@ function enableTlsMessaging() {
         localStorage.setItem(itemName, JSON.stringify(arr));
     }
 
-    function outputTls(type) {
-        var consoleMessage = "<div><a href='#' onclick=\"showModal('" + type + "')\">" + type + "</a></div>";
+    function outputTlsMessage(type) {
+        var consoleMessage = "<div><a href='#' class='data-link' onclick=\"showModal('" + type + "')\">" + type + "</a></div>";
         var element = $(consoleMessage);
         $('#tlsMessageContainer').append(element);
+    }
+
+    function outputFilterMessage(source, type) {
+        var consoleMessage = "<div><a href='#' class='data-link' onclick=\"showModal('" + source + type + "')\">" + type + "</a></div>";
+        var element = $(consoleMessage);
+        //FORMAuthMessageContainer
+        //BASICAuthMessageContainer
+        $('#' + source + 'AuthMessageContainer').append(element);
     }
 
 //############# OUTPUT WELL  ######################

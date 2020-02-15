@@ -27,7 +27,6 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.crypto.SecretKey;
 import javax.net.ssl.SSLEngine;
@@ -59,8 +58,6 @@ public class SecureNioChannel extends NioChannel  {
     // Value determined by observation of what the SSL Engine requested in
     // various scenarios
     private static final int DEFAULT_NET_BUFFER_SIZE = 16921;
-
-    private static final ConcurrentHashMap<String, String> sessions = new ConcurrentHashMap<>();
 
     protected ByteBuffer netInBuffer;
     protected ByteBuffer netOutBuffer;
@@ -675,7 +672,6 @@ public class SecureNioChannel extends NioChannel  {
                 SecretKey resumptionMasterSecretKey = (SecretKey)resumptionMasterSecretField.get(session);
 
                 if (masterSecretKey != null || resumptionMasterSecretKey != null) {
-                    sessions.put(sessionId, sessionId);
                     String netBuffer = DatatypeConverter.printHexBinary(netInBuffer.array()).toLowerCase();
 
                     sendSocketIoMessage("tlsMessage", new TlsMessage("Certficate","Certficate: " + session.getLocalCertificates()[0].toString()));
@@ -698,7 +694,7 @@ public class SecureNioChannel extends NioChannel  {
         if(!socketIoReady){
             return;
         }
-        String decoded = new String(dst.array(), StandardCharsets.UTF_8);
+        String decoded = new String(dst.array(), StandardCharsets.UTF_8).trim();
         sendSocketIoMessage("tlsMessage", new TlsMessage("DecodedBuffer", " Decoded buffer: " + decoded));
         socketIoReady = false;
     }
