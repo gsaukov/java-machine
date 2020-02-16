@@ -16,7 +16,8 @@
 
 package com.apps.authdemo.security.filters;
 
-import com.apps.authdemo.socketio.model.BasicAuthMessage;
+import com.apps.authdemo.socketio.SetSourceListener;
+import com.apps.authdemo.socketio.model.FilterMessage;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -148,7 +149,7 @@ public class UsernamePasswordAuthenticationFilterEnriched extends
 
 	private void notifySocketIo (String body, Authentication authResult) {
 		String message = "BODY: " + body;
-		server.getBroadcastOperations().sendEvent("userNamePasswordFilter", new BasicAuthMessage(message));
+		server.getBroadcastOperations().sendEvent("filterMessage", new FilterMessage(SetSourceListener.SOURCE, "UsernamePasswordAuthenticationFilter Body", message));
 		User user = (User)authResult.getPrincipal();
 		StringBuilder sb = new StringBuilder("User{");
 		sb.append("password='").append(user.getPassword()).append('\'');
@@ -160,7 +161,7 @@ public class UsernamePasswordAuthenticationFilterEnriched extends
 		sb.append(", enabled=").append(user.isEnabled());
 		sb.append("}");
 		message = "Associating with user: " + sb.toString();
-		server.getBroadcastOperations().sendEvent("userNamePasswordFilter", new BasicAuthMessage(message));
+		server.getBroadcastOperations().sendEvent("filterMessage", new FilterMessage(SetSourceListener.SOURCE, "UsernamePasswordAuthenticationFilter User", message));
 	}
 
 	private boolean isAlreadyAuthenticated(String username) {

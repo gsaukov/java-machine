@@ -168,16 +168,6 @@
                     <area shape="circle" coords="4218,2300,75" title="2001:1900:5:2:2::2f65">
                     <area shape="circle" coords="3420,2662,75" title="2001:4c08:2012::190">
                 </map>
-                <script>
-                    $('map').imageMapResize();
-
-                    var areas = document.getElementsByTagName( 'area' );
-
-                    for( var index = 0; index < areas.length; index++ ) {
-                        areas[index].addEventListener( 'mouseover', function () {this.focus();}, false );
-                        areas[index].addEventListener( 'mouseout', function () {this.blur();}, false );
-                    };
-                </script>
             </div>
             <div class="carousel-item">
                 <img class="d-block w-100" src="../static/drawings/drawings_p0081.png" >
@@ -477,6 +467,19 @@
 
         })(XMLHttpRequest.prototype.open);
 
+    </script>
+
+
+
+    <script>
+        $('map').imageMapResize();
+
+        var areas = document.getElementsByTagName( 'area' );
+
+        for( var index = 0; index < areas.length; index++ ) {
+            areas[index].addEventListener( 'mouseover', function () {this.focus();}, false );
+            areas[index].addEventListener( 'mouseout', function () {this.blur();}, false );
+        };
     </script>
 </body>
 </html>

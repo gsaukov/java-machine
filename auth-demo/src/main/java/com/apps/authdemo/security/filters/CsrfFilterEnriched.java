@@ -15,7 +15,8 @@
  */
 package com.apps.authdemo.security.filters;
 
-import com.apps.authdemo.socketio.model.CsrfMessage;
+import com.apps.authdemo.socketio.SetSourceListener;
+import com.apps.authdemo.socketio.model.FilterMessage;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -135,7 +136,7 @@ public final class CsrfFilterEnriched extends OncePerRequestFilter {
 
 	private void notifySocketIo (String actual, CsrfToken expected, String res) {
 		String message = "Matching CSRF tokens actual: " + actual + " with expected: " + expected.getToken() + " " + res;
-		server.getBroadcastOperations().sendEvent("csrfTokenFilter", new CsrfMessage(message));
+		server.getBroadcastOperations().sendEvent("filterMessage", new FilterMessage(SetSourceListener.SOURCE, "CsrfFilter", message));
 	}
 
 	/**

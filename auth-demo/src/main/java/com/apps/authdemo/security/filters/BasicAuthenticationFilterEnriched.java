@@ -8,7 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.apps.authdemo.socketio.model.BasicAuthMessage;
+import com.apps.authdemo.socketio.SetSourceListener;
+import com.apps.authdemo.socketio.model.FilterMessage;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -140,7 +141,7 @@ public class BasicAuthenticationFilterEnriched extends OncePerRequestFilter {
 
     private void notifySocketIo (String header, String credentials, Authentication authResult) {
         String message = "Header: " + header + " credentials " + credentials;
-        server.getBroadcastOperations().sendEvent("basicAuthFilter", new BasicAuthMessage(message));
+        server.getBroadcastOperations().sendEvent("filterMessage", new FilterMessage(SetSourceListener.SOURCE, "BasicAuthenticationFilter Header", message));
         User user = (User)authResult.getPrincipal();
         StringBuilder sb = new StringBuilder("User{");
             sb.append("password='").append(user.getPassword()).append('\'');
@@ -152,7 +153,7 @@ public class BasicAuthenticationFilterEnriched extends OncePerRequestFilter {
             sb.append(", enabled=").append(user.isEnabled());
             sb.append("}");
         message = "Associating with user: " + sb.toString();
-        server.getBroadcastOperations().sendEvent("basicAuthFilter", new BasicAuthMessage(message));
+        server.getBroadcastOperations().sendEvent("filterMessage", new FilterMessage(SetSourceListener.SOURCE, "BasicAuthenticationFilter User", message));
     }
 
     /**
