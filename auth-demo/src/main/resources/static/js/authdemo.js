@@ -320,8 +320,12 @@ function setMessagingSource(source) {
 
     function showModal(type, options) {
         var body = globalMap[type];
+        showModalBodyHeader(body, type)
+    }
+
+    function showModalBodyHeader(body, header, options) {
         $('#modalWindow').data('bs.modal', null); //clear previous data if any.
-        $('#modalWindowLabel').html(type);
+        $('#modalWindowLabel').html(header);
         $('#modalWindowBody').empty();
         $('#modalWindowBody').append("<div id='modalWindowBodyScroll' style='width: 1000px; max-height: 700px; padding-right: 17px'></div>");
         $('#modalWindowBodyScroll').html(body);

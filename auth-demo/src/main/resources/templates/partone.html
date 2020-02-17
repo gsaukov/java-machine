@@ -132,6 +132,9 @@
             <li data-target="#slides" data-slide-to="18"></li>
             <li data-target="#slides" data-slide-to="19"></li>
             <li data-target="#slides" data-slide-to="20"></li>
+            <li data-target="#slides" data-slide-to="21"></li>
+            <li data-target="#slides" data-slide-to="22"></li>
+            <li data-target="#slides" data-slide-to="23"></li>
         </ol>
         <div class="carousel-inner" style="margin-top: 2em;">
             <div class="carousel-item active">
@@ -223,7 +226,10 @@
             <div class="carousel-item">
                 <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
                     <div class="row align-items-end">
-                        <div class="col align-self-center">
+                        <div class="col-3">
+                            <img class="d-block h-100" src="../static/drawings/final/PublicPrivateKeys.png">
+                        </div>
+                        <div class="col-9 align-self-center">
                             <h2>Asymmetric encryption in this case would look like this:</h2>
                             <h1><strong>f encrypt(s, z) = y</strong></h1>
                             <h1><strong>f decrypt(k, y) = z</strong></h1>
@@ -246,12 +252,15 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
+                <div class="container" style="height: 50%; align-items: center; justify-content: center;" >
                     <div class="row align-items-center">
                         <div class="col align-self-center">
                             <h2>Combination of this actions which could vary using different algorithms/compression methods/hashing and other properties is called CIPHER SUITE. more about cipher suits you can find here:</h2>
                             <h2><a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html" title="Standard Ciphers">Standard Ciphers</a></h2>
                         </div>
+                    </div>
+                    <div class="row align-items-center">
+                            <img class="d-block w-100" src="../static/drawings/final/CipherSuits.png">
                     </div>
                 </div>
             </div>
@@ -296,20 +305,78 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="../static/drawings/drawings_p0071.png">
+                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
+                    <img src="../static/drawings/final/TrustStore.png" class="d-block h-100">
+                    <div class="row align-items-center">
+                        <div class="col align-self-center">
+                            <h2>The place where you hold Root certificates or whom you trust is called Truststore. </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
+                    <img src="../static/drawings/final/Keystore.png" class="d-block h-100">
+                    <div class="row align-items-center">
+                        <div class="col align-self-center">
+                            <h2>The place where you hold your issued ceritificate with your private and public keys is called Keystore. </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row justify-content-left" style="margin-left: 20em;">
+                    <div class="col-3">
+                        <img class="d-block w-100" src="../static/drawings/final/RootCertificates.png">
+                    </div>
+                    <div class="col-9">
+                        <h1>Above given very primitive Certificate signing and validation Algorithms. If Want to know more and how it really works? </h1>
+                        <h2>see X509 and PKIX. Also In Java you can find following classes:</h2>
+                        <li>
+                            <h2>sun.security.provider.certpath.PKIXCertPathValidator</h2>
+                        </li>
+                        <li>
+                            <h2>java.security.cert.CertPathValidator</h2>
+                        </li>
+
+                        <h2>If you want to generate free certificate for your site. <a href="https://letsencrypt.org/" title="letsencrypt.org">letsencrypt.org</a></h2>
+
+                        <h2>Certificate Authorities "Trusted Organizations" a part of politics now since it is one keystone of internet regulations. Since they come usually preinstalled as a part of Software or Hardware.</h2>
+
+                        <h2>If certificate mechanics goes wrong any one can impersonate anyone.</h2>
+
+                        <h2>With growth of IOT world, certificates could be a part of Economical or corporate wars.</h2>
+                        <h2>Most of the smart phone or any other intelegent device control like locking, monitoring, misusing or getting orders from vendors is based on prebuiled encrypted trust stores and open ports.</h2>
+                        <h2>Keyword for those who are interested Intel Management Engine that is prebuild into every intell PC including mine. It operates system in paralell with OS and has access to all of you computer.</h2>
+                        <h2><a href="https://www.youtube.com/watch?v=Y2_-VXz9E-w" title="CodeBlue">CodeBlue Conference</a></h2>
+                        <h2>In two words my pc is running MINIX unix based operating system and i dont know what it does. And intel tries to hide it from me as much as it can.</h2>
+                        <h2>And one more thing if you want to see how strong is CIPHER SUITES and Authority centers used by external resource here are some security scanners:</h2>
+                        <h2><a href="https://securityheaders.com" title="CodeBlue">securityheaders.com</a></h2>
+                        <h2><a href="https://www.ssllabs.com/ssltest/" title="CodeBlue">ssllabs.com ssltest</a></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="../static/drawings/final/secretprivatekey.png" >
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>In private place.</h2>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <h1>So now we have pretty much everything to start our journey to the server we want to communicate to.</h1>
             </div>
             <div class="carousel-item">
                 <img class="d-block w-100" src="../static/drawings/drawings_p0081.png" >
             </div>
             <div class="carousel-item">
-                <img id="imgmapid" class="d-block w-100" src="../static/drawings/final/map.png"  usemap="#imgmap" />
+                <img id="imgmapid" class="d-block h-100" src="../static/drawings/final/map.png"  usemap="#imgmap" />
                 <map id="imgareamapid" name="imgmap">
-                    <area shape="rect" coords="100,1600,1300,1800" href="http://www.examplea.com/">
-                    <area shape="rect" coords="100,1800,1300,2000" href="http://www.exampleb.com/">
-                    <area shape="rect" coords="100,2000,1500,2400" href="http://www.examplec.com/">
-                    <area shape="rect" coords="100,2400,1500,2800" href="http://www.exampled.com/">
-                    <area shape="rect" coords="100,2800,2000,3200" href="http://www.examplef.com/">
-                    <area shape="rect" coords="100,3200,2000,3500" href="http://www.exampleg.com/">
+                    <area shape="rect" coords="100,1600,1300,1800" href="#" onclick="showModalBodyHeader(clientHelloBodyMessage, 'Client Hello')">
+                    <area shape="rect" coords="100,1800,1300,2000" href="#" onclick="">
+                    <area shape="rect" coords="100,2000,1500,2400" href="#" onclick="">
+                    <area shape="rect" coords="100,2400,1500,2800" href="#" onclick="">
+                    <area shape="rect" coords="100,2800,2000,3200" href="#" onclick="">
+                    <area shape="rect" coords="100,3200,2000,3500" href="#" onclick="">
                     <area shape="circle" coords="2271,1260,100" title="fritz.box [2001:a61:ace:8003:f2b0:14ff:feb4:5253]">
                     <area shape="circle" coords="2600,1900,75" title="r3.muc7.m-online.net [2001:a60::89:703]">
                     <area shape="circle" coords="3360,1700,100" title="rt-inxs.m-online.net [2001:a60::89:0:1:2]">
@@ -318,12 +385,6 @@
                     <area shape="circle" coords="4218,2300,75" title="2001:1900:5:2:2::2f65">
                     <area shape="circle" coords="3420,2662,75" title="2001:4c08:2012::190">
                 </map>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="../static/drawings/drawings_p0081.png" >
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="https://filmgrimoire.files.wordpress.com/2014/06/pulpfiction_105pyxurz.jpg" >
             </div>
             <div class="carousel-item">
                 <div class="container">
@@ -553,14 +614,14 @@
 
     </div>
 
-    <div class="container" style="max-width: 1400px;">
+<!--    <div class="container" style="max-width: 1400px;">-->
 <!--        <div class="row">-->
 <!--            <input id="consoleMessage" class="form-control" name="message" style="filter: none;">-->
 <!--            <input type="submit" value="Message" class="btn btn-default" onclick="output($('#consoleMessage').val()); $('#consoleMessage').val('');" style="font-size: 19px; height: 42px">-->
 <!--        </div>-->
-        <a href="#" class="btn btn-default btn-close" onclick="$('#console').empty(); localStorage.removeItem('wellData');">&times;</a>
-        <div id="console" class="well" style="font-size: 20px;" />
-    </div>
+<!--        <a href="#" class="btn btn-default btn-close" onclick="$('#console').empty(); localStorage.removeItem('wellData');">&times;</a>-->
+<!--        <div id="console" class="well" style="font-size: 20px;" />-->
+<!--    </div>-->
 
     <!--showModal("Error", "<p>" + error.stack + "</p>" + "<p>" + error.message + "</p>");-->
 
@@ -630,6 +691,33 @@
             areas[index].addEventListener( 'mouseover', function () {this.focus();}, false );
             areas[index].addEventListener( 'mouseout', function () {this.blur();}, false );
         };
+    </script>
+
+    <script>
+        var clientHelloBodyMessage = '<div class="row justify-content-left" style="margin-left: 20em;">\n' +
+            '                    <div class="col-3">\n' +
+            '                        <img class="d-block w-100" src="../static/drawings/final/RootCertificates.png">\n' +
+            '                    </div>\n' +
+            '                    <div class="col-9">\n' +
+            '                        <h1>To avoid situation when anyone can issue google.com certificate all certificates mu st be signed with a root certificate.</h1>\n' +
+            '                        <h2>In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations (Certificate Authorities) like Google, Symantec, GoDaddy, LetsEncrypt and others.</h2>\n' +
+            '\n' +
+            '                        <h1><strong>f encrypt(s, c) = y</strong></h1>\n' +
+            '                        <div style="margin-left: 2em;">\n' +
+            '                            <li style="margin-top: 5em;">\n' +
+            '                                <h2>s - public key. It lets anyone whom you gave the key encrypt the data.</h2>\n' +
+            '                            </li>\n' +
+            '                            <li>\n' +
+            '                                <h2>c - certificate.</h2>\n' +
+            '                            </li>\n' +
+            '                            <li>\n' +
+            '                                <h2>y - encrypted data.</h2>\n' +
+            '                            </li>\n' +
+            '                        </div>\n' +
+            '                        <h2>For successful validation y must equal to hash provided in certificate.</h2>\n' +
+            '                    </div>\n' +
+            '                </div>';
+
     </script>
 </body>
 </html>
