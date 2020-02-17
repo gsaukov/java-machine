@@ -10,7 +10,7 @@ class Solution {
 //        int res = 1;
 //
 //        for(int el : A){
-//            if(el > 0) {
+//            if(el > ma0) {
 //                if(res == el){
 //                    res = el + 1;
 //                }
@@ -48,9 +48,39 @@ class Solution {
 
 
     public static void main(String[] args) {
-//        System.out.println(solution(74901729));
-        int [] A = {9, 3, 9, 3, 9, 7, 9, 11, 11, 0, 0, 0, 0};
-        solution(74901729);
+        int [] A = {-3, 1, -8, 4, -1, 2, 1, -7, 5};
+        f(A);
+    }
+
+    public static void f(int[] a) {
+
+        int res[] = new int[a.length];
+        int resRev[] = new int[a.length];
+        int temp= 0;
+
+        for (int i = 0; i < a.length -1; i++) {
+            temp = a[i] + temp;
+            res[i] = temp;
+        }
+
+        temp= 0;
+        for (int i = a.length - 1; i > 0; i--) {
+            temp = a[i] + temp;
+            resRev[i] = temp;
+
+        }
+
+        int max = 0;
+
+        for(int el : res){
+            max = Integer.max(max, el);
+        }
+
+        for(int el : resRev){
+            max = Integer.max(max, el);
+        }
+
+        System.out.println(max);
     }
 
 
