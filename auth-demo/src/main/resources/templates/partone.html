@@ -123,6 +123,15 @@
             <li data-target="#slides" data-slide-to="9"></li>
             <li data-target="#slides" data-slide-to="10"></li>
             <li data-target="#slides" data-slide-to="11"></li>
+            <li data-target="#slides" data-slide-to="12"></li>
+            <li data-target="#slides" data-slide-to="13"></li>
+            <li data-target="#slides" data-slide-to="14"></li>
+            <li data-target="#slides" data-slide-to="15"></li>
+            <li data-target="#slides" data-slide-to="16"></li>
+            <li data-target="#slides" data-slide-to="17"></li>
+            <li data-target="#slides" data-slide-to="18"></li>
+            <li data-target="#slides" data-slide-to="19"></li>
+            <li data-target="#slides" data-slide-to="20"></li>
         </ol>
         <div class="carousel-inner" style="margin-top: 2em;">
             <div class="carousel-item active">
@@ -155,14 +164,14 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <div class="container">
-                    <div class="row">
+                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
+                    <div class="row align-items-end">
                         <div class="col align-self-center">
-                            <div>
-                                <h2>In reality of symmetric encryption it is two functions:</h2>
-                                <h1><strong>f encrypt(x, z) = y</strong></h1>
-                                <h1><strong>f decrypt(x, y) = z</strong></h1>
-                                <li>
+                            <h2>In reality of symmetric encryption it is two functions:</h2>
+                            <h1><strong>f encrypt(x, z) = y</strong></h1>
+                            <h1><strong>f decrypt(x, y) = z</strong></h1>
+                            <div style="margin-left: 2em;">
+                                <li style="margin-top: 5em;">
                                     <h2>x - secret, key, password.</h2>
                                 </li>
                                 <li>
@@ -173,6 +182,116 @@
                                 </li>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
+                    <div class="row align-items-center">
+                        <div class="col align-self-center">
+                            <h2> Symmetric encryption has a problem, if you want to add a participants to your encrypted communication, you have to share x with them.
+                                And it makes symmetric encryption very vulnerable to loss of the key or x.</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="../static/drawings/final/elliptic.png" style="position: absolute; height: 1100px;">
+                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
+                    <div class="row align-items-center">
+                        <div class="col align-self-center">
+                            <h2>This vulnerability is solved by assymetric encryption. Where we split x on to two parts k public and s private.</h2>
+                            <h2>There are two absolutely overhelming mathematical ways how to split x onto k and s parts but keep link between them:</h2>
+                            <div style="margin-left: 2em;">
+                                <li>
+                                    <h2>RSA based on gigantic prime numbers.</h2>
+                                </li>
+                                <li>
+                                    <h2>Elliptic Curve algorithm based on two crossing elliptic curves.</h2>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="../static/drawings/final/ellipticgal.png" style="position: absolute; height: 1100px;">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Greater than universe.</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
+                    <div class="row align-items-end">
+                        <div class="col align-self-center">
+                            <h2>Asymmetric encryption in this case would look like this:</h2>
+                            <h1><strong>f encrypt(s, z) = y</strong></h1>
+                            <h1><strong>f decrypt(k, y) = z</strong></h1>
+                            <div style="margin-left: 2em;">
+                                <li style="margin-top: 5em;">
+                                    <h2>s - public key. It lets anyone whom you gave the key encrypt the data.</h2>
+                                </li>
+                                <li>
+                                    <h2>k - private key. Only you can decrypt it.</h2>
+                                </li>
+                                <li>
+                                    <h2>z - payload.</h2>
+                                </li>
+                                <li>
+                                    <h2>y - encrypted data.</h2>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
+                    <div class="row align-items-center">
+                        <div class="col align-self-center">
+                            <h2>Combination of this actions which could vary using different algorithms/compression methods/hashing and other properties is called CIPHER SUITE. more about cipher suits you can find here:</h2>
+                            <h2><a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html" title="Standard Ciphers">Standard Ciphers</a></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row justify-content-left" style="margin-left: 20em;">
+                    <div class="col-3">
+                        <img class="d-block w-100" src="../static/drawings/final/certificates.png">
+                    </div>
+                    <div class="col-9">
+                        <h1>The most famous use of Assymetric Encryption is Certificate signature.</h1>
+                        <h2>Certificates. In short Certificates Are site or host identities. They also hold basic information like country, city, company.</h2>
+                        <h2>Most important is [CN] or Common name and [SAN] Subject Alternative Names which tells you hostname or site that owns certificate. Like wikipedia.com for examples.</h2>
+
+                        <h2 style="margin-top: 5em;">Tools for managing and creating ceritificates you can use KeyTool from Oracle, or OpenSSL.</h2>
+                        <h2>For programmatic/dynamic certificate creation/management BouncyCastle library.</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row justify-content-left" style="margin-left: 20em;">
+                    <div class="col-3">
+                        <img class="d-block w-100" src="../static/drawings/final/RootCertificates.png">
+                    </div>
+                    <div class="col-9">
+                        <h1>To avoid situation when anyone can issue google.com certificate all certificates mu st be signed with a root certificate.</h1>
+                        <h2>In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations (Certificate Authorities) like Google, Symantec, GoDaddy, LetsEncrypt and others.</h2>
+
+                        <h1><strong>f encrypt(s, c) = y</strong></h1>
+                        <div style="margin-left: 2em;">
+                            <li style="margin-top: 5em;">
+                                <h2>s - public key. It lets anyone whom you gave the key encrypt the data.</h2>
+                            </li>
+                            <li>
+                                <h2>c - certificate.</h2>
+                            </li>
+                            <li>
+                                <h2>y - encrypted data.</h2>
+                            </li>
+                        </div>
+                        <h2>For successful validation y must equal to hash provided in certificate.</h2>
                     </div>
                 </div>
             </div>
