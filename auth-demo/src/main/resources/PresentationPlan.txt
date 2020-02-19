@@ -1,6 +1,17 @@
 Presentation plan:
 
-1. Internet or web security is based on 4 things Encryption, Encryption, Encryption and Certificates who are 
+1. So our plan is to do very simple 
+	Make sure that we speak with the server we want and no one else.
+	Make sure that chanel we speak is secure and understood only to us two.
+	Make sure that server know who we are.
+
+	And it is extraordinaly complex thing to do.
+
+	The toolset to achive this is:
+	
+	Encryption
+	Certificates
+	Key exchange algorithms.
 
 2. Encryption f(x) = y. Phylosophy behind this: if you know x it is very easy to find y. If you know y it is almost impossible to find y.
 
@@ -37,7 +48,7 @@ Presentation plan:
 			z - payload.
 			y - encrypted data.
 
-7. Combination of this actions which could vary using different algorithms/compression methods/hashing and other properties is called CIPHER SUITE. more about cipher suits you can find here:
+7. Combination Encryption actions its different algorithms/compression methods/hashing and other properties is called CIPHER SUITE. More about cipher suits you can find here:
 	https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html
 	
 8. The most famous use of Assymetric Encryption is Certificate signature.
@@ -81,7 +92,7 @@ The place where you hold your issued ceritificate with your private and public k
 
 
 11. Above given very primitive Certificate signing and validation Algorithms. If Want to know more and how it really works? 
-	see X509 and PKIX. In Java you can find following classes:
+	see X509 and PKIX. Also In Java you can find following classes:
     sun.security.provider.certpath.PKIXCertPathValidator
     java.security.cert.CertPathValidator
 	
@@ -143,39 +154,40 @@ The place where you hold your issued ceritificate with your private and public k
 	With Diffie Hellman there are no stable keys everything exists session time, so there is no way to retrospectivly decrypt the trafic.
 		
 	6. Session keys created: Now, the client and server calculate session keys from the premaster secret, client random, and server random, just like in an RSA handshake.
-    7. Client is ready, Same as an RSA handshake, Server is ready.
-    8. Secure symmetric encryption achieved. Session key is created
+    7. Client is ready, Server is ready.
+    8. Secure symmetric encryption achieved. Session key is created.
 	9. Request is sent to server and can be decrypted with session key.
 	
 
-14. Lets see how it works in java:
+14. <h1><strong>How it works in java:</strong></h1>
 
-To enable TLS  in Spring boot:
+<h2>To enable TLS  in Spring boot:</h2>
 
-  ssl: #keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
-    key-store: classpath:keystore.p12
-    key-store-password: srch4app
-    keyStoreType: PKCS12
-    keyAlias: tomcat
-    enabled-protocols: TLSv1.3 # only JAVA 11 and higher.
-	
-	javax.net.ssl.SSLSocket
-	java.security.KeyPairGenerator
-	sun.security.ssl.BaseSSLSocketImpl
-	
-	Most important and secure guys:
-	sun.security.ssl.SSLEngineImpl
-	javax.net.ssl.SSLEngineResult
-	
-	org.apache.tomcat.jni.Socket
-	org.apache.tomcat.util.net.SecureNioChannel
-	org.apache.tomcat.util.net.Acceptor
-	org.apache.tomcat.util.net.NioEndpoint
-	org.apache.tomcat.util.net.SecureNioChannel
-	org.apache.tomcat.util.net.TLSClientHelloExtractor
-	org.apache.tomcat.jni.SSLSocket
-	
-15. If you want to play a bit more with key generation.
+<h2>ssl:
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;key-store: classpath:keystore.p12
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;key-store-password: srch4app
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;keyStoreType: PKCS12
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;keyAlias: tomcat
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;enabled-protocols: TLSv1.3 # only JAVA 11 and higher.</h2>
+
+<h2>Java areas that does TLS magic:</h2>
+	<div style="margin-left: 2em;">
+		<li><h2>javax.net.ssl.SSLSocket</h2></li>
+		<li><h2>java.security.KeyPairGenerator</h2></li>
+		<li><h2>sun.security.ssl.BaseSSLSocketImpl</h2></li>
+		<h2><br></h2>
+		<li><h2>sun.security.ssl.SSLEngineImpl</h2></li>
+		<li><h2>javax.net.ssl.SSLEngineResult</h2></li>
+		<h2><br></h2>
+		<li><h2>org.apache.tomcat.jni.Socket</h2></li>
+		<li><h2>org.apache.tomcat.util.net.SecureNioChannel</h2></li>
+		<li><h2>org.apache.tomcat.util.net.Acceptor</h2></li>
+		<li><h2>org.apache.tomcat.util.net.NioEndpoint</h2></li>
+		<li><h2>org.apache.tomcat.util.net.SecureNioChannel</h2></li>
+		<li><h2>org.apache.tomcat.util.net.TLSClientHelloExtractor</h2></li>
+		<li><h2>org.apache.tomcat.jni.SSLSocket</h2></li>
+	</div>
+15. <h1><strong>If you want to play a bit more with key generation.</strong></h1>
 
     TLS 1.3 comes with java 11 or higher.
 
@@ -195,9 +207,10 @@ To enable TLS  in Spring boot:
 	Questions what is not encrypted by SSL during the call?
 	Is there any difference between post put get HTTP requests decryption?
 	
-16. Now we have a securely established TLS 1.3 channel. And we know who is the server because we ve validate his certificate using trust store. But server knows nothing about who we are.
+16. Now we have a securely established TLS 1.3 channel. 
+	We know who is the server because we ve validate his certificate using trust store. But server knows nothing about who we are.
 	There is a way called two way TLS when we give server our client sertificate but in real life it is very rare. 
-	So we will use Basic Authentification to identify ourselfs on server side.
+	Another way is to use Basic Authentification to identify ourselfs on server side.
 	
 17. Basic auth page.
 
@@ -208,7 +221,6 @@ To enable TLS  in Spring boot:
     Digest (see RFC 7616, only md5 hashing is supported in Firefox, see баг 472823 for SHA encryption support),
     HOBA (see RFC 7486 (draft), HTTP Origin-Bound Authentication, digital-signature-based),
     Mutual (see draft-ietf-httpauth-mutual),
-
     AWS4-HMAC-SHA256 (see AWS docs).
 	
 18. There are a few issues with HTTP Basic Auth:
@@ -223,7 +235,6 @@ To enable TLS  in Spring boot:
 	So, as with anything it's important to look at the whole picture.
 
 	Does HTTPS protect the password in transit? Yes.
-
 	Is that enough? Usually, no.
 	
 	
@@ -247,3 +258,12 @@ C:\Users\Gosha>tracert wirecard.com
   6    59 ms    78 ms    53 ms  2001:4c08:2012::190
 
 Трассировка завершена.
+
+
+
+
+
+
+/bank2agent-customers-successes/input
+
+20. Whats next.
