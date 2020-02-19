@@ -85,6 +85,14 @@
             font-size: 30px;
         }
 
+        table {
+            border: dotted 1px #a1afc3;
+        }
+
+        table td, table th {
+            border: dotted 1px #a1afc3;
+        }
+
     </style>
 
 
@@ -227,7 +235,7 @@
                     <div class="row align-items-center">
                         <div class="col align-self-center">
                             <h2>This vulnerability is solved by assymetric encryption. Where we split x on to two parts k public and s private.</h2>
-                            <h2>There are two absolutely overhelming mathematical ways how to split x onto k and s parts but keep link between them:</h2>
+                            <h2>There are two absolutely overwhelming mathematical ways how to split x onto k and s parts but keep link between them:</h2>
                             <div style="margin-left: 2em;">
                                 <ul>
                                     <li>
@@ -282,7 +290,7 @@
                 <div class="container" style="height: 50%; align-items: center; justify-content: center;" >
                     <div class="row align-items-center">
                         <div class="col align-self-center">
-                            <h2>Combination of this actions which could vary using different algorithms/compression methods/hashing and other properties is called CIPHER SUITE. more about cipher suits you can find here:</h2>
+                            <h2>Combination Encryption actions its different algorithms/compression methods/hashing/key exchange protocols and other properties is called CIPHER SUITE. more about cipher suits you can find here:</h2>
                             <h2><a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html" title="Standard Ciphers">Standard Ciphers</a></h2>
                         </div>
                     </div>
@@ -523,7 +531,7 @@
                 <div class="row justify-content-left" style="margin-left: 20em;">
                     <div class="col-3">
                         <div class="form-group">
-                            <form th:action="@{/#}" method="GET" >
+                            <form th:action="@{/post}" method="GET" >
                                 <fieldset class="form-group">
                                     <label for="basicAuthusername" style="font-size: 40px;" >Login:</label>
                                     <input id="basicAuthusername" class="form-control" name="username" style="filter: none;">
@@ -602,28 +610,8 @@
             <div class="carousel-item">
                 <div class="row justify-content-left" style="margin-left: 20em;">
                     <div class="col-3">
-                        <div class="form-group">
-                            <form id="formAuth" th:action="@{/#}" method="POST"  >
-                                <fieldset class="form-group">
-                                    <label for="formAuthusername" style="font-size: 40px;" >Login:</label>
-                                    <input id="formAuthusername" class="form-control" name="username" style="filter: none;">
-                                    <label for="formAuthpassword" style="font-size: 40px;" >Password:</label>
-                                    <input id="formAuthpassword" class="form-control" name="password" type="password" style="filter: none;">
-                                </fieldset>
-                                <div class="row" style="margin-top: 0; margin-left: 0;">
-                                    <select id="formAuthType" class="form-control" style="width: 15em; font-size: 20px; margin-right: 15px; height: 42px">
-                                        <option value="FORM">FORM</option>
-                                    </select>
-                                    <input type="submit" value="Login" class="btn btn-default" onClick="doFormAuthentication('formAuth')" style="width: 5em; font-size: 19px; height: 42px">
-                                </div>
-                            </form>
-                            <form id="csrfSelectorForm">
-                                <label for="csrfSelector" style="font-size: 40px;" >CSRF token:</label>
-                                <select id="csrfSelector" onchange="document.getElementsByName('_csrf')[0].value = $('#csrfSelector').val()" class="form-control" style="width: 20em; font-size: 20px; margin-right: 15px; height: 42px"/>
-                                <input type="submit" style="display: none;">
-                                <script>populateCsrfSelectOptions(document.getElementsByName('_csrf')[0].value)</script>
-                            </form>
-                        </div>
+                        <input type="submit" value="Authentication Form" class="btn btn-default" onClick="buildAuthForm()" style="margin-top: 2em; width: 12em; font-size: 19px; height: 42px">
+                        <div id="authFormContainer"></div>
                     </div>
                     <div class="col-9">
                         <div>
@@ -648,32 +636,83 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <div class="container" style="height: 70%; display: flex; align-items: center; justify-content: center;">
-                    <div class="row">
-                        <div class="col align-self-center">
-                            <h2><strong>So what to do with information?</strong></h2>
-                            <div style="margin-left: 2em;">
-                                <ul>
-                                    <li>
-                                        <h2>It is security essentials and its understanding is very important by it self.</h2>
-                                    </li>
-                                    <li>
-                                        <h2>It is important component of safe web-browsing.</h2>
-                                    </li>
-                                    <li>
-                                        <h2>It is one of the important aspects of penetration testing.</h2>
-                                    </li>
-                                    <li>
-                                        <h2>Ethical hacking.</h2>
-                                    </li>
-                                </ul>
-                            </div>
-                            <h2><br></h2>
-                            <h2>SSL only solves the first issue.</h2>
-                            <h2>Does HTTPS protect the password in transit? <strong>Yes.</strong></h2>
-                            <h2>Is that enough? <strong>No.</strong></h2>
+                <div style="margin-left: 10em;">
+                    <h2><br></h2>
+                    <h2><strong>So what did we learn?</strong></h2>
+                    <div class="grid-container" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr;">
+                        <div>
+                            <table class="key-value-table">
+                                <tbody>
+                                <tr>
+                                    <th><img class="d-block w-70" src="../static/drawings/final/min/fxy_min.png"></th>
+                                    <td><h2>Encryption</h2><h3>Mechanism that gives high chance that communication understood only for you and who you trust.</h3></td>
+                                </tr>
+                                <tr>
+                                    <th><img class="d-block w-70" src="../static/drawings/final/min/CipherSuits_min.png"></th>
+                                    <td><h2>Cipher Suits</h2><h3>Set of processes that include Encryption, Hashing, Compression and Key exchange protocols.</h3></td>
+                                </tr>
+                                <tr>
+                                    <th><img class="d-block h-50" src="../static/drawings/final/min/certificates_min.png"></th>
+                                    <td><h2>Certificates</h2><h3>Servers faces on the web.</h3></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="key-value-table">
+                                <tbody>
+                                <tr>
+                                    <th><img class="d-block h-50" src="../static/drawings/final/min/RootCertificates_min.png"></th>
+                                    <td><h2>Root certificates</h2><h3>Knowledge about certificates you should trust.</h3></td>
+                                </tr>
+                                <tr>
+                                    <th><img class="d-block w-70" src="../static/drawings/final/min/PublicPrivateKeys_min.png"></th>
+                                    <td><h2>Public and Private keys</h2><h3>Using public key anyone can encrypt message and send it to you. It can be decrypted only with private key. Must be limited in use.</h3></td>
+                                </tr>
+                                <tr>
+                                    <th><img class="d-block w-70" src="../static/drawings/final/min/DFKeyExhchange_min.png"></th>
+                                    <td><h2>Key exchange</h2><h3>Process that complicates as much as possible private key determination and retrospective communication decoding.</h3></td>
+                                </tr>
+                                <tr>
+                                    <th><img class="d-block w-70" src="../static/drawings/final/min/sessionkey_min.png"></th>
+                                    <td><h2>Session key</h2><h3>Product of key exchange. Random in case of loss only session part of your communication can be decrypted.</h3></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>This is TLS</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div style="margin-left: 20em;">
+                    <h2><br></h2>
+                    <h2><strong>So what to do with information?</strong></h2>
+                    <div style="margin-left: 2em;">
+                        <ul>
+                            <li>
+                                <h2>Now you live with it.</h2>
+                            </li>
+                            <li>
+                                <h2>It is security essentials and its understanding is very important by it self.</h2>
+                            </li>
+                            <li>
+                                <h2>It is important component of safe web-browsing.</h2>
+                            </li>
+                            <li>
+                                <h2>It is one of the important aspects of penetration testing.</h2>
+                            </li>
+                            <li>
+                                <h2>Ethical hacking.</h2>
+                            </li>
+                        </ul>
+                    </div>
+                    <h2><br></h2>
+                    <a href="https://summerschool-croatia.cs.ru.nl/2015/Authenticated%20key%20exchange.pdf">
+                        <img src="../static/drawings/final/pdflecture.png" class="d-block w-70">
+                    </a>
                 </div>
             </div>
             <div class="carousel-item">

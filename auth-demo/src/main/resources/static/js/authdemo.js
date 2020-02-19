@@ -340,3 +340,13 @@ function setMessagingSource(source) {
 
 //############# MODAL #############################
 
+function buildAuthForm() {
+    tryPreventDefault();
+    let onResponse = function (response) {
+        $('#authFormContainer').empty();
+        $('#authFormContainer').append("<div id='authFormData'><\/div>");
+        $('#authFormData').html(response);
+    }
+
+    doFetch('/authdemo/partone/authform', "GET", null, null, onResponse);
+}
