@@ -140,6 +140,7 @@
             <li data-target="#slides" data-slide-to="26"></li>
             <li data-target="#slides" data-slide-to="27"></li>
             <li data-target="#slides" data-slide-to="28"></li>
+            <li data-target="#slides" data-slide-to="29"></li>
         </ol>
         <div class="carousel-inner" style="margin-top: 2em;">
             <div class="carousel-item active">
@@ -194,15 +195,17 @@
                             <h1><strong>f encrypt(x, z) = y</strong></h1>
                             <h1><strong>f decrypt(x, y) = z</strong></h1>
                             <div style="margin-left: 2em;">
-                                <li style="margin-top: 5em;">
-                                    <h2>x - secret, key, password.</h2>
-                                </li>
-                                <li>
-                                    <h2>z - payload.</h2>
-                                </li>
-                                <li>
-                                    <h2>y - encrypted data.</h2>
-                                </li>
+                                <ul>
+                                    <li style="margin-top: 5em;">
+                                        <h2>x - secret, key, password.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>z - payload.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>y - encrypted data.</h2>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -226,12 +229,14 @@
                             <h2>This vulnerability is solved by assymetric encryption. Where we split x on to two parts k public and s private.</h2>
                             <h2>There are two absolutely overhelming mathematical ways how to split x onto k and s parts but keep link between them:</h2>
                             <div style="margin-left: 2em;">
-                                <li>
-                                    <h2>RSA based on gigantic prime numbers.</h2>
-                                </li>
-                                <li>
-                                    <h2>Elliptic Curve algorithm based on two crossing elliptic curves.</h2>
-                                </li>
+                                <ul>
+                                    <li>
+                                        <h2>RSA based on gigantic prime numbers.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>Elliptic Curve algorithm based on two crossing elliptic curves.</h2>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -254,18 +259,20 @@
                             <h1><strong>f encrypt(s, z) = y</strong></h1>
                             <h1><strong>f decrypt(k, y) = z</strong></h1>
                             <div style="margin-left: 2em;">
-                                <li style="margin-top: 5em;">
-                                    <h2>s - public key. It lets anyone whom you gave the key encrypt the data.</h2>
-                                </li>
-                                <li>
-                                    <h2>k - private key. Only you can decrypt it.</h2>
-                                </li>
-                                <li>
-                                    <h2>z - payload.</h2>
-                                </li>
-                                <li>
-                                    <h2>y - encrypted data.</h2>
-                                </li>
+                                <ul>
+                                    <li style="margin-top: 5em;">
+                                        <h2>s - public key. It lets anyone whom you gave the key encrypt the data.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>k - private key. Only you can decrypt it.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>z - payload.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>y - encrypted data.</h2>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -310,15 +317,17 @@
 
                         <h1><strong>f encrypt(s, c) = y</strong></h1>
                         <div style="margin-left: 2em;">
-                            <li style="margin-top: 5em;">
-                                <h2>s - public key. It lets anyone whom you gave the key encrypt the data.</h2>
-                            </li>
-                            <li>
-                                <h2>c - certificate.</h2>
-                            </li>
-                            <li>
-                                <h2>y - encrypted data.</h2>
-                            </li>
+                            <ul>
+                                <li style="margin-top: 5em;">
+                                    <h2>s - public key. It lets anyone whom you gave the key encrypt the data.</h2>
+                                </li>
+                                <li>
+                                    <h2>c - certificate.</h2>
+                                </li>
+                                <li>
+                                    <h2>y - encrypted data.</h2>
+                                </li>
+                            </ul>
                         </div>
                         <h2>For successful validation y must equal to hash provided in certificate.</h2>
                     </div>
@@ -352,12 +361,14 @@
                     <div class="col-9">
                         <h1>Above given very primitive Certificate signing and validation Algorithms. If Want to know more and how it really works? </h1>
                         <h2>see X509 and PKIX. Also In Java you can find following classes:</h2>
-                        <li>
-                            <h2>sun.security.provider.certpath.PKIXCertPathValidator</h2>
-                        </li>
-                        <li>
-                            <h2>java.security.cert.CertPathValidator</h2>
-                        </li>
+                        <ul>
+                            <li>
+                                <h2>sun.security.provider.certpath.PKIXCertPathValidator</h2>
+                            </li>
+                            <li>
+                                <h2>java.security.cert.CertPathValidator</h2>
+                            </li>
+                        </ul>
                         <h2><br></h2>
                         <h2>If you want to generate free certificate for your site. <a href="https://letsencrypt.org/" title="letsencrypt.org">letsencrypt.org</a></h2>
                         <h2>If you want to see how strong is CIPHER SUITES and Authority centers used by external resource here are some security scanners:</h2>
@@ -451,20 +462,22 @@
 
                             <h2>Java areas that does TLS magic:</h2>
                             <div style="margin-left: 2em;">
-                                <li><h2>javax.net.ssl.SSLSocket</h2></li>
-                                <li><h2>java.security.KeyPairGenerator</h2></li>
-                                <li><h2>sun.security.ssl.BaseSSLSocketImpl</h2></li>
-                                <h2><br></h2>
-                                <li><h2>sun.security.ssl.SSLEngineImpl</h2></li>
-                                <li><h2>javax.net.ssl.SSLEngineResult</h2></li>
-                                <h2><br></h2>
-                                <li><h2>org.apache.tomcat.jni.Socket</h2></li>
-                                <li><h2>org.apache.tomcat.util.net.SecureNioChannel</h2></li>
-                                <li><h2>org.apache.tomcat.util.net.Acceptor</h2></li>
-                                <li><h2>org.apache.tomcat.util.net.NioEndpoint</h2></li>
-                                <li><h2>org.apache.tomcat.util.net.SecureNioChannel</h2></li>
-                                <li><h2>org.apache.tomcat.util.net.TLSClientHelloExtractor</h2></li>
-                                <li><h2>org.apache.tomcat.jni.SSLSocket</h2></li>
+                                <ul>
+                                    <li><h2>javax.net.ssl.SSLSocket</h2></li>
+                                    <li><h2>java.security.KeyPairGenerator</h2></li>
+                                    <li><h2>sun.security.ssl.BaseSSLSocketImpl</h2></li>
+                                    <h2><br></h2>
+                                    <li><h2>sun.security.ssl.SSLEngineImpl</h2></li>
+                                    <li><h2>javax.net.ssl.SSLEngineResult</h2></li>
+                                    <h2><br></h2>
+                                    <li><h2>org.apache.tomcat.jni.Socket</h2></li>
+                                    <li><h2>org.apache.tomcat.util.net.SecureNioChannel</h2></li>
+                                    <li><h2>org.apache.tomcat.util.net.Acceptor</h2></li>
+                                    <li><h2>org.apache.tomcat.util.net.NioEndpoint</h2></li>
+                                    <li><h2>org.apache.tomcat.util.net.SecureNioChannel</h2></li>
+                                    <li><h2>org.apache.tomcat.util.net.TLSClientHelloExtractor</h2></li>
+                                    <li><h2>org.apache.tomcat.jni.SSLSocket</h2></li>
+                                </ul>
                     </div>
                 </div>
             </div>
@@ -510,7 +523,7 @@
                 <div class="row justify-content-left" style="margin-left: 20em;">
                     <div class="col-3">
                         <div class="form-group">
-                            <form action="#" method="GET" >
+                            <form th:action="@{/#}" method="GET" >
                                 <fieldset class="form-group">
                                     <label for="basicAuthusername" style="font-size: 40px;" >Login:</label>
                                     <input id="basicAuthusername" class="form-control" name="username" style="filter: none;">
@@ -530,24 +543,26 @@
                         <div>
                             <h2><strong>Basic auth &amp; Authentication schemes:</strong></h2>
                             <div style="margin-left: 2em;">
-                                <li>
-                                    <h2>Basic (RFC 7617, base64-encoded credentials.)</h2>
-                                </li>
-                                <li>
-                                    <h2>Bearer (RFC 6750, bearer tokens to access OAuth 2.0-protected resources)</h2>
-                                </li>
-                                <li>
-                                    <h2>Digest (RFC 7616, only md5 hashing.)</h2>
-                                </li>
-                                <li>
-                                    <h2>HOBA (RFC 7486 (draft), HTTP Origin-Bound Authentication, digital-signature-based)</h2>
-                                </li>
-                                <li>
-                                    <h2>Mutual (draft-ietf-httpauth-mutual)</h2>
-                                </li>
-                                <li>
-                                    <h2>AWS4-HMAC-SHA256 (AWS Authorization)</h2>
-                                </li>
+                                <ul>
+                                    <li>
+                                        <h2>Basic (RFC 7617, base64-encoded credentials.)</h2>
+                                    </li>
+                                    <li>
+                                        <h2>Bearer (RFC 6750, bearer tokens to access OAuth 2.0-protected resources)</h2>
+                                    </li>
+                                    <li>
+                                        <h2>Digest (RFC 7616, only md5 hashing.)</h2>
+                                    </li>
+                                    <li>
+                                        <h2>HOBA (RFC 7486 (draft), HTTP Origin-Bound Authentication, digital-signature-based)</h2>
+                                    </li>
+                                    <li>
+                                        <h2>Mutual (draft-ietf-httpauth-mutual)</h2>
+                                    </li>
+                                    <li>
+                                        <h2>AWS4-HMAC-SHA256 (AWS Authorization)</h2>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <a href="#" class="btn btn-default btn-close" onclick="$('#BASICAuthMessageContainer').empty();" style="position: absolute; right: 200px;" >&times;</a>
@@ -561,18 +576,20 @@
                         <div class="col align-self-center">
                             <h2><strong>Basic Authentification vulnerabilities:</strong></h2>
                             <div style="margin-left: 2em;">
-                                <li>
-                                    <h2>The password is sent over the wire in base64 encoding (which can be easily converted to plaintext).</h2>
-                                </li>
-                                <li>
-                                    <h2>The password is sent repeatedly, for each request. (Larger attack window)</h2>
-                                </li>
-                                <li>
-                                    <h2>The password is cached by the webbrowser, at a minimum for the length of the window / process. (Can be silently reused by any other request to the server, e.g. CSRF).</h2>
-                                </li>
-                                <li>
-                                    <h2> The password may be stored permanently in the browser, if the user requests. (Same as previous point, in addition might be stolen by another user on a shared machine).</h2>
-                                </li>
+                                <ul>
+                                    <li>
+                                        <h2>The password is sent over the wire in base64 encoding (which can be easily converted to plaintext).</h2>
+                                    </li>
+                                    <li>
+                                        <h2>The password is sent repeatedly, for each request. (Larger attack window)</h2>
+                                    </li>
+                                    <li>
+                                        <h2>The password is cached by the webbrowser, at a minimum for the length of the window / process. (Can be silently reused by any other request to the server, e.g. CSRF).</h2>
+                                    </li>
+                                    <li>
+                                        <h2> The password may be stored permanently in the browser, if the user requests. (Same as previous point, in addition might be stolen by another user on a shared machine).</h2>
+                                    </li>
+                                </ul>
                             </div>
                             <h2><br></h2>
                             <h2>SSL only solves the first issue.</h2>
@@ -611,16 +628,18 @@
                     <div class="col-9">
                         <div>
                             <h2><strong>Why Form Authentification?</strong></h2>
-                                <div style="margin-left: 2em;">
-                                <li>
-                                    <h2>You exchange your login and password for a session token that you later pass in header. And you do not show event encrypted password to a real world.</h2>
-                                </li>
-                                <li>
-                                    <h2>You fully control authentication process by providing short living forms. (CSRF token)</h2>
-                                </li>
-                                <li>
-                                    <h2>Greater flexibility of providing extra data not only Login Password.</h2>
-                                </li>
+                            <div style="margin-left: 2em;">
+                                <ul>
+                                    <li>
+                                        <h2>You exchange your login and password for a session token that you later pass in header. And you do not show event encrypted password to a real world.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>You fully control authentication process by providing short living forms. (CSRF token)</h2>
+                                    </li>
+                                    <li>
+                                        <h2>Greater flexibility of providing extra data not only Login Password.</h2>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <a href="#" class="btn btn-default btn-close" onclick="$('#FORMAuthMessageContainer').empty();" style="position: absolute; right: 200px;">&times;</a>
@@ -634,18 +653,20 @@
                         <div class="col align-self-center">
                             <h2><strong>So what to do with information?</strong></h2>
                             <div style="margin-left: 2em;">
-                                <li>
-                                    <h2>It is security essentials and its understanding is very important by it self.</h2>
-                                </li>
-                                <li>
-                                    <h2>It is important component of safe web-browsing.</h2>
-                                </li>
-                                <li>
-                                    <h2>It is one of the important aspects of penetration testing.</h2>
-                                </li>
-                                <li>
-                                    <h2>Ethical hacking.</h2>
-                                </li>
+                                <ul>
+                                    <li>
+                                        <h2>It is security essentials and its understanding is very important by it self.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>It is important component of safe web-browsing.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>It is one of the important aspects of penetration testing.</h2>
+                                    </li>
+                                    <li>
+                                        <h2>Ethical hacking.</h2>
+                                    </li>
+                                </ul>
                             </div>
                             <h2><br></h2>
                             <h2>SSL only solves the first issue.</h2>
@@ -699,7 +720,6 @@
             </div>
 
             <div class="carousel-item">
-
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card mb-2">
