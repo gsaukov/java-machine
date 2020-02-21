@@ -12,6 +12,11 @@ public class DemoController {
         return "partone";
     }
 
+    @GetMapping("/authdemo/parttwo")
+    public String partTwoController(Model model) {
+        return "parttwo";
+    }
+
     @GetMapping({"/authdemo/partone/authform"})
     public String getPartOneAuthForm(Model model) {
         return "authform :: authform";
