@@ -245,6 +245,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Whats the problem of symmetric encryption?</h5>
+                </div>
             </div>
             <div class="carousel-item">
                 <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
@@ -278,9 +281,11 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="../static/drawings/final/ellipticgal.png" style="position: absolute; height: 1100px;">
+                <div class="row align-items-center">
+                        <img class="d-block h-100" src="../static/drawings/final/ellipticgal2.png">
+                </div>
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Greater than universe.</h5>
+                    <h5>Greater than universe. Will we get to the edge?</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -324,6 +329,9 @@
                     <div class="row align-items-center">
                             <img class="d-block w-100" src="../static/drawings/final/CipherSuits2.png">
                     </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Whats the side effect of stronger Cipher suite key size 256 against 128?</h5>
+                    </div>
                 </div>
             </div>
             <div class="carousel-item">
@@ -348,7 +356,7 @@
                     </div>
                     <div class="col-9">
                         <h1>To avoid situation when anyone can issue google.com certificate all certificates mu st be signed with a root certificate.</h1>
-                        <h2>In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations (Certificate Authorities) like Google, Symantec, GoDaddy, LetsEncrypt and others.</h2>
+                        <h2>In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations (Certificate Authorities).</h2>
 
                         <h1><strong>f encrypt(s, c) = y</strong></h1>
                         <div style="margin-left: 2em;">
@@ -377,6 +385,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>-----BEGIN PUBLIC KEY----- izfrNTmQLnfsLzi2Wb9xPz2Qj9fQYGgeug3N2MkDuVHwpPcgkhHkJgCQuuvT+qZI... -----END PUBLIC KEY-----</h5>
+                    <h5>-----BEGIN PRIVATE KEY----- MIICMzCCAZygAwIBAgIJALiPnVsvq8dsMA0GCSqGSIb3DQEBBQUAMFMxCzAJBgNV... -----END PRIVATE KEY-----</h5>
+                    <h5>-----BEGIN CERTIFICATE----- OveIHyc0E0KIbhjK5FkCBU4CiZrbfHagaW7ZEcN0tt3EvpbOMxxc/ZQU2WN/s/wP... -----END CERTIFICATE-----</h5>
+                    <h5>.pem and .p12</h5>
+                </div>
             </div>
             <div class="carousel-item">
                 <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;" >
@@ -385,6 +399,9 @@
                         <div class="col align-self-center">
                             <h2>The place where you hold your issued ceritificate with your private and public keys is called Keystore. </h2>
                         </div>
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Keystore and Truststore are encrypted using private? public? or Symmetric key?</h5>
                     </div>
                 </div>
             </div>
@@ -464,7 +481,9 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img id="imgmapid" class="d-block h-100" src="../static/drawings/final/map.png"  usemap="#imgmap" />
+                <!--<div class="align-items-center">-->
+                    <img id="imgmapid" class="d-block w-100" src="../static/drawings/final/map.png"  usemap="#imgmap" />
+                <!--</div>-->
                 <map id="imgareamapid" name="imgmap">
                     <area shape="rect" coords="100,1600,1300,1800" href="#" onclick="showModalBodyHeader(clientHelloBodyMessage, clientHelloHeaderMessage)">
                     <area shape="rect" coords="100,1800,1300,2000" href="#" onclick="showModalBodyHeader(serverHelloBodyMessage, serverHelloHeaderMessage)">
