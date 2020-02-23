@@ -27,7 +27,7 @@ public class AuthController {
     public String formAuth() {
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         CsrfToken csrfToken = (CsrfToken)request.getAttribute(CsrfToken.class.getName());
-        return "WELCOME BACK " + getRole() + "here is your new CSRF token [" + csrfToken.getToken() + "]" ;
+        return "WELCOME BACK " + getRole() + " here is your new CSRF token [" + csrfToken.getToken() + "]" ;
     }
 
     public static HttpSession getSession() {

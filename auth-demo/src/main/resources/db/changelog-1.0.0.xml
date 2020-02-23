@@ -70,12 +70,12 @@
         <insert tableName="AUTHORITY">
             <column name="ID" type="varchar(64)" value="00000000000000000000000000000001"/>
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
-            <column name="AUTHORITY" type="varchar(64)" value="BRATAN"/>
+            <column name="AUTHORITY" type="varchar(64)" value="ADMIN"/>
         </insert>
         <insert tableName="AUTHORITY">
             <column name="ID" type="varchar(64)" value="00000000000000000000000000000002"/>
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
-            <column name="AUTHORITY" type="varchar(64)" value="NE_BRATAN"/>
+            <column name="AUTHORITY" type="varchar(64)" value="USER"/>
         </insert>
     </changeSet>
 

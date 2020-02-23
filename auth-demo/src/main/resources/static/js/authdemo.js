@@ -12,10 +12,11 @@ function populateCsrfSelectOptions (csrf) {
 }
 
 function doFormAuthentication(formId) {
+    tryPreventDefault();
     setMessagingSource('FORM')
     var formData = buildData($('#' + formId).get(0))
 
-    output('<span class="client-msg">C->>S https://localhost:8097/login POST with Body: ' + formData.toString() + '</span>');
+    outputFetchCall('FORM', 'https://localhost:8097/login POST with Body: ' + formData.toString(), 'JS fetch call');
 
     let onResponse = function (text) {
         var matches = text.match(/\[(.*?)\]/);
@@ -23,20 +24,25 @@ function doFormAuthentication(formId) {
             var csrf = matches[1];
             populateCsrfSelectOptions (csrf)
         }
+        outputFetchCall('FORM', text, 'Server response');
     }
 
     doFetch('https://localhost:8097/formlogin', 'POST', formData, null, onResponse);
 }
 
-
 function doBasicAuthentication(username, password) {
-    setMessagingSource('BASIC')
+    tryPreventDefault();
+    setMessagingSource('BASIC');
     var base64Credentials = btoa(username + ':' + password);
     var basicAuthHeaders = new Headers({'Authorization': 'Basic ' + base64Credentials});
+    var body =  JSON.stringify(basicAuthHeaders.entries().next()).replace(/"/g, '').replace(/(?:\r\n|\r|\n)/g, '');
+    outputFetchCall('BASIC', 'https://localhost:8097/login GET with Header: ' + body, 'JS fetch call');
 
-    output('<span class="client-msg">C->>S https://localhost:8097/login GET with Header: ' + JSON.stringify(basicAuthHeaders.entries().next()) + '</span>');
+    let onResponse = function (text) {
+        outputFetchCall('BASIC', text, 'Server response');
+    }
 
-    doFetch('https://localhost:8097/login', 'GET', null, basicAuthHeaders);
+    doFetch('https://localhost:8097/login', 'GET', null, basicAuthHeaders, onResponse);
 }
 
 function doFetch(url, method, data, headers, onResponse) {
@@ -71,7 +77,6 @@ function doFetch(url, method, data, headers, onResponse) {
         if(onResponse !== undefined) {
             onResponse(text);
         }
-        output('<span class="server-msg">S->>C ' + text + '</span>');
     }
 }
 
@@ -304,6 +309,12 @@ window.setInterval(function(){
         $('#tlsMessageContainer').append(element);
     }
 
+    function outputFetchCall(source, body, type) {
+        var consoleMessage = "<div><a href='#' class='data-link' onclick=\"showModalBodyHeader('" + body + "', '" + type + "')\">" + type + "</a></div>";
+        var element = $(consoleMessage);
+        $('#' + source + 'AuthMessageContainer').append(element);
+    }
+
     function outputFilterMessage(source, type) {
         var consoleMessage = "<div><a href='#' class='data-link' onclick=\"showModal('" + source + type + "')\">" + type + "</a></div>";
         var element = $(consoleMessage);
@@ -326,7 +337,7 @@ window.setInterval(function(){
         $('#modalWindow').data('bs.modal', null); //clear previous data if any.
         $('#modalWindowLabel').html(header);
         $('#modalWindowBody').empty();
-        $('#modalWindowBody').append("<div id='modalWindowBodyScroll' style='width: 1000px; max-height: 700px; padding-right: 17px'></div>");
+        $('#modalWindowBody').append("<div id='modalWindowBodyScroll' style='width: 1150px; max-height: 850px; padding-right: 17px'></div>");
         $('#modalWindowBodyScroll').html(body);
         new SimpleBar(document.getElementById('modalWindowBodyScroll'));
         if(options !== undefined && options.dataBackdrop !== undefined){
