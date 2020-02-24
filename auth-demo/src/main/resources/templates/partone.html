@@ -190,7 +190,8 @@
                     </div>
                 </div>
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Trust </h5>
+                    <h5>Oxitocin has a partner hormone. They two make biochemy of love.</h5>
+                    <h5>Do you how trust organized on the web?</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -208,11 +209,14 @@
                             <h2>Encryption</h2>
                             <h2>Certificates</h2>
                             <h2>Key exchange algorithms.</h2>
-                            <h2>All together it <strong>TLS</strong>. <strong>T</strong>ransport <strong>L</strong>ayer <strong>S</strong>ecurity.</h2>
+                            <h2>All together it is <strong>TLS</strong>. <strong>T</strong>ransport <strong>L</strong>ayer <strong>S</strong>ecurity.</h2>
                             <h2><br></h2>
                             <h2>+ Basic & Form Authentication</h2>
                         </div>
                     </div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>What is the difference between Authentication & Authorisation?</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -220,6 +224,7 @@
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Encryption</h5>
                     <h5>Philosophy behind f(x) = y: if you know x it is very easy to find y. If you know y it is almost impossible to find y.</h5>
+                    <h5>What is the difference between encryption and hashing?</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -330,6 +335,7 @@
                             <img class="d-block w-100" src="../static/drawings/final/CipherSuits2.png">
                     </div>
                     <div class="carousel-caption d-none d-md-block">
+                        <h5>You can think of CS as encryption recipes. TLS/SSL protocols do security using collections of CIPHER SUITS so it is something like cook book then.</h5>
                         <h5>Whats the side effect of stronger Cipher suite key size 256 against 128?</h5>
                     </div>
                 </div>
@@ -340,12 +346,15 @@
                         <img class="d-block w-100" src="../static/drawings/final/certificates.png">
                     </div>
                     <div class="col-9">
-                        <h1>The most famous use of Assymetric Encryption is Certificate signature.</h1>
-                        <h2>Certificates. In short Certificates Are site or host identities. They also hold basic information like country, city, company.</h2>
-                        <h2>Most important is [CN] or Common name and [SAN] Subject Alternative Names which tells you hostname or site that owns certificate. Like wikipedia.com for examples.</h2>
+                        <h1>Certificates.</h1>
+                        <h2>Certificates hold basic information about server like company, country, city.</h2>
+                        <h2>[CN] or Common name and [SAN] Subject Alternative Names which tells you hostname or site that owns certificate. Like wikipedia.com for examples.</h2>
 
-                        <h2 style="margin-top: 5em;">Tools for managing and creating ceritificates you can use KeyTool from Oracle, or OpenSSL.</h2>
+                        <h2 style="margin-top: 3em;">Tools for managing and creating ceritificates you can use KeyTool from Oracle, or OpenSSL.</h2>
                         <h2>For programmatic/dynamic certificate creation/management BouncyCastle library.</h2>
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Certificates are servers faces.</h5>
                     </div>
                 </div>
             </div>
@@ -355,7 +364,30 @@
                         <img class="d-block w-100" src="../static/drawings/final/RootCertificates.png">
                     </div>
                     <div class="col-9">
-                        <h1>To avoid situation when anyone can issue google.com certificate all certificates mu st be signed with a root certificate.</h1>
+                        <h1>Signed certificate & its verification.</h1>
+                        <h2>Most important record in certificate is its signature.</h2>
+                        <h2>Signatures on certificates are created by Certificates Authorities (CA) using their private keys.</h2>
+                        <h2>Public keys from Certificates Authorities are used to validate this signatures. This keys are called Root Certificates</h2>
+                        <h2>Software and Hardware manufacturers preinstall root certificates.</h2>
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Certificate/trust chain & thumbprint.</h5>
+                        <h5>Certificates and root certificate expire. Because private keys could be compromised.</h5>
+                        <h5>This is very naive explanation of certificate siginature & validation.</h5>
+                        Hashing and signing with private key, later that will be reflected in cipher suite
+                        Signing is super secure porcess. Because if CAs private key is exposed it can cause overhelming damage to whole internet infrastructure. Security meausres are compared to nuclear power plants.
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row justify-content-left" style="margin-left: 20em;">
+                    <div class="col-3">
+                        <img class="d-block w-100" src="../static/drawings/final/RootCertificates.png">
+                    </div>
+                    <div class="col-9">
+                        <h1>Certificate signature.</h1>
                         <h2>In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations (Certificate Authorities).</h2>
 
                         <h1><strong>f encrypt(s, c) = y</strong></h1>
@@ -381,7 +413,7 @@
                     <img src="../static/drawings/final/TrustStore.png" class="d-block h-100">
                     <div class="row align-items-center">
                         <div class="col align-self-center">
-                            <h2>The place where you hold Root certificates or whom you trust is called Truststore. </h2>
+                            <h2>The place where you hold Root certificates or whom you trust is called Truststore.</h2>
                         </div>
                     </div>
                 </div>
@@ -440,7 +472,7 @@
                     <div class="container" style="height: 50%; align-items: center; justify-content: center;" >
                         <div class="row align-items-center">
                             <div class="col align-self-center">
-                                <h1>Few more things about Certificate.</h1>
+                                <h1>Few more things about Certificate Authorities.</h1>
                                 <h2>Certificate Authorities "Trusted Organizations" a part of politics now since it is one keystone of internet regulations. Since they come usually preinstalled as a part of Software or Hardware.</h2>
                                 <h2><br></h2>
                                 <h2>If certificate mechanics goes wrong any one can impersonate anyone.</h2>
@@ -448,6 +480,10 @@
                         </div>
                         <img class="d-block h-70" src="../static/drawings/final/CipherSuite.png">
                     </div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>If in real life we gather knowledge about people around us with a time and experience. CA do it for us. They decide whom you should trust.</h2>
+                    <h2>You can think of them as Goverment that desides whom to give citizenship and whom not.</h2>
                 </div>
             </div>
             <div class="carousel-item">
@@ -467,6 +503,7 @@
                 </div>
                 <div class="carousel-caption d-none d-md-block">
                     <h2 style="color: magenta">Telega under attack.</h2>
+                    <h5 style="color: magenta">Do you trust your smartphone?</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -520,34 +557,38 @@
                 <div style="margin-left: 10em">
                             <h1><strong>How it works in java:</strong></h1>
 
-                            <h2>To enable TLS  in Spring boot:</h2>
+                            <h3>To enable TLS  in Spring boot:</h3>
 
-                            <h2>ssl:
+                            <h3>ssl:
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;key-store: classpath:keystore.p12
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;key-store-password: srch4app
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;keyStoreType: PKCS12
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;keyAlias: tomcat
-                                <br>&nbsp;&nbsp;&nbsp;&nbsp;enabled-protocols: TLSv1.3 # only JAVA 11 and higher.</h2>
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;enabled-protocols: TLSv1.3 # only JAVA 11 and higher.</h3>
 
-                            <h2>Java areas that does TLS magic:</h2>
+                            <h3>Java areas that does TLS magic:</h3>
                             <div style="margin-left: 2em;">
-                                <ul>
-                                    <li><h2>javax.net.ssl.SSLSocket</h2></li>
-                                    <li><h2>java.security.KeyPairGenerator</h2></li>
-                                    <li><h2>sun.security.ssl.BaseSSLSocketImpl</h2></li>
-                                    <h2><br></h2>
-                                    <li><h2>sun.security.ssl.SSLEngineImpl</h2></li>
-                                    <li><h2>javax.net.ssl.SSLEngineResult</h2></li>
-                                    <h2><br></h2>
-                                    <li><h2>org.apache.tomcat.jni.Socket</h2></li>
-                                    <li><h2>org.apache.tomcat.util.net.SecureNioChannel</h2></li>
-                                    <li><h2>org.apache.tomcat.util.net.Acceptor</h2></li>
-                                    <li><h2>org.apache.tomcat.util.net.NioEndpoint</h2></li>
-                                    <li><h2>org.apache.tomcat.util.net.SecureNioChannel</h2></li>
-                                    <li><h2>org.apache.tomcat.util.net.TLSClientHelloExtractor</h2></li>
-                                    <li><h2>org.apache.tomcat.jni.SSLSocket</h2></li>
-                                </ul>
+                            <ul>
+                                <li><h3>javax.net.ssl.SSLSocket</h3></li>
+                                <li><h3>java.security.KeyPairGenerator</h3></li>
+                                <li><h3>sun.security.ssl.BaseSSLSocketImpl</h3></li>
+                                <h3><br></h3>
+                                <li><h3>sun.security.ssl.SSLEngineImpl</h3></li>
+                                <li><h3>javax.net.ssl.SSLEngineResult</h3></li>
+                                <h3><br></h3>
+                                <li><h3>org.apache.tomcat.jni.Socket</h3></li>
+                                <li><h3>org.apache.tomcat.util.net.SecureNioChannel</h3></li>
+                                <li><h3>org.apache.tomcat.util.net.Acceptor</h3></li>
+                                <li><h3>org.apache.tomcat.util.net.NioEndpoint</h3></li>
+                                <li><h3>org.apache.tomcat.util.net.SecureNioChannel</h3></li>
+                                <li><h3>org.apache.tomcat.util.net.TLSClientHelloExtractor</h3></li>
+                                <li><h3>org.apache.tomcat.jni.SSLSocket</h3></li>
+                            </ul>
                     </div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Alternatively you can write contents of .pem file directly into application.yml.</h5>
+                    <h5>You can also put truststore/keystore on classpath using -Djavax.net.ssl.keyStore/truststore.</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -573,13 +614,12 @@
                     <div style="margin-left: 2em;">
                         <h2>Is URL encrypted during TLS call?</h2>
                         <h2>Is there any difference between post put get HTTP requests decryption?</h2>
-                        <h2>Who knows session key?</h2>
+                        <h2>Who has access to session key?</h2>
                         <h2>How TLS handshake and encryption is done for JMS, WS or Datasource connection?</h2>
                         <h2>Where you can keep  session or master key?</h2>
                         <h2>What is happerning in case of connection pool?</h2>
                         <h2>What is happerning to session key?</h2>
                         <h2>Who creates trustore?</h2>
-                        <h2>Oxitocine has a partner hormone. They two make biochemy of love.</h2>
                     </div>
                 </div>
             </div>
@@ -645,6 +685,11 @@
                         <div id="BASICAuthMessageContainer"></div>
                     </div>
                 </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>BCrypt is it encryption or Hashing?</h5>
+                    <h5><a href="https://hashcat.net/hashcat/">hashcat</a> against BCrypt.</h5>
+                    <h5>Why basic authentication is weak?</h5>
+                </div>
             </div>
             <div class="carousel-item">
                 <div class="container" style="height: 70%; display: flex; align-items: center; justify-content: center;">
@@ -667,12 +712,12 @@
                                     </li>
                                 </ul>
                             </div>
-                            <h2><br></h2>
-                            <h2>SSL only solves the first issue.</h2>
-                            <h2>Does HTTPS protect the password in transit? <strong>Yes.</strong></h2>
-                            <h2>Is that enough? <strong>No.</strong></h2>
                         </div>
                     </div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Does TLS protect the password in transit? <strong>Yes.</strong></h2>
+                    <h2>Is that enough? <strong>No.</strong></h2>
                 </div>
             </div>
             <div class="carousel-item">
@@ -717,7 +762,7 @@
                                 </tr>
                                 <tr>
                                     <th><img class="d-block w-70" src="../static/drawings/final/min/CipherSuits_min.png"></th>
-                                    <td><h2>Cipher Suits</h2><h3>Set of processes that include Encryption, Hashing, Compression and Key exchange protocols.</h3></td>
+                                    <td><h2>Cipher Suits</h2><h3>Set of processes that include Encryption, Hashing, Compression, Integrity Validation and Key exchange protocols.</h3></td>
                                 </tr>
                                 <tr>
                                     <th><img class="d-block h-50" src="../static/drawings/final/min/certificates_min.png"></th>
@@ -752,6 +797,7 @@
                 </div>
                 <div class="carousel-caption d-none d-md-block">
                     <h5>This is TLS</h5>
+                    <h5>Encrypt everything and lose the keys.</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -795,10 +841,13 @@
                         <div class="col align-self-center">
                             <a href="/authdemo/parttwo">
                                 <div style="font-size: 140px;">To Part II</div>
-
                             </a>
                         </div>
                     </div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Whats the reference between session key and Google captcha?</h5>
+                    <h5>Domestic way to validate Certificate is to use Adobey Acrobat reader.</h5>
                 </div>
             </div>
         </div>

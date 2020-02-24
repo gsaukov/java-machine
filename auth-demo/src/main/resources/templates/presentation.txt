@@ -276,31 +276,63 @@ PKCE
 	
 	
 	
-Hi teams,
+I plan to do a series of presentations about application/transport layer security and authentication. I will try to explain toolset, senses and how this things work all together.
 
-I plan to do a series of presentation authentecation and security topic where I will try to explain the senses and relations behind folowing:
-	Encryption (Symetric, Assymtric)
-	Certificates (CAs, Containers, examples)
-	Key exchange algorithms. (DF, RSA)
-	Cipher Suits 
-	TLS
-	Authentication Basic/Form (Spring security based.)
-	Java/ Spring boot areas to implment the above. 
-	Secure system design if time permits
-	Oauth2 flows / grant types 
-	Method security
-	Oauth2 / token based integration with 3rd party systems (facebook, spotify) 
+Things to cover:
 
-Why this can be interesting for you?
+                PART I
+o	Certificates (CA's, Containers, examples).
+o	Encryption (Symmetric, Asymmetric, Philosophy).
+o	Key exchange algorithms. (DF, RSA).
+o	Cipher Suits (Anatomy, Strength).
+o	TLS and handshake.
+o	Authentication Basic/Form (Spring security based).
+o	Java/ Spring boot areas that do the above.
+o	Secure system design for 100+ millions of user (if time permits).
 
-	It is security essentials and its understanding is very important by it self.
-	Significant part of system design.
-	It is fundamental for system integration.
-	It is important component of safe web-browsing.
-	
-I will try to be undrstood for everyone so target audience: developers, testers, analysts.
+                PART II
+o	Oauth2 (flows, grant types, OpenID).
+o	Method security.
+o	Spring cloud security.
+o	Oauth server sample.
+o	Sessions, cashing.
+o	Example of token based integration with 3rd party systems (Facebook, Spotify).
 
-My main goal is try to explain extradinaly complex things and traing some public lectures.
+                PART III (Not really ready yet).
+o	Site security.
+o	CORS, CSRF.
+o	Security Headers.
+o	JS compilers.
+o	Site pulse, vulnerability trace.
 
-OAUTH2 Grant types and sample usage when integrating 
+Why this can be interesting for you:
+
+o	It is security essentials and its understanding is very important by itself.
+o	Significant part of system design.
+o	It is fundamental for system integration.
+o	It is important component of safe web-browsing.
+
+I will try to be understood for everyone so target audience: developers, testers, analysts.
+
+Why do I do that: I want to try to explain extraordinary complex things and train some public speaking skills.
+
+
+
+
+Few words about myself. Hi my name is Georgy Saukov and i do software for more than 10 years already.
+	I think I know subject quite well, or at least to the point where it meets hardcore math.
+Where i can fail.
+	I m not a public speaker and i have no idea will i work it out or not. Over more English is not my mother language.
+	Subject is very complex and it is difficult common analogies.
+	I can mix hashing algorithm with encryption algorithm or certificate signature details.
+	I may overload some of you with new senses so i m currently working on a public cheat sheet so you can reference it.
+
+
+Certificates.
+		Show sample certificate.
+
+Few more things about Certificate Authorities.
+
+If in real life we gather knowledge about that surround us with a time and expirience. CA do it for us. They decide whom you should trust.
+You can think of them as Goverments that deside whom to give citizenship and whom not.
 
