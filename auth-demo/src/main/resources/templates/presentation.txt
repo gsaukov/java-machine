@@ -300,5 +300,7 @@ Why this can be interesting for you?
 	
 I will try to be undrstood for everyone so target audience: developers, testers, analysts.
 
+My main goal is try to explain extradinaly complex things and traing some public lectures.
+
 OAUTH2 Grant types and sample usage when integrating 
 
