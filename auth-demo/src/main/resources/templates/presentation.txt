@@ -334,7 +334,9 @@ Certificates.
 Few more things about Certificate Authorities.
 
 If in real life we gather knowledge about that surround us with a time and expirience. CA do it for us. They decide whom you should trust.
-You can think of them as Goverments that deside whom to give citizenship and whom not.
 
-Tell about database connction to cloud?
-If in real life we gather knowledge about people around us with a time and experience. CA do it for us. They decide whom you should trust.
+Tell about database connection to cloud?
+
+
+
+        + '<h2><strong>Servers digital signature</strong>: The server uses its private key to encrypt the client random, the server random, and its DH parameter*. This encrypted data functions as the servers digital signature, establishing that the server has the private key that matches with the public key from the SSL certificate.</h2>'
