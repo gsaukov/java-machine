@@ -149,6 +149,7 @@
             <li data-target="#slides" data-slide-to="28"></li>
             <li data-target="#slides" data-slide-to="29"></li>
             <li data-target="#slides" data-slide-to="30"></li>
+            <li data-target="#slides" data-slide-to="31"></li>
         </ol>
         <div class="carousel-inner" style="margin-top: 2em;">
             <div class="carousel-item active">
@@ -354,7 +355,7 @@
                         <h2>For programmatic/dynamic certificate creation/management BouncyCastle library.</h2>
                     </div>
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>Certificates are servers faces.</h5>
+                        <h5>Certificates are web faces.</h5>
                     </div>
                 </div>
             </div>
@@ -373,38 +374,9 @@
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Certificate/trust chain & thumbprint.</h5>
                         <h5>Certificates and root certificate expire. Because private keys could be compromised.</h5>
-                        <h5>This is very naive explanation of certificate siginature & validation.</h5>
-                        Hashing and signing with private key, later that will be reflected in cipher suite
-                        Signing is super secure porcess. Because if CAs private key is exposed it can cause overhelming damage to whole internet infrastructure. Security meausres are compared to nuclear power plants.
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="row justify-content-left" style="margin-left: 20em;">
-                    <div class="col-3">
-                        <img class="d-block w-100" src="../static/drawings/final/RootCertificates.png">
-                    </div>
-                    <div class="col-9">
-                        <h1>Certificate signature.</h1>
-                        <h2>In two words root certificates (sometimes called trust certificates) are public keys issued by very trusted Organizations (Certificate Authorities).</h2>
-
-                        <h1><strong>f encrypt(s, c) = y</strong></h1>
-                        <div style="margin-left: 2em;">
-                            <ul>
-                                <li style="margin-top: 5em;">
-                                    <h2>s - public key. It lets anyone whom you gave the key encrypt the data.</h2>
-                                </li>
-                                <li>
-                                    <h2>c - certificate.</h2>
-                                </li>
-                                <li>
-                                    <h2>y - encrypted data.</h2>
-                                </li>
-                            </ul>
-                        </div>
-                        <h2>For successful validation y must equal to hash provided in certificate.</h2>
+                        <h5>This is very naive explanation of certificate siginature & validation. </h5>
+                        <h5>Hashing and signing with private key, are reflected in cipher suite. </h5>
+                        <h5>Signing is super secure process. if CAs private key is exposed it can cause overwhelming damage to whole internet infrastructure. Security measures are compared to nuclear power plants.</h5>
                     </div>
                 </div>
             </div>
@@ -481,10 +453,6 @@
                         <img class="d-block h-70" src="../static/drawings/final/CipherSuite.png">
                     </div>
                 </div>
-                <div class="carousel-caption d-none d-md-block">
-                    <h2>If in real life we gather knowledge about people around us with a time and experience. CA do it for us. They decide whom you should trust.</h2>
-                    <h2>You can think of them as Goverment that desides whom to give citizenship and whom not.</h2>
-                </div>
             </div>
             <div class="carousel-item">
                 <div class="row justify-content-left">
@@ -503,7 +471,7 @@
                 </div>
                 <div class="carousel-caption d-none d-md-block">
                     <h2 style="color: magenta">Telega under attack.</h2>
-                    <h5 style="color: magenta">Do you trust your smartphone?</h5>
+                    <h5 style="color: magenta">Do you trust your smartphone? Does he trust you?</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -610,16 +578,24 @@
                         <h2>Handmade TLS in JAVA step by step with explanations and code: <a href="https://examples.javacodegeeks.com/core-java/nio/java-nio-ssl-example/">Java Nio SSL Example</a></h2>
                         <h2><br></h2>
                     </div>
-                    <h2>Questions:</h2>
-                    <div style="margin-left: 2em;">
-                        <h2>Is URL encrypted during TLS call?</h2>
-                        <h2>Is there any difference between post put get HTTP requests decryption?</h2>
-                        <h2>Who has access to session key?</h2>
-                        <h2>How TLS handshake and encryption is done for JMS, WS or Datasource connection?</h2>
-                        <h2>Where you can keep  session or master key?</h2>
-                        <h2>What is happerning in case of connection pool?</h2>
-                        <h2>What is happerning to session key?</h2>
-                        <h2>Who creates trustore?</h2>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;">
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <h1>Questions:</h1>
+                            <div style="margin-left: 2em;">
+                                <h2>Is URL encrypted during TLS call?</h2>
+                                <h2>Is there any difference between POST, PUT, GET, HTTP requests decryption?</h2>
+                                <h2>Who should have access to session key?</h2>
+                                <h2>How TLS handshake and encryption is done for JMS, WS or Datasource connections?</h2>
+                                <h2>Where you can keep session or master key?</h2>
+                                <h2>What is happerning in case of connection pool? (That i don't know actually)</h2>
+                                <h2>What is happerning to session key?</h2>
+                                <h2>Who creates trustore?</h2>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -911,19 +887,6 @@
 	</script>
 
     <script>
-        // (function(send) {
-        //
-        //     XMLHttpRequest.prototype.send = function(data) {
-        //
-        //         // in this case I'm injecting an access token (eg. accessToken) in the request headers before it gets sent
-        //         // if(accessToken) this.setRequestHeader('x-access-token', accessToken);
-        //
-        //         send.call(this, data);
-        //     };
-        //
-        // })(XMLHttpRequest.prototype.send);
-
-
         (function(open) {
 
             XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
@@ -956,12 +919,12 @@
         var clientHelloHeaderMessage = '<img class="d-block w-100" src="../static/drawings/final/HeaderClientHello.png">'
         var clientHelloBodyMessage = '<h2><strong>Client hello</strong>: The client sends a client hello message with the protocol version, the client random, and a list of cipher suites.<br>'
 		+ 'For a TLS client hello the first byte must be 22 - handshake.</h2>'
-		+ '<img class="d-block w-100" src="../static/drawings/final/netBuffer.png">'
+		+ '<img class="d-block w-75" src="../static/drawings/final/netBuffer.png">'
 
         var serverHelloHeaderMessage = '<img class="d-block w-100" src="../static/drawings/final/HeaderServerHello.png">'
 		var serverHelloBodyMessage = '<h2><strong>Server hello</strong>: The server replies with its SSL certificate, its selected cipher suite, and the server random.</h2>'
         + '<h2><strong>Servers digital signature</strong>: The server uses its private key to encrypt the client random, the server random, and its DH parameter*. This encrypted data functions as the servers digital signature, establishing that the server has the private key that matches with the public key from the SSL certificate.</h2>'
-        + '<img class="d-block w-100" src="../static/drawings/final/certificate.png">'
+        + '<img class="d-block w-50" src="../static/drawings/final/certificate.png">'
 
         var digitalSignatureHeaderMessage = '<img class="d-block w-100" src="../static/drawings/final/HeaderClientHello.png">'
 		var digitalSignatureBodyMessage = '<h2><strong>Digital signature confirmed</strong>: The client decrypts the servers digital signature with the public key, verifying that the server controls the private key and is who it says it is. Client DH parameter: The client sends its DH parameter to the server.</h2>'
@@ -969,7 +932,7 @@
 
         var premasteredSecretHeaderMessage = '<img class="d-block w-100" src="../static/drawings/final/HeaderDfKeyExhange.png">'
         var premasteredSecretBodyMessage = '<h2><strong>Client and server calculate the premaster secret</strong>: Instead of the client generating the premaster secret and sending it to the server, as in an RSA handshake, the client and server use the DH parameters they exchanged to calculate a matching premaster secret separately.</h2>'
-        + '<img class="d-block w-100" src="../static/drawings/final/800px-Diffie-Hellman_Key_Exchange.svg.png">'
+        + '<img class="d-block w-50" src="../static/drawings/final/800px-Diffie-Hellman_Key_Exchange.svg.png">'
 
         var sessionKeeysCreatedHeaderMessage = '<img class="d-block w-100" src="../static/drawings/final/HeaderDfKeyExhange.png">'
         var sessionKeeysCreatedBodyMessage = '<div class="row justify-content-left">\n' +
@@ -984,7 +947,8 @@
             '</div>'
 
         var httpRequestHeaderMessage = '<img class="d-block w-100" src="../static/drawings/final/HeaderHttpsDataTransfer.png">'
-        var httpRequestBodyMessage = '<h2>Request is sent to server and can be decrypted with session key.</h2>'
+        var httpRequestBodyMessage = '<h2>Request is sent to server and can be decrypted with session key.</h2>'+
+        '<img class="d-block w-50" src="../static/drawings/final/HTTP-Connection-Lifecycle-2.png">'
 
     </script>
 </body>

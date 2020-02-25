@@ -329,10 +329,12 @@ Where i can fail.
 
 
 Certificates.
-		Show sample certificate.
+		Show sample certificate in browser.
 
 Few more things about Certificate Authorities.
 
 If in real life we gather knowledge about that surround us with a time and expirience. CA do it for us. They decide whom you should trust.
 You can think of them as Goverments that deside whom to give citizenship and whom not.
 
+Tell about database connction to cloud?
+If in real life we gather knowledge about people around us with a time and experience. CA do it for us. They decide whom you should trust.
