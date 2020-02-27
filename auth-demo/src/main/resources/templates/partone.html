@@ -191,7 +191,7 @@
                     </div>
                 </div>
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Trust.</h5>
+                    <h5>Trust, Love, Friendship, Parenthood.</h5>
                     <h5>Do you know how trust organized on the web?</h5>
                 </div>
             </div>
@@ -354,7 +354,7 @@
                         <h2>Certificates hold basic information about server like company, country, city.</h2>
                         <h2>[CN] or Common name and [SAN] Subject Alternative Names which tells you hostname or site that owns certificate. Like wikipedia.com for examples.</h2>
 
-                        <h2 style="margin-top: 3em;">Tools for managing and creating ceritificates you can use KeyTool from Oracle, or OpenSSL.</h2>
+                        <h2 style="margin-top: 3em;">Tools for managing and creating certificates you can use KeyTool from Oracle, or OpenSSL.</h2>
                         <h2>For programmatic/dynamic certificate creation/management BouncyCastle library.</h2>
                     </div>
                     <div class="carousel-caption d-none d-md-block">
@@ -560,6 +560,7 @@
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Alternatively you can write contents of .pem file directly into application.yml.</h5>
                     <h5>You can also put truststore/keystore on classpath using -Djavax.net.ssl.keyStore/truststore.</h5>
+                    <h5>Or replace in CA Certificates in JDK.</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -584,7 +585,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <div class="container" style="height: 50%; display: flex; align-items: center; justify-content: center;">
+                <div class="container" style="height: 70%; display: flex; align-items: center; justify-content: center;">
                     <div class="row">
                         <div class="col align-self-center">
                             <h1>Questions:</h1>
@@ -599,6 +600,7 @@
                                 <h2>What is happerning in case of connection pool? (That i don't know actually)</h2>
                                 <h2>What is happerning to session key?</h2>
                                 <h2>Who usually creates trustore?</h2>
+                                <h2>What is the difference between SSL and TLS?</h2>
                             </div>
                         </div>
                     </div>
@@ -610,7 +612,7 @@
                         <div class="col align-self-center">
                             <h2>Now we have a securely established TLS 1.3 channel.</h2>
                             <h2>We know who is the server because we ve validate his certificate using trust store. But server knows nothing about who we are.</h2>
-                            <h2>There is a way called two way TLS when we give server our client sertificate but in real life it is very rare.</h2>
+                            <h2>There is a way called two way TLS when we give server our client certificate but in real life it is very rare.</h2>
                             <h2>Another way is to use Basic Authentification to identify ourselfs on server side.</h2>
                         </div>
                     </div>
@@ -750,7 +752,7 @@
                                 </tr>
                                 <tr>
                                     <th><img class="d-block h-50" src="../static/drawings/final/min/certificates_min.png"></th>
-                                    <td><h2>Certificates</h2><h3>Servers faces on the web.</h3></td>
+                                    <td><h2>Certificates</h2><h3>Servers faces on the web. Must be signed by CAs</h3></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -760,7 +762,7 @@
                                 <tbody>
                                 <tr>
                                     <th><img class="d-block h-50" src="../static/drawings/final/min/RootCertificates_min.png"></th>
-                                    <td><h2>Root certificates</h2><h3>Knowledge that lets us recognize server certificates.</h3></td>
+                                    <td><h2>Root certificates</h2><h3>Public keys from CAs that let us validate signed certificates.</h3></td>
                                 </tr>
                                 <tr>
                                     <th><img class="d-block w-70" src="../static/drawings/final/min/PublicPrivateKeys_min.png"></th>
@@ -772,7 +774,7 @@
                                 </tr>
                                 <tr>
                                     <th><img class="d-block w-70" src="../static/drawings/final/min/sessionkey_min.png"></th>
-                                    <td><h2>Session key</h2><h3>Product TLS handshake and key exchange. Random, in case of loss only session part of your communication can be decrypted.</h3></td>
+                                    <td><h2>Session key</h2><h3>Product TLS of handshake and key exchange. Random, in case of loss only session part of your communication can be decrypted.</h3></td>
                                 </tr>
                                 </tbody>
                             </table>
