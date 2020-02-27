@@ -416,6 +416,7 @@
                 <img class="d-block w-100" src="../static/drawings/final/secretprivatekey.png" >
                 <div class="carousel-caption d-none d-md-block">
                     <h2>In private place.</h2>
+                    <h5>What if compromised? How do you know that it is compromised? What if you lost it?</h5>
                 </div>
             </div>
             <div class="carousel-item">
@@ -933,7 +934,16 @@
 
         var serverHelloHeaderMessage = '<img class="d-block w-100" src="../static/drawings/final/HeaderServerHello.png">'
 		var serverHelloBodyMessage = '<h2><strong>Server hello</strong>: The server replies with its SSL certificate, public key, its selected cipher suite, and the server random.</h2>'
-        + '<img class="d-block w-50" src="../static/drawings/final/certificate.png">'
+        +   '<div class="row justify-content-left">\n' +
+            '    <div class="col-8">\n' +
+            '        <img class="d-block w-75" src="../static/drawings/final/certificate.png">\n' +
+            '    </div>\n' +
+            '    <div class="col-4">\n' +
+            '        <img class="d-block w-75" src="../static/drawings/final/pluspublickey.png">\n' +
+            '    </div>\n' +
+            '</div>'
+        + '<h5>What do we do with them on the client?</h5>'
+
 
         var digitalSignatureHeaderMessage = '<img class="d-block w-100" src="../static/drawings/final/HeaderClientHello.png">'
 		var digitalSignatureBodyMessage = '<h2><strong>Digital signature confirmed</strong>: The client decrypts the servers digital signature with the public key from truststore, verifying that the server is who it says it is. The client encrypts DH parameter by server public key and sends it to the server.</h2>'
