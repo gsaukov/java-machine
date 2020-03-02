@@ -1,0 +1,61 @@
+Nate Barbettini
+
+Terminology
+    Resource owner(User) Consent/Permission.
+    Client (Application) (Confidential can keep a secret(server side running), Public cannot(User controlled, Embeded things, JS SPA, mobile)) (Client ID, Client Secret/PKCE, Scope, RedirectUri, State) https://habr.com/ru/post/422765/ https://www.youtube.com/watch?v=5cQNwifDq1U
+    Authorization Server
+    Resource Server
+    Authorization grant(Flow)
+    Access Token
+    Refresh Token
+    OpenId https://openid.net/developers/specs/ https://connect2id.com/learn/openid-connect
+    Front channel (more secure)
+    Back Channel (less secure)
+
+Things that solves OAuth 2.0
+    Simple Login. - Authentication
+    Single Sign on. - Authentication
+    Mobile App Login - Authentication
+    Delegated Authorization. - Authorization
+
+Problems:
+    No standard on user information or set of scopes. But its getting better.
+    Custom or confusing implementations.
+
+Oauth 2.0 and OpenId
+    Oauth 2.0 - is Authorization protocol.
+        Granting access to your API.
+        Getting access to user data in other systems. (Pull)
+    OpenId - is Authentication protocol
+        Logging in.
+        Making your accounts availible in other systems. (Push.)
+    Usually you will see combination of them.
+
+Flow grant type use case:
+    Web application with backend - authorization code flow.
+    Native mobile app - authorization code flow with PKCE (client secret is not exposed.)
+    JavaScript app(SPA) with out backend (only front channel) - Implicit flow.
+    Microservices and Backend flow only - client credentials.
+    Web application and backend both get access token - Hybrid Flow.
+
+Token Validation
+    Local validation (Fast)
+        Expiration
+        Cryptogrphic signature.
+    Introspection (Slow)
+        Call to authorization server.
+
+Revokation
+    Url based.
+    introspection based.
+
+Refresh token
+    Sent user back to auth server (if he has session it will be super quick).
+    Call auth server yourself exchanging refresh token for new access token and refresh token.
+
+Multy factor support in single place (Auth server).
+
+
+https://wallpapercave.com/super-mario-8-bit-wallpaper-hd
+
+

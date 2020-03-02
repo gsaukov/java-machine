@@ -321,22 +321,27 @@ Why do I do that: I want to try to explain extraordinary complex things and trai
 
 Few words about myself. Hi my name is Georgy Saukov and i do software for more than 10 years already.
 	I think I know subject quite well, or at least to the point where it meets hardcore math.
-Where i can fail.
-	I m not a public speaker and i have no idea will i work it out or not. Over more English is not my mother language.
+
+	I m not a public speaker and English is not my mother language.
 	Subject is very complex and it is difficult common analogies.
-	I can mix hashing algorithm with encryption algorithm or certificate signature details.
+	I will sacrifice details and precision. I will try to leave a trace of simplified associations in your memory about about the subject.
 	I may overload some of you with new senses so i m currently working on a public cheat sheet so you can reference it.
 
 
-Certificates.
-		Show sample certificate in browser.
+    Our brain is overhelming instrument to recognize faces.
+    It helps us gather knowledge and about people around us with time expirience. Major role in
+
 
 Few more things about Certificate Authorities.
 
-If in real life we gather knowledge about that surround us with a time and expirience. CA do it for us. They decide whom you should trust.
+Our brain is overhelming instrument to recognize faces.
+
+If in real life we gather knowledge about that surround us with a time and expirience. Major role here play this hormon Oxitocine.
+If you think you have control it you are very naive.
 
 Tell about database connection to cloud?
 
-
-
-        + '<h2><strong>Servers digital signature</strong>: The server uses its private key to encrypt the client random, the server random, and its DH parameter*. This encrypted data functions as the servers digital signature, establishing that the server has the private key that matches with the public key from the SSL certificate.</h2>'
+KEK DEK MEK
+https://security.stackexchange.com/questions/93886/dek-kek-and-master-key-simple-explanation
+https://info.townsendsecurity.com/definitive-guide-to-encryption-key-management-fundamentals
+https://cloud.google.com/kms/docs/envelope-encryption
