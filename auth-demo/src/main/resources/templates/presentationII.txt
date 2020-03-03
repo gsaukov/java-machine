@@ -19,7 +19,7 @@ Things that solves OAuth 2.0
     Delegated Authorization. - Authorization
 
 Problems:
-    No standard on user information or set of scopes. But its getting better.
+    No standard on user information or set of scopes. And its not getting better.
     Custom or confusing implementations.
 
 Oauth 2.0 and OpenId
@@ -54,6 +54,8 @@ Refresh token
     Call auth server yourself exchanging refresh token for new access token and refresh token.
 
 Multy factor support in single place (Auth server).
+
+Scopes and TokenEnhancerChain
 
 
 https://wallpapercave.com/super-mario-8-bit-wallpaper-hd
