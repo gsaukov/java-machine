@@ -16,13 +16,16 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
 import java.security.KeyPair;
+import java.util.Arrays;
 
 //      http://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=read
 //      POST ONLY:  http://localhost:8002/oauth/token?client_id=sdapplication&client_secret=sdapplication_secret&grant_type=authorization_code&code=AUTHORIZATION_CODE
@@ -76,12 +79,22 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+//        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(domainEnhancer(), accessTokenConverter()));
+
         endpoints.tokenStore(tokenStore())
-                .accessTokenConverter(accessTokenConverter())
+//                .requestFactory(requestFactory())
+                .tokenEnhancer(tokenEnhancerChain)
                 .approvalStore(approvalStore())
                 .userDetailsService(userDetailsService) // for refresh-token grant
                 .authenticationManager(authenticationManager); // for resource-owner-password grant
     }
+//
+//    private OAuth2RequestFactory requestFactory() {
+//    }
+//
+//    private Object domainEnhancer() {
+//    }
 
     @Bean
     @Primary

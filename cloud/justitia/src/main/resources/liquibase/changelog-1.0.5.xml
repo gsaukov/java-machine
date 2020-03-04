@@ -1,0 +1,196 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_domain_access" author="gsaukov">
+        <createTable tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="DOMAIN" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="varchar(64)">
+                <constraints nullable="false" foreignKeyName="FK_DA_PRM_USER" references="USER(ID)"/>
+            </column>
+            <column name="VERSION" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_AT" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_UPDATED" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATED_BY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="USER_DOMAIN_ACCESS" indexName="IDX_LGN_PRM_LOGIN" unique="false">
+            <column name="USER_ID" type="varchar(64)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create_domain_access" author="gsaukov">
+        <createTable tableName="USER_RIGHTS">
+            <column name="ID" type="varchar(64)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="RIGHT_NAME" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RIGHT_VALUE" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="varchar(64)">
+                <constraints nullable="false" foreignKeyName="FK_UR_PRM_USER" references="USER(ID)"/>
+            </column>
+            <column name="VERSION" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_AT" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_UPDATED" type="datetime(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATED_BY" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="USER_RIGHTS" indexName="IDX_USRR_USR" unique="false">
+            <column name="USER_ID" type="varchar(64)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="init_domain_access" author="g.saukov">
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Mercury"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Venus"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Earth"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Mars"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Jupiter"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Saturn"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Uranus"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Neptune"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Pluto"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Venus"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Earth"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+        </insert>
+        <insert tableName="USER_DOMAIN_ACCESS">
+            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="DOMAIN" type="varchar(64)" value="Mars"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
