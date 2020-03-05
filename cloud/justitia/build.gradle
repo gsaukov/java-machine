@@ -29,7 +29,11 @@ dependencies {
     runtime "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
     runtime "mysql:mysql-connector-java:${mySqlVersion}"
     runtime "org.liquibase:liquibase-core:${liquibaseVersion}"
-    runtime "com.h2database:h2:${h2Version}"
+//    runtime "com.h2database:h2:${h2Version}"
+    
+    compile "javax.xml.bind:jaxb-api:2.3.1"
+    compile "javax.activation:activation:1.1"
+    compile "org.glassfish.jaxb:jaxb-runtime:2.3.1"
 }
 
 task copyResources (dependsOn: clean) {

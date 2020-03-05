@@ -5,7 +5,6 @@ import org.joda.money.CurrencyUnit;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -76,7 +75,7 @@ public class RandomObjectFiller {
         List<Object> res = new ArrayList<>();
 
         if(type instanceof ParameterizedType){
-            Class<?> parameterizedType = ((ParameterizedTypeImpl) type).getRawType();
+            Class<?> parameterizedType = ((ParameterizedType) type).getRawType().getClass();
             if(parameterizedType.isAssignableFrom(List.class)) {
                 return createAndFillList(type);
             } else if(parameterizedType.isAssignableFrom(HashMap.class)) {
