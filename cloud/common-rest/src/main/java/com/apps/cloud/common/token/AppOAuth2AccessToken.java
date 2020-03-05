@@ -8,15 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 public class AppOAuth2AccessToken implements OAuth2AccessToken {
 
     private final OAuth2AccessToken accessToken;
     private final List<String> domains;
+    private final Map<String, String> rights;
 
-    public AppOAuth2AccessToken(OAuth2AccessToken accessToken, List<String> domains) {
+    public AppOAuth2AccessToken(OAuth2AccessToken accessToken, List<String> domains, Map<String, String> rights) {
         this.accessToken = accessToken;
         this.domains = domains;
+        this.rights = rights;
     }
 
     @Override
@@ -24,6 +25,7 @@ public class AppOAuth2AccessToken implements OAuth2AccessToken {
         Map<String, Object> res = new HashMap<>();
         res.putAll(accessToken.getAdditionalInformation());
         res.put("domains", domains);
+        res.put("rights", rights);
         return res;
     }
 

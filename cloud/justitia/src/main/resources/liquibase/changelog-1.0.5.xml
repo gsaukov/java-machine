@@ -35,7 +35,7 @@
         </createIndex>
     </changeSet>
 
-    <changeSet id="create_domain_access" author="gsaukov">
+    <changeSet id="create_user_rights" author="gsaukov">
         <createTable tableName="USER_RIGHTS">
             <column name="ID" type="varchar(64)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -72,7 +72,7 @@
 
     <changeSet id="init_domain_access" author="g.saukov">
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid1"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -82,7 +82,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid2"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -92,7 +92,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid3"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -102,7 +102,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid4"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -112,7 +112,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid5"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -122,7 +122,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid6"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -132,7 +132,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid7"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -142,7 +142,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid8"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -152,7 +152,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid9"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -162,7 +162,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid10"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -172,7 +172,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid11"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -182,7 +182,7 @@
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
         </insert>
         <insert tableName="USER_DOMAIN_ACCESS">
-            <column name="ID" type="varchar(64)"  value="uuid()"/>
+            <column name="ID" type="varchar(64)"  value="uuid12"/>
             <column name="VERSION" type="bigint" value="0" />
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
             <column name="CREATED_BY" type="varchar(64)" value="script"/>
@@ -190,6 +190,20 @@
             <column name="UPDATED_BY" type="varchar(64)" value="script"/>
             <column name="DOMAIN" type="varchar(64)" value="Mars"/>
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="init_user_rights" author="g.saukov">
+        <insert tableName="USER_RIGHTS">
+            <column name="ID" type="varchar(64)"  value="uuid1"/>
+            <column name="VERSION" type="bigint" value="0" />
+            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="CREATED_BY" type="varchar(64)" value="script"/>
+            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
+            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
+            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
+            <column name="RIGHT_NAME" type="varchar(64)" value="accountright"/>
+            <column name="RIGHT_VALUE" type="varchar(64)" value="accountperformance"/>
         </insert>
     </changeSet>
 

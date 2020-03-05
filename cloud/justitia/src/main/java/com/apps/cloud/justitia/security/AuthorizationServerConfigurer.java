@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -80,7 +79,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-//        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(domainEnhancer(), accessTokenConverter()));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter(), appOAuth2AccessTokenEnhancer()));
 
         endpoints.tokenStore(tokenStore())
 //                .requestFactory(requestFactory())
@@ -89,12 +88,16 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
                 .userDetailsService(userDetailsService) // for refresh-token grant
                 .authenticationManager(authenticationManager); // for resource-owner-password grant
     }
-//
-//    private OAuth2RequestFactory requestFactory() {
+
+//    @Bean
+//    public AppOAuth2RequestFactory requestFactory() {
+//        return new AppOAuth2RequestFactory(clientDetailsService, userDetailsService);
 //    }
-//
-//    private Object domainEnhancer() {
-//    }
+
+    @Bean
+    public AppOAuth2AccessTokenEnhancer appOAuth2AccessTokenEnhancer() {
+        return new AppOAuth2AccessTokenEnhancer();
+    }
 
     @Bean
     @Primary

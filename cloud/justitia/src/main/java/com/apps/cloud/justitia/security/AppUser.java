@@ -6,13 +6,20 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
 public class AppUser extends User {
 
-    public AppUser(String username, String password, List<Authority> authorities) {
+    private final List<String> domains;
+
+    private final Map<String, String> rights;
+
+    public AppUser(String username, String password, List<Authority> authorities, List<String> domains, Map<String, String> rights) {
         super(username, password, toGrantedAuthorities(authorities));
+        this.domains = domains;
+        this.rights = rights;
     }
 
     private static List<GrantedAuthority> toGrantedAuthorities(List<Authority> authorities) {
@@ -21,6 +28,14 @@ public class AppUser extends User {
 
     private static GrantedAuthority toGrantedAuthority(Authority authority) {
         return new SimpleGrantedAuthority(authority.getAuthority());
+    }
+
+    public List<String> getDomains() {
+        return domains;
+    }
+
+    public Map<String, String> getRights() {
+        return rights;
     }
 
 }
