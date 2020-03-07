@@ -1,25 +1,22 @@
 package com.apps.cloud.zuul.security;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-//This class intendeded to avoid DefaultUserAuthenticationConverter behaviour that splits authorities by comma.
-//Further authority on resource server will be resolved to json object for more agile permission politics.
 public class AppUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
 
     public Authentication extractAuthentication(Map<String, ?> map) {
-        if (map.containsKey(USERNAME)) {
-            Object principal = map.get(USERNAME);
-            return new UsernamePasswordAuthenticationToken(principal, "N/A", getAuthorities(map));
-        }
-        return null;
+        Map<String, Object> details = (Map<String, Object>)map;
+        DefaultOAuth2User user = new DefaultOAuth2User(getAuthorities(map), details, USERNAME);
+        return new OAuth2AuthenticationToken(user,  getAuthorities(map), map.get("client_id").toString());
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Map<String, ?> map) {

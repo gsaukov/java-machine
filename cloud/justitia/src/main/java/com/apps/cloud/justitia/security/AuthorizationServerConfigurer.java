@@ -79,7 +79,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter(), appOAuth2AccessTokenEnhancer()));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(appOAuth2AccessTokenEnhancer(), accessTokenConverter()));
 
         endpoints.tokenStore(tokenStore())
 //                .requestFactory(requestFactory())

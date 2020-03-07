@@ -23,6 +23,8 @@ import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 @EnableWebSecurity
+
+//Could be rewritten with https://www.baeldung.com/spring-security-oauth2-enable-resource-server-vs-enable-oauth2-sso
 public class AppSecurityConfigurer
         extends WebSecurityConfigurerAdapter {
 
