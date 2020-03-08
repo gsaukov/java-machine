@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class AppPermissionEvaluator implements PermissionEvaluator {
 
     @Autowired
-    private AppJsonAuthorityService appJsonAuthorityService;
+    private AppAuthorityService appAuthorityService;
 
     @Override
     public boolean hasPermission(Authentication auth, Object targetDomainObject, Object permission) {
@@ -19,7 +19,7 @@ public class AppPermissionEvaluator implements PermissionEvaluator {
             return false;
         }
         final String targetType = targetDomainObject.getClass().getSimpleName().toLowerCase();
-        return appJsonAuthorityService.hasPrivilege(auth, targetType, permission.toString().toLowerCase());
+        return appAuthorityService.hasPrivilege(auth, targetType, permission.toString().toLowerCase());
     }
 
     @Override
@@ -28,7 +28,7 @@ public class AppPermissionEvaluator implements PermissionEvaluator {
             return false;
         }
         //targetId is not used but implementation could be expanded to include it, targetId represent usually method parameter.
-        return appJsonAuthorityService.hasPrivilege(auth, targetType.toLowerCase(), permission.toString().toLowerCase());
+        return appAuthorityService.hasPrivilege(auth, targetType.toLowerCase(), permission.toString().toLowerCase());
     }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 public class AppMethodSecurityExpressionHandler extends DefaultMethodSecurityExpressionHandler {
 
     @Autowired
-    private AppJsonAuthorityService appJsonAuthorityService;
+    private AppAuthorityService appAuthorityService;
 
     @Autowired
     private AppPermissionEvaluator appPermissionEvaluator;
@@ -20,7 +20,7 @@ public class AppMethodSecurityExpressionHandler extends DefaultMethodSecurityExp
     @Override
     protected MethodSecurityExpressionOperations createSecurityExpressionRoot(
             Authentication authentication, MethodInvocation invocation) {
-        AppMethodSecurityExpressionRoot root = new AppMethodSecurityExpressionRoot(authentication, appJsonAuthorityService);
+        AppMethodSecurityExpressionRoot root = new AppMethodSecurityExpressionRoot(authentication, appAuthorityService);
         root.setPermissionEvaluator(appPermissionEvaluator);
         root.setTrustResolver(new AuthenticationTrustResolverImpl());
         root.setRoleHierarchy(getRoleHierarchy());

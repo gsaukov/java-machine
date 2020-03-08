@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-@Service
+//@Service
+@Deprecated //Use AppAuthorityService
 public class AppJsonAuthorityService {
 
     public static final String JSON_AUTHORITY = "JSON_AUTHORITY";

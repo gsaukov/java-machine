@@ -8,15 +8,15 @@ public class AppMethodSecurityExpressionRoot extends SecurityExpressionRoot impl
 
     private Object filterObject;
     private Object returnObject;
-    private AppJsonAuthorityService appJsonAuthorityService;
+    private AppAuthorityService appAuthorityService;
 
-    public AppMethodSecurityExpressionRoot(Authentication authentication, AppJsonAuthorityService appJsonAuthorityService) {
+    public AppMethodSecurityExpressionRoot(Authentication authentication, AppAuthorityService appAuthorityService) {
         super(authentication);
-        this.appJsonAuthorityService = appJsonAuthorityService;
+        this.appAuthorityService = appAuthorityService;
     }
 
     public boolean hasDomain(String domain) {
-        return appJsonAuthorityService.getAvailableDomains(getAuthentication()).contains(domain);
+        return appAuthorityService.getAvailableDomains(getAuthentication()).contains(domain);
     }
 
     @Override

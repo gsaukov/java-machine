@@ -5,7 +5,7 @@ import com.apps.searchandpagination.persistance.entity.TradeDetails;
 import com.apps.searchandpagination.persistance.query.trade.TradeDetailsCriteria;
 import com.apps.searchandpagination.persistance.query.trade.TradeDetailsDynamicQuery;
 import com.apps.searchandpagination.persistance.repository.TradeDataRepository;
-import com.apps.searchandpagination.security.method.AppJsonAuthorityService;
+import com.apps.searchandpagination.security.method.AppAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,7 +27,7 @@ public class TradeDataService {
     private TradeDetailsDynamicQuery tradeDetailsDynamicQuery;
 
     @Autowired
-    private AppJsonAuthorityService appJsonAuthorityService;
+    private AppAuthorityService appAuthorityService;
 
     public Page<TradeData> findTrades(Pageable page, Optional<TradeDetailsCriteria> criteria) {
         TradeDetailsCriteria tradeDetailsCriteria = addDomainRestrictions(criteria.orElse(TradeDetailsCriteria.EMPTY_CRITERIA));
@@ -42,7 +42,7 @@ public class TradeDataService {
     }
 
     private TradeDetailsCriteria addDomainRestrictions(TradeDetailsCriteria tradeDetailsCriteria){
-        ArrayList<String> allowedDomains = appJsonAuthorityService.getAvailableDomains(SecurityContextHolder.getContext().getAuthentication());
+        ArrayList<String> allowedDomains = appAuthorityService.getAvailableDomains(SecurityContextHolder.getContext().getAuthentication());
         tradeDetailsCriteria.setDomains(allowedDomains);
         return tradeDetailsCriteria;
     }
