@@ -69,7 +69,7 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     private AppUser toAppUser(User user, List<Authority> authorities, List<String> domains, Map<String, String> rights) {
-        return new AppUser(user.getUsername(), user.getPassword(), authorities, domains, rights);
+        return new AppUser(user.getId(), user.getUsername(), user.getPassword(), authorities, domains, rights);
     }
 
 }

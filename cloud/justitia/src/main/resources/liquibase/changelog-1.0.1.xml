@@ -48,16 +48,6 @@
             <column name="AUTHORITY" type="varchar(64)" value="ADMIN"/>
         </insert>
         <insert tableName="AUTHORITY">
-            <column name="ID" type="varchar(64)" value="00000000000000000000000000000002"/>
-            <column name="VERSION" type="bigint" value="0"/>
-            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
-            <column name="CREATED_BY" type="varchar(64)" value="script"/>
-            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
-            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
-            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000001"/>
-            <column name="AUTHORITY" type="varchar(2048)" value="JSON_AUTHORITY{&quot;domain&quot;:[&quot;Mercury&quot;,&quot;Venus&quot;,&quot;Earth&quot;,&quot;Mars&quot;,&quot;Jupiter&quot;,&quot;Saturn&quot;,&quot;Uranus&quot;,&quot;Neptune&quot;,&quot;Pluto&quot;],&quot;accountright&quot;: &quot;accountperformance&quot;}"/><!--JSON_AUTHORITY{"domain":["Mercury","Venus","Earth","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto"],"accountright": "accountperformance"} -->
-        </insert>
-        <insert tableName="AUTHORITY">
             <column name="ID" type="varchar(64)" value="00000000000000000000000000000003"/>
             <column name="VERSION" type="bigint" value="0"/>
             <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
@@ -66,16 +56,6 @@
             <column name="UPDATED_BY" type="varchar(64)" value="script"/>
             <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
             <column name="AUTHORITY" type="varchar(64)" value="USER"/>
-        </insert>
-        <insert tableName="AUTHORITY">
-            <column name="ID" type="varchar(64)" value="00000000000000000000000000000004"/>
-            <column name="VERSION" type="bigint" value="0"/>
-            <column name="CREATED_AT" type="datetime(3)" valueComputed="NOW(3)"/>
-            <column name="CREATED_BY" type="varchar(64)" value="script"/>
-            <column name="LAST_UPDATED" type="datetime(3)" valueComputed="NOW(3)"/>
-            <column name="UPDATED_BY" type="varchar(64)" value="script"/>
-            <column name="USER_ID" type="varchar(64)" value="00000000000000000000000000000002"/>
-            <column name="AUTHORITY" type="varchar(2048)" value="JSON_AUTHORITY{&quot;domain&quot;:[ &quot;Venus&quot;, &quot;Earth&quot;, &quot;Mars&quot;]}"/><!--JSON_AUTHORITY{"domain":["Venus","Earth","Mars"]}-->
         </insert>
         <insert tableName="AUTHORITY">
             <column name="ID" type="varchar(64)" value="00000000000000000000000000000005"/>

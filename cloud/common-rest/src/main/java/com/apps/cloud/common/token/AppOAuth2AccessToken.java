@@ -11,11 +11,13 @@ import java.util.Set;
 public class AppOAuth2AccessToken implements OAuth2AccessToken {
 
     private final OAuth2AccessToken accessToken;
+    private final Map<String, String> openId;
     private final List<String> domains;
     private final Map<String, String> rights;
 
-    public AppOAuth2AccessToken(OAuth2AccessToken accessToken, List<String> domains, Map<String, String> rights) {
+    public AppOAuth2AccessToken(OAuth2AccessToken accessToken, Map<String, String> openId, List<String> domains, Map<String, String> rights) {
         this.accessToken = accessToken;
+        this.openId = openId;
         this.domains = domains;
         this.rights = rights;
     }
@@ -24,6 +26,7 @@ public class AppOAuth2AccessToken implements OAuth2AccessToken {
     public Map<String, Object> getAdditionalInformation() {
         Map<String, Object> res = new HashMap<>();
         res.putAll(accessToken.getAdditionalInformation());
+        res.put("openid", openId);
         res.put("domains", domains);
         res.put("rights", rights);
         return res;

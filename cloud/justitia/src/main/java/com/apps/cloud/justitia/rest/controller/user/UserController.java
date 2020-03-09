@@ -18,7 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
@@ -64,21 +66,33 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(HttpServletRequest req, Model model) {
-        model.addAttribute("clientName", resolveRequestedClientId(req));
+        enrichModel(req, model);
         return "loginpage";
     }
 
-    private String resolveRequestedClientId(HttpServletRequest req){
-        String clientId = "Justitia";
+    private void enrichModel(HttpServletRequest req, Model model){
         Object objRequest = req.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
         if(objRequest != null && SavedRequest.class.isAssignableFrom(objRequest.getClass())){
             SavedRequest savedRequest = (SavedRequest) objRequest;
-            String[] params = savedRequest.getParameterValues("client_id");
-            if(params != null && params.length > 0){
-                clientId = params[0];
+            String clientId = getParameterValues(savedRequest, "client_id");
+            if(clientId != null){
+                model.addAttribute("clientName", clientId);
+            } else {
+                model.addAttribute("clientName", "Justitia");
+            }
+            String scope = getParameterValues(savedRequest, "scope");
+            if(scope != null) {
+                model.addAttribute("scope", scope);
             }
         }
-        return clientId;
+    }
+
+    private String getParameterValues(SavedRequest savedRequest, String parameterName) {
+        String[] params = savedRequest.getParameterValues(parameterName);
+        if(params != null && params.length > 0){
+            return params[0];
+        }
+        return null;
     }
 
 }

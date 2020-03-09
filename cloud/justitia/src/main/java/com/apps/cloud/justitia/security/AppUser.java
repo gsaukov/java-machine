@@ -12,12 +12,14 @@ import static java.util.stream.Collectors.toList;
 
 public class AppUser extends User {
 
+    private final String userId;
+    private Map<String, String> openId;
     private final List<String> domains;
-
     private final Map<String, String> rights;
 
-    public AppUser(String username, String password, List<Authority> authorities, List<String> domains, Map<String, String> rights) {
+    public AppUser(String userId, String username, String password, List<Authority> authorities, List<String> domains, Map<String, String> rights) {
         super(username, password, toGrantedAuthorities(authorities));
+        this.userId = userId;
         this.domains = domains;
         this.rights = rights;
     }
@@ -30,6 +32,10 @@ public class AppUser extends User {
         return new SimpleGrantedAuthority(authority.getAuthority());
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public List<String> getDomains() {
         return domains;
     }
@@ -38,4 +44,11 @@ public class AppUser extends User {
         return rights;
     }
 
+    public Map<String, String> getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(Map<String, String> openId) {
+        this.openId = openId;
+    }
 }
