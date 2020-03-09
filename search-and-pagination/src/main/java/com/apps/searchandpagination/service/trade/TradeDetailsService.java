@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TradeDetailsService {
@@ -22,7 +23,7 @@ public class TradeDetailsService {
 
     private TradeDataRepository tradeDataRepository;
 
-    private SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy", Locale.UK);
 
     @PostAuthorize("hasDomain(returnObject.domain)")
     public TradeDetails getTrade(String detailId) {
