@@ -24,8 +24,38 @@ services:
     networks:
       - back-tier
 
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - /Users/georgy.saukov/Desktop/dev/soft/nginx/html:/etc/nginx/html
+      - /Users/georgy.saukov/Desktop/dev/soft/nginx/conf/nginx.conf:/etc/nginx/nginx.conf #sometimes it may produce folder nginx.conf on host then rm the container.
+    ports:
+      - "9020:9020"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=9020
+#    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
+    networks:
+      - back-tier
+
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - "MAX_HEAP_SIZE=256M"
+      - "HEAP_NEWSIZE=128M"
+    restart: always
+    volumes:
+      - cassandra-data:/var/lib/cassandra
+    networks:
+      - back-tier
+
 volumes:
   db-data:
+  cassandra-data:
 
 networks:
   front-tier:
