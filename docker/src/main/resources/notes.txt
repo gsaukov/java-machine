@@ -1,0 +1,29 @@
+mysql --user=root --password
+
+docker exec -it mysql bash
+mysql -h mysql-u yourmysqlusername -p
+
+## change the host to blank
+update mysql.user set host = ' '  where user = 'root';
+flush privileges;
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+
+
+
+create container
+docker run -p 55555:3306 -v /datastorage/mysql:/var/lib/mysql -d --name=mysql mysql/mysql-server:latest
+
+remove container
+docker rm container 4d3e18dd9280
+
+
+docker container ls
+docker ps -a
+docker exec -it mysql bash
+docker logs mysql
+
+
+mysql -u root -h localhost -p 55555
+
+docker compose:
