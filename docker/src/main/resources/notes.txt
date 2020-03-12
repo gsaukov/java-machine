@@ -23,6 +23,9 @@ docker ps -a
 docker exec -it mysql bash
 docker logs mysql
 
+docker stop $(docker ps -a -q)
+
+
 
 mysql -u root -h localhost -p 55555
 

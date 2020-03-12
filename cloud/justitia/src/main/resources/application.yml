@@ -20,11 +20,11 @@ spring:
       maxLifetime: 2000000
       connectionTimeout: 30000
 
-  jpa:
-    open-in-view: false
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: none
+#  jpa:
+#    open-in-view: false
+#    database-platform: org.hibernate.dialect.MySQL8Dialect
+#    hibernate:
+#      ddl-auto: none
 
   liquibase:
     enabled: true
