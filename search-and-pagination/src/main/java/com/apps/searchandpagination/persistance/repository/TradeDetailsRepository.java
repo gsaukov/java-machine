@@ -20,8 +20,8 @@ public interface TradeDetailsRepository extends JpaRepository<TradeDetails, Stri
     List<String> findAllDomains();
 
     @Query(value = "select td.SYMBOL as label, sum(td.AMOUNT) as value, sum(td.VAL) as volume " +
-            " from trade_data td inner " +
-            "     join trade_details te on td.ID = te.TRADE_DATA_ID " +
+            " from TRADE_DATA td inner " +
+            "     join TRADE_DETAILS te on td.ID = te.TRADE_DATA_ID " +
             " where te.DOMAIN = ?1 " +
             " GROUP BY td.SYMBOL " +
             " order by value desc " +
@@ -30,8 +30,8 @@ public interface TradeDetailsRepository extends JpaRepository<TradeDetails, Stri
     List<AnalysedData> findAggregatedSymbolsData (String domain, Integer size);
 
     @Query(value = "select td.DATE, td.ROUTE, td.AMOUNT, td.VAL, td.SYMBOL " +
-            "from trade_data td inner " +
-            "    join trade_details te on td.ID = te.TRADE_DATA_ID " +
+            "from TRADE_DATA td inner " +
+            "    join TRADE_DETAILS te on td.ID = te.TRADE_DATA_ID " +
             "where te.DOMAIN = ?1 " +
             "and td.DATE <= CURDATE() " +
             "order by td.DATE desc " +

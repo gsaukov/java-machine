@@ -22,6 +22,7 @@ spring:
 
   jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
   jpa.hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#  jpa:
 #    open-in-view: false
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
 #    hibernate:
