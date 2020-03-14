@@ -23,6 +23,9 @@ spring:
       maxLifetime: 2000000
       connectionTimeout: 30000
 
+  jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  jpa.hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
   liquibase:
     change-log: classpath:db/changelog-master.xml
 
