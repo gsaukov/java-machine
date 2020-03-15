@@ -2,6 +2,15 @@ version: "3"
 
 services:
 
+  auth_demo:
+    image: auth_demo
+    container_name: auth_demo
+    ports:
+      - "8097:8097"
+    networks:
+      - back-tier
+      - front-tier
+
   redis:
     image: redis:alpine
     container_name: redis
