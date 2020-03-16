@@ -23,12 +23,15 @@ services:
     image: mysql:latest
     container_name: mysqldb
     restart: always
+    expose:
+      - 55555
     environment:
+      MYSQL_TCP_PORT: 55555
       MYSQL_USER: 'root'
       MYSQL_PASSWORD: 'root'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
-      - "55555:3306"
+      - "55555:55555"
     volumes:
       - "db-data:/var/lib/mysql"
     networks:
