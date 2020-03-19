@@ -11,6 +11,32 @@ services:
       - back-tier
       - front-tier
 
+  discovery:
+    image: discovery
+    container_name: discovery
+    ports:
+      - "8761:8761"
+    networks:
+      - back-tier
+
+  justitia:
+    image: justitia
+    container_name: justitia
+    ports:
+      - "8002:8002"
+    networks:
+      - front-tier
+      - back-tier
+
+  zuul:
+    image: zuul
+    container_name: zuul
+    ports:
+      - "8090:8090"
+    networks:
+      - front-tier
+      - back-tier
+
   redis:
     image: redis:alpine
     container_name: redis

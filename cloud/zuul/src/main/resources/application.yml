@@ -1,3 +1,12 @@
+####### OVERRIDE OPTION ########
+# override via WM option: -Dmysql.host=localhost
+
+redis.host: redis
+discovery.host: discovery
+justitia.host: justitia
+
+#######
+
 spring:
   application:
     name: zuul
@@ -10,7 +19,7 @@ spring:
 #    store-type: redis
 #    redis:
 #      flush-mode: IMMEDIATE
-  redis.host: 127.0.0.1
+  redis.host: ${redis.host}
   redis.port: 6379
 
 #  datasource:
@@ -66,7 +75,7 @@ eureka:
     registryFetchIntervalSeconds: 3
     shouldDisableDelta: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${discovery.host}:8761/eureka/
 
 zuul:
   ignoreSecurityHeaders: false
@@ -128,6 +137,6 @@ jwt:
       key-alias: gskv
       key-password: srch4app
 
-login-page-url: https://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=openid domains rights
+login-page-url: https://${justitia.host}:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=openid domains rights
 
 logging.level.org.springframework: DEBUG
