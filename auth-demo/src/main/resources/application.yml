@@ -1,3 +1,12 @@
+####### OVERRIDE OPTION ########
+# override via WM option: -Dmysql.host=localhost
+
+mysql.host: mysqldb
+
+
+#######
+
+
 spring:
   application:
     name: Authdemo
@@ -11,7 +20,7 @@ spring:
 
 
   datasource:
-    url: jdbc:mysql://localhost:55555/authdemo?useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://${mysql.host}:55555/authdemo?useLegacyDatetimeCode=false&serverTimezone=UTC
     username: authdemo
     password: password
     driver-class-name: com.mysql.jdbc.Driver
