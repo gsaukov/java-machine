@@ -37,6 +37,14 @@ services:
       - front-tier
       - back-tier
 
+  sdapplication:
+    image: sdapplication
+    container_name: sdapplication
+    ports:
+      - "8081:8081"
+    networks:
+      - back-tier
+
   redis:
     image: redis:alpine
     container_name: redis

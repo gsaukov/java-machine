@@ -8,4 +8,4 @@ ARG JAR_FILE=/build/libs/zuul.jar
 ARG TRUSTSTORE=/build/resources/main/truststore.jks
 ADD ${TRUSTSTORE} truststore.jks
 ADD ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-Djavax.net.ssl.trustStore=truststore.jks", "-Djavax.net.ssl.trustStorePassword=srch4app","-jar","/app.jar"]

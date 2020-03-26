@@ -1,3 +1,14 @@
+####### OVERRIDE OPTION ########
+# override via WM option: -Dmysql.host=localhost
+
+param.mysql.host: mysqldb
+param.redis.host: redis
+param.discovery.host: discovery
+param.justitia.host: justitia
+param.cassandra.host: cassandra
+
+#######
+
 server:
   port: 8081
   error.whitelabel.enabled: false
@@ -20,7 +31,7 @@ spring:
 #spring:changelog-master.yaml
 #  profiles: h2
   datasource:
-    url: jdbc:mysql://localhost:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://${param.mysql.host}:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
     username: sdapplication
     password: password
     driver-class-name: com.mysql.jdbc.Driver
@@ -38,7 +49,7 @@ spring:
   liquibase:
     change-log: classpath:db/changelog-master.yaml
   #Session persistence
-  redis.host: 127.0.0.1
+  redis.host: ${param.redis.host}
   redis.port: 6379
 
 #  jpa:
@@ -59,10 +70,14 @@ eureka:
     registryFetchIntervalSeconds: 3
     shouldDisableDelta: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${param.discovery.host}:8761/eureka/
 
 logging.level.org.springframework: DEBUG
 logging.level.org.hibernate: ERROR
+
+cassandra:
+  host: ${param.cassandra.host}
+  port: 9042
 
 data-creation:
   address-store: classpath:db/addresses-us-all.json #use file: to specify absolute/relative location on the file system.
