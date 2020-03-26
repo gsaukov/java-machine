@@ -30,3 +30,15 @@ docker stop $(docker ps -a -q)
 mysql -u root -h localhost -p 55555
 
 docker compose:
+
+sh buildDockerImage.sh -v 19.3.0 -s
+sh buildDockerImage.sh -v 19.3.0 -e
+
+docker run --name <container name> \
+-p <host port>:1521 -p <host port>:5500 \
+-e ORACLE_SID=<your SID> \
+-e ORACLE_PDB=<your PDB name> \
+-e ORACLE_PWD=<your database passwords> \
+-e ORACLE_CHARACTERSET=<your character set> \
+-v [<host mount point>:]/opt/oracle/oradata \
+oracle/database:19.3.0-ee

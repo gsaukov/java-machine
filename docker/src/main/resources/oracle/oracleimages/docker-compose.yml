@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+
+  oracledb:
+    image: oracle/database:19.3.0-ee
+    container_name: oracledb
+    restart: always
+    environment:
+      - ORACLE_SID=oracledb
+      - ORACLE_PDB=oracle_admin
+      - ORACLE_PWD=oracle_admin
+      - ORACLE_CHARACTERSET=UTF8
+    ports:
+      - 1521:1521
+      - 5500:5500
+    volumes:
+      - oracle-ee-data:/opt/oracle/oradata
+
+  activemq:
+    image: webcenter/activemq:latest
+    ports:
+      # mqtt
+      - "1883:1883"
+      # amqp
+      - "5672:5672"
+      # ui
+      - "8161:8161"
+      # stomp
+      - "61613:61613"
+      # ws
+      - "61614:61614"
+      # jms
+      - "61616:61616"
+    volumes: ["activemq-data:/opt/activemq/conf", "activemq-data:/data/activemq", "activemq-data:/var/log/activemq"]
+    environment:
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+      ACTIVEMQ_MIN_MEMORY: 512
+      ACTIVEMQ_MAX_MEMORY: 512
+
+
+volumes:
+  oracle-data:
+  activemq-data:
+
+#CHARSET taken from original oracle db: SELECT value$ FROM sys.props$ WHERE name = 'NLS_CHARACTERSET' ;
+
+# https://github.com/oracle/docker-images/issues/1257
+
+#ORACLE PASSWORD FOR SYS, SYSTEM AND PDBADMIN: oracle_admin
+#SYSTEM
