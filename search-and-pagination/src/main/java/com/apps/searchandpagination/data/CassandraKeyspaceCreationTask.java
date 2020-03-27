@@ -5,14 +5,14 @@ import com.datastax.driver.core.Session;
 import org.apache.cassandra.exceptions.ConfigurationException;
 import org.apache.thrift.transport.TTransportException;
 import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
-public class CassandraKeyspaceCreationTask implements ApplicationRunner {
+public class CassandraKeyspaceCreationTask {
 
     public static final String KEYSPACE_CREATION_QUERY = "CREATE KEYSPACE IF NOT EXISTS geoKeySpace " + "WITH replication = { 'class': 'SimpleStrategy', 'replication_factor': '3' };";
 
