@@ -41,24 +41,20 @@ public class CassandraKeyspaceCreationTask {
 
     public static final String KEYSPACE_CREATE_TYPE_POLYGON = "CREATE TYPE IF NOT EXISTS polygon (latitude double, longitude double);";
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        createCassandraKeyspace();
-    }
-
-    public void createCassandraKeyspace() {
-        try {
-            EmbeddedCassandraServerHelper.startEmbeddedCassandra();
-        } catch (TTransportException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-        }
-        Cluster cluster = Cluster.builder().addContactPoints("127.0.0.1").withPort(9042).build();
+    public CassandraKeyspaceCreationTask(Environment env) {
+//        try {
+//            EmbeddedCassandraServerHelper.startEmbeddedCassandra();
+//        } catch (TTransportException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ConfigurationException e) {
+//            e.printStackTrace();
+//        }
+        Cluster cluster = Cluster.builder().addContactPoints(env.getProperty("cassandra.host"))
+                .withPort(Integer.parseInt(env.getProperty("cassandra.port"))).build();
         Session session = cluster.connect();
         session.execute(KEYSPACE_CREATION_QUERY);
         session.execute("DROP TABLE IF EXISTS geoKeySpace.address_data");
