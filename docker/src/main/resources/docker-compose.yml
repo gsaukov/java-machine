@@ -45,6 +45,15 @@ services:
     networks:
       - back-tier
 
+  potok:
+    image: potok
+    container_name: potok
+    ports:
+      - "9092:9092"
+    networks:
+      - front-tier
+      - back-tier
+
   redis:
     image: redis:alpine
     container_name: redis
