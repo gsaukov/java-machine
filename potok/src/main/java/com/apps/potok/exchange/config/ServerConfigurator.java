@@ -85,6 +85,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         runExecutionNotifier();
         runBalanceNotifier();
         runPositionNotifier();
+        addGraceShutdown();
     }
 
     public void runMkDataServer() {
@@ -111,8 +112,17 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         executor.execute(positionNotifierServer);
     }
 
-    @PreDestroy
+    private void addGraceShutdown() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                shutDownHook();
+            }
+        });
+    }
+
     public void shutDownHook(){
+        logger.info("Starting potok shutdown.");
         orderCreatorServer.stopExchangeServer();
         mkDataServer.stopExchangeServer();
         quoteNotifierServer.stopExchangeServer();

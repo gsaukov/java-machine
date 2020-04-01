@@ -7,6 +7,7 @@ services:
     container_name: auth_demo
     ports:
       - "8097:8097"
+      - "9093:9093"
     networks:
       - back-tier
       - front-tier
@@ -46,6 +47,7 @@ services:
       - back-tier
 
   potok:
+    stop_grace_period: 30s #does not apply when stopped from idea use docker stop -t 30 potok
     image: potok
     container_name: potok
     ports:

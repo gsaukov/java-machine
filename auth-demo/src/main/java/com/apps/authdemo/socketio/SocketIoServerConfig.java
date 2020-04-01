@@ -16,9 +16,6 @@ import java.io.IOException;
 @PropertySource("classpath:server.properties")
 public class SocketIoServerConfig {
 
-    @Value("${socket-io-server.host}")
-    private String host;
-
     @Value("${socket-io-server.port}")
     private Integer port;
 
@@ -45,7 +42,6 @@ public class SocketIoServerConfig {
     public SocketIOServer webSocketServer() throws IOException {
 
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
-        config.setHostname(host);
         config.setPort(port);
         config.setKeyStorePassword(keystorePassword);
         config.setKeyStore(keystore.getInputStream());

@@ -29,7 +29,6 @@ eureka:
       defaultZone: http://${param.discovery.host}:8761/eureka/
 
 socket-io-server:
-  host: localhost
   port: 9092
 
 certificate:

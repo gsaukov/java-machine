@@ -55,7 +55,6 @@ management:
           include: "*"
 
 socket-io-server:
-  host: localhost
   port: 9093
 
 certificate:
