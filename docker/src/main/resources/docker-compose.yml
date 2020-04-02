@@ -111,9 +111,20 @@ services:
     networks:
       - back-tier
 
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - back-tier
+
 volumes:
   db-data:
   cassandra-data:
+  rabbitmq_data:
 
 networks:
   front-tier:
