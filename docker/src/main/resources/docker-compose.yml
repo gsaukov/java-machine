@@ -8,6 +8,8 @@ services:
     ports:
       - "8097:8097"
       - "9093:9093"
+    depends_on:
+      - db
     networks:
       - back-tier
       - front-tier
@@ -25,6 +27,9 @@ services:
     container_name: justitia
     ports:
       - "8002:8002"
+    depends_on:
+      - db
+      - discovery
     networks:
       - front-tier
       - back-tier
@@ -34,6 +39,10 @@ services:
     container_name: zuul
     ports:
       - "8090:8090"
+    depends_on:
+      - redis
+      - discovery
+      - justitia
     networks:
       - front-tier
       - back-tier
@@ -43,6 +52,12 @@ services:
     container_name: sdapplication
     ports:
       - "8081:8081"
+    depends_on:
+      - db
+      - redis
+      - discovery
+      - justitia
+      - zuul
     networks:
       - back-tier
 
@@ -120,7 +135,6 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - back-tier
-
 
 volumes:
   db-data:
