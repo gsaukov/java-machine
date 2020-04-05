@@ -136,28 +136,6 @@ services:
     networks:
       - back-tier
 
-  activemq:
-    image: webcenter/activemq:latest
-    ports:
-      # mqtt
-      - "1883:1883"
-      # amqp
-      - "5672:5672"
-      # ui
-      - "8161:8161"
-      # stomp
-      - "61613:61613"
-      # ws
-      - "61614:61614"
-      # jms
-      - "61616:61616"
-    volumes: ["activemq-data:/opt/activemq/conf", "activemq-data:/data/activemq", "activemq-data:/var/log/activemq"]
-    environment:
-      ACTIVEMQ_ADMIN_LOGIN: admin
-      ACTIVEMQ_ADMIN_PASSWORD: admin
-      ACTIVEMQ_MIN_MEMORY: 512
-      ACTIVEMQ_MAX_MEMORY: 512
-
 volumes:
   db-data:
   cassandra-data:
