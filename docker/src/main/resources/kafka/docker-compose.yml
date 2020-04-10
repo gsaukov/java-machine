@@ -18,7 +18,9 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "test:1:1" #topic name : number of partitions : number of replicas.
+      KAFKA_CREATE_TOPICS:
+        #topic name : number of partitions : number of replicas.
+        "executions:1:1,deposits:1:1"
     networks:
       - back-tier
 
