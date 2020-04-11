@@ -3,6 +3,7 @@
 
 param.redis.host: redis
 param.discovery.host: discovery
+param.kafka.address: kafka:10092
 
 #######
 
@@ -37,6 +38,12 @@ certificate:
     key-store-password: srch4app
 
 session.test-mode-authentication: true
+
+kafka:
+  clusterAddress: ${param.kafka.address}
+  topic.executions: executions
+  topic.deposits: deposits
+  acknowledgement: acks # 0 - none; 1 - leader; acks - leader and replicas.
 
 exchange:
   order-size: 100 #Chunk size that is being pulled from MkDataServer and initialization.
