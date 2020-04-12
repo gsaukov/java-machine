@@ -18,6 +18,7 @@ public class SessionConfig extends AbstractHttpSessionApplicationInitializer {
 
     @Bean
     public JedisConnectionFactory connectionFactory() {
+        redis.clients.jedis.util.SafeEncoder f;
         RedisStandaloneConfiguration redisConf = new RedisStandaloneConfiguration();
         redisConf.setHostName(env.getProperty("spring.redis.host"));
         redisConf.setPort(Integer.parseInt(env.getProperty("spring.redis.port")));
