@@ -17,13 +17,10 @@
 package org.apache.tomcat.util.net;
 
 import org.apache.tomcat.util.compat.JreCompat;
-import org.apache.tomcat.util.net.SSLHostConfig.Type;
-import org.apache.tomcat.util.net.openssl.OpenSSLImplementation;
 import org.apache.tomcat.util.net.openssl.ciphers.Cipher;
 
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLParameters;
-import javax.net.ssl.SSLSessionContext;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -65,22 +62,11 @@ public abstract class AbstractJsseEndpoint<S,U> extends AbstractEndpoint<S,U> {
     }
 
 
-    @Override
-    protected Type getSslConfigType() {
-        if (OpenSSLImplementation.class.getName().equals(sslImplementationName)) {
-            return Type.EITHER;
-        } else {
-            return Type.JSSE;
-        }
-    }
-
-
     protected void initialiseSsl() throws Exception {
         if (isSSLEnabled()) {
             sslImplementation = SSLImplementation.getInstance(getSslImplementationName());
 
             for (SSLHostConfig sslHostConfig : sslHostConfigs.values()) {
-                sslHostConfig.setConfigType(getSslConfigType());
                 createSSLContext(sslHostConfig);
             }
 
@@ -108,38 +94,11 @@ public abstract class AbstractJsseEndpoint<S,U> extends AbstractEndpoint<S,U> {
             SSLContext sslContext;
             try {
                 sslContext = sslUtil.createSSLContext(negotiableProtocols);
-                sslContext.init(sslUtil.getKeyManagers(), sslUtil.getTrustManagers(), null);
             } catch (Exception e) {
                 throw new IllegalArgumentException(e.getMessage(), e);
             }
 
-            SSLSessionContext sessionContext = sslContext.getServerSessionContext();
-            if (sessionContext != null) {
-                sslUtil.configureSessionContext(sessionContext);
-            }
             certificate.setSslContext(sslContext);
-        }
-    }
-
-
-    protected void destroySsl() throws Exception {
-        if (isSSLEnabled()) {
-            for (SSLHostConfig sslHostConfig : sslHostConfigs.values()) {
-                releaseSSLContext(sslHostConfig);
-            }
-        }
-    }
-
-
-    @Override
-    protected void releaseSSLContext(SSLHostConfig sslHostConfig) {
-        for (SSLHostConfigCertificate certificate : sslHostConfig.getCertificates(true)) {
-            if (certificate.getSslContext() != null) {
-                SSLContext sslContext = certificate.getSslContext();
-                if (sslContext != null) {
-                    sslContext.destroy();
-                }
-            }
         }
     }
 
@@ -157,19 +116,6 @@ public abstract class AbstractJsseEndpoint<S,U> extends AbstractEndpoint<S,U> {
         }
 
         SSLEngine engine = sslContext.createSSLEngine();
-        switch (sslHostConfig.getCertificateVerification()) {
-        case NONE:
-            engine.setNeedClientAuth(false);
-            engine.setWantClientAuth(false);
-            break;
-        case OPTIONAL:
-        case OPTIONAL_NO_CA:
-            engine.setWantClientAuth(true);
-            break;
-        case REQUIRED:
-            engine.setNeedClientAuth(true);
-            break;
-        }
         engine.setUseClientMode(false);
         engine.setEnabledCipherSuites(sslHostConfig.getEnabledCiphers());
         engine.setEnabledProtocols(sslHostConfig.getEnabledProtocols());
@@ -191,8 +137,22 @@ public abstract class AbstractJsseEndpoint<S,U> extends AbstractEndpoint<S,U> {
                 JreCompat.getInstance().setApplicationProtocols(sslParameters, commonProtocolsArray);
             }
         }
-        // In case the getter returns a defensive copy
+        switch (sslHostConfig.getCertificateVerification()) {
+        case NONE:
+            sslParameters.setNeedClientAuth(false);
+            sslParameters.setWantClientAuth(false);
+            break;
+        case OPTIONAL:
+        case OPTIONAL_NO_CA:
+            sslParameters.setWantClientAuth(true);
+            break;
+        case REQUIRED:
+            sslParameters.setNeedClientAuth(true);
+            break;
+        }
+        // The getter (at least in OpenJDK and derivatives) returns a defensive copy
         engine.setSSLParameters(sslParameters);
+
         return engine;
     }
 
@@ -228,7 +188,6 @@ public abstract class AbstractJsseEndpoint<S,U> extends AbstractEndpoint<S,U> {
         // then fail due to no matching ciphers.
         return certificates.iterator().next();
     }
-
 
 
     @Override

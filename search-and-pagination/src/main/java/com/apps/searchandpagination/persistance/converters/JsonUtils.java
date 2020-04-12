@@ -35,7 +35,7 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T fromJson(String json, TypeReference valueTypeRef) {
+    public static <T> T fromJson(String json, TypeReference<T> valueTypeRef) {
         try {
             return MAPPER.readValue(json, valueTypeRef);
         } catch (final IOException exc) {
