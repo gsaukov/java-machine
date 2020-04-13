@@ -47,7 +47,8 @@ let AccPerfChart = {
         path.each((d, i) => {
             const sel = d3.select(`#line-${d.name}`);
             const length = sel.node().getTotalLength();
-
+            //https://stackoverflow.com/questions/13893127/how-to-draw-a-path-smoothly-from-start-point-to-end-point-in-d3-js
+            //if it is not smooth disable glow filter.
             sel.attr('stroke-dasharray', `${length} ${length}`)
                 .attr('stroke-dashoffset', length)
                 .transition()
