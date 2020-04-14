@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -19,6 +20,8 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
+
+    public static final String GROUPID_DEPOSIT = "deposit";
 
     @Value(value = "${kafka.clusterAddress}")
     private String clusterAddress;
@@ -39,8 +42,13 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> fooKafkaListenerContainerFactory() {
-        return kafkaListenerContainerFactory("deposit");
+    public ConcurrentKafkaListenerContainerFactory<String, String> depositKafkaListenerContainerFactory() {
+        return kafkaListenerContainerFactory(GROUPID_DEPOSIT);
+    }
+
+    @KafkaListener(topics = "${kafka.topic.deposits}", groupId = GROUPID_DEPOSIT, containerFactory = "depositKafkaListenerContainerFactory")
+    public void listenGroupDeposit(String message) {
+        System.out.println("Received Messasge in group 'bar': " + message);
     }
 
 }
