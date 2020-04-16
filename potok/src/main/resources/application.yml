@@ -43,7 +43,7 @@ kafka:
   clusterAddress: ${param.kafka.address}
   topic.executions: executions
   topic.deposits: deposits
-  acknowledgement: acks # 0 - none; 1 - leader; acks - leader and replicas.
+  acknowledgement: all # 0 - none; 1 - leader; all - leader and replicas.
 
 exchange:
   order-size: 100 #Chunk size that is being pulled from MkDataServer and initialization.
@@ -63,3 +63,4 @@ exchange:
     #STOP OrderCreator/MkDataServer not started
   shutdowner.timeout: 0 #milliseconds 0 disabled.
 logging.level.org.springframework: DEBUG
+#logging.level.org.apache.kafka: DEBUG

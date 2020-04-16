@@ -3,6 +3,7 @@ package com.apps.potok.kafka.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,7 @@ public class KafkaTopicConfig {
         Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, clusterAddress);
         KafkaAdmin kafkaAdmin = new KafkaAdmin(configs);
+//        AdminClient adminClient = AdminClient.create(configs);
         return kafkaAdmin;
     }
 

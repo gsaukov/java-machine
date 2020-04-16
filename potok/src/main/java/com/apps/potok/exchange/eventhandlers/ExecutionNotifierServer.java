@@ -3,11 +3,13 @@ package com.apps.potok.exchange.eventhandlers;
 import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
+import com.apps.potok.kafka.producer.MessageProducer;
 import com.apps.potok.soketio.model.execution.Execution;
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Service
 public class ExecutionNotifierServer extends AbstractExchangeServer {
+
+    @Autowired
+    private MessageProducer messageProducer;
 
     private SocketIOServer server;
     private AccountManager accountManager;
@@ -36,6 +41,8 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
         if(execution != null){
             Order executedOrder = orderManager.manageExecution(execution);
             notifyClients(getAccount(execution), execution);
+            messageProducer.sendExecutionMessage(execution);
+            messageProducer.sendMessage(execution);
         } else {
             exchangeSpeed.notifierSpeedControl();
         }
