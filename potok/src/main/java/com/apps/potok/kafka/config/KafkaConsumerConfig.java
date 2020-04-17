@@ -3,6 +3,7 @@ package com.apps.potok.kafka.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.apps.potok.soketio.model.execution.Execution;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +27,7 @@ public class KafkaConsumerConfig {
     @Value(value = "${kafka.clusterAddress}")
     private String clusterAddress;
 
-    public ConsumerFactory<String, String> consumerFactory(String groupId) {
+    public ConsumerFactory<String, Execution> consumerFactory(String groupId) {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, clusterAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
@@ -35,20 +36,15 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(String groupId) {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, Execution> kafkaListenerContainerFactory(String groupId) {
+        ConcurrentKafkaListenerContainerFactory<String, Execution> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(groupId));
         return factory;
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> depositKafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, Execution> depositKafkaListenerContainerFactory() {
         return kafkaListenerContainerFactory(GROUPID_DEPOSIT);
-    }
-
-    @KafkaListener(topics = "${kafka.topic.deposits}", groupId = GROUPID_DEPOSIT, containerFactory = "depositKafkaListenerContainerFactory")
-    public void listenGroupDeposit(String message) {
-        System.out.println("Received Messasge in group 'bar': " + message);
     }
 
 }

@@ -3,13 +3,12 @@ package com.apps.potok.exchange.eventhandlers;
 import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
-import com.apps.potok.kafka.producer.MessageProducer;
+import com.apps.potok.kafka.producer.ExecutionMessageProducer;
 import com.apps.potok.soketio.model.execution.Execution;
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,18 +18,18 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 @Service
 public class ExecutionNotifierServer extends AbstractExchangeServer {
 
-    @Autowired
-    private MessageProducer messageProducer;
-
     private SocketIOServer server;
+    private ExecutionMessageProducer executionMessageProducer;
     private AccountManager accountManager;
     private final OrderManager orderManager;
     private final ConcurrentLinkedDeque<Execution> eventQueue = new ConcurrentLinkedDeque<>();
 //    private final BlockingDeque<Execution> eventQueue = new LinkedBlockingDeque<>();
 
-    public ExecutionNotifierServer(SocketIOServer server, AccountManager accountManager, OrderManager orderManager){
+    public ExecutionNotifierServer(SocketIOServer server, AccountManager accountManager, OrderManager orderManager,
+                                   ExecutionMessageProducer executionMessageProducer){
         super.setName("ExecutionNotifierThread");
         this.server = server;
+        this.executionMessageProducer = executionMessageProducer;
         this.accountManager = accountManager;
         this.orderManager = orderManager;
     }
@@ -41,8 +40,7 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
         if(execution != null){
             Order executedOrder = orderManager.manageExecution(execution);
             notifyClients(getAccount(execution), execution);
-            messageProducer.sendExecutionMessage(execution);
-            messageProducer.sendMessage(execution);
+//            executionMessageProducer.sendExecutionMessage(execution);
         } else {
             exchangeSpeed.notifierSpeedControl();
         }

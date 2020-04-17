@@ -10,14 +10,13 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Component
-public class MessageProducer {
+public class ExecutionMessageProducer {
+
+    @Value(value = "${kafka.topic.executions}")
+    private String topicName;
 
     @Autowired
     private KafkaTemplate<String, Execution> executionKafkaTemplate;
-
-    @Value(value = "${kafka.topic.deposits}")
-    private String topicName;
-
 
     public void sendMessage(Execution message) {
 

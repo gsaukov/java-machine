@@ -3,7 +3,6 @@ package com.apps.potok.kafka.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
