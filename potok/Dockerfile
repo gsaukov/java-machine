@@ -1,5 +1,4 @@
 # oracle/jdk:11 https://github.com/oracle/docker-images/tree/master/OracleJava
-# Netflix proxy seervise Zuul image
 
 FROM oracle/jdk:11
 EXPOSE 9092
