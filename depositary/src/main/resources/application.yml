@@ -1,0 +1,36 @@
+####### OVERRIDE OPTION ########
+# override via WM option: -Dmysql.host=localhost
+
+param.discovery.host: discovery
+param.kafka.address: kafka:9092 #localhost:19092
+
+#######
+
+spring:
+  application:
+    name: depositary
+
+management:
+  endpoints:
+    web:
+      exposure:
+          include: "*"
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 4
+    leaseExpirationDurationInSeconds: 10
+  client:
+    registryFetchIntervalSeconds: 3
+    shouldDisableDelta: true
+    serviceUrl:
+      defaultZone: http://${param.discovery.host}:8761/eureka/
+
+kafka:
+  clusterAddress: ${param.kafka.address}
+  topic.executions: executions
+  topic.deposits: deposits
+  acknowledgement: all # 0 - none; 1 - leader; all - leader and replicas.
+
+logging.level.org.springframework: DEBUG
+#logging.level.org.apache.kafka: DEBUG
