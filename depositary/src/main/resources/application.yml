@@ -10,6 +10,22 @@ spring:
   application:
     name: depositary
 
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:horusdb
+    username: depositary
+    password: password
+    driver-class-name: oracle.jdbc.OracleDriver
+
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 20
+      idleTimeout: 30000
+      maxLifetime: 2000000
+      connectionTimeout: 30000
+
+  liquibase:
+    change-log: classpath:db/changelog-master.xml
+
 management:
   endpoints:
     web:
