@@ -92,4 +92,21 @@ public class Execution implements Serializable, Accountable {
     public boolean isDeposit() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Execution{" +
+                "executionUuid=" + executionUuid +
+                ", counterExecutionUuid=" + counterExecutionUuid +
+                ", orderUuid=" + orderUuid +
+                ", timestamp=" + timestamp +
+                ", symbol='" + symbol + '\'' +
+                ", accountId='" + accountId + '\'' +
+                ", route=" + route +
+                ", fillPrice=" + fillPrice +
+                ", blockedPrice=" + blockedPrice +
+                ", quantity=" + quantity +
+                ", filled=" + filled +
+                '}';
+    }
 }

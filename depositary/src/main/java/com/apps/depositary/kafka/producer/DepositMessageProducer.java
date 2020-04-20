@@ -1,6 +1,6 @@
-package com.apps.potok.kafka.producer;
+package com.apps.depositary.kafka.producer;
 
-import com.apps.potok.soketio.model.execution.Execution;
+import com.apps.depositary.kafka.messaging.DepositMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -10,22 +10,22 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Component
-public class ExecutionMessageProducer {
+public class DepositMessageProducer {
 
     @Value(value = "${kafka.topic.executions}")
     private String topicName;
 
     @Autowired
-    private KafkaTemplate<String, Execution> executionKafkaTemplate;
+    private KafkaTemplate<String, DepositMessage> depositMessageKafkaTemplate;
 
-    public void sendMessage(Execution message) {
+    public void sendMessage(DepositMessage message) {
 
-        ListenableFuture<SendResult<String, Execution>> future = executionKafkaTemplate.send(topicName, message);
+        ListenableFuture<SendResult<String, DepositMessage>> future = depositMessageKafkaTemplate.send(topicName, message);
 
-        future.addCallback(new ListenableFutureCallback<SendResult<String, Execution>>() {
+        future.addCallback(new ListenableFutureCallback<SendResult<String, DepositMessage>>() {
 
             @Override
-            public void onSuccess(SendResult<String, Execution> result) {
+            public void onSuccess(SendResult<String, DepositMessage> result) {
                 System.out.println("Sent message=[" + message + "] with offset=[" + result.getRecordMetadata()
                         .offset() + "]");
             }
@@ -37,7 +37,7 @@ public class ExecutionMessageProducer {
         });
     }
 
-    public void sendExecutionMessage(Execution message) {
-        executionKafkaTemplate.send(topicName, message.getUuid().toString(),  message);
+    public void sendDepositMessage(DepositMessage message) {
+        depositMessageKafkaTemplate.send(topicName, message);
     }
 }

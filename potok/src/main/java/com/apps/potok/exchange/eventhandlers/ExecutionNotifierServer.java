@@ -40,7 +40,7 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
         if(execution != null){
             Order executedOrder = orderManager.manageExecution(execution);
             notifyClients(getAccount(execution), execution);
-//            executionMessageProducer.sendExecutionMessage(execution);
+            executionMessageProducer.sendExecutionMessage(execution);
         } else {
             exchangeSpeed.notifierSpeedControl();
         }
