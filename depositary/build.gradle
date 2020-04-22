@@ -1,11 +1,27 @@
 apply plugin: "java"
 apply plugin: "org.springframework.boot"
 apply plugin: "io.spring.dependency-management"
+apply plugin: "com.bmuschko.docker-remote-api"
 
 group 'com.apps'
 version '1.0'
 
 sourceCompatibility = 1.8
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+
+def dockerBuildDir = './'
+def imageName = 'depositary'
+def imageVersion = '1.0'
+def containerName = 'depositary'
 
 repositories {
     mavenCentral()
@@ -26,3 +42,64 @@ dependencies {
 
     runtime "org.liquibase:liquibase-core:${liquibaseVersion}"
 }
+
+//https://www.tune-it.ru/web/adpashnin/blog/-/blogs/gradle-docker-plugin
+
+//task createDockerfile(type: Dockerfile) {
+//    destFile = project.file("$dockerBuildDir/Dockerfile")
+//    from 'openjdk:8-jre-alpine'
+//    copyFile jar.archiveName, '/app/test_service.jar'
+//    entryPoint 'java'
+//    defaultCommand '-jar', '/app/test_service.jar'
+//    exposePort 8080
+//    runCommand 'apk --update --no-cache add curl'
+//    instruction 'HEALTHCHECK CMD curl -f http://localhost:8080/hello || exit 1'
+//}
+
+
+task stopContainer(type: DockerStopContainer) {
+    targetContainerId("$containerName")
+    onError { exc ->
+        if (exc.message!=null && !exc.message.contains('NotModifiedException')) {
+            throw new RuntimeException(exc)
+        }
+    }
+}
+
+task removeContainer(type: DockerRemoveContainer) {
+    dependsOn stopContainer
+    targetContainerId("$containerName")
+    onError { exc ->
+        if (exc.message!=null && !exc.message.contains('NotModifiedException')) {
+            throw new RuntimeException(exc)
+        }
+    }
+}
+
+task removeImage(type: DockerRemoveImage) {
+//    dependsOn removeContainer
+    targetImageId("$imageName")
+    onError { exc ->
+        if (exc.message!=null && !exc.message.contains('NotModifiedException')) {
+            throw new RuntimeException(exc)
+        }
+    }
+}
+
+task buildImage(type: DockerBuildImage) {
+    dependsOn build
+    inputDir = project.file(dockerBuildDir)
+    images.add("$imageName")
+}
+
+//task createContainer(type: DockerCreateContainer) {
+//    dependsOn buildImage, removeContainer
+//    targetImageId buildImage.getImageId()
+//    containerName = "$containerName"
+//    portBindings = ['8080:8080']
+//}
+
+//task startContainer(type: DockerStartContainer) {
+//    dependsOn createContainer
+//    targetContainerId("$containerName")
+//}

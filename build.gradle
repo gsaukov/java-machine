@@ -1,5 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'com.bmuschko.docker-remote-api' version '6.4.0'
     id 'java'
 }
 
