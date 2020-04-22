@@ -10,7 +10,7 @@ apply plugin: "io.spring.dependency-management"
 group 'com.apps'
 version '1.0'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 13
 
 repositories {
     mavenCentral()

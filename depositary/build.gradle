@@ -6,7 +6,7 @@ apply plugin: "com.bmuschko.docker-remote-api"
 group 'com.apps'
 version '1.0'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 13
 
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
