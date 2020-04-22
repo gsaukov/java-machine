@@ -3,6 +3,7 @@
 
 param.discovery.host: discovery
 param.kafka.address: kafka:9092 #localhost:19092
+param.db.host: oracledb
 
 #######
 
@@ -11,7 +12,7 @@ spring:
     name: depositary
 
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:horusdb
+    url: jdbc:oracle:thin:@${param.db.host}:1521:oracledb
     username: depositary
     password: password
     driver-class-name: oracle.jdbc.OracleDriver

@@ -18,7 +18,8 @@ dependencyManagement {
 }
 
 dependencies {
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    compile 'org.apache.commons:commons-lang3:3.8.1'
+    compile 'com.google.guava:guava:29.0-jre'
     compile 'org.springframework.boot:spring-boot-starter-data-redis'
     compile 'org.springframework.session:spring-session-data-redis'
     compile 'org.springframework.security:spring-security-core' //needed for Auth deserialization must be on classpath. 

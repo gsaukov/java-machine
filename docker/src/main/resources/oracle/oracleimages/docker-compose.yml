@@ -15,7 +15,9 @@ services:
       - 1521:1521
       - 5500:5500
     volumes:
-      - oracle-ee-data:/opt/oracle/oradata
+      - oracle-data:/opt/oracle/oradata
+    networks:
+      - back-tier
 
   activemq:
     image: webcenter/activemq:latest
@@ -41,8 +43,12 @@ services:
 
 
 volumes:
-  oracle-ee-data:
+  oracle-data:
   activemq-data:
+
+networks:
+  front-tier:
+  back-tier:
 
 #CHARSET taken from original oracle db: SELECT value$ FROM sys.props$ WHERE name = 'NLS_CHARACTERSET' ;
 

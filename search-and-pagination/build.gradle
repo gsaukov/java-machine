@@ -55,6 +55,8 @@ dependencies {
     compile "org.jsoup:jsoup:${jsoupVersion}"
     compile "org.joda:joda-money:${jodaMoneyVersion}"
     compile "fr.dudie:nominatim-api:${nominatimApiVersion}"
+    compile "org.codehaus.jettison:jettison:1.4.1"
+
 //    runtime "com.h2database:h2:${h2Version}"
     runtime "mysql:mysql-connector-java:${mySqlVersion}"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
