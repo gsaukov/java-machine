@@ -55,8 +55,7 @@ services:
   # https://www.confluent.io/confluent-schema-registry/
   schema-registry:
     image: confluentinc/cp-schema-registry
-    hostname: schema-registry
-    restart: unless-stopped
+    container_name: schema-registry
     ports:
       - "18081:8081"
     environment:
@@ -78,7 +77,7 @@ services:
   # https://github.com/Landoop/schema-registry-ui
   schema-registry-ui:
     image: landoop/schema-registry-ui
-    hostname: schema-registry-ui
+    container_name: schema-registry-ui
     # schema-registry-ui binds to port 8000, but we are going to expose it on our local
     # machine on port 8001.
     ports:
@@ -102,9 +101,9 @@ services:
   # https://github.com/confluentinc/kafka-rest
   kafka-rest-proxy:
     image: confluentinc/cp-kafka-rest:4.1.0
-    hostname: kafka-rest-proxy
+    container_name: kafka-rest-proxy
     ports:
-      - "8082:8082"
+      - "18082:8082"
     environment:
       # Specifies the ZooKeeper connection string. This service connects
       # to ZooKeeper so that it can broadcast its endpoints as well as
@@ -125,6 +124,8 @@ services:
     # Kafka REST relies upon Kafka, ZooKeeper, and Schema Registry.
     # This will instruct docker to wait until those services are up
     # before attempting to start Kafka REST.
+    networks:
+      - kafka-cluster
     depends_on:
       - zookeeper
       - kafka
@@ -135,10 +136,10 @@ services:
   # (kafka messages) / view topic configuration / download data.
   # https://github.com/Landoop/kafka-topics-ui
   kafka-topics-ui:
-    image: landoop/kafka-topics-ui:0.9.3
-    hostname: kafka-topics-ui
+    image: landoop/kafka-topics-ui
+    container_name: kafka-topics-ui
     ports:
-      - "8000:8000"
+      - "18000:8000"
     environment:
       # Required. Instructs the UI where it can find the Kafka REST Proxy.
       KAFKA_REST_PROXY_URL: "http://kafka-rest-proxy:8082/"
@@ -147,6 +148,8 @@ services:
     # kafka-topics-ui relies upon Kafka REST.
     # This will instruct docker to wait until those services are up
     # before attempting to start kafka-topics-ui.
+    networks:
+      - kafka-cluster
     depends_on:
       - kafka-rest-proxy
 
@@ -155,10 +158,10 @@ services:
   # such as databases, key-value stores, search indexes, and file systems.
   # https://docs.confluent.io/current/connect/index.html
   kafka-connect:
-    image: confluentinc/cp-kafka-connect:4.1.0
-    hostname: kafka-connect
+    image: confluentinc/cp-kafka-connect
+    container_name: kafka-connect
     ports:
-      - "8083:8083"
+      - "18083:8083"
     environment:
       # Required.
       # The list of Kafka brokers to connect to. This is only used for bootstrapping,
@@ -198,6 +201,8 @@ services:
     # kafka-connect relies upon Kafka and ZooKeeper.
     # This will instruct docker to wait until those services are up
     # before attempting to start kafka-connect.
+    networks:
+      - kafka-cluster
     depends_on:
       - zookeeper
       - kafka
@@ -205,8 +210,8 @@ services:
   # This is a web tool for Kafka Connect for setting up and managing connectors for multiple connect clusters.
   # https://github.com/Landoop/kafka-connect-ui
   kafka-connect-ui:
-    image: landoop/kafka-connect-ui:0.9.4
-    hostname: kafka-connect-ui
+    image: landoop/kafka-connect-ui
+    container_name: kafka-connect-ui
     # kafka-connect-ui binds to port 8000, but we are going to expose it on our local
     # machine on port 8002.
     ports:
@@ -219,31 +224,36 @@ services:
     # kafka-connect-ui relies upon Kafka Connect.
     # This will instruct docker to wait until those services are up
     # before attempting to start kafka-connect-ui.
+    networks:
+      - kafka-cluster
     depends_on:
       - kafka-connect
 
   # API for ZooNavigator, web-based browser & editor for ZooKeeper.
   # https://github.com/elkozmon/zoonavigator-api
   zoonavigator-api:
-    image: elkozmon/zoonavigator-api:0.4.0
+    image: elkozmon/zoonavigator-api
+    container_name: zoonavigator-api
     environment:
       # The port on which the api service will listen for incoming connections.
       SERVER_HTTP_PORT: 9000
-    restart: unless-stopped
     # zoonavigator-api relies upon ZooKeeper.
     # This will instruct docker to wait until those services are up
     # before attempting to start zoonavigator-api.
+    networks:
+      - kafka-cluster
     depends_on:
       - zookeeper
 
   # Web client for ZooNavigator, web-based browser & editor for ZooKeeper.
   # https://github.com/elkozmon/zoonavigator-web
   zoonavigator-web:
-    image: elkozmon/zoonavigator-web:0.4.0
+    image: elkozmon/zoonavigator-web
+    container_name: zoonavigator-web
     # zoonavigator-web binds to port 8000, but we are going to expose it on our local
     # machine on port 8002.
     ports:
-      - "8003:8000"
+      - "18003:8000"
     environment:
       # The following two keys instruct the web component how to connect to
       # the backing api component.
@@ -252,9 +262,10 @@ services:
     # zoonavigator-web relies upon zoonavigator-api.
     # This will instruct docker to wait until those services are up
     # before attempting to start zoonavigator-web.
+    networks:
+      - kafka-cluster
     depends_on:
       - zoonavigator-api
-    restart: unless-stopped
 
   # KSQL is the open source streaming SQL engine for Apache Kafka.
   # It provides an easy-to-use yet powerful interactive SQL
@@ -264,9 +275,10 @@ services:
   # including data filtering, transformations, aggregations, joins, windowing, and sessionization.
   # https://docs.confluent.io/current/ksql/docs/
   ksql-server:
-    image: confluentinc/cp-ksql-server:5.0.0
+    image: confluentinc/cp-ksql-server
+    container_name: cp-ksql-server
     ports:
-      - "8088:8088"
+      - "18088:8088"
     environment:
       # Required.
       # The list of Kafka brokers to connect to. This is only used for bootstrapping,
@@ -280,6 +292,11 @@ services:
     # ksql-server relies upon Kafka and Schema Registry.
     # This will instruct docker to wait until those services are up
     # before attempting to start ksql-server.
+    networks:
+      - kafka-cluster
     depends_on:
       - kafka
       - schema-registry
+
+networks:
+  kafka-cluster:
