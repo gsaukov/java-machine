@@ -4,6 +4,7 @@ import com.apps.depositary.kafka.messaging.ExecutionMessage;
 import com.apps.depositary.persistance.entity.Execution;
 import com.apps.depositary.persistance.repository.ExecutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,9 @@ import static com.apps.depositary.kafka.config.KafkaConsumerConfig.GROUPID_DEPOS
 @Component
 public class ExecutionMessageConsumer {
 
+    @Value("${spring.jpa.properties.hibernate.jdbc.batch_size}")
+    private int batchSize;
+
     private final AtomicLong i = new AtomicLong();
     private ArrayList<Execution> messageBatch = new ArrayList<>();
 
@@ -23,7 +27,7 @@ public class ExecutionMessageConsumer {
 
     @KafkaListener(topics = "${kafka.topic.executions}", groupId = GROUPID_DEPOSITARY, containerFactory = "depositKafkaListenerContainerFactory")
     public void listenGroupDeposit(ExecutionMessage message) {
-        if(i.incrementAndGet() > 10000 && i.get() % 10000 == 0) {
+        if(i.incrementAndGet() > batchSize && i.get() % batchSize == 0) {
             messageBatch.add(toExecution(message));
             executionRepository.saveAll(messageBatch);
             messageBatch = new ArrayList<>();
@@ -47,6 +51,5 @@ public class ExecutionMessageConsumer {
         execution.setFilled(message.isFilled());
         return execution;
     }
-
 
 }

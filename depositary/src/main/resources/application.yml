@@ -24,6 +24,10 @@ spring:
       maxLifetime: 2000000
       connectionTimeout: 30000
 
+  jpa.properties.hibernate.jdbc.batch_size: 10000
+  jpa.properties.hibernate.order_inserts: true
+  jpa.properties.hibernate.generate_statistics: true
+
   liquibase:
     change-log: classpath:db/changelog-master.xml
 
@@ -49,5 +53,6 @@ kafka:
   topic.deposits: deposits
   acknowledgement: all # 0 - none; 1 - leader; all - leader and replicas.
 
-logging.level.org.springframework: DEBUG
+#logging.level.org.springframework: DEBUG
 #logging.level.org.apache.kafka: DEBUG
+#logging.level.org.hibernate: TRACE
