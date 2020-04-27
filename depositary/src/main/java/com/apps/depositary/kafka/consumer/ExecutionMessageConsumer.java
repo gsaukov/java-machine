@@ -6,6 +6,10 @@ import com.apps.depositary.persistance.repository.ExecutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,7 +30,10 @@ public class ExecutionMessageConsumer {
     private ExecutionRepository executionRepository;
 
     @KafkaListener(topics = "${kafka.topic.executions}", groupId = GROUPID_DEPOSITARY, containerFactory = "depositKafkaListenerContainerFactory")
-    public void listenGroupDeposit(ExecutionMessage message) {
+    public void listenGroupDeposit(@Payload ExecutionMessage message,
+                                   @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
+                                   @Header(KafkaHeaders.OFFSET) int offset,
+                                   Acknowledgment acknowledgment) {
         if(i.incrementAndGet() > batchSize && i.get() % batchSize == 0) {
             messageBatch.add(toExecution(message));
             executionRepository.saveAll(messageBatch);
@@ -34,6 +41,7 @@ public class ExecutionMessageConsumer {
         } else {
             messageBatch.add(toExecution(message));
         }
+        acknowledgment.acknowledge();
     }
 
     private Execution toExecution(ExecutionMessage message) {
