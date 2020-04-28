@@ -20,7 +20,7 @@ import static com.apps.potok.exchange.core.Route.SHORT;
 @Service
 public class BalanceCalculator {
 
-    private Logger logger = LoggerFactory.getLogger(ServerConfigurator.class);
+    private Logger logger = LoggerFactory.getLogger(BalanceCalculator.class);
 
     @Autowired
     private AccountManager accountManager;
