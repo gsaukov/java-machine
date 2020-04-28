@@ -6,6 +6,7 @@ import com.apps.depositary.persistance.repository.ExecutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.listener.ConsumerSeekAware;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -18,13 +19,18 @@ import java.util.concurrent.atomic.AtomicLong;
 import static com.apps.depositary.kafka.config.KafkaConsumerConfig.GROUPID_DEPOSITARY;
 
 @Component
-public class ExecutionMessageConsumer {
+public class ExecutionMessageConsumer implements ConsumerSeekAware {
 
     @Value("${spring.jpa.properties.hibernate.jdbc.batch_size}")
     private int batchSize;
 
+    @Value("${kafka.topic.executions}")
+    private String executionsTopic;
+
     private final AtomicLong i = new AtomicLong();
     private ArrayList<Execution> messageBatch = new ArrayList<>();
+
+    private ConsumerSeekCallback callback;
 
     @Autowired
     private ExecutionRepository executionRepository;
@@ -34,7 +40,7 @@ public class ExecutionMessageConsumer {
                                    @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
                                    @Header(KafkaHeaders.OFFSET) int offset,
                                    Acknowledgment acknowledgment) {
-        if(i.incrementAndGet() > batchSize && i.get() % batchSize == 0) {
+        if(i.incrementAndGet() >= batchSize && i.get() % batchSize == 0) {
             messageBatch.add(toExecution(message));
             executionRepository.saveAll(messageBatch);
             messageBatch = new ArrayList<>();
@@ -60,4 +66,12 @@ public class ExecutionMessageConsumer {
         return execution;
     }
 
+    private void setOffset(int partition, long newOffset) {
+        callback.seek(executionsTopic, partition, newOffset);
+    }
+
+    @Override
+    public void registerSeekCallback(ConsumerSeekCallback callback) {
+        this.callback = callback;
+    }
 }
