@@ -1,8 +1,10 @@
 package com.apps.potok.kafka.config;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,16 +26,15 @@ public class KafkaTopicConfig {
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
-        Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, clusterAddress);
-        KafkaAdmin kafkaAdmin = new KafkaAdmin(configs);
-//        AdminClient adminClient = AdminClient.create(configs);
+        KafkaAdmin kafkaAdmin = new KafkaAdmin(getConfigs());
         return kafkaAdmin;
     }
 
     @Bean
-    public NewTopic executionsTopic() {
-        return new NewTopic(topicExecutions, 1, (short) 1);
+    public AdminClient adminClient() {
+        AdminClient adminClient = AdminClient.create(getConfigs());
+//        adminClient.deleteTopics(Arrays.asList("executions"));
+        return adminClient;
     }
 
     @Bean
@@ -41,4 +42,9 @@ public class KafkaTopicConfig {
         return new NewTopic(topicDeposits, 1, (short) 1);
     }
 
+    private Map<String, Object> getConfigs() {
+        Map<String, Object> configs = new HashMap<>();
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, clusterAddress);
+        return configs;
+    }
 }
