@@ -17,12 +17,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -78,7 +73,9 @@ public class Initiator {
 
     private void createSymbols (){
         for(int i = 0 ; i < symbolSize ; i++){
-            symbolContainer.addSymbol(RandomStringUtils.randomAlphabetic(4).toUpperCase(), r.nextInt(minRange, maxRange));
+            List<String> symbolPrice = Arrays.asList(DefinedSymbols.SYMBOLS.get(i).split(","));
+            symbolContainer.addSymbol(symbolPrice.get(0), Integer.decode(symbolPrice.get(1)));
+//            symbolContainer.addSymbol(RandomStringUtils.randomAlphabetic(4).toUpperCase(), r.nextInt(minRange, maxRange));
         }
     }
 
@@ -104,8 +101,8 @@ public class Initiator {
 
     private void createAccounts (){
         for(int i = 0 ; i < accountsSize ; i++){
-            String accountId = RandomStringUtils.randomAlphabetic(9).toUpperCase();
-            Account account = new Account(accountId, r.nextLong(10000000l, 100000000l));
+//            String accountId = RandomStringUtils.randomAlphabetic(9).toUpperCase();
+            Account account = new Account(DefinedAccounts.ACCOUNTS.get(i), r.nextLong(10000000l, 100000000l));
             accountManager.addNewAccount(account);
             createPositions(account, 60);
             createOrders(account);

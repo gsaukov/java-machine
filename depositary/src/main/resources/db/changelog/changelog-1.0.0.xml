@@ -38,7 +38,52 @@
             <column name="FILLED" type="NUMBER(1)">
                 <constraints nullable="false"/>
             </column>
+            <column name="DEPOSIT_UUID" type="VARCHAR2(64)">
+                <constraints nullable="true" foreignKeyName="FK_EXC_DEP" references="DEPOSIT(UUID)"/>
+            </column>
         </createTable>
+        <createIndex tableName="EXECUTION" indexName="IDX_EXC_DEP" unique="false">
+            <column name="DEPOSIT_UUID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create_deposit" author="gsaukov">
+        <createTable tableName="DEPOSIT">
+            <column name="UUID" type="VARCHAR2(64)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SYMBOL" type="VARCHAR2(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACCOUNT_ID" type="VARCHAR2(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROUTE" type="VARCHAR2(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FILL_PRICE" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BLOCKED_PRICE" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+            <column name="QUANTITY" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLOSED" type="NUMBER(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+        </createTable>
+        <createIndex tableName="DEPOSIT" indexName="IDX_DEP_COMPOSITE" unique="false">
+            <column name="SYMBOL"/>
+            <column name="ACCOUNT_ID"/>
+            <column name="ROUTE"/>
+            <column name="CLOSED"/>
+        </createIndex>
     </changeSet>
 
 </databaseChangeLog>

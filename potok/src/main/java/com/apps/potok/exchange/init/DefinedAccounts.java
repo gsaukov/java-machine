@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DefinedAccounts {
-    List<String> accounts = Arrays.asList("JRRWSLRFK",
+    static List<String> ACCOUNTS = Arrays.asList("JRRWSLRFK",
         "CFVDPFVXS",
         "JWKIZUTGM",
         "YQIVTGVOZ",
