@@ -24,6 +24,7 @@ dependencies {
     compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     compile "org.springframework.kafka:spring-kafka:${springKafka}"
     compile "com.oracle.ojdbc:ojdbc8:19.3.0.0"
+    compile 'com.google.guava:guava:29.0-jre'
 
     runtime "org.liquibase:liquibase-core:${liquibaseVersion}"
 }

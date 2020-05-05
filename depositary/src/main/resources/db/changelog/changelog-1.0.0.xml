@@ -64,7 +64,7 @@
             <column name="ROUTE" type="VARCHAR2(32)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FILL_PRICE" type="INTEGER">
+            <column name="FILL_PRICE" type="FLOAT(24)">
                 <constraints nullable="false"/>
             </column>
             <column name="BLOCKED_PRICE" type="INTEGER">

@@ -1,5 +1,7 @@
 package com.apps.depositary.persistance.entity;
 
+import com.apps.depositary.service.Route;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
@@ -23,10 +25,10 @@ public class Deposit {
     private String accountId;
 
     @Column(name = "ROUTE")
-    private String route;
+    private Route route;
 
     @Column(name = "FILL_PRICE")
-    private Integer fillPrice;
+    private Double fillPrice;
 
     @Column(name = "BLOCKED_PRICE")
     private Integer blockedPrice;
@@ -73,19 +75,19 @@ public class Deposit {
         this.accountId = accountId;
     }
 
-    public String getRoute() {
+    public Route getRoute() {
         return route;
     }
 
-    public void setRoute(String route) {
+    public void setRoute(Route route) {
         this.route = route;
     }
 
-    public Integer getFillPrice() {
+    public Double getFillPrice() {
         return fillPrice;
     }
 
-    public void setFillPrice(Integer fillPrice) {
+    public void setFillPrice(Double fillPrice) {
         this.fillPrice = fillPrice;
     }
 
