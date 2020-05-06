@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.AtomicDouble;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,9 +22,10 @@ public class SafeDeposit {
     private final AtomicDouble fillPrice;
     private final AtomicInteger blockedPrice;
     private final AtomicInteger quantity;
+    private final AtomicBoolean persisted;
 
     public SafeDeposit(UUID uuid, Date timestamp, String symbol, String accountId, Route route, Double fillPrice,
-                       Integer blockedPrice, Integer quantity) {
+                       Integer blockedPrice, Integer quantity, boolean persisted) {
         this.lock = new ReentrantLock();
         
         this.uuid = uuid;
@@ -34,6 +36,7 @@ public class SafeDeposit {
         this.fillPrice = new AtomicDouble(fillPrice);
         this.blockedPrice = new AtomicInteger(blockedPrice);
         this.quantity = new AtomicInteger(quantity);
+        this.persisted = new AtomicBoolean(persisted);
     }
 
     public void applyExecution (SafeExecution execution) {
@@ -41,7 +44,6 @@ public class SafeDeposit {
             applySellExecution(execution);
         } else {
             applyBuyShortExecution(execution);
-
         }
     }
 
@@ -109,7 +111,8 @@ public class SafeDeposit {
     public AtomicInteger getQuantity() {
         return quantity;
     }
-    
-    
 
+    public boolean isPersisted() {
+        return persisted.get();
+    }
 }

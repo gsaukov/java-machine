@@ -32,25 +32,28 @@ public class DepositContainer {
         container.put(Route.SHORT, toExistingSafeDeposit(shortDeposit));
     }
 
-    public UUID applyExecution(Execution execution) {
+    public SafeDeposit applyExecution(Execution execution) {
         final SafeDeposit newDeposit = toNewSafeDeposit(execution);
         final SafeDeposit existingDeposit = container.putIfAbsent(newDeposit.getRoute(), newDeposit);
         if(existingDeposit == null){
-            return newDeposit.getUuid();
+            execution.setUuid(newDeposit.getUuid());
+            return newDeposit;
         } else {
+            execution.setUuid(existingDeposit.getUuid());
             existingDeposit.applyExecution(toNewSafeExecution(execution));
-            return existingDeposit.getUuid();
+            return existingDeposit;
         }
     }
 
     private SafeDeposit toExistingSafeDeposit(Deposit deposit) {
         return new SafeDeposit(deposit.getUuid(), deposit.getTimestamp(), deposit.getSymbol(), deposit.getAccountId(),
-                deposit.getRoute(), deposit.getFillPrice(), deposit.getBlockedPrice(), deposit.getQuantity());
+                deposit.getRoute(), deposit.getFillPrice(), deposit.getBlockedPrice(), deposit.getQuantity(), true);
     }
 
     private SafeDeposit toNewSafeDeposit(Execution execution) {
         return new SafeDeposit(UUID.randomUUID(), execution.getTimestamp(), execution.getSymbol(), execution.getAccountId(),
-                Route.valueOf(execution.getRoute()), execution.getFillPrice().doubleValue(), execution.getBlockedPrice(), execution.getQuantity());
+                Route.valueOf(execution.getRoute()), execution.getFillPrice().doubleValue(), execution.getBlockedPrice(),
+                execution.getQuantity(), false);
     }
 
     private SafeExecution toNewSafeExecution(Execution execution) {
