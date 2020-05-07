@@ -1,33 +1,33 @@
 package com.apps.depositary.service;
 
 import com.apps.depositary.persistance.entity.Execution;
+import com.apps.depositary.persistance.repository.DepositRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
-public class DepositaryServer extends AbstractDepositaryServer {
+//ThreadSafe
+@Service
+public class DepositaryService{
 
-    private final ConcurrentLinkedDeque<Execution> eventQueue = new ConcurrentLinkedDeque<>();
+    @Autowired
+    private DepositPersister depositPersister;
+
+    @Autowired
+    private DepositUpdater depositUpdater;
+
     //  account|symbol|deposit(BUY,SHORT)
     private final ConcurrentHashMap<String, ConcurrentHashMap<String, DepositContainer>> deposits = new ConcurrentHashMap<>();
 
-    public DepositaryServer() {
-        super.setName("DepositaryServer");
-    }
-
-    @Override
-    public void runDepositaryServer() {
-        Execution execution = eventQueue.poll();
-        if(execution != null){
-            addExecution(execution);
-        } else {
-            speedControl();
-        }
-    }
-
-    public void addExecution(Execution execution) {
+    public void processExecution(Execution execution) {
         DepositContainer depositContainer = getDepositContainer(execution);
-        depositContainer.applyExecution(execution);
+        SafeDeposit deposit = depositContainer.applyExecution(execution);
+        if(deposit.isPersisted()){
+            depositUpdater.update(deposit);
+        } else {
+            depositPersister.persist(deposit);
+        }
     }
 
     private DepositContainer getDepositContainer(Execution execution) {
@@ -63,8 +63,5 @@ public class DepositaryServer extends AbstractDepositaryServer {
             return existingDeposit;
         }
     }
-
-    @Override
-    public void speedControl() {}
 
 }

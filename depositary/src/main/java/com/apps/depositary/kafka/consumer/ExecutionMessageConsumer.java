@@ -3,6 +3,7 @@ package com.apps.depositary.kafka.consumer;
 import com.apps.depositary.kafka.messaging.ExecutionMessage;
 import com.apps.depositary.persistance.entity.Execution;
 import com.apps.depositary.persistance.repository.ExecutionRepository;
+import com.apps.depositary.service.DepositaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -35,18 +36,25 @@ public class ExecutionMessageConsumer implements ConsumerSeekAware {
     @Autowired
     private ExecutionRepository executionRepository;
 
+    @Autowired
+    private DepositaryService depositaryService;
+
     @KafkaListener(topics = "${kafka.topic.executions}", groupId = GROUPID_DEPOSITARY, containerFactory = "depositKafkaListenerContainerFactory")
     public void listenGroupDeposit(@Payload ExecutionMessage message,
                                    @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
                                    @Header(KafkaHeaders.OFFSET) int offset,
                                    Acknowledgment acknowledgment) {
+
+        Execution execution = toExecution(message);
+        depositaryService.processExecution(execution);
+        messageBatch.add(execution);
+
         if(i.incrementAndGet() >= batchSize && i.get() % batchSize == 0) {
-            messageBatch.add(toExecution(message));
             executionRepository.saveAll(messageBatch);
             messageBatch = new ArrayList<>();
-        } else {
-            messageBatch.add(toExecution(message));
         }
+        //TODO offset should persisted as well to track last success
+        //So it would be possible to setOffset for retry or replay.
         acknowledgment.acknowledge();
     }
 
