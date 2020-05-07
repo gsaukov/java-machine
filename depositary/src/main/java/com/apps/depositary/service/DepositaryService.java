@@ -1,7 +1,6 @@
 package com.apps.depositary.service;
 
 import com.apps.depositary.persistance.entity.Execution;
-import com.apps.depositary.persistance.repository.DepositRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
