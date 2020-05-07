@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface DepositRepository extends JpaRepository<Deposit, UUID> {
 
     @Modifying
-    @Query("update deposit d set d.fillPrice = ?1, d.quantity = ?2 where u.uuid = ?3")
+    @Query("update Deposit d set d.fillPrice = ?1, d.quantity = ?2 where d.uuid = ?3")
     void updateDeposit(Double fillPrice, Integer quantity, UUID id);
 
 }

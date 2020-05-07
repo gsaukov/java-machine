@@ -39,7 +39,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="DEPOSIT_UUID" type="VARCHAR2(64)">
-                <constraints nullable="true" foreignKeyName="FK_EXC_DEP" references="DEPOSIT(UUID)"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <createIndex tableName="EXECUTION" indexName="IDX_EXC_DEP" unique="false">
