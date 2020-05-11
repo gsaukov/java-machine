@@ -62,5 +62,4 @@ public class DepositaryService{
             return existingDeposit;
         }
     }
-
 }

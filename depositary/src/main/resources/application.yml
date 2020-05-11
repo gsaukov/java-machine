@@ -55,6 +55,9 @@ kafka:
   topic.deposits: deposits
   acknowledgement: all # 0 - none; 1 - leader; all - leader and replicas.
 
+depositary:
+  executorsNumber: 4
+
 #logging.level.org.springframework: DEBUG
 #logging.level.org.apache.kafka: DEBUG
 #logging.level.org.hibernate: TRACE
