@@ -43,6 +43,9 @@ public class Execution {
     @Column(name = "FILLED")
     private boolean filled;
 
+    @Column(name = "DEPOSIT_UUID")
+    private UUID depositId;
+
     public UUID getUuid() {
         return uuid;
     }
@@ -131,4 +134,11 @@ public class Execution {
         this.filled = filled;
     }
 
+    public UUID getDepositId() {
+        return depositId;
+    }
+
+    public void setDepositId(UUID depositId) {
+        this.depositId = depositId;
+    }
 }

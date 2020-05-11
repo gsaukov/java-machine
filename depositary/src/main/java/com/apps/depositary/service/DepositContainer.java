@@ -36,10 +36,10 @@ public class DepositContainer {
         final SafeDeposit newDeposit = toNewSafeDeposit(execution);
         final SafeDeposit existingDeposit = container.putIfAbsent(newDeposit.getRoute(), newDeposit);
         if(existingDeposit == null){
-            execution.setUuid(newDeposit.getUuid());
+            execution.setDepositId(newDeposit.getUuid());
             return newDeposit;
         } else {
-            execution.setUuid(existingDeposit.getUuid());
+            execution.setDepositId(existingDeposit.getUuid());
             existingDeposit.applyExecution(toNewSafeExecution(execution));
             return existingDeposit;
         }

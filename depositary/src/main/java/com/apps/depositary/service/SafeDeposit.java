@@ -112,6 +112,10 @@ public class SafeDeposit {
         return quantity;
     }
 
+    public boolean setPersisted() {
+        return persisted.getAndSet(true);
+    }
+
     public boolean isPersisted() {
         return persisted.get();
     }

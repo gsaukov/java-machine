@@ -8,15 +8,18 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
-public class DepositWorker extends AbstractDepositaryServer {
+public class DepositWorker extends AbstractDepositaryWorker {
 
     @Value("${spring.jpa.properties.hibernate.jdbc.batch_size}")
     private int batchSize;
 
     private final AtomicLong i = new AtomicLong();
     private final ConcurrentLinkedDeque<SafeDeposit> eventQueue = new ConcurrentLinkedDeque<>();
-    private ArrayList<Deposit> batch = new ArrayList<>();
+    private ArrayList<SafeDeposit> persistBatch = new ArrayList<>();
+    private ArrayList<SafeDeposit> updateBatch = new ArrayList<>();
+
 
     @Autowired
     private DepositRepository depositRepository;
@@ -26,13 +29,20 @@ public class DepositWorker extends AbstractDepositaryServer {
     }
 
     @Override
-    public void runDepositaryServer() {
+    public void runDepositaryWorker() {
         SafeDeposit deposit = eventQueue.poll();
         if(deposit != null){
-            batch.add(toNewDeposit(deposit));
-            if(batch.size() >= batchSize && i.get() % batchSize == 0){
-                depositRepository.saveAll(batch);
-                batch = new ArrayList<>();
+
+            if(deposit.isPersisted()){
+                updateBatch.add(deposit);
+            } else {
+                persistBatch.add(deposit);
+            }
+
+            if(persistBatch.size() >= batchSize && i.get() % batchSize == 0){
+                depositRepository.saveAll(persistBatch.stream().map(this::toNewDeposit).collect(Collectors.toList()));
+                persistBatch.stream().map(d -> d.setPersisted());
+                persistBatch = new ArrayList<>();
             }
         } else {
             speedControl();

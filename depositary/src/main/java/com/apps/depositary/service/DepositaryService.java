@@ -11,10 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DepositaryService{
 
     @Autowired
-    private DepositPersister depositPersister;
-
-    @Autowired
-    private DepositUpdater depositUpdater;
+    private DepositExecutor depositExecutor;
 
     //  account|symbol|deposit(BUY,SHORT)
     private final ConcurrentHashMap<String, ConcurrentHashMap<String, DepositContainer>> deposits = new ConcurrentHashMap<>();
@@ -22,11 +19,7 @@ public class DepositaryService{
     public void processExecution(Execution execution) {
         DepositContainer depositContainer = getDepositContainer(execution);
         SafeDeposit deposit = depositContainer.applyExecution(execution);
-        if(deposit.isPersisted()){
-            depositUpdater.update(deposit);
-        } else {
-            depositPersister.persist(deposit);
-        }
+        depositExecutor.executeDeposit(deposit);
     }
 
     private DepositContainer getDepositContainer(Execution execution) {

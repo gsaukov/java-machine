@@ -1,12 +1,9 @@
 package com.apps.depositary.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public abstract class AbstractDepositaryServer extends Thread {
-
+public abstract class AbstractDepositaryWorker extends Thread {
 
     private final AtomicBoolean running = new AtomicBoolean(true);
 
@@ -14,15 +11,15 @@ public abstract class AbstractDepositaryServer extends Thread {
     public void run() {
         while(running.get() && !Thread.currentThread().isInterrupted()){
             speedControl();
-            runDepositaryServer();
+            runDepositaryWorker();
         }
     }
 
-    public void stopDepositaryServer(){
+    public void stopDepositaryWorker(){
         running.getAndSet(false);
     }
 
-    public abstract void runDepositaryServer();
+    public abstract void runDepositaryWorker();
 
     public abstract void speedControl();
 

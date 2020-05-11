@@ -1,8 +1,7 @@
 package com.apps.depositary.service.config;
 
 import com.apps.depositary.service.DepositExecutor;
-import com.apps.depositary.service.DepositPersister;
-import com.apps.depositary.service.DepositUpdater;
+
 import com.apps.depositary.service.DepositWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +13,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.TaskExecutor;
 
 @Configuration
 public class ServerConfigurator implements ApplicationListener<ApplicationReadyEvent> {
@@ -33,9 +30,12 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
 
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
-
+        runDepositExecutor();
     }
 
+    private void runDepositExecutor() {
+        executor.runDepositExecutor();
+    }
 
     private void addGraceShutdown() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
