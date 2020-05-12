@@ -5,7 +5,6 @@ services:
   oracledb:
     image: oracle/database:19.3.0-ee
     container_name: oracledb
-    restart: always
     environment:
       - ORACLE_SID=oracledb
       - ORACLE_PDB=oracle_admin

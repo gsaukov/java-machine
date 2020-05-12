@@ -17,6 +17,7 @@ services:
   discovery:
     image: discovery
     container_name: discovery
+    restart: always
     ports:
       - "8761:8761"
     networks:

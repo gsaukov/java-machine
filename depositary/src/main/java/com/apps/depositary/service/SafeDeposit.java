@@ -3,6 +3,7 @@ package com.apps.depositary.service;
 import com.google.common.util.concurrent.AtomicDouble;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -118,5 +119,18 @@ public class SafeDeposit {
 
     public boolean isPersisted() {
         return persisted.get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SafeDeposit deposit = (SafeDeposit) o;
+        return uuid.equals(deposit.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 }
