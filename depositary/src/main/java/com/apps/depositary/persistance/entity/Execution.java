@@ -1,5 +1,8 @@
 package com.apps.depositary.persistance.entity;
 
+import com.apps.depositary.service.Route;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
@@ -10,12 +13,15 @@ import java.util.UUID;
 public class Execution {
 
     @Id
+    @Type(type="uuid-char")
     @Column(name = "UUID")
     private UUID uuid;
 
+    @Type(type="uuid-char")
     @Column(name = "COUNTER_EXECUTION_UUID")
     private UUID counterExecutionUuid;
 
+    @Type(type="uuid-char")
     @Column(name = "ORDER_UUID")
     private UUID orderUuid;
 
@@ -28,8 +34,9 @@ public class Execution {
     @Column(name = "ACCOUNT_ID")
     private String accountId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "ROUTE")
-    private String route;
+    private Route route;
 
     @Column(name = "FILL_PRICE")
     private Integer fillPrice;
@@ -43,6 +50,7 @@ public class Execution {
     @Column(name = "FILLED")
     private boolean filled;
 
+    @Type(type="uuid-char")
     @Column(name = "DEPOSIT_UUID")
     private UUID depositId;
 
@@ -94,11 +102,11 @@ public class Execution {
         this.accountId = accountId;
     }
 
-    public String getRoute() {
+    public Route getRoute() {
         return route;
     }
 
-    public void setRoute(String route) {
+    public void setRoute(Route route) {
         this.route = route;
     }
 

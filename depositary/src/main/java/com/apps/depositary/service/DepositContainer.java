@@ -47,17 +47,25 @@ public class DepositContainer {
 
     private SafeDeposit toExistingSafeDeposit(Deposit deposit) {
         return new SafeDeposit(deposit.getUuid(), deposit.getTimestamp(), deposit.getSymbol(), deposit.getAccountId(),
-                deposit.getRoute(), deposit.getFillPrice(), deposit.getBlockedPrice(), deposit.getQuantity(), true);
+                deposit.getRoute(), deposit.getFillPrice().doubleValue(), deposit.getBlockedPrice(), deposit.getQuantity(), true);
     }
 
     private SafeDeposit toNewSafeDeposit(Execution execution) {
         return new SafeDeposit(UUID.randomUUID(), execution.getTimestamp(), execution.getSymbol(), execution.getAccountId(),
-                Route.valueOf(execution.getRoute()), execution.getFillPrice().doubleValue(), execution.getBlockedPrice(),
+                getDepositRoute(execution), execution.getFillPrice().doubleValue(), execution.getBlockedPrice(),
                 execution.getQuantity(), false);
     }
 
     private SafeExecution toNewSafeExecution(Execution execution) {
         return new SafeExecution(execution.getUuid(),  execution.getSymbol(), execution.getAccountId(),
-                Route.valueOf(execution.getRoute()), execution.getFillPrice(), execution.getBlockedPrice(), execution.getQuantity());
+                execution.getRoute(), execution.getFillPrice(), execution.getBlockedPrice(), execution.getQuantity());
+    }
+
+    private Route getDepositRoute(Execution execution) {
+        if(Route.SHORT.equals(execution.getRoute())){
+            return Route.SHORT;
+        } else {
+            return Route.BUY;
+        }
     }
 }

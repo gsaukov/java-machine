@@ -1,8 +1,11 @@
 package com.apps.depositary.persistance.entity;
 
 import com.apps.depositary.service.Route;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,6 +15,7 @@ import java.util.UUID;
 public class Deposit {
 
     @Id
+    @Type(type="uuid-char")
     @Column(name = "UUID")
     private UUID uuid;
 
@@ -24,11 +28,12 @@ public class Deposit {
     @Column(name = "ACCOUNT_ID")
     private String accountId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "ROUTE")
     private Route route;
 
     @Column(name = "FILL_PRICE")
-    private Double fillPrice;
+    private BigDecimal fillPrice;
 
     @Column(name = "BLOCKED_PRICE")
     private Integer blockedPrice;
@@ -83,12 +88,12 @@ public class Deposit {
         this.route = route;
     }
 
-    public Double getFillPrice() {
+    public BigDecimal getFillPrice() {
         return fillPrice;
     }
 
     public void setFillPrice(Double fillPrice) {
-        this.fillPrice = fillPrice;
+        this.fillPrice = new BigDecimal(fillPrice, MathContext.DECIMAL32);
     }
 
     public Integer getBlockedPrice() {

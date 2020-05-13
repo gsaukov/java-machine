@@ -24,7 +24,7 @@ spring:
       maxLifetime: 2000000
       connectionTimeout: 30000
 
-  jpa.properties.hibernate.jdbc.batch_size: 10000
+  jpa.properties.hibernate.jdbc.batch_size: 1000
   jpa.properties.hibernate.order_inserts: true
   jpa.properties.hibernate.order_updates: true
   jpa.properties.hibernate.batch_versioned_data: true

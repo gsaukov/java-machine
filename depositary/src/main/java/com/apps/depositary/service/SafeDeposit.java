@@ -60,8 +60,11 @@ public class SafeDeposit {
             existingWeight = prev * quantity.get();
             newWeight = execution.getFillPrice() * execution.getQuantity();
             newQuantity = quantity.get() + execution.getQuantity() ;
-            next = (existingWeight + newWeight) / newQuantity;
-            fillPrice.set(next);
+            if(newQuantity > 0){
+                next = (existingWeight + newWeight) / newQuantity;
+                fillPrice.set(next);
+            }
+
             quantity.getAndAdd(execution.getQuantity());
         } catch(Exception e) {
             e.printStackTrace();

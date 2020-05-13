@@ -2,6 +2,7 @@ package com.apps.depositary.service;
 
 import com.apps.depositary.persistance.entity.Deposit;
 import com.apps.depositary.persistance.repository.DepositRepository;
+import com.apps.depositary.persistance.repository.DepositUpdater;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class DepositWorker extends AbstractDepositaryWorker {
 
     @Autowired
     private DepositRepository depositRepository;
+
+    @Autowired
+    private DepositUpdater depositUpdater;
 
     public void setNameDepositPersister(int num) {
         super.setName("DepositaryPersister_" + num);
@@ -60,9 +64,7 @@ public class DepositWorker extends AbstractDepositaryWorker {
     private void tryUpdateBatch() {
         if(updateBatch.size() >= batchSize && updateBatch.size() % batchSize == 0){
             logger.info(this.getName() + " updating " + updateBatch.size() + " deposits");
-            for(SafeDeposit deposit : updateBatch){
-                depositRepository.updateDeposit(deposit.getFillPrice().get(), deposit.getQuantity().get(), deposit.getUuid());
-            }
+            depositUpdater.updateDeposits(updateBatch);
             logger.info(this.getName() + " update deposits finished");
             updateBatch = new HashSet<>();
         }
@@ -90,6 +92,5 @@ public class DepositWorker extends AbstractDepositaryWorker {
     public void speedControl() {
 
     }
-
 
 }

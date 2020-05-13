@@ -4,6 +4,7 @@ import com.apps.depositary.kafka.messaging.ExecutionMessage;
 import com.apps.depositary.persistance.entity.Execution;
 import com.apps.depositary.persistance.repository.ExecutionRepository;
 import com.apps.depositary.service.DepositaryService;
+import com.apps.depositary.service.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -66,7 +67,7 @@ public class ExecutionMessageConsumer implements ConsumerSeekAware {
         execution.setTimestamp(message.getTimestamp());
         execution.setSymbol(message.getSymbol());
         execution.setAccountId(message.getAccountId());
-        execution.setRoute(message.getRoute());
+        execution.setRoute(Route.valueOf(message.getRoute()));
         execution.setFillPrice(message.getFillPrice());
         execution.setBlockedPrice(message.getBlockedPrice());
         execution.setQuantity(message.getQuantity());
