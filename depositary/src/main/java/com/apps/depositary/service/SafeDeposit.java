@@ -60,7 +60,7 @@ public class SafeDeposit {
             existingWeight = prev * quantity.get();
             newWeight = execution.getFillPrice() * execution.getQuantity();
             newQuantity = quantity.get() + execution.getQuantity() ;
-            if(newQuantity > 0){
+            if(newQuantity > 0){ //NaN safety
                 next = (existingWeight + newWeight) / newQuantity;
                 fillPrice.set(next);
             }
