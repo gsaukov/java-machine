@@ -19,6 +19,21 @@ public abstract class AbstractDepositaryWorker extends Thread {
         running.getAndSet(false);
     }
 
+    public void speedControl(long timeout) {
+        if (timeout > 0) {
+            try {
+                Thread.sleep(timeout);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else if (timeout == 0) {
+            //full speed
+        } else {
+            //negative timeout kill the thread
+            Thread.currentThread().interrupted();
+        }
+    }
+
     public abstract void runDepositaryWorker();
 
     public abstract void speedControl();

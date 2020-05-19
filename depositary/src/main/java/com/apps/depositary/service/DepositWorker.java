@@ -90,7 +90,8 @@ public class DepositWorker extends AbstractDepositaryWorker {
 
     @Override
     public void speedControl() {
-
+        speedControl(100);
+        //todo flush persistBatch/updateBatch here based on some time counter.
     }
 
 }
