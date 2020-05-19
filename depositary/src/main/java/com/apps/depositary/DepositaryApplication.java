@@ -12,7 +12,6 @@ public class DepositaryApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = new SpringApplicationBuilder(DepositaryApplication.class)
-                .web(WebApplicationType.NONE)
                 .run(args);
     }
 
