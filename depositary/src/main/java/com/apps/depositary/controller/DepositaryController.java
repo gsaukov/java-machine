@@ -10,7 +10,7 @@ public class DepositaryController {
 
     @ResponseBody
     @GetMapping({"depositary/account/getdeposits"})
-    public String getDetails(@RequestParam("accountId") String accountId) {
+    public String getDeposits(@RequestParam("accountId") String accountId) {
         return "";
     }
 }
