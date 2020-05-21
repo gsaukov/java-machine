@@ -6,6 +6,7 @@ param.redis.host: redis
 param.discovery.host: discovery
 param.justitia.host: justitia
 param.cassandra.host: cassandra
+param.cartographer.host: cartographer
 
 #######
 
@@ -83,6 +84,6 @@ data-creation:
   address-store: classpath:db/addresses-us-all.json #use file: to specify absolute/relative location on the file system.
 
 cartographer:
-  origin-map-cartographer-url: http://localhost:8510/originmap
-  value-map-cartographer-url: http://localhost:8510/valuemap
-  pollution-map-cartographer-url: http://localhost:8510/pollutionmap
+  origin-map-cartographer-url: http://${param.cartographer.host}:8510/originmap
+  value-map-cartographer-url: http://${param.cartographer.host}:8510/valuemap
+  pollution-map-cartographer-url: http://${param.cartographer.host}:8510/pollutionmap
