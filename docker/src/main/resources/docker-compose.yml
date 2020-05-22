@@ -48,6 +48,14 @@ services:
       - front-tier
       - back-tier
 
+  cartographer:
+    image: cartographer
+    container_name: cartographer
+    ports:
+      - "8510:8510"
+    networks:
+      - back-tier
+
   sdapplication:
     image: sdapplication
     container_name: sdapplication
