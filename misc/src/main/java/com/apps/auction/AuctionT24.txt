@@ -1,0 +1,10 @@
+Interface
+
+
+GET: /auction/ N/A [{query: string}]
+GET: /auction/:query N/A [{query: string, price: number}]
+POST: /auction/bid {query: string, price: number} {id: string}
+DELETE: /auction/bid/:id N/A {message: string}
+PATCH: /auction/bid {id: string, price: number} {message: string}
+
+https://yieldbird.com/first-price-vs-second-price-auction/
