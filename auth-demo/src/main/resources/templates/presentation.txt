@@ -288,7 +288,7 @@ o	Cipher Suits (Anatomy, Strength).
 o	TLS and handshake.
 o	Authentication Basic/Form (Spring security based).
 o	Java/ Spring boot areas that do the above.
-o	Secure system design for 100+ millions of user (if time permits).
+o	Secure system design for 100+ millions of users (if time permits).
 
                 PART II
 o	Oauth2 (flows, grant types, OpenID).
