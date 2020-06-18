@@ -1,8 +1,6 @@
 package com.apps.hackerrank;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ArrayManipulation2 {
 
@@ -17,21 +15,23 @@ public class ArrayManipulation2 {
         size = size + 1;
 
         long[] A = new long[size];
-        List<P> m = mergeQueries(size, queries);
+        P[] m = mergeQueries(size, queries);
 
         long max = applyQuery(A, m);
 
         return max;
     }
 
-    private static long applyQuery(long[] a, List<P> m) {
+    private static long applyQuery(long[] a, P[] m) {
         long val = 0;
         long max = Long.MIN_VALUE;
         for(int i=0; i<a.length; i++){
-            val = addVal(val, m.get(i));
-            a[i] = val;
-            max = Math.max(max, val);
-            val = removeVal(val, m.get(i));
+            if(m[i]!=null){
+                val = addVal(val, m[i]);
+                a[i] = val;
+                max = Math.max(max, val);
+                val = removeVal(val, m[i]);
+            }
         }
         return max;
     }
@@ -46,12 +46,8 @@ public class ArrayManipulation2 {
         return val;
     }
 
-    static List<P> mergeQueries(int size, int[][] queries) {
-        List<P> m = new ArrayList<>();
-
-        for(int i =0; i<size; i++){
-            m.add(new P(0,0));
-        }
+    static P[] mergeQueries(int size, int[][] queries) {
+        P[] m = new P[size];
 
         for(int i = 0; i<queries.length; i++){
             int start = queries[i][0];
@@ -75,14 +71,21 @@ public class ArrayManipulation2 {
         }
     }
 
-    static void addP(List<P> m, int pos, int value, boolean isStart) {
+    static void addP(P[] m, int pos, int value, boolean isStart) {
 //        System.out.println(q + " pos " + pos + " val "+ value + " start "+ isStart);
-            P p = m.get(pos);
-            if(isStart){
-                p.start += value;
-            } else {
-                p.end += value;
-            }
+        P p;
+        if(m[pos] == null){
+            p = new P(0,0);
+            m[pos] = p;
+        } else {
+            p = m[pos];
+        }
+
+        if(isStart){
+            p.start += value;
+        } else {
+            p.end += value;
+        }
     }
 
     public static void main(String[] args) {
