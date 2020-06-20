@@ -13,20 +13,35 @@ public class ActivityNotifications {
             if(e[i]>=(median(A)*2)){
                 num++;
             }
-            change(A, e[i]);
+            change(A, e[i], e[i-d]);
         }
         return num;
     }
 
-    private static int[] change(int[] A, int e){
-        A[0] = e;
-        for(int i = 1; i<A.length; i++){
-            if(A[i-1]>A[i]){
-                int t = A[i];
-                A[i] = A[i-1];
-                A[i-1] = t;
-            } else {
-                return A;
+    private static int[] change(int[] A, int e, int r){
+        if(e==r){
+            return A;
+        }
+
+        int index = Arrays.binarySearch(A, r);
+
+        A[index] = e;
+
+        if (e > r) {
+            for(int i = index; i<A.length - 1; i++){
+                if(A[i+1]<A[i]){
+                    int t = A[i];
+                    A[i] = A[i+1];
+                    A[i+1] = t;
+                }
+            }
+        } else {
+            for(int i = index; i>0; i--){
+                if(A[i-1]>A[i]){
+                    int t = A[i];
+                    A[i] = A[i-1];
+                    A[i-1] = t;
+                }
             }
         }
         return A;
@@ -44,7 +59,7 @@ public class ActivityNotifications {
     }
 
     public static void main(String[] args)  {
-        int[] A = new int[]{1, 2, 3, 4, 4,5,7,8,9,9,3,3,4,5};
+        int[] A = new int[]{1, 2, 3, 4, 2,5,7,8,9,9,3,3,4,5};
         activityNotifications(A, 4);
     }
 

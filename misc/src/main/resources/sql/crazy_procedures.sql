@@ -116,3 +116,31 @@ begin
 end;
 /
 
+----------------------------------------------------------------------
+------ REPLACE FIELD BETWEEN SCHEMAS ---------------------------------
+----------------------------------------------------------------------
+
+declare
+    v_cust_id varchar2 := ''; -- <- place particular customer_id here
+begin
+    for cr in (select badata.receiver_holder, hdata.u_rowid
+            from ( select baba.CUSTOMER_ID, batsd.RECEIVER_HOLDER, batsd.AMOUNT, batsd.inserted_at
+                    from bank_agent_data.TRANSACTION_SEPA_DD batsd
+                        inner join bank_agent_data.BANK_ACCOUNT baba
+                            on batsd.BANK_ACCOUNT_ID = baba.ID ) badata
+                inner join ( select hte.CUSTOMER_ID, hte.AMOUNT, hte.TRANSACTION_DATE, hte.insert_ts, hte.rowid u_rowid
+                                from horus_data.TRANSACTION_EVENT hte
+                            where hte.REFERENCE_TYPE= 'ORDER'
+                                and hte.DETAILS not like '%"transactionDetails":{"receiver":"%'
+                                and hte.TRANSACTION_DATE > add_months(trunc(sysdate),-1)) hdata
+            on badata.customer_id = hdata.customer_id
+            and badata.amount      = hdata.amount
+            and badata.inserted_at between hdata.insert_ts - 1 and hdata.insert_ts + 1
+  and ( v_cust_id is null or hdata.customer_id = v_cust_id )
+    ) loop
+update horus_data.TRANSACTION_EVENT te
+set te.DETAILS  = REPLACE(te.DETAILS, '"Details":{', '"Details":{"receiver":"' || badata.receiver_holder || '",');
+where te.rowid = cr.u_rowid;
+    end loop;
+    end;
+    /
