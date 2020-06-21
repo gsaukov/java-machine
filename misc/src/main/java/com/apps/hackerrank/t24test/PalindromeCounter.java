@@ -1,6 +1,6 @@
 package com.apps.hackerrank.t24test;
 
-public class PalindormeCounter {
+public class PalindromeCounter {
 
     public static int countPalindromes(String s) {
         int count = 0;
