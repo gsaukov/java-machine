@@ -1,10 +1,12 @@
 package com.apps.codility;
 
+import java.util.Arrays;
+
 public class CyclicRotation {
 
     public static void main(String[] args) {
         int[] A = new int[]{0,1,0,0,0,0};
-        solution(A, 2);
+        System.out.println(Arrays.toString(solution(A, 2)));
     }
 
 
