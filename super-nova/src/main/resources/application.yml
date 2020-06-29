@@ -1,0 +1,6 @@
+server:
+  port: 8230
+
+spring:
+  application:
+    name: SuperNova
