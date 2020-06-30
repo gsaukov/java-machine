@@ -1,4 +1,4 @@
-# oracle/jdk:11 https://github.com/oracle/docker-images/tree/master/OracleJava
+# oracle/jdk:14 https://github.com/oracle/docker-images/tree/master/OracleJava
 
 FROM oracle/jdk:14
 EXPOSE 9092
