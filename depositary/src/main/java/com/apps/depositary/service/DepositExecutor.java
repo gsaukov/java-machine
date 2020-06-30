@@ -1,8 +1,7 @@
 package com.apps.depositary.service;
 
-import com.google.common.collect.Lists;
+import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -18,6 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class DepositExecutor {
+
+    private static final Charset CHARSET = Charset.forName("US-ASCII");
+    private static final int HASH_BITS = 32;
 
     @Autowired
     private ApplicationContext context;
@@ -49,7 +51,8 @@ public class DepositExecutor {
         workers.get(getConsistentHash(deposit.getUuid())).persist(deposit);
     }
 
-    public int getConsistentHash(UUID id) {
-        return Hashing.consistentHash(Hashing.goodFastHash(32).hashString(id.toString(), Charset.forName("US-ASCII")), executorsNumber);
+    private int getConsistentHash(UUID id) {
+        HashCode hash = Hashing.goodFastHash(HASH_BITS).hashString(id.toString(), CHARSET);
+        return Hashing.consistentHash(hash, executorsNumber);
     }
 }
