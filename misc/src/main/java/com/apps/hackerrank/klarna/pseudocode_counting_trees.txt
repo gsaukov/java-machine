@@ -1,0 +1,56 @@
+
+    double a = 0;//angle
+    double b = 0;//prefix
+    double treeangle = 0;//neede angle arctangens formula
+
+    int[][] trees = {[1,1],[1,2]}//tree positions
+
+//sol1
+    int findBest(){
+        int res = 0;
+        for(int i = 0; i<360-a; i++) {
+            res = Math.max(picture(a, i, trees));
+        }
+        return res;
+    }
+
+    int picture (a, b, trees){
+        int res = o;
+        for(t : trees){
+            treeangle = arctangens(t)
+            if(treeangle > b && treeangle < a + b){
+                res++;
+            }
+        }
+        return res;
+    }
+
+//sol2
+    int findBest(a, b, trees){
+        int res = 0;
+        list<p> list = 0
+        for(i : trees){
+            treeRes = 0;
+            for(j : trees){
+                treeangle1 = arctangens(i)
+                treeangle2 = arctangens(j)
+                if(treeangle1 < treeangle2 && treeangle2 < a + treeangle1)
+                    treeres++
+            }
+            if(treeres > res){
+                list.add(p(res, treeangle1));
+            }
+        }
+        p = Sort(list).getfirst();
+        return p.angle;
+    }
+
+p{
+        vol
+        angle
+        }
+
+
+        ntrees*360
+        n
+}
