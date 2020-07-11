@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+
+  kops_aws:
+    image: sigursoft/kops.aws:latest
+    container_name: kops_aws
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
