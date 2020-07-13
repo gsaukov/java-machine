@@ -1,11 +1,22 @@
 package com.apps.finapi.result;
 // TODO: Review this code and comment on it: Is it correct? Is there something that could be improved?
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * A container which serves as a pipeline for a single element. The pipeline makes sure that no elements get lost,
  * i.e. you can only put a new element into the pipeline when the previous element has first been retrieved from it.
  */
 public class Pipeline {
+
+    /**
+     * https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/Condition.html
+     */
+    final Lock lock = new ReentrantLock();
+    final Condition notFull  = lock.newCondition();
+    final Condition notEmpty = lock.newCondition();
 
     private  Object element;
 
@@ -15,11 +26,16 @@ public class Pipeline {
      *
      * @param obj the element to put into the pipeline.
      */
-    public void put(Object obj) {
-        while (element != null) {
-            // wait until the current element has been taken out of the pipeline
+    public void put(Object obj) throws InterruptedException {
+        lock.lock();
+        try {
+            while (element != null)
+                notFull.await();
+            element = obj;
+            notEmpty.signal();
+        } finally {
+            lock.unlock();
         }
-        element = obj;
     }
 
     /**
@@ -28,13 +44,18 @@ public class Pipeline {
      *
      * @return the element that has been in the pipeline and that has now been removed from it.
      */
-    public Object get() {
-        while (element == null) {
-            // wait until there's an element in the pipeline
+    public Object get() throws InterruptedException {
+        lock.lock();
+        try {
+            while (element == null)
+                notEmpty.await();
+            Object obj = element;
+            element = null;
+            notFull.signal();
+            return obj;
+        } finally {
+            lock.unlock();
         }
-        Object obj = element;
-        element = null;
-        return obj;
     }
 
     /**
@@ -51,12 +72,11 @@ public class Pipeline {
         @Override
         public void run() {
             while (true) {
-                Object obj = new Object();
-                System.out.println(currentThread() + " tries to put an element into the pipeline: " + obj);
-                pipeline.put(obj);
-                System.out.println(currentThread() + " has put an element into the pipeline: " + obj);
                 try {
-                    sleep((long) (Math.random() * 2000));
+                    Object obj = new Object();
+                    System.out.println(currentThread() + " tries to put an element into the pipeline: " + obj);
+                    pipeline.put(obj);
+                    System.out.println(currentThread() + " has put an element into the pipeline: " + obj);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -78,11 +98,10 @@ public class Pipeline {
         @Override
         public void run() {
             while (true) {
-                System.out.println(currentThread() + " tries to get an element from the pipeline");
-                Object obj = pipeline.get();
-                System.out.println(currentThread() + " has retrieved an element from the pipeline: " + obj);
                 try {
-                    sleep((long) (Math.random() * 2000));
+                    System.out.println(currentThread() + " tries to get an element from the pipeline");
+                    Object obj = pipeline.get();
+                    System.out.println(currentThread() + " has retrieved an element from the pipeline: " + obj);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

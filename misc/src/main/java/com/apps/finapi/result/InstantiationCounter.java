@@ -1,6 +1,7 @@
 package com.apps.finapi.result;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * TODO:
@@ -12,13 +13,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class InstantiationCounter {
 
-    private static final AtomicInteger counter = new AtomicInteger(0);
+    private static final AtomicLong counter = new AtomicLong(0);
 
     private InstantiationCounter(){}
 
     public static InstantiationCounter createInstance() {
-        counter.incrementAndGet();
-        System.out.println(counter.get());
+        System.out.println(counter.incrementAndGet());
         return new InstantiationCounter();
     }
 }

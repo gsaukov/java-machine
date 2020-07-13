@@ -1,6 +1,6 @@
 package com.apps.finapi.result;
 
-import java.util.List;
+import java.util.Collection;
 
 // TODO: Review this code and comment on it: Is it correct? Is there something that could be improved?
 
@@ -12,7 +12,7 @@ public class CollectionUtils {
      * @param list the collection
      * @return count of (non-null) elements
      */
-    public long getElementCount(List list) {
+    public static long getElementCount(Collection list) {
         if (list == null) {
             return -1L;
         }
