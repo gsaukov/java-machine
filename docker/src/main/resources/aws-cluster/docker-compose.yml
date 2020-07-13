@@ -2,6 +2,8 @@ version: "3"
 
 services:
 
+#connect as root docker exec -u root -it kops_aws /bin/bash
+
   kops_aws:
     image: sigursoft/kops.aws:latest
     container_name: kops_aws
