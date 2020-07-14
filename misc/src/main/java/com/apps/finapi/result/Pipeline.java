@@ -14,9 +14,9 @@ public class Pipeline {
      * classic https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/Condition.html
      * use PipelineTest to test it.
      */
-    final Lock lock = new ReentrantLock();
-    final Condition notFull = lock.newCondition();
-    final Condition notEmpty = lock.newCondition();
+    private final Lock lock = new ReentrantLock();
+    private final Condition notFull = lock.newCondition();
+    private final Condition notEmpty = lock.newCondition();
 
     private Object element;
 
