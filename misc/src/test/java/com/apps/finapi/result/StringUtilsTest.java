@@ -13,7 +13,7 @@ public class StringUtilsTest {
 
     @Test
     public void testStringModifier() {
-        List<String> strings = createArray("aaa", null, "", " cccc", "b  b ", "    ", "1$");
+        List<String> strings = createArray("aaa", null, "", " cccc", "b  b ", "    ", "\t", "1$");
         List<String> res = stringsModifier(strings);
         assertEquals(res.size(), 4);
         assertEquals(res.get(0), "1$");
