@@ -1,5 +1,4 @@
 package com.apps.finapi.result;
-// TODO: Review this code and comment on it: Is it correct? Is there something that could be improved?
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -12,13 +11,14 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Pipeline {
 
     /**
-     * https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/Condition.html
+     * classic https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/Condition.html
+     * use PipelineTest to test it.
      */
     final Lock lock = new ReentrantLock();
-    final Condition notFull  = lock.newCondition();
+    final Condition notFull = lock.newCondition();
     final Condition notEmpty = lock.newCondition();
 
-    private  Object element;
+    private Object element;
 
     /**
      * Puts an element into the pipeline. If there is already an element in the pipeline, this method blocks and waits
@@ -58,62 +58,4 @@ public class Pipeline {
         }
     }
 
-    /**
-     * Entity that puts elements into a pipeline.
-     */
-    private static class Producer extends Thread {
-
-        private final Pipeline pipeline;
-
-        public Producer(Pipeline pipeline) {
-            this.pipeline = pipeline;
-        }
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    Object obj = new Object();
-                    System.out.println(currentThread() + " tries to put an element into the pipeline: " + obj);
-                    pipeline.put(obj);
-                    System.out.println(currentThread() + " has put an element into the pipeline: " + obj);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
-     * Entity that retrieves elements from a pipeline.
-     */
-    private static class Consumer extends Thread {
-
-        private final Pipeline pipeline;
-
-        public Consumer(Pipeline pipeline) {
-            this.pipeline = pipeline;
-        }
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    System.out.println(currentThread() + " tries to get an element from the pipeline");
-                    Object obj = pipeline.get();
-                    System.out.println(currentThread() + " has retrieved an element from the pipeline: " + obj);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static void main(String... notUsed) {
-        Pipeline pipeline = new Pipeline();
-        for (int i = 1; i <= 3; i++) {
-            new Producer(pipeline).start();
-            new Consumer(pipeline).start();
-        }
-    }
 }
