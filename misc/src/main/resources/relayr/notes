@@ -1,0 +1,36 @@
+Hi, in the attachment you will find relayr source code archive.
+
+There is no main class. Only library covered with tests.
+
+You can import it into your IDE as gradle project so you can review source code build/test it through IDE.
+
+Or
+
+You can clean build and test this library by cd to "/relayr" folder and executing "./gradlew clean build"
+This will generate build folder with test-results and jar libs/relayr-1.0-SNAPSHOT.jar
+
+
+
+Archive folder structure.
+.
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── settings.gradle
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── relayr
+    │   │           └── Finder.java
+    │   └── resources
+    └── test
+        ├── java
+        │   └── com
+        │       └── relayr
+        │           └── FinderTest.java
+        └── resources
