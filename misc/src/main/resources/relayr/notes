@@ -1,17 +1,25 @@
-Hi, in the attachment you will find relayr source code archive.
+Hi
 
-There is no main class. Only library covered with tests.
+I did the test.
 
-You can import it into your IDE as gradle project so you can review source code build/test it through IDE.
+In the attachment you will find relayr source code archive and RSystemDesign.xlsx archive.
 
+RSystemDesign.xlsx archive -  is solution of "Relayr Onboarding Big Data Deep-Dive" problem
+
+relayr archive - is solution of "Relayr Onboarding Java Test" problem.
+
+Java test solution has no main class. Only library covered with tests.
+You can import it into your IDE as gradle project so you can review source code build/test it using IDE.
 Or
-
 You can clean build and test this library by cd to "/relayr" folder and executing "./gradlew clean build"
 This will generate build folder with test-results and jar libs/relayr-1.0-SNAPSHOT.jar
 
+Please let me know if you have any questions or there are any issues with the solutions
 
+Thank you,
+Georgy
 
-Archive folder structure.
+relayr archive folder structure.
 .
 ├── build.gradle
 ├── gradle
