@@ -4,6 +4,8 @@ import java.util.*;
 
 public class StringUtils {
 
+    private StringUtils() {}
+
     /**
      * @param col the Collection of strings
      * @return List of strings according to the following criteria:

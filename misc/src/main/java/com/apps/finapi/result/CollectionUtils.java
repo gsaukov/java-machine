@@ -4,6 +4,8 @@ import java.util.Collection;
 
 public class CollectionUtils {
 
+    private CollectionUtils() {}
+
     /**
      * Returns the count of (non-null) elements within a collection
      *
