@@ -14,7 +14,7 @@ public class BlockingPipelineTest {
     @Test
     public void testPipelineDurability() {
         Pipeline pipeline = new BlockingPipeline();
-        PipelineTestService service = new PipelineTestService(pipeline, THREADS, ITERATIONS);
+        TestPipelineService service = new TestPipelineService(pipeline, THREADS, ITERATIONS);
         service.performPipelineDurabilityTesting();
         System.out.println("BlockingPipeline average execution time of " + THREADS + " threads " + ITERATIONS + " iterations is "
                 + service.getAverageExecTime() + " ms.");

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public class PipelineTestService {
+public class TestPipelineService {
 
     private final Pipeline pipeline;
     private final int threads;
@@ -15,7 +15,7 @@ public class PipelineTestService {
     private final Map results;
     private Long averageExecTime;
 
-    public PipelineTestService(Pipeline pipeline, int threads, int iterations) {
+    public TestPipelineService(Pipeline pipeline, int threads, int iterations) {
         this.pipeline = pipeline;
         this.threads = threads;
         this.iterations = iterations;
