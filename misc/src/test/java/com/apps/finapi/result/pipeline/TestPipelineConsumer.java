@@ -1,23 +1,27 @@
-package com.apps.finapi.result;
+package com.apps.finapi.result.pipeline;
+
+import com.apps.finapi.result.Pipeline;
 
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import static org.testng.Assert.assertNotNull;
 
-public class TestConsumer extends Thread {
+public class TestPipelineConsumer implements Callable<Long> {
 
     private final Pipeline pipeline;
     private final Map map;
     private final int n;
 
-    public TestConsumer(Pipeline pipeline, Map map, int n) {
+    public TestPipelineConsumer(Pipeline pipeline, Map map, int n) {
         this.pipeline = pipeline;
         this.map = map;
         this.n = n;
     }
 
     @Override
-    public void run() {
+    public Long call() {
+        long start = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {
             try {
                 Object obj = pipeline.get();
@@ -27,5 +31,6 @@ public class TestConsumer extends Thread {
                 e.printStackTrace();
             }
         }
+        return System.currentTimeMillis() - start;
     }
 }

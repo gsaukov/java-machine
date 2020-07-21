@@ -1,9 +1,6 @@
 package com.apps.finapi.result;
 
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * A container which serves as a pipeline for a single element. The pipeline makes sure that no elements get lost,
@@ -31,13 +28,13 @@ public class NonBlockingPipeline implements Pipeline {
      */
     public Object get() {
         Object obj = null;
-        boolean exchanged = false;
-        while (!exchanged) {
+        boolean isExchanged = false;
+        while (!isExchanged) {
             obj = reference.get();
             if(obj != null) {
-                exchanged = reference.compareAndSet(obj, null);
+                isExchanged = reference.compareAndSet(obj, null);
             }
-        };
+        }
         return obj;
     }
 
