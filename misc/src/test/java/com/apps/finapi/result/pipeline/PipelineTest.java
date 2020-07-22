@@ -9,6 +9,7 @@ import static org.testng.Assert.assertEquals;
  * benchmarks in to console. The test reveals that functionally both implementations are correct however non blocking
  * is ~20 times faster especially after JVM warm up.
  * Some hints: https://stackoverflow.com/questions/504103/how-do-i-write-a-correct-micro-benchmark-in-java
+ * Number of Pipeline.get() calls must be equal to Pipeline.put() otherwise it will not leave while loop or await block.
  */
 public class PipelineTest {
 
