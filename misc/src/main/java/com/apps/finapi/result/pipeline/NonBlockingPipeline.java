@@ -1,4 +1,4 @@
-package com.apps.finapi.result;
+package com.apps.finapi.result.pipeline;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -31,7 +31,7 @@ public class NonBlockingPipeline implements Pipeline {
         boolean isExchanged = false;
         while (!isExchanged) {
             obj = reference.get();
-            if(obj != null) {
+            if (obj != null) {
                 isExchanged = reference.compareAndSet(obj, null);
             }
         }

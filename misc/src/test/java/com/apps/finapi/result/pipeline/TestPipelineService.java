@@ -1,7 +1,5 @@
 package com.apps.finapi.result.pipeline;
 
-import com.apps.finapi.result.Pipeline;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,14 +27,6 @@ public class TestPipelineService {
         executor.shutdown();
     }
 
-    public Map getResults() {
-        return results;
-    }
-
-    public Long getAverageExecTime() {
-        return averageExecTime;
-    }
-
     private List<Future<Long>> initiateExecutor(ThreadPoolExecutor executor) {
         List<Future<Long>> futures = new ArrayList<>();
         for (int i = 1; i <= threads / 2; i++) {
@@ -60,4 +50,15 @@ public class TestPipelineService {
         return execTime / threads;
     }
 
+    public Map getResults() {
+        return results;
+    }
+
+    public Long getAverageExecTimeNs() {
+        return averageExecTime;
+    }
+
+    public Long getAverageExecTimeMs() {
+        return averageExecTime/1000000;
+    }
 }

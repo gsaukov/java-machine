@@ -1,4 +1,4 @@
-package com.apps.finapi.result;
+package com.apps.finapi.result.pipeline;
 
 public interface Pipeline {
 

@@ -1,7 +1,5 @@
 package com.apps.finapi.result.pipeline;
 
-import com.apps.finapi.result.Pipeline;
-
 import java.util.Map;
 import java.util.concurrent.Callable;
 

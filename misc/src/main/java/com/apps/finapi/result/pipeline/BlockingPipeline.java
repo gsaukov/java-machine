@@ -1,4 +1,4 @@
-package com.apps.finapi.result;
+package com.apps.finapi.result.pipeline;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
