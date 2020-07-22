@@ -17,7 +17,7 @@ public class BlockingPipelineTest {
         TestPipelineService service = new TestPipelineService(pipeline, THREADS, ITERATIONS);
         service.performPipelineDurabilityTesting();
         System.out.println("BlockingPipeline average execution time of " + THREADS + " threads " + ITERATIONS + " iterations is "
-                + service.getAverageExecTime() + " ms.");
+                + service.getAverageExecTime() + " ns.");
         assertEquals(service.getResults().size(), 0, "Objects were lost");
     }
 

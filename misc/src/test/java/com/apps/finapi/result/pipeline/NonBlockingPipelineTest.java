@@ -20,7 +20,7 @@ public class NonBlockingPipelineTest {
             TestPipelineService service = new TestPipelineService(pipeline, THREADS, ITERATIONS);
             service.performPipelineDurabilityTesting();
             System.out.println("NonBlockingPipeline warmup average execution time of " + THREADS + " threads " + ITERATIONS
-                    + " iterations is " + service.getAverageExecTime() + " ms.");
+                    + " iterations is " + service.getAverageExecTime() + " ns.");
         }
     }
 
@@ -31,7 +31,7 @@ public class NonBlockingPipelineTest {
         TestPipelineService service = new TestPipelineService(pipeline, THREADS, ITERATIONS);
         service.performPipelineDurabilityTesting();
         System.out.println("NonBlockingPipeline benchmark average execution time of " + THREADS + " threads " + ITERATIONS + " iterations is "
-                + service.getAverageExecTime() + " ms.");
+                + service.getAverageExecTime() + " ns.");
         assertEquals(service.getResults().size(), 0, "Objects were lost");
     }
 

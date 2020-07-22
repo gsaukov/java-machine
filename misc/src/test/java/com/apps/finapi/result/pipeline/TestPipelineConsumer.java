@@ -21,7 +21,7 @@ public class TestPipelineConsumer implements Callable<Long> {
 
     @Override
     public Long call() {
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
         for (int i = 0; i < n; i++) {
             try {
                 Object obj = pipeline.get();
@@ -31,6 +31,6 @@ public class TestPipelineConsumer implements Callable<Long> {
                 e.printStackTrace();
             }
         }
-        return System.currentTimeMillis() - start;
+        return System.nanoTime() - start;
     }
 }
