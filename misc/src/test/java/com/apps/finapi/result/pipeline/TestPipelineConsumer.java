@@ -20,14 +20,14 @@ public class TestPipelineConsumer implements Callable<Long> {
     @Override
     public Long call() {
         long start = System.nanoTime();
-        for (int i = 0; i < n; i++) {
-            try {
+        try {
+            for (int i = 0; i < n; i++) {
                 Object obj = pipeline.get();
                 assertNotNull(obj, "False awakening");
                 assertNotNull(map.remove(obj), "Object is missing " + obj);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         return System.nanoTime() - start;
     }
