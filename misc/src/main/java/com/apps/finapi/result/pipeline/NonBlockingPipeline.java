@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A container which serves as a pipeline for a single element. The pipeline makes sure that no elements get lost,
  * i.e. you can only put a new element into the pipeline when the previous element has first been retrieved from it.
+ * TODO improve this algorithm to put thread to sleep if there are no producer or consumer.
  */
 public class NonBlockingPipeline implements Pipeline {
 
