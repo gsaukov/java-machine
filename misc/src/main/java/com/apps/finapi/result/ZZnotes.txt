@@ -58,3 +58,7 @@ Archive folder structure.
                             ├── Pipeline.java
                             ├── StringUtils.java
                             └── TransactionIdentifier.java
+
+
+agree on testing framework design creation and proof of concepts implementation.
+Agree on kafka cluster
