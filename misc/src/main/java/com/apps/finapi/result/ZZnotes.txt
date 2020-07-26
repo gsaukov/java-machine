@@ -60,7 +60,7 @@ Archive folder structure.
                             └── TransactionIdentifier.java
 
 
-Hi Valeriia,
+Hi,
 
 Just to confirm.
 
