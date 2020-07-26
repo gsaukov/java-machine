@@ -60,5 +60,17 @@ Archive folder structure.
                             └── TransactionIdentifier.java
 
 
-agree on testing framework design creation and proof of concepts implementation.
-Agree on kafka cluster
+Hi Valeriia,
+
+Just to confirm.
+
+Yes I m capable to design, concept, proof and build for you automation testing framework, based on your product specifics.
+If and after it is accepted I can support testers and encourage/inspire developers to write tests using it by supplying them with a series of demos and examples.
+Finally, solution and tests should be integrated into CI/CD pipeline to bypass only production ready code. That will help achieve necessary quality metrics and lack of L1/L2 incidents on production.
+
+Kafka cluster I do have experience with docker/composer based cluster of 2 instances. Several producers/consumers and throughput of more than 10K messages a second.
+https://github.com/gsaukov/java-machine/tree/master/docker/src/main/resources/kafka-cluster
+So I can share, explain what and how I did it. Including offset tracking which is not that straight forward.
+
+Thank you,
+Georgy

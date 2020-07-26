@@ -1,6 +1,7 @@
 version: '3'
 
 #source https://github.com/TribalScale/kafka-waffle-stack/blob/master/docker-compose.yml
+#tutorial https://rmoff.net/2018/08/02/kafka-listeners-explained/
 
 services:
   # ZooKeeper is a centralized service for maintaining configuration information,
