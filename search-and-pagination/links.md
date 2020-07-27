@@ -8,6 +8,9 @@ view-source:http://viglino.github.io/ol-ext/examples/style/map.style.font.html
 Cassandra:
 https://shermandigital.com/blog/designing-a-cassandra-data-model/
 https://stackoverflow.com/questions/24949676/difference-between-partition-key-composite-key-and-clustering-key-in-cassandra
+https://www.tutorialspoint.com/cassandra/index.htm
+https://tech.ebayinc.com/engineering/cassandra-data-modeling-best-practices-part-1/
+https://medium.com/@marikalam/study-guide-cassandra-data-consistency-496e5bf9cadb
 
 
 Html, css design:
