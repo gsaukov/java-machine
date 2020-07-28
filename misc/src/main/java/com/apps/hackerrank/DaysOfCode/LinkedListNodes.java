@@ -1,5 +1,8 @@
 package com.apps.hackerrank.DaysOfCode;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class LinkedListNodes {
 
     public static void main(String[] args) {
@@ -34,6 +37,24 @@ public class LinkedListNodes {
         } else {
             return head;
         }
+    }
+
+    public static Node removeDuplicates(Node head) {
+        Set<Integer> s = new HashSet<>();
+        Node previous = head;
+        Node current = head;
+        while (current != null) {
+            if(!s.contains(current.data)){
+                s.add(current.data);
+                previous = current;
+                current = current.next;
+            } else {
+                previous.next = current.next;
+                current = current.next;
+            }
+        }
+
+        return head;
     }
 
 }
