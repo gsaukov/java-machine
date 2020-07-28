@@ -62,7 +62,7 @@ Archive folder structure.
 
 Hi,
 
-Just to confirm.
+Regarding problems you've mentioned and I can help you with.
 
 Yes I m capable to design, concept, proof and build for you automation testing framework, based on your product specifics.
 If and after it is accepted I can support testers and encourage/inspire developers to write tests using it by supplying them with a series of demos and examples.
