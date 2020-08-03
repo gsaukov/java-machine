@@ -2,7 +2,11 @@ Nate Barbettini
 
 Terminology
     Resource owner(User) Consent/Permission.
-    Client (Application) (Confidential can keep a secret(server side running), Public cannot(User controlled, Embeded things, JS SPA, mobile)) (Client ID, Client Secret/PKCE, Scope, RedirectUri, State) https://habr.com/ru/post/422765/ https://www.youtube.com/watch?v=5cQNwifDq1U
+    Client (Application)
+        Confidential can keep a secret(server side running),
+        Public cannot(User controlled, Embeded things, JS SPA, mobile)
+        (Client ID, Client Secret/PKCE, Scope, RedirectUri, State)
+         https://habr.com/ru/post/422765/ https://www.youtube.com/watch?v=5cQNwifDq1U
     Authorization Server
     Resource Server
     Authorization grant(Flow)
@@ -45,7 +49,7 @@ Token Validation
     Introspection (Slow)
         Call to authorization server.
 
-Revokation
+Revocation
     Url based.
     introspection based.
 

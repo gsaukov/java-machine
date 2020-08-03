@@ -140,6 +140,20 @@
         <li data-target="#slides" data-slide-to="0" class="active"></li>
         <li data-target="#slides" data-slide-to="1"></li>
         <li data-target="#slides" data-slide-to="2"></li>
+        <li data-target="#slides" data-slide-to="3"></li>
+        <li data-target="#slides" data-slide-to="4"></li>
+        <li data-target="#slides" data-slide-to="5"></li>
+        <li data-target="#slides" data-slide-to="6"></li>
+        <li data-target="#slides" data-slide-to="7"></li>
+        <li data-target="#slides" data-slide-to="8"></li>
+        <li data-target="#slides" data-slide-to="9"></li>
+        <li data-target="#slides" data-slide-to="10"></li>
+        <li data-target="#slides" data-slide-to="11"></li>
+        <li data-target="#slides" data-slide-to="12"></li>
+        <li data-target="#slides" data-slide-to="13"></li>
+        <li data-target="#slides" data-slide-to="14"></li>
+        <li data-target="#slides" data-slide-to="15"></li>
+        <li data-target="#slides" data-slide-to="16"></li>
     </ol>
     <div class="carousel-inner" style="margin-top: 2em;">
         <div class="carousel-item active">
@@ -312,7 +326,238 @@
                 <h5>Key logger</h5>
             </div>
         </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>What is Oauth2?</h1>
+                        <h4>Extracting authoriation and authetication service from functional domain as a standalone independent service.</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Authorization and authentication.</h5>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Things that solves OAuth 2.0: </h1>
+                        <div style="margin-left: 2em;">
+                            <ul>
+                                <li style="margin-top: 5em;">
+                                    <h2> Simple Login. - Authentication</h2>
+                                </li>
+                                <li>
+                                    <h2> Single Sign on. - Authentication</h2>
+                                </li>
+                                <li>
+                                    <h2> Mobile App Login - Authentication</h2>
+                                </li>
+                                <li>
+                                    <h2> Delegated Authorization. - Authorization</h2>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Why Oauth2?</h1>
+            </div>
+        </div>
+        <div class="carousel-item">
+                <div class="row align-items-end">
+                    <div class="col align-self-center" style="margin-left: 2em;">
+                        <h1>Problems of Oauth2.</h1>
+                        <div style="margin-left: 2em;">
+                            <ul>
+                                <li style="margin-top: 5em;">
+                                    <h2> No standard on user information or set of scopes. And its not getting better.</h2>
+                                </li>
+                                <li>
+                                    <h2> Custom or confusing implementations.</h2>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-left">
+                    <div class="col-3">
+                        <img class="d-block w-100" src="../static/drawingsparttwo/final/1920px-CloudFoundryCorp_vertical.svg.png">
+                    </div>
+                    <div class="col-3">
+                        <img class="d-block w-100" src="../static/drawingsparttwo/final/1920px-OneLogin_logo.svg.png">
+                    </div>
+                    <div class="col-3">
+                        <img class="d-block w-100" src="../static/drawingsparttwo/final/auth0-logo-blue.png">
+                    </div>
+                    <div class="col-3">
+                        <img class="d-block w-100" src="../static/drawingsparttwo/final/Okta_logo.svg">
+                    </div>
+                </div>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Spring cloud recommends OKTA</h5>
+                <h5>Alternatively there is Cloud Foundry</h5>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Oauth 2.0 and OpenId.</h1>
+                        <h1><br></h1>
+                        <h2><strong>Oauth 2.0</strong> - is Authorization protocol.</h2>
+                        <div style="margin-left: 2em;">
+                            <h2>Granting access to your API.</h2>
+                            <h2>Getting access to user data in other systems. (Pull)</h2>
+                        </div>
+                        <h2><br></h2>
+                        <h2><strong>OpenId</strong> - is Authentication protocol</h2>
+                        <div style="margin-left: 2em;">
+                            <h2>Logging in.</h2>
+                            <h2>Making your accounts availible in other systems. (Push.)</h2>
+                        </div>
+                        <h2><br></h2>
+                        <h2>Usually you will see combination of them.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Terminology.</h1>
+                        <h2><br></h2>
+                        <h2>&bull; Resource owner(User) Consent/Permission.</h2>
+                        <h2>&bull; Client (Application)</h2>
+                        <div style="margin-left: 2em;">
+                            <h2>&ndash; (Confidential can keep a secret(server side running)</h2>
+                            <h2>&ndash; Public cannot(User controlled, Embeded things, JS SPA, mobile)</h2>
+                            <h2>&ndash; (Client ID, Client Secret/PKCE, Scope, RedirectUri, State) </h2>
+                        </div>
+                        <h2>&bull; Authorization Server</h2>
+                        <h2>&bull; Resource Server</h2>
+                        <h2>&bull; Authorization grant(Flow)</h2>
+                        <h2>&bull; Access Token</h2>
+                        <h2>&bull; Refresh Token</h2>
+                        <h2>&bull; OpenId https://openid.net/developers/specs/ https://connect2id.com/learn/openid-connect</h2>
+                        <h2>&bull; Front channel (more secure)</h2>
+                        <h2>&bull; Back Channel (less secure)</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>https://habr.com/ru/post/422765/</h5>
+                <h5>https://www.youtube.com/watch?v=5cQNwifDq1U</h5>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Flow grant type and Usecase:</h1>
+                        <h2>Web application with backend - authorization code flow.</h2>
+                        <h2>Native mobile app - authorization code flow with PKCE (client secret is not exposed.)</h2>
+                        <h2>JavaScript app(SPA) with out backend (only front channel) - Implicit flow.</h2>
+                        <h2>Microservices and Backend flow only - client credentials.</h2>
+                        <h2>Web application and backend both get access token - Hybrid Flow.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Token Validation</h1>
+                        <h1><br></h1>
+                        <h2><strong>Local validation (Fast)</strong></h2>
+                        <h2>&bull; Expiration</h2>
+                        <h2>&bull; Cryptographic signature.</h2>
+                        <h2><strong>Introspection (Slow)</strong></h2>
+                        <h2>&bull; Call to authorization server.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Revocation</h1>
+                        <h2>&bull; Url based.</h2>
+                        <h2>&bull; Introspection based.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Refresh token</h1>
+                        <h2>1. Send user back to auth server (if he has session on auth server it will be super quick).</h2>
+                        <h2>2. Call auth server yourself exchanging refresh token for new access token and refresh token.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Misc and common practice</h1>
+                        <h2>Multy factor support in single place (Auth server).</h2>
+                        <h2>SMS, Biometrics, verification call.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Scopes and TokenEnhancerChain</h1>
+                        <h2>Auth server classes and technology stack.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Practical example of authorization code flow.</h1>
+                        <h2>User microservice comunication show database, show signing, show on client token interception.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Show integration with facebook</h1>
+                        <h2>Facebook. Access rights.  Spring social. Explain classes and API. Philosophy. Talk about millions of customers.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container" style="height: 100%; display: flex; align-items: center; justify-content: center;" >
+                <div class="row align-items-end">
+                    <div class="col align-self-center">
+                        <h1>Show integration with Spotify and finalize.</h1>
+                        <h2>Facebook. Access rights.  Spring social. Explain classes and API. Philosophy.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
     <a class="carousel-control-prev" href="#slides" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
