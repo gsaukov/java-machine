@@ -201,11 +201,12 @@
         function processExecution(execution) {
             var row = document.getElementById('orderRow' + execution.orderUuid);
 
+            var quantity = row.cells[4];
             var filled = row.cells[5];
             var left = row.cells[6];
 
-            filled.innerHTML = parseInt(filled.innerHTML) + parseInt(execution.quantity);
-            left.innerHTML = parseInt(left.innerHTML) - parseInt(execution.quantity);
+            filled.innerHTML = parseInt(quantity.innerHTML) - parseInt(execution.orderLeftQuantity);
+            left.innerHTML = parseInt(execution.orderLeftQuantity);
         }
 
         function processBalance(balance) {

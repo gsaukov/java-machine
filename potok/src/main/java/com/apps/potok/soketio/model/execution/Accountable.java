@@ -7,21 +7,21 @@ import java.util.UUID;
 
 public interface Accountable {
 
-    public UUID getUuid();
+    UUID getUuid();
 
-    public Date getTimestamp();
+    Date getTimestamp();
 
-    public String getSymbol();
+    String getSymbol();
 
-    public String getAccountId();
+    String getAccountId();
 
-    public Route getRoute();
+    Route getRoute();
 
-    public Integer getFillPrice();
+    Integer getFillPrice();
 
-    public Integer getBlockedPrice();
+    Integer getBlockedPrice();
 
-    public Integer getQuantity();
+    Integer getQuantity();
 
-    public boolean isDeposit();
+    boolean isDeposit();
 }

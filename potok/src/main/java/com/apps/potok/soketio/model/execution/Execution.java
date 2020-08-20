@@ -20,6 +20,7 @@ public class Execution implements Serializable, Accountable {
     private final Integer fillPrice;
     private final Integer blockedPrice;
     private final Integer quantity;
+    private final Integer orderLeftQuantity;
     private final boolean filled;
 
     public Execution (UUID executionUuid, UUID counterExecutionUuid, Order order, Integer fillPrice, Integer quantity, boolean filled) {
@@ -33,6 +34,7 @@ public class Execution implements Serializable, Accountable {
         this.fillPrice = fillPrice;
         this.blockedPrice = order.getBlockedPrice();
         this.quantity = quantity;
+        this.orderLeftQuantity = order.getVolume() - quantity;
         this.filled = filled;
     }
 
@@ -91,6 +93,10 @@ public class Execution implements Serializable, Accountable {
     @Override
     public boolean isDeposit() {
         return false;
+    }
+
+    public Integer getOrderLeftQuantity() {
+        return orderLeftQuantity;
     }
 
     @Override
