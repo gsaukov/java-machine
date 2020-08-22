@@ -12,10 +12,18 @@
 			height: 400px; 
 			overflow: auto; 
 		}
-		.username-msg {color:orange;}
+        .short-order{color:red;}
+        .long-order{color:dodgerblue;}
+        .filled-short-order{color: #ff6468;}
+        .filled-long-order{color: #5a96ff;}
+
+        .short-position{color: red}
+        .long-position{color: green}
+        .closed-short-position{color: lightgrey}
+        .closed-long-position{color: lightgrey}
+
 		.connect-msg {color:green;}
 		.disconnect-msg {color:red;}
-		.send-msg {color:#888}
 	</style>
 
     <link href="http://localhost:9020/static/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -151,18 +159,33 @@
             var uuid = row.insertCell(0);
             var createdTimestamp = row.insertCell(1);
             var symbol = row.insertCell(2);
-            var account = row.insertCell(3);
-            var volume = row.insertCell(4);
-            var weightedAveragePrice = row.insertCell(5);
-            var averagePerformance = row.insertCell(6);
+            var route = row.insertCell(3);
+            var account = row.insertCell(4);
+            var volume = row.insertCell(5);
+            var weightedAveragePrice = row.insertCell(6);
+            var averagePerformance = row.insertCell(7);
 
             uuid.innerHTML = position.uuid;
             createdTimestamp.innerHTML = position.createdTimestamp;
             symbol.innerHTML = position.symbol;
+            route.innerHTML = position.route;
             account.innerHTML = position.account;
             volume.innerHTML = position.volume;
             weightedAveragePrice.innerHTML = position.weightedAveragePrice;
             averagePerformance.innerHTML = position.averagePerformance;
+            if(position.route === 'BUY') {
+                if(position.volume > 0) {
+                    row.classList.add('long-position');
+                } else {
+                    row.classList.add('closed-long-position');
+                }
+            } else {
+                if(newOrder.volume > 0) {
+                    row.classList.add('short-position');
+                } else {
+                    row.classList.add('closed-short-position');
+                }
+            }
         }
 
         function processPositionUpdate(position, row) {
@@ -173,6 +196,20 @@
             volume.innerHTML = position.volume;
             weightedAveragePrice.innerHTML = position.weightedAveragePrice;
             averagePerformance.innerHTML = position.averagePerformance;
+
+            if(position.route === 'BUY') {
+                if(position.volume > 0) {
+                    row.classList.add('long-position');
+                } else {
+                    row.classList.add('closed-long-position');
+                }
+            } else {
+                if(newOrder.volume > 0) {
+                    row.classList.add('short-position');
+                } else {
+                    row.classList.add('closed-short-position');
+                }
+            }
         }
 
         function addOrderToTable(newOrder) {
@@ -196,6 +233,19 @@
             quantity.innerHTML = newOrder.originalVolume;
             filled.innerHTML = parseInt(newOrder.originalVolume) - parseInt(newOrder.volume);
             left.innerHTML = newOrder.volume;
+            if(newOrder.route === 'BUY') {
+                if(newOrder.volume > 0) {
+                    row.classList.add('long-order');
+                } else {
+                    row.classList.add('filled-long-order');
+                }
+            } else {
+                if(newOrder.volume > 0) {
+                    row.classList.add('short-order');
+                } else {
+                    row.classList.add('filled-short-order');
+                }
+            }
         }
 
         function processExecution(execution) {
@@ -207,6 +257,14 @@
 
             filled.innerHTML = parseInt(quantity.innerHTML) - parseInt(execution.orderLeftQuantity);
             left.innerHTML = parseInt(execution.orderLeftQuantity);
+
+            if(execution.orderLeftQuantity === 0) {
+                if(execution.route === 'BUY') {
+                    row.classList.add('filled-long-order');
+                } else {
+                    row.classList.add('filled-short-order');
+                }
+            }
         }
 
         function processBalance(balance) {
@@ -272,6 +330,7 @@
                             <th class="th-sm">POSITION UUID</th>
                             <th class="th-sm">CREATION TIME</th>
                             <th class="th-sm">SYMBOL</th>
+                            <th class="th-sm">ROUTE</th>
                             <th class="th-sm">ACCOUNT</th>
                             <th class="th-sm">VOLUME</th>
                             <th class="th-sm">WAP</th>
@@ -285,6 +344,7 @@
                             <th class="th-sm">POSITION UUID</th>
                             <th class="th-sm">CREATION TIME</th>
                             <th class="th-sm">SYMBOL</th>
+                            <th class="th-sm">ROUTE</th>
                             <th class="th-sm">ACCOUNT</th>
                             <th class="th-sm">VOLUME</th>
                             <th class="th-sm">WAP</th>
