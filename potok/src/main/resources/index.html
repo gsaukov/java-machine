@@ -180,7 +180,7 @@
                     row.classList.add('closed-long-position');
                 }
             } else {
-                if(newOrder.volume > 0) {
+                if(position.volume < 0) {
                     row.classList.add('short-position');
                 } else {
                     row.classList.add('closed-short-position');
@@ -204,7 +204,7 @@
                     row.classList.add('closed-long-position');
                 }
             } else {
-                if(newOrder.volume > 0) {
+                if(position.volume < 0) {
                     row.classList.add('short-position');
                 } else {
                     row.classList.add('closed-short-position');
