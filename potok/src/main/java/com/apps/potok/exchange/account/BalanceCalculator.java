@@ -1,6 +1,5 @@
 package com.apps.potok.exchange.account;
 
-import com.apps.potok.exchange.config.ServerConfigurator;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.Position;
 import com.apps.potok.soketio.model.execution.Accountable;
@@ -25,9 +24,13 @@ public class BalanceCalculator {
     @Autowired
     private AccountManager accountManager;
 
+    @Autowired
+    private BalanceCalculationStatistics statistics;
+
     public Map<String, Long> calculateBalance() {
         logger.info("Starting Balance calculation");
         Map<String, Long> deviations = new HashMap<>();
+        statistics.addAccounts(accountManager.getAllAccounts().size());
         for(Account account : accountManager.getAllAccounts()) {
             long deviation = calculateAccountBalance(account);
             if(deviation != 0){
@@ -35,6 +38,7 @@ public class BalanceCalculator {
             }
         }
         logger.info("Balance calculation complete");
+        statistics.printStatistics();
         return deviations;
     }
 
@@ -58,6 +62,7 @@ public class BalanceCalculator {
 
     private long calculateExecutionsBalance(Collection<Position> positions) {
         long executionsBalance = 0l;
+        statistics.addPositions(positions.size());
         for(Position position : positions){
             executionsBalance = executionsBalance + calculateExecutionBalance(position);
         }
@@ -67,13 +72,13 @@ public class BalanceCalculator {
     private long calculateExecutionBalance(Position position) {
         long executionBuyBalance = 0l;
         long executionSellBalance = 0l;
-
+        statistics.addExecutions(position.getBuyExecutions().size());
         for(Accountable execution : position.getBuyExecutions().values()) {
             if(!execution.isDeposit()){
                 executionBuyBalance = executionBuyBalance + (execution.getQuantity() * execution.getFillPrice());
             }
         }
-
+        statistics.addExecutions(position.getSellExecutions().size());
         for(Accountable execution : position.getSellExecutions().values()) {
             if(!execution.isDeposit()){
                 executionSellBalance = executionSellBalance + (execution.getQuantity() * execution.getFillPrice());
@@ -85,6 +90,7 @@ public class BalanceCalculator {
 
     private long calculateExecutionsShortBalance(Collection<Position> positions) {
         long executionsShortBalance = 0l;
+        statistics.addShortPositions(positions.size());
         for(Position position : positions){
             executionsShortBalance = executionsShortBalance + calculateExecutionShortBalance(position);
         }
@@ -96,9 +102,11 @@ public class BalanceCalculator {
         long executionQuantity = 0l;
         long closedShortQuantity = 0l;
         long executionSellBalance = 0l;
+        statistics.addCloseShorts(position.getCloseShort().size());
         for(CloseShortPosition closeShortPosition : position.getCloseShort().values()) {
             closedShortQuantity = closedShortQuantity + closeShortPosition.getAmount();
         }
+        statistics.addExecutions(position.getSellExecutions().size());
         for(Accountable execution : position.getSellExecutions().values()) {
             if(!execution.isDeposit()){
                 executionQuantity = executionQuantity + execution.getQuantity(); //negative for account is taken from his balance
@@ -110,6 +118,7 @@ public class BalanceCalculator {
     }
 
     private long calculateOrdersBalance(Collection<Order> orders) {
+        statistics.addOrders(orders.size());
         long ordersBalance = 0l;
         for(Order order : orders){
             ordersBalance = ordersBalance + calculateOrderBalance(order);

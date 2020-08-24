@@ -23,6 +23,7 @@ import static com.apps.potok.exchange.core.Route.SELL;
 import static com.apps.potok.exchange.core.Route.SHORT;
 
 @Service
+//TODO in order to make exchenge behavior more multythreaded I should partition accounts in chunks and start one order creator per chunk of accounts.
 public class OrderCreatorServer extends AbstractExchangeServer {
 
     private final ExchangeApplication exchangeApplication;
