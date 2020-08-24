@@ -80,8 +80,8 @@ public class Order implements Serializable {
         return active.get();
     }
 
-    public void partFill(Order order) {
-        volume.getAndAdd(-order.getVolume()); //decrement
+    public Integer partFill(Order order) {
+        return volume.addAndGet(-order.getVolume()); //decrement
     }
 
     public void fullFill() {

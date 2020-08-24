@@ -23,7 +23,8 @@ public class Execution implements Serializable, Accountable {
     private final Integer orderLeftQuantity;
     private final boolean filled;
 
-    public Execution (UUID executionUuid, UUID counterExecutionUuid, Order order, Integer fillPrice, Integer quantity, boolean filled) {
+    //Order passed here only for reference final information such is orderId//symbol/accountId/route/blockedprice do not do any computation here.
+    public Execution (UUID executionUuid, UUID counterExecutionUuid, Order order, Integer fillPrice, Integer quantity, Integer orderLeftQuantity, boolean filled) {
         this.executionUuid = executionUuid;
         this.counterExecutionUuid = counterExecutionUuid;
         this.orderUuid = order.getUuid();
@@ -34,7 +35,7 @@ public class Execution implements Serializable, Accountable {
         this.fillPrice = fillPrice;
         this.blockedPrice = order.getBlockedPrice();
         this.quantity = quantity;
-        this.orderLeftQuantity = order.getVolume() - quantity;
+        this.orderLeftQuantity = orderLeftQuantity;
         this.filled = filled;
     }
 

@@ -21,8 +21,8 @@ public class Position {
     private final AtomicInteger volume;
     private final Route route;
     private final Integer blockedPrice;
-    private final ConcurrentHashMap<Integer, AtomicInteger> buyPriceValueAggregation;
-    private final ConcurrentHashMap<UUID, Accountable> buyExecutions;
+    private final ConcurrentHashMap<Integer, AtomicInteger> buyPriceValueAggregation; //this will be empty for short position
+    private final ConcurrentHashMap<UUID, Accountable> buyExecutions; //this will be empty for short position
     private final ConcurrentHashMap<Integer, AtomicInteger> sellPriceValueAggregation;
     private final ConcurrentHashMap<UUID, Accountable> sellExecutions;
     private final ConcurrentHashMap<UUID, CloseShortPosition> closeShort;
