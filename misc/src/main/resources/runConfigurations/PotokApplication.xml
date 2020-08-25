@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="PotokApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="t24-app.potok.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.potok.PotokApplication" />
+    <option name="VM_PARAMETERS" value="-Dparam.discovery.host=localhost -Dparam.kafka.address=localhost:19092" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

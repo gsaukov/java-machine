@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DepositaryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="t24-app.depositary.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.depositary.DepositaryApplication" />
+    <option name="VM_PARAMETERS" value="-Dparam.discovery.host=localhost -Dparam.kafka.address=localhost:19092 -Dparam.db.host=localhost -Dparam.mysql.host=localhost" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

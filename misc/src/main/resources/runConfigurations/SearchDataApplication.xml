@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SearchDataApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="SDA" nameIsGenerated="true">
+    <module name="t24-app.search-and-pagination.main" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.apps.searchandpagination.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.searchandpagination.SearchDataApplication" />
+    <option name="VM_PARAMETERS" value="-Dparam.mysql.host=localhost -Dparam.redis.host=localhost -Dparam.discovery.host=localhost -Dparam.justitia.host=localhost -Dparam.cassandra.host=localhost" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

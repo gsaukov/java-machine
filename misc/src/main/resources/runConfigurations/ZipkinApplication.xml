@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ZipkinApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="SDA">
+    <module name="t24-app.cloud.zipkin.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.cloud.zipkin.ZipkinApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

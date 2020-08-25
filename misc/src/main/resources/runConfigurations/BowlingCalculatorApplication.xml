@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BowlingCalculatorApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="t24-app.bowling-calculator.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.bowlingcalculator.BowlingCalculatorApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

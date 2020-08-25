@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Discovery" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="SDA">
+    <module name="t24-app.cloud.discovery.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.cloud.discovery.Discovery" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

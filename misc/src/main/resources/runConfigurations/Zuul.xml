@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Zuul" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="SDA">
+    <module name="t24-app.cloud.zuul.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.cloud.zuul.Zuul" />
+    <option name="VM_PARAMETERS" value="-Dparam.redis.host=localhost -Dparam.discovery.host=localhost -Dparam.justitia.host=localhost" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

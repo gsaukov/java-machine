@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="LakesCalculatorApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="t24-app.lakes-calculator.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.lakescalculator.LakesCalculatorApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

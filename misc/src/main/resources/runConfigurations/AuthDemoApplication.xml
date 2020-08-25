@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AuthDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="t24-app.auth-demo.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.apps.authdemo.AuthDemoApplication" />
+    <option name="VM_PARAMETERS" value="-Dmysql.host=localhost" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="discovery/Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+    <deployment type="dockerfile">
+      <settings>
+        <option name="buildCliOptions" value="" />
+        <option name="command" value="" />
+        <option name="containerName" value="discovery" />
+        <option name="entrypoint" value="" />
+        <option name="imageTag" value="discovery" />
+        <option name="commandLineOptions" value="" />
+        <option name="sourceFilePath" value="cloud/discovery/Dockerfile" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>
