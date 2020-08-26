@@ -45,6 +45,9 @@
         <createIndex tableName="EXECUTION" indexName="IDX_EXC_DEP" unique="false">
             <column name="DEPOSIT_UUID"/>
         </createIndex>
+        <createIndex tableName="EXECUTION" indexName="IDX_EXC_ACC" unique="false">
+            <column name="ACCOUNT_ID"/>
+        </createIndex>
     </changeSet>
 
     <changeSet id="create_deposit" author="gsaukov">
@@ -83,6 +86,9 @@
             <column name="ACCOUNT_ID"/>
             <column name="ROUTE"/>
             <column name="CLOSED"/>
+        </createIndex>
+        <createIndex tableName="DEPOSIT" indexName="IDX_DEP_ACC" unique="false">
+            <column name="ACCOUNT_ID"/>
         </createIndex>
     </changeSet>
 
