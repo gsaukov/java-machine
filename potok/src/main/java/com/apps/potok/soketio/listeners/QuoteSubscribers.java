@@ -1,4 +1,4 @@
-package com.apps.potok.exchange.eventhandlers;
+package com.apps.potok.soketio.listeners;
 
 import com.corundumstudio.socketio.SocketIOServer;
 

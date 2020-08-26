@@ -1,7 +1,7 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
-import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.ExecutionNotifierServer;
+import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
 import com.apps.potok.soketio.model.execution.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

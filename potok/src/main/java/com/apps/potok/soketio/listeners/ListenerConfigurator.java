@@ -21,7 +21,7 @@ public class ListenerConfigurator {
     private ChatMessageListener chatMessageListener;
 
     @Autowired
-    private QuoteMessageListener quoteMessageListener;
+    private QuoteSubscriptionListener quoteMessageListener;
 
     @Autowired
     private NewOrderListener newOrderListener;

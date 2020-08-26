@@ -1,6 +1,6 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
 import com.apps.potok.exchange.account.Account;
 
 import static com.apps.potok.exchange.core.Route.BUY;

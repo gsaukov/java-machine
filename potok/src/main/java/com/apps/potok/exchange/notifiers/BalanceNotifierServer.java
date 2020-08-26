@@ -1,4 +1,4 @@
-package com.apps.potok.exchange.eventhandlers;
+package com.apps.potok.exchange.notifiers;
 
 import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.account.Account;

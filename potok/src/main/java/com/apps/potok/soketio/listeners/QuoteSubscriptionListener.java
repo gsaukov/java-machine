@@ -1,6 +1,5 @@
 package com.apps.potok.soketio.listeners;
 
-import com.apps.potok.exchange.eventhandlers.QuoteSubscribersV2;
 import com.apps.potok.exchange.query.QueryServer;
 import com.apps.potok.soketio.model.quote.QuoteRequest;
 import com.corundumstudio.socketio.AckRequest;
@@ -11,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class QuoteMessageListener implements DataListener<QuoteRequest> {
+public class QuoteSubscriptionListener implements DataListener<QuoteRequest> {
 
     @Autowired
     private QuoteSubscribersV2 quoteSubscribers;

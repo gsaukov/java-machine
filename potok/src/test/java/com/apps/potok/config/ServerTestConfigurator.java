@@ -1,9 +1,9 @@
 package com.apps.potok.config;
 
-import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
-import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
-import com.apps.potok.exchange.eventhandlers.PositionNotifierServer;
-import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
+import com.apps.potok.exchange.notifiers.ExecutionNotifierServer;
+import com.apps.potok.exchange.notifiers.PositionNotifierServer;
+import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;

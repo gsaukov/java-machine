@@ -3,10 +3,10 @@ package com.apps.potok.exchange.config;
 import com.apps.potok.exchange.account.BalanceCalculator;
 import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.core.OrderManager;
-import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
-import com.apps.potok.exchange.eventhandlers.ExecutionNotifierServer;
-import com.apps.potok.exchange.eventhandlers.PositionNotifierServer;
-import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
+import com.apps.potok.exchange.notifiers.ExecutionNotifierServer;
+import com.apps.potok.exchange.notifiers.PositionNotifierServer;
+import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
 import com.apps.potok.exchange.randombehavior.OrderCreatorServer;
@@ -22,8 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
-
-import javax.annotation.PreDestroy;
 
 @Configuration
 public class ServerConfigurator implements ApplicationListener<ApplicationReadyEvent> {

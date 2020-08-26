@@ -1,6 +1,7 @@
-package com.apps.potok.exchange.eventhandlers;
+package com.apps.potok.exchange.notifiers;
 
 import com.apps.potok.exchange.query.QueryServer;
+import com.apps.potok.soketio.listeners.QuoteSubscribers;
 import com.apps.potok.soketio.model.quote.QuoteResponse;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;

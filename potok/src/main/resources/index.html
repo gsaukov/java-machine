@@ -78,6 +78,7 @@
         });
 
         socket.on('positionNotification', function(data) {
+            output(JSON.stringify(data));
             processPositionTable(data)
         });
 		

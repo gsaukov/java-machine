@@ -1,7 +1,7 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.eventhandlers.BalanceNotifierServer;
-import com.apps.potok.exchange.eventhandlers.PositionNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
+import com.apps.potok.exchange.notifiers.PositionNotifierServer;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
 import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.apps.potok.soketio.model.execution.Execution;

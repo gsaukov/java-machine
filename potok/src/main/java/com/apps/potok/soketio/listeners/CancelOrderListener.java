@@ -2,7 +2,7 @@ package com.apps.potok.soketio.listeners;
 
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
-import com.apps.potok.exchange.eventhandlers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
 import com.apps.potok.soketio.model.order.CancelOrder;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;

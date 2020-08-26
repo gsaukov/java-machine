@@ -1,4 +1,4 @@
-package com.apps.potok.exchange.eventhandlers;
+package com.apps.potok.exchange.notifiers;
 
 import com.apps.potok.exchange.core.AbstractExchangeServer;
 import com.apps.potok.exchange.query.QueryServer;
@@ -6,9 +6,7 @@ import com.apps.potok.soketio.model.quote.QuoteResponse;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
 public class QuoteNotifierServer extends AbstractExchangeServer {
