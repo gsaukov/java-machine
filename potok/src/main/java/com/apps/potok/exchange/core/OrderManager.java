@@ -54,6 +54,13 @@ public class OrderManager {
         this.executorService = Executors.newScheduledThreadPool(1);
     }
 
+    public Order addOrder(Order order) {
+        Account account = accountManager.getAccount(order.getAccount());
+        account.addOrder(order);
+        orderPool.put(order.getUuid(), order);
+        return order;
+    }
+
     public Order manageNew(NewOrder newOrder, Account account) {
         Route route = getRoute(newOrder);
         if (SELL.equals(route)) {
@@ -108,13 +115,6 @@ public class OrderManager {
         }
     }
 
-    public Order addOrder(Order order) {
-        Account account = accountManager.getAccount(order.getAccount());
-        account.addOrder(order);
-        orderPool.put(order.getUuid(), order);
-        return order;
-    }
-
     // returns removed order, returns null if order is already executed or not found.
     // BUY/SHORT balance on cancel should be returned assuming that it could be executed by other threads so be careful.
     public Order cancelOrder(UUID uuid, String accountId) {
@@ -130,48 +130,6 @@ public class OrderManager {
             executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), cancelBalanceReturnDelay, TimeUnit.SECONDS);
         }
         return orderToRemove;
-    }
-
-    public Order manageExecution(Execution execution) {
-        Account account = accountManager.getAccount(execution.getAccountId());
-        Order order = account.getOrder(execution.getOrderUuid());
-        if (SELL.equals(order.getRoute())) {
-            sellExecutionBalanceProcessor(execution, account);
-        } else if (BUY.equals(order.getRoute())) {
-            buyExecutionBalanceProcessor(execution, order, account);
-        } else {
-            shortExecutionBalanceProcessor(execution, order, account);
-        }
-        Position position = account.doExecution(execution);
-        positionNotifier.pushPositionNotification(position.getAccountId(), position.getSymbol(), position.getRoute());
-        // should be done for down stream processing persistance, accounting, transaction journalization and balance update.
-        return order;
-    }
-
-    // Buy Short Execution could happen only at same or better price, the abs difference we return to account balance.
-    // Example of buying 1 share:
-    // |route	| order	| execution	| return absolute	|
-    // |buy 	| 40	| 30		| 10				|
-    // |short	| 20	| 40		| 20				|
-
-    private void buyExecutionBalanceProcessor(Execution execution, Order order, Account account) {
-        if (order.getVal() != execution.getFillPrice()) {
-            long returnAmount = (order.getVal() - execution.getFillPrice()) * execution.getQuantity();
-            account.doPositiveOrderBalance(returnAmount);
-            balanceNotifier.pushBalance(account);
-        }
-    }
-
-    private void shortExecutionBalanceProcessor(Execution execution, Order order, Account account) {
-        long returnAmount = execution.getFillPrice() * execution.getQuantity();
-        account.doPositiveOrderBalance(returnAmount);
-        balanceNotifier.pushBalance(account);
-    }
-
-    private void sellExecutionBalanceProcessor(Execution execution, Account account) {
-        long returnAmount = execution.getFillPrice() * execution.getQuantity();
-        account.doPositiveOrderBalance(returnAmount);
-        balanceNotifier.pushBalance(account);
     }
 
     public Order getOrder(UUID orderUuid) {

@@ -1,6 +1,7 @@
 package com.apps.potok.exchange.notifiers;
 
 import com.apps.potok.exchange.core.AbstractExchangeServer;
+import com.apps.potok.exchange.core.ExecutionManager;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.kafka.producer.ExecutionMessageProducer;
@@ -21,24 +22,24 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
     private SocketIOServer server;
     private ExecutionMessageProducer executionMessageProducer;
     private AccountManager accountManager;
-    private final OrderManager orderManager;
+    private final ExecutionManager executionManager; //
     private final ConcurrentLinkedDeque<Execution> eventQueue = new ConcurrentLinkedDeque<>();
 //    private final BlockingDeque<Execution> eventQueue = new LinkedBlockingDeque<>();
 
-    public ExecutionNotifierServer(SocketIOServer server, AccountManager accountManager, OrderManager orderManager,
+    public ExecutionNotifierServer(SocketIOServer server, AccountManager accountManager, ExecutionManager executionManager,
                                    ExecutionMessageProducer executionMessageProducer){
         super.setName("ExecutionNotifierThread");
         this.server = server;
         this.executionMessageProducer = executionMessageProducer;
         this.accountManager = accountManager;
-        this.orderManager = orderManager;
+        this.executionManager = executionManager;
     }
 
     @Override
     public void runExchangeServer() {
         Execution execution = eventQueue.poll();
         if(execution != null){
-            Order executedOrder = orderManager.manageExecution(execution);
+            Order executedOrder = executionManager.manageExecution(execution);
             notifyClients(getAccount(execution), execution);
             executionMessageProducer.sendExecutionMessage(execution);
         } else {
