@@ -2,7 +2,7 @@ package com.apps.potok.soketio.listeners;
 
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
-import com.apps.potok.exchange.core.OrderManager;
+import com.apps.potok.exchange.core.CloseShortManager;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
 import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.corundumstudio.socketio.AckRequest;
@@ -17,7 +17,7 @@ import static com.apps.potok.soketio.config.SessionUtil.getAccountId;
 public class CloseShortListener implements DataListener<CloseShortPositionRequest> {
 
     @Autowired
-    private OrderManager orderManager;
+    private CloseShortManager closeShortManager;
 
     @Autowired
     private AccountManager accountManager;
@@ -26,7 +26,7 @@ public class CloseShortListener implements DataListener<CloseShortPositionReques
     public void onData(SocketIOClient client, CloseShortPositionRequest data, AckRequest ackRequest) {
         String accountId = getAccountId(client);
         Account account = accountManager.getAccount(accountId);
-        CloseShortPosition closeShortPosition = orderManager.manageCloseShort(data, account);
+        CloseShortPosition closeShortPosition = closeShortManager.manageCloseShort(data, account);
         if (closeShortPosition != null) {
             client.sendEvent("closeShortPosition", closeShortPosition);
         }

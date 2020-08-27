@@ -2,15 +2,7 @@ package com.apps.potok.config;
 
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
-import com.apps.potok.exchange.core.AskComparator;
-import com.apps.potok.exchange.core.AskContainer;
-import com.apps.potok.exchange.core.BidContainer;
-import com.apps.potok.exchange.core.ExchangeApplication;
-import com.apps.potok.exchange.core.Order;
-import com.apps.potok.exchange.core.OrderManager;
-import com.apps.potok.exchange.core.SymbolContainer;
-import com.apps.potok.exchange.init.Initiator;
-import com.apps.potok.exchange.core.Route;
+import com.apps.potok.exchange.core.*;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
 import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.apps.potok.soketio.model.order.NewOrder;
@@ -30,6 +22,9 @@ public class TestScenarioCreator {
 
     @Autowired
     private OrderManager orderManager;
+
+    @Autowired
+    private CloseShortManager closeShortManager;
 
     @Autowired
     private SymbolContainer symbolContainer;
@@ -136,7 +131,7 @@ public class TestScenarioCreator {
         CloseShortPositionRequest request = new CloseShortPositionRequest();
         request.setSymbol(symbol);
         request.setAmount(amount);
-        return orderManager.manageCloseShort(request, testScenario.getAccount());
+        return closeShortManager.manageCloseShort(request, testScenario.getAccount());
     }
 
     private NewOrder toNewOrder(String symbol, String route, Integer val, Integer volume){

@@ -1,13 +1,7 @@
 package com.apps.potok.exchange.randombehavior;
 
 import com.apps.potok.exchange.account.Account;
-import com.apps.potok.exchange.core.AbstractExchangeServer;
-import com.apps.potok.exchange.core.ExchangeApplication;
-import com.apps.potok.exchange.core.Order;
-import com.apps.potok.exchange.core.OrderManager;
-import com.apps.potok.exchange.core.Position;
-import com.apps.potok.exchange.core.SymbolContainer;
-import com.apps.potok.exchange.core.Route;
+import com.apps.potok.exchange.core.*;
 import com.apps.potok.exchange.account.AccountManager;
 import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.apps.potok.soketio.model.order.NewOrder;
@@ -30,15 +24,18 @@ public class OrderCreatorServer extends AbstractExchangeServer {
     private final SymbolContainer symbolContainer;
     private final AccountManager accountManager;
     private final OrderManager orderManager;
+    private final CloseShortManager closeShortManager;
     private final List<UUID> orderToCancel = new ArrayList<>();
     private ThreadLocalRandom r;
 
-    public OrderCreatorServer(ExchangeApplication exchangeApplication, SymbolContainer symbolContainer, AccountManager accountManager, OrderManager orderManager) {
+    public OrderCreatorServer(ExchangeApplication exchangeApplication, SymbolContainer symbolContainer,
+                              AccountManager accountManager, OrderManager orderManager, CloseShortManager closeShortManager) {
         super.setName("OrderCreatorThread");
         this.exchangeApplication = exchangeApplication;
         this.symbolContainer = symbolContainer;
         this.accountManager = accountManager;
         this.orderManager = orderManager;
+        this.closeShortManager = closeShortManager;
     }
 
     @Override
@@ -59,7 +56,7 @@ public class OrderCreatorServer extends AbstractExchangeServer {
             Position position = account.getPosition(shortPosition.getSymbol());
             if(position != null) {
                 Integer closeAmount = Math.min(Math.abs(shortPosition.getVolume()), position.getVolume());
-                orderManager.manageCloseShort(toCloseShortPositionRequest(position.getSymbol(), closeAmount), account);
+                closeShortManager.manageCloseShort(toCloseShortPositionRequest(position.getSymbol(), closeAmount), account);
                 return;
             }
         }

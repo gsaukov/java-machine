@@ -136,18 +136,6 @@ public class OrderManager {
         return orderPool.get(orderUuid);
     }
 
-    public CloseShortPosition manageCloseShort(CloseShortPositionRequest request, Account account) {
-        CloseShortPosition closeShortPosition = new CloseShortPosition(account.getAccountId(), request.getSymbol(), request.getAmount());
-        boolean success = account.doCloseShortPosition(closeShortPosition);
-        if (success){
-            balanceNotifier.pushBalance(account);
-            positionNotifier.pushPositionNotification(account.getAccountId(), request.getSymbol(), BUY);
-            positionNotifier.pushPositionNotification(account.getAccountId(), request.getSymbol(), SHORT);
-        }
-
-        return closeShortPosition;
-    }
-
     private Order createOrder(NewOrder newOrder, Account account, Route route) {
         return new Order(newOrder.getSymbol(), account.getAccountId(), route, newOrder.getVal(), newOrder.getVolume());
     }
