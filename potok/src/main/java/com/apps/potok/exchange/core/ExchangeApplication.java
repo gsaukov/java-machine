@@ -9,7 +9,7 @@ public class ExchangeApplication {
 
     private final Exchange exchange;
     private final OrderManager orderManager;
-
+    //TODO get rid of this class move all to order manager
     public ExchangeApplication(Exchange exchange, OrderManager orderManager) {
         this.exchange = exchange;
         this.orderManager = orderManager;
