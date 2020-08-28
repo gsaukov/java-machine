@@ -1,39 +1,24 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
-import com.apps.potok.exchange.notifiers.PositionNotifierServer;
-import com.apps.potok.soketio.model.execution.CloseShortPosition;
-import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
-import com.apps.potok.soketio.model.execution.Execution;
 import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static com.apps.potok.exchange.core.Route.BUY;
 import static com.apps.potok.exchange.core.Route.SELL;
-import static com.apps.potok.exchange.core.Route.SHORT;
 
 @Service
 public class OrderManager {
 
     private final int RISK_FACTOR = 10;
 
-    private final ScheduledExecutorService executorService;
     private final ConcurrentHashMap<UUID, Order> orderPool;
-    private final AskContainer askContainer;
-    private final BidContainer bidContainer;
-
-    @Value("${exchange.cancel-balance-return-delay}")
-    private Integer cancelBalanceReturnDelay;
 
     @Autowired
     private SymbolContainer symbolContainer;
@@ -44,14 +29,8 @@ public class OrderManager {
     @Autowired
     private BalanceNotifierServer balanceNotifier;
 
-    @Autowired
-    private PositionNotifierServer positionNotifier;
-
-    public OrderManager(BidContainer bidContainer, AskContainer askContainer) {
-        this.askContainer = askContainer;
-        this.bidContainer = bidContainer;
+    public OrderManager() {
         this.orderPool = new ConcurrentHashMap();
-        this.executorService = Executors.newScheduledThreadPool(1);
     }
 
     public Order addOrder(Order order) {
@@ -115,23 +94,6 @@ public class OrderManager {
         }
     }
 
-    // returns removed order, returns null if order is already executed or not found.
-    // BUY/SHORT balance on cancel should be returned assuming that it could be executed by other threads so be careful.
-    public Order cancelOrder(UUID uuid, String accountId) {
-        Account account = accountManager.getAccount(accountId);
-        Order orderToRemove = account.getOrder(uuid);
-        if (orderToRemove != null && orderToRemove.getAccount().equals(accountId) && orderToRemove.isActive() && orderToRemove.getVolume() > 0) {
-            orderToRemove.cancel();
-            if (BUY.equals(orderToRemove.getRoute())) {
-                askContainer.removeAsk(orderToRemove);
-            } else {
-                bidContainer.removeBid(orderToRemove);
-            }
-            executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), cancelBalanceReturnDelay, TimeUnit.SECONDS);
-        }
-        return orderToRemove;
-    }
-
     public Order getOrder(UUID orderUuid) {
         return orderPool.get(orderUuid);
     }
@@ -142,10 +104,6 @@ public class OrderManager {
 
     private Order createShortOrder(NewOrder newOrder, Account account, Route route, Integer blockedBalance) {
         return new Order(newOrder.getSymbol(), account.getAccountId(), route, newOrder.getVal(), newOrder.getVolume(), blockedBalance);
-    }
-
-    private CancelOrderBalanceReturnTask createCancelOrderBalanceReturnTask(Order order, Account account) {
-        return new CancelOrderBalanceReturnTask(order, account, this.balanceNotifier);
     }
 
     private Route getRoute(NewOrder newOrder) {

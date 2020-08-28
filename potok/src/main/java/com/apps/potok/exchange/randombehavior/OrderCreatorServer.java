@@ -24,12 +24,15 @@ public class OrderCreatorServer extends AbstractExchangeServer {
     private final SymbolContainer symbolContainer;
     private final AccountManager accountManager;
     private final OrderManager orderManager;
+    private final CancelOrderManager cancelOrderManager;
     private final CloseShortManager closeShortManager;
     private final List<UUID> orderToCancel = new ArrayList<>();
     private ThreadLocalRandom r;
 
     public OrderCreatorServer(ExchangeApplication exchangeApplication, SymbolContainer symbolContainer,
-                              AccountManager accountManager, OrderManager orderManager, CloseShortManager closeShortManager) {
+                              AccountManager accountManager, OrderManager orderManager,
+                              CancelOrderManager cancelOrderManager, CloseShortManager closeShortManager) {
+        this.cancelOrderManager = cancelOrderManager;
         super.setName("OrderCreatorThread");
         this.exchangeApplication = exchangeApplication;
         this.symbolContainer = symbolContainer;
@@ -125,7 +128,7 @@ public class OrderCreatorServer extends AbstractExchangeServer {
         if (orderToCancel.size() > 10) {
             UUID orderUuid = orderToCancel.remove(r.nextInt(0, orderToCancel.size()));
             Order order = orderManager.getOrder(orderUuid);
-            orderManager.cancelOrder(orderUuid, order.getAccount());
+            cancelOrderManager.cancelOrder(orderUuid, order.getAccount());
         }
     }
 

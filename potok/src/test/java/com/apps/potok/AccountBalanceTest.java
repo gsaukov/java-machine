@@ -3,8 +3,8 @@ package com.apps.potok;
 import com.apps.potok.config.BaseTest;
 import com.apps.potok.config.TestScenario;
 import com.apps.potok.config.TestScenarioCreator;
+import com.apps.potok.exchange.core.CancelOrderManager;
 import com.apps.potok.exchange.core.Order;
-import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.core.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeMethod;
@@ -16,7 +16,7 @@ import static org.testng.Assert.assertNotNull;
 public class AccountBalanceTest extends BaseTest {
 
     @Autowired
-    private OrderManager orderManager;
+    private CancelOrderManager cancelOrderManager;
 
     @Autowired
     private TestScenarioCreator testScenarioCreator;
@@ -36,7 +36,7 @@ public class AccountBalanceTest extends BaseTest {
         long balance = testScenario.getBalance();
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.BUY, BUY_PRICE, 1);
         assertEquals(testScenario.getBalance(), balance - BUY_PRICE);
-        orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
+        cancelOrderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
         assertEquals(testScenario.getBalance(), balance);
     }
@@ -46,7 +46,7 @@ public class AccountBalanceTest extends BaseTest {
         long balance = testScenario.getBalance();
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.SHORT, SHORT_PRICE, 1);
         assertEquals(testScenario.getBalance(), balance - order.getBlockedPrice());
-        orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
+        cancelOrderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
         assertEquals(testScenario.getBalance(), balance);
     }
@@ -64,7 +64,7 @@ public class AccountBalanceTest extends BaseTest {
         //sell position it does not affect balace
         Order sellOrder = testScenarioCreator.sendNewOrder(testScenario, Route.SELL, SELL_PRICE, 1);
         assertEquals(testScenario.getBalance(), newBalance);
-        orderManager.cancelOrder(sellOrder.getUuid(), testScenario.getAccountId());
+        cancelOrderManager.cancelOrder(sellOrder.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
         assertEquals(testScenario.getBalance(), newBalance);
     }
@@ -76,7 +76,7 @@ public class AccountBalanceTest extends BaseTest {
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.BUY, SELL_PRICE, volume);
         assertEquals(order.getVolume().intValue(), 1);
         assertEquals(testScenario.getBalance(), balance - (SELL_PRICE * volume));
-        orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
+        cancelOrderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
         assertEquals(testScenario.getBalance(), balance - SELL_PRICE);
     }
@@ -88,7 +88,7 @@ public class AccountBalanceTest extends BaseTest {
         Order order = testScenarioCreator.sendNewOrder(testScenario, Route.BUY, SHORT_PRICE, volume);
         assertEquals(order.getVolume().intValue(), 1);
         assertEquals(testScenario.getBalance(), balance - (SHORT_PRICE * volume));
-        orderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
+        cancelOrderManager.cancelOrder(order.getUuid(), testScenario.getAccountId());
         Thread.sleep(10);
         assertEquals(testScenario.getBalance(), balance - SHORT_PRICE);
     }
