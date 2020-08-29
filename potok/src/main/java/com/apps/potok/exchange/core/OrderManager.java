@@ -29,6 +29,9 @@ public class OrderManager {
     @Autowired
     private BalanceNotifierServer balanceNotifier;
 
+    @Autowired
+    private Exchange exchange;
+
     public OrderManager() {
         this.orderPool = new ConcurrentHashMap();
     }
@@ -42,13 +45,19 @@ public class OrderManager {
 
     public Order manageNew(NewOrder newOrder, Account account) {
         Route route = getRoute(newOrder);
+        Order order = null;
         if (SELL.equals(route)) {
-            return newSellOrderBalanceProcessor(newOrder, account, route);
+            order = newSellOrderBalanceProcessor(newOrder, account, route);
         } else if (BUY.equals(route)) {
-            return buyOrderBalanceProcessor(newOrder, account, route);
+            order = buyOrderBalanceProcessor(newOrder, account, route);
         } else { //short
-            return shortOrderBalanceProcessor(newOrder, account, route);
+            order = shortOrderBalanceProcessor(newOrder, account, route);
         }
+        if(order != null){
+            addOrder(order);
+            exchange.fireOrder(order);
+        }
+        return order;
     }
 
     private Order buyOrderBalanceProcessor(NewOrder newOrder, Account account, Route route) {

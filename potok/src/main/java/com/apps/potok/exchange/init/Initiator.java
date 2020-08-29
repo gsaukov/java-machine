@@ -5,7 +5,6 @@ import com.apps.potok.exchange.account.AccountManager;
 import com.apps.potok.exchange.core.AskComparator;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
-import com.apps.potok.exchange.core.ExchangeApplication;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.exchange.core.Position;
@@ -13,7 +12,6 @@ import com.apps.potok.exchange.core.SymbolContainer;
 import com.apps.potok.exchange.core.Route;
 import com.apps.potok.soketio.model.execution.Deposit;
 import com.apps.potok.soketio.model.order.NewOrder;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -49,17 +47,15 @@ public class Initiator {
 
     private final AskContainer askContainer;
     private final BidContainer bidContainer;
-    private final ExchangeApplication exchangeApplication;
     private final OrderManager orderManager;
     private ThreadLocalRandom r;
 
     public Initiator(SymbolContainer symbolContainer, AccountManager accountManager, OrderManager orderManager,
-                     AskContainer askContainer, BidContainer bidContainer, ExchangeApplication exchangeApplication) {
+                     AskContainer askContainer, BidContainer bidContainer) {
         this.symbolContainer = symbolContainer;
         this.accountManager = accountManager;
         this.askContainer = askContainer;
         this.bidContainer = bidContainer;
-        this.exchangeApplication = exchangeApplication;
         this.orderManager = orderManager;
         this.r = ThreadLocalRandom.current();
     }
@@ -146,7 +142,7 @@ public class Initiator {
             Integer val = getVal(symbol, BUY);
             Integer volume = r.nextInt(1, 100) * 10;
             NewOrder newOrder = toNewOrder(symbol, BUY.name(), val, volume);
-            exchangeApplication.manageNew(newOrder, account);
+            orderManager.manageNew(newOrder, account);
         }
     }
 
@@ -159,7 +155,7 @@ public class Initiator {
             Integer val = getVal(position.getSymbol(), SELL);
             Integer volume = (r.nextInt(10, position.getVolume()) / 10) * 10 ;
             NewOrder newOrder = toNewOrder(position.getSymbol(), SELL.name(), val, volume);
-            exchangeApplication.manageNew(newOrder, account);
+            orderManager.manageNew(newOrder, account);
         }
     }
 

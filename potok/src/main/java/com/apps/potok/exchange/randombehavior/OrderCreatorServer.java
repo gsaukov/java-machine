@@ -20,7 +20,6 @@ import static com.apps.potok.exchange.core.Route.SHORT;
 //TODO in order to make exchenge behavior more multythreaded I should partition accounts in chunks and start one order creator per chunk of accounts.
 public class OrderCreatorServer extends AbstractExchangeServer {
 
-    private final ExchangeApplication exchangeApplication;
     private final SymbolContainer symbolContainer;
     private final AccountManager accountManager;
     private final OrderManager orderManager;
@@ -29,12 +28,10 @@ public class OrderCreatorServer extends AbstractExchangeServer {
     private final List<UUID> orderToCancel = new ArrayList<>();
     private ThreadLocalRandom r;
 
-    public OrderCreatorServer(ExchangeApplication exchangeApplication, SymbolContainer symbolContainer,
-                              AccountManager accountManager, OrderManager orderManager,
+    public OrderCreatorServer(SymbolContainer symbolContainer, AccountManager accountManager, OrderManager orderManager,
                               CancelOrderManager cancelOrderManager, CloseShortManager closeShortManager) {
         this.cancelOrderManager = cancelOrderManager;
         super.setName("OrderCreatorThread");
-        this.exchangeApplication = exchangeApplication;
         this.symbolContainer = symbolContainer;
         this.accountManager = accountManager;
         this.orderManager = orderManager;
@@ -47,7 +44,7 @@ public class OrderCreatorServer extends AbstractExchangeServer {
         Account account = randomAccount();
         NewOrder newOrder = randomOrder(account);
         if(newOrder!=null){
-            Order order = exchangeApplication.manageNew(newOrder, account);
+            Order order = orderManager.manageNew(newOrder, account);
             addToCancel(order);
         }
         cancelRandom();

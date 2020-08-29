@@ -1,7 +1,7 @@
 package com.apps.potok.soketio.listeners;
 
-import com.apps.potok.exchange.core.ExchangeApplication;
 import com.apps.potok.exchange.core.Order;
+import com.apps.potok.exchange.core.OrderManager;
 import com.apps.potok.soketio.model.LogFile;
 import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.exchange.account.Account;
@@ -18,7 +18,7 @@ import static com.apps.potok.soketio.config.SessionUtil.getAccountId;
 public class NewOrderListener implements DataListener<NewOrder> {
 
     @Autowired
-    private ExchangeApplication exchangeApplication;
+    private OrderManager orderManager;
 
     @Autowired
     private AccountManager accountManager;
@@ -27,7 +27,7 @@ public class NewOrderListener implements DataListener<NewOrder> {
     public void onData(SocketIOClient client, NewOrder newOrder, AckRequest ackSender) throws Exception {
         String accountId = getAccountId(client);
         Account account = accountManager.getAccount(accountId);
-        Order order = exchangeApplication.manageNew(newOrder, account);
+        Order order = orderManager.manageNew(newOrder, account);
         if(order != null){
             newOrder.setUuid(order.getUuid().toString());
             client.sendEvent("orderConfirm", order);

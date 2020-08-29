@@ -1,14 +1,10 @@
 package com.apps.potok.exchange.randombehavior;
 
 import com.apps.potok.exchange.account.Account;
-import com.apps.potok.exchange.core.AbstractExchangeServer;
-import com.apps.potok.exchange.core.ExchangeApplication;
-import com.apps.potok.exchange.core.Route;
-import com.apps.potok.exchange.core.SymbolContainer;
+import com.apps.potok.exchange.core.*;
 import com.apps.potok.exchange.account.AccountManager;
 import com.apps.potok.soketio.model.order.NewOrder;
 import org.apache.commons.lang3.RandomUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +21,7 @@ public class MkMakerServer extends AbstractExchangeServer {
     @Value("${exchange.order-size}")
     private Integer orderSize;
 
-    @Autowired
-    private ExchangeApplication exchangeApplication;
+    private final OrderManager orderManager;
 
     private final SymbolContainer symbolContainer;
 
@@ -34,10 +29,11 @@ public class MkMakerServer extends AbstractExchangeServer {
 
     private Account mkMaker;
 
-    public MkMakerServer(SymbolContainer symbolContainer, AccountManager accountManager) {
+    public MkMakerServer(SymbolContainer symbolContainer, AccountManager accountManager, OrderManager orderManager) {
         super.setName("MkDataServer");
         this.symbolContainer = symbolContainer;
         this.accountManager = accountManager;
+        this.orderManager = orderManager;
     }
 
     @Override
@@ -58,7 +54,7 @@ public class MkMakerServer extends AbstractExchangeServer {
     }
 
     private void fireEvent(NewOrder newOrder) {
-        exchangeApplication.manageNew(newOrder, mkMaker);
+        orderManager.manageNew(newOrder, mkMaker);
     }
 
     public List<NewOrder> getMkData(int size){

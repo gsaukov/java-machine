@@ -35,9 +35,6 @@ public class TestScenarioCreator {
     @Autowired
     private BidContainer bidContainer;
 
-    @Autowired
-    private ExchangeApplication exchangeApplication;
-
     public TestScenario newTestScenario() {
         String symbol = "SYMBOL_" + RandomStringUtils.randomAlphabetic(10).toUpperCase();
         return newTestScenario(symbol, 100000);
@@ -122,7 +119,7 @@ public class TestScenarioCreator {
     public Order sendNewOrder(TestScenario testScenario, Route route, Integer val, Integer volume) {
         NewOrder newOrder = toNewOrder(testScenario.getSymbol(), route.name(), val, volume);
         testScenario.addNewOrder(newOrder);
-        Order order = exchangeApplication.manageNew(newOrder, testScenario.getAccount());
+        Order order = orderManager.manageNew(newOrder, testScenario.getAccount());
         testScenario.addOrder(order);
         return order;
     }

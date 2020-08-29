@@ -26,16 +26,12 @@ public class Exchange {
     @Autowired
     private ExecutionNotifierServer executionNotifierServer;
 
-    @Autowired
-    private OrderManager orderManager;
-
     public Exchange(BidContainer bidContainer, AskContainer askContainer){
         this.askContainer = askContainer;
         this.bidContainer = bidContainer;
     }
 
     public void fireOrder(Order order) {
-        orderManager.addOrder(order);
         if (BUY.equals(order.getRoute())) {
             fireBuy(order);
         } else {
