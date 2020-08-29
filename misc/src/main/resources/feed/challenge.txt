@@ -1,0 +1,167 @@
+
+// Реализуйте метод для фильтрации списка (ArrayList) по заданному признаку эффективным способом с сохранением относительного порядка оставшихся элементов
+// Например, если f.accept выдаёт true только для нечётных чисел, то
+// [1, 2, 3, 5, 4, 1, 8] --> [1, 3, 5, 1]
+
+import java.util.ArrayList;
+
+public interface Filter<T> {
+    boolean accept(T t);
+}
+
+
+public static <T> void apply(ArrayList<T> a, Filter<T> f) {
+
+  	boolean changed = true;
+  	int counter = 0;
+  	while(changed){
+		changed = false;
+      	if(counter<=a.size()){
+          for(int i = counter; i < a.size(); i++){
+            if(!f.accept(a.get(counter))){
+              a.remove(counter)
+              changed = true;
+              break;
+            }
+                counter++;
+            }
+          }
+        }
+    }
+
+}
+
+//
+ for (int i = 0; i < a.size(); ) {
+   if (!f.accept(a.get(counter))) {
+     a.remove(i};
+    } else i++;
+}
+
+
+             for(;;){
+             }
+
+// =======
+
+AbstractRect build(Point p1,...Point p4) {
+  ///
+
+  if(p)
+
+  buildRect(int height, int width) {
+    return new Rect()
+  }
+
+    buildSquare(int side) {
+    	return Square(side);
+  }
+}
+
+
+
+public interface Form {
+  int getArea();
+  int getPerimeter();
+}
+
+public abstract class AbstractRect implements Form {
+
+    public abstract int getHeight();
+    public abstract int getWidth();
+
+    public int getArea() { return getWidth() * getHeight(); }
+    public int getPerimeter() { return (getWidth() + getHeight()) * 2; }
+
+}
+
+public class Rect extends AbstractRect {
+
+    final int width;
+    final int height;
+
+    public Rect(int height, int width) {
+      this.height = height;
+      this.width = width;
+    }
+
+    public int getHeight() { return height; }
+    public int getWidth() { return width; }
+
+
+}
+
+public class Square extends AbstractRect {
+
+    final int side;
+
+    public Square(int side) {
+      this.side = side
+    }
+
+    public int getHeight() { return side; }
+    public int getWidth() { return side; }
+
+}
+
+
+
+
+
+
+
+
+
+
+/*
+Order {
+	long ID 	- глобально уникальный ID
+	UpdateTime  - время обновления (глобальн
+	Symbol - неизменно
+	Direction (BUY|SELL) - неизменно
+	Price - может меняться
+	Quantity - может меняться (0 - значит выбыл)
+}
+
+*/
+
+order id=1 price=100 size = 20
+order id=2 price=100 size=30
+order id=1 price=99 size=20 // update
+
+
+
+// Половина стакана по выбранному символу+направлению
+interface OrderBookSide {
+  	Map<Long, Order> orderMap = new ConcurentHashMap<>();
+  	TreeMap<Price, TreeSet<Order>> orderTree = new TreeSet(compare);
+
+
+	updateOrder(Order o);
+  	Order getOrderById(long id);
+  	Order takeTopOrder();
+
+
+}
+
+synchronized updateOrder(Order o1){
+	Order o2 = orderMap.get(o1.id);
+      TreeSet priceTier = orderTree.get(o2.getPrice())
+      if(priceTier != null) {
+        priceTier.remove(o2)
+    }
+
+
+
+
+    if(orderTree.contains(o1.))
+}
+
+int compare(o1, o2) {
+  if(o1.ut.equals(o2.ut)){
+      return o1.id.compareTo(o2.id)
+  } else {
+    return o1.ut.compareTo(o2.ut)
+  }
+}
+
