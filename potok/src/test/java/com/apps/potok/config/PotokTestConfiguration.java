@@ -2,6 +2,7 @@ package com.apps.potok.config;
 
 import com.apps.potok.exchange.config.ServerConfigurator;
 import com.apps.potok.exchange.init.ShutDowner;
+import com.apps.potok.exchange.randombehavior.AccountServerExecutor;
 import com.apps.potok.soketio.listeners.QuoteSubscribersV2;
 import com.apps.potok.kafka.consumer.DepositMessageConsumer;
 import com.apps.potok.kafka.producer.ExecutionMessageProducer;
@@ -28,6 +29,9 @@ public class PotokTestConfiguration {
 
     @MockBean
     ServerConfigurator serverConfigurator;
+
+    @MockBean
+    AccountServerExecutor accountServerExecutor;
 
     @MockBean
     SocketIOServer server;

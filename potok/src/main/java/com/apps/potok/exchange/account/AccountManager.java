@@ -3,7 +3,6 @@ package com.apps.potok.exchange.account;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,15 +14,13 @@ public class AccountManager {
     public final static String TEST_ACCOUNT_ID = "TEST_ACCOUNT_ID";
 
     private final ConcurrentHashMap<String, Account> accountContainer;
-    private final ArrayList<String> allAccountIds;
 
     public AccountManager() {
         this.accountContainer = new ConcurrentHashMap<>();
-        allAccountIds = new ArrayList<>();
     }
 
-    public List<String> getAllAccountIds() { //for random exchange activity only, initialization use only.
-        return allAccountIds;
+    public List<String> getAllAccountIds() {
+        return new ArrayList<>(accountContainer.keySet());
     }
 
     public List<Account> getAllAccounts() {
@@ -56,8 +53,5 @@ public class AccountManager {
 
     public void addNewAccount(Account account){
         accountContainer.put(account.getAccountId(), account);
-        if(!MK_MAKER.equals(account.getAccountId()) && !TEST_ACCOUNT_ID.equals(account.getAccountId())){
-            allAccountIds.add(account.getAccountId());
-        }
     }
 }

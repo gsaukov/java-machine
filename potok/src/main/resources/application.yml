@@ -53,6 +53,8 @@ exchange:
     max-range: 90
   accounts-size: 200
   cancel-balance-return-delay: 10
+  accountServer:
+    threads: 4
   speed: FAST #programm argument: --exchange.speed=NORMAL
   #speed available options:
     #MAX production mode no thread sleep almost 100% CPU consupmtion. Mostly used for no functional testing to reveal concurrent issues.

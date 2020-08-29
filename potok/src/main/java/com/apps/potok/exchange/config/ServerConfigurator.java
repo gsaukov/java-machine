@@ -9,7 +9,7 @@ import com.apps.potok.exchange.notifiers.PositionNotifierServer;
 import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
-import com.apps.potok.exchange.randombehavior.OrderCreatorServer;
+import com.apps.potok.exchange.randombehavior.AccountServerExecutor;
 import com.apps.potok.exchange.init.Initiator;
 import com.apps.potok.exchange.randombehavior.MkMakerServer;
 import org.slf4j.Logger;
@@ -54,7 +54,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     private MkMakerServer mkDataServer;
 
     @Autowired
-    private OrderCreatorServer orderCreatorServer;
+    private AccountServerExecutor accountServerExecutor;
 
     @Autowired
     private OrderManager orderManager;
@@ -79,7 +79,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         initiator.initiate();
         runQuoteNotifierServer();
         runMkDataServer();
-        runOrderCreatorServer();
+        runAccountServers();
         runExecutionNotifier();
         runBalanceNotifier();
         runPositionNotifier();
@@ -90,8 +90,8 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
         executor.execute(mkDataServer);
     }
 
-    public void runOrderCreatorServer() {
-        executor.execute(orderCreatorServer);
+    public void runAccountServers() {
+        accountServerExecutor.runAccountServers();
     }
 
     public void runQuoteNotifierServer() {
@@ -121,7 +121,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
 
     public void shutDownHook(){
         logger.info("Starting potok shutdown.");
-        orderCreatorServer.stopExchangeServer();
+        accountServerExecutor.stopAccountServers();
         mkDataServer.stopExchangeServer();
         quoteNotifierServer.stopExchangeServer();
 

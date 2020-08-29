@@ -1,24 +1,20 @@
 package com.apps.potok.exchange.randombehavior;
 
 import com.apps.potok.exchange.account.Account;
-import com.apps.potok.exchange.core.*;
 import com.apps.potok.exchange.account.AccountManager;
+import com.apps.potok.exchange.core.*;
 import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import com.apps.potok.soketio.model.order.NewOrder;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.apps.potok.exchange.core.Route.BUY;
-import static com.apps.potok.exchange.core.Route.SELL;
+import static com.apps.potok.exchange.core.Route.*;
 import static com.apps.potok.exchange.core.Route.SHORT;
 
-@Service
-//TODO in order to make exchenge behavior more multythreaded I should partition accounts in chunks and start one order creator per chunk of accounts.
-public class OrderCreatorServer extends AbstractExchangeServer {
+public class AccountServer extends AbstractExchangeServer {
 
     private final SymbolContainer symbolContainer;
     private final AccountManager accountManager;
@@ -26,21 +22,25 @@ public class OrderCreatorServer extends AbstractExchangeServer {
     private final CancelOrderManager cancelOrderManager;
     private final CloseShortManager closeShortManager;
     private final List<UUID> orderToCancel = new ArrayList<>();
+    private final List<String> accountIds;
     private ThreadLocalRandom r;
 
-    public OrderCreatorServer(SymbolContainer symbolContainer, AccountManager accountManager, OrderManager orderManager,
-                              CancelOrderManager cancelOrderManager, CloseShortManager closeShortManager) {
+    public AccountServer(ExchangeSpeed exchangeSpeed, SymbolContainer symbolContainer, AccountManager accountManager,
+                         OrderManager orderManager, CancelOrderManager cancelOrderManager,
+                         CloseShortManager closeShortManager, List<String> accountIds) {
+        super.setName("AccountThread");
+        super.exchangeSpeed = exchangeSpeed;
         this.cancelOrderManager = cancelOrderManager;
-        super.setName("OrderCreatorThread");
         this.symbolContainer = symbolContainer;
         this.accountManager = accountManager;
         this.orderManager = orderManager;
         this.closeShortManager = closeShortManager;
+        this.accountIds = accountIds;
+        this.r = ThreadLocalRandom.current();
     }
 
     @Override
     public void runExchangeServer() {
-        r = ThreadLocalRandom.current();
         Account account = randomAccount();
         NewOrder newOrder = randomOrder(account);
         if(newOrder!=null){
@@ -68,7 +68,7 @@ public class OrderCreatorServer extends AbstractExchangeServer {
     }
 
     private Account randomAccount() {
-        String accountId = accountManager.getAllAccountIds().get(r.nextInt(0, accountManager.getAllAccountIds().size()));
+        String accountId = accountIds.get(r.nextInt(0, accountIds.size()));
         return accountManager.getAccount(accountId);
     }
 
