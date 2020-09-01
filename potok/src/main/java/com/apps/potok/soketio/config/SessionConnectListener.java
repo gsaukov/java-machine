@@ -3,7 +3,7 @@ package com.apps.potok.soketio.config;
 import com.apps.potok.exchange.core.Order;
 import com.apps.potok.exchange.core.Position;
 import com.apps.potok.exchange.core.SymbolContainer;
-import com.apps.potok.soketio.model.LogFile;
+import com.apps.potok.soketio.model.LogLine;
 import com.apps.potok.soketio.model.execution.PositionNotification;
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
@@ -72,11 +72,11 @@ public class SessionConnectListener implements ConnectListener {
         client.sendEvent("message", getTenSymbols());
     }
 
-    private LogFile getTenSymbols() {
+    private LogLine getTenSymbols() {
         List<String> symols = symbolContainer.getSymbols().subList(0, 10);
-        LogFile logFile = new LogFile();
-        logFile.setLine(symols.toString());
-        return logFile;
+        LogLine logLine = new LogLine();
+        logLine.setLine(symols.toString());
+        return logLine;
     }
 
     private void sendBalance(Account account, SocketIOClient client) {

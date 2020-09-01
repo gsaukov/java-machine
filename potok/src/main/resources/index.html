@@ -94,7 +94,7 @@
                         var message = $('#msg').val();
                         $('#msg').val('');
                         
-                        var jsonObject = {'@class': 'com.apps.potok.soketio.model.LogFile', line: message};
+                        var jsonObject = {'@class': 'com.apps.potok.soketio.model.LogLine', line: message};
                         socket.emit('message', jsonObject);
 		}
 

@@ -1,6 +1,6 @@
 package com.apps.potok.soketio.model;
 
-public class LogFile {
+public class LogLine {
 
     private String line;
 

@@ -1,6 +1,6 @@
 package com.apps.potok.soketio.listeners;
 
-import com.apps.potok.soketio.model.LogFile;
+import com.apps.potok.soketio.model.LogLine;
 import com.apps.potok.soketio.model.order.CancelOrder;
 import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.soketio.model.quote.QuoteRequest;
@@ -31,7 +31,7 @@ public class ListenerConfigurator {
 
     @PostConstruct
     public void webSocketServer() throws IOException {
-        server.addEventListener("message", LogFile.class, chatMessageListener);
+        server.addEventListener("message", LogLine.class, chatMessageListener);
         server.addEventListener("quoteRequest", QuoteRequest.class, quoteMessageListener);
         server.addEventListener("newOrder", NewOrder.class, newOrderListener);
         server.addEventListener("cancelOrder", CancelOrder.class, cancelOrderListener);
