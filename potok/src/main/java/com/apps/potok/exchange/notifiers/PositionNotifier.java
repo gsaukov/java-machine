@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import static com.apps.potok.exchange.core.Route.SHORT;
 
 @Service
-public class PositionNotifierServer extends AbstractExchangeServer {
+public class PositionNotifier extends AbstractExchangeServer {
 
     private AccountManager accountManager;
     private SocketIOServer server;
@@ -25,8 +25,8 @@ public class PositionNotifierServer extends AbstractExchangeServer {
 //    private final BlockingDeque<SymbolAccount> eventQueue = new LinkedBlockingDeque<>();
 
 
-    public PositionNotifierServer(SocketIOServer server, AccountManager accountManager) {
-        super.setName("PositionNotifierServer");
+    public PositionNotifier(SocketIOServer server, AccountManager accountManager) {
+        super.setName("PositionNotifier");
         this.server = server;
         this.accountManager = accountManager;
     }

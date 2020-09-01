@@ -1,7 +1,7 @@
 package com.apps.potok.exchange.notifiers;
 
 import com.apps.potok.exchange.core.AbstractExchangeServer;
-import com.apps.potok.exchange.query.QueryServer;
+import com.apps.potok.exchange.query.QuoteManager;
 import com.apps.potok.soketio.model.quote.QuoteResponse;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.stereotype.Service;
@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Service
-public class QuoteNotifierServer extends AbstractExchangeServer {
+public class QuoteNotifier extends AbstractExchangeServer {
 
-    private final QueryServer queryServer;
+    private final QuoteManager quoteManager;
     private final SocketIOServer server;
     private final ConcurrentLinkedDeque<String> eventQueue = new ConcurrentLinkedDeque<>();
 //    private final BlockingDeque<String> eventQueue = new LinkedBlockingDeque<>();
 
-    public QuoteNotifierServer(QueryServer queryServer, SocketIOServer server){
+    public QuoteNotifier(QuoteManager quoteManager, SocketIOServer server){
         super.setName("QuoteNotifierThread");
-        this.queryServer = queryServer;
+        this.quoteManager = quoteManager;
         this.server = server;
     }
 
@@ -26,7 +26,7 @@ public class QuoteNotifierServer extends AbstractExchangeServer {
     public void runExchangeServer() {
         String symbol = eventQueue.poll();
         if(symbol != null){
-            QuoteResponse response = queryServer.searchAllOffers(symbol);
+            QuoteResponse response = quoteManager.searchAllOffers(symbol);
             server.getRoomOperations(symbol).sendEvent("quoteResponse", response);
         } else {
             exchangeSpeed.notifierSpeedControl();

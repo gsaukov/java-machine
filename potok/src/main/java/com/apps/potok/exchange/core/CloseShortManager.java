@@ -1,8 +1,8 @@
 package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.account.Account;
-import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
-import com.apps.potok.exchange.notifiers.PositionNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifier;
+import com.apps.potok.exchange.notifiers.PositionNotifier;
 import com.apps.potok.soketio.model.execution.CloseShortPosition;
 import com.apps.potok.soketio.model.execution.CloseShortPositionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import static com.apps.potok.exchange.core.Route.SHORT;
 public class CloseShortManager {
 
     @Autowired
-    private BalanceNotifierServer balanceNotifier;
+    private BalanceNotifier balanceNotifier;
 
     @Autowired
-    private PositionNotifierServer positionNotifier;
+    private PositionNotifier positionNotifier;
 
     public CloseShortPosition manageCloseShort(CloseShortPositionRequest request, Account account) {
         CloseShortPosition closeShortPosition = new CloseShortPosition(account.getAccountId(), request.getSymbol(), request.getAmount());

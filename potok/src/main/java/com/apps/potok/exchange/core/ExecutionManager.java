@@ -2,8 +2,8 @@ package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
-import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
-import com.apps.potok.exchange.notifiers.PositionNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifier;
+import com.apps.potok.exchange.notifiers.PositionNotifier;
 import com.apps.potok.soketio.model.execution.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ import static com.apps.potok.exchange.core.Route.SELL;
 public class ExecutionManager {
 
     @Autowired
-    private BalanceNotifierServer balanceNotifier;
+    private BalanceNotifier balanceNotifier;
 
     @Autowired
-    private PositionNotifierServer positionNotifier;
+    private PositionNotifier positionNotifier;
 
     @Autowired
     private AccountManager accountManager;

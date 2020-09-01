@@ -1,6 +1,6 @@
 package com.apps.potok.soketio.listeners;
 
-import com.apps.potok.exchange.query.QueryServer;
+import com.apps.potok.exchange.query.QuoteManager;
 import com.apps.potok.soketio.model.quote.QuoteRequest;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -16,7 +16,7 @@ public class QuoteSubscriptionListener implements DataListener<QuoteRequest> {
     private QuoteSubscribersV2 quoteSubscribers;
 
     @Autowired
-    private QueryServer queryServer;
+    private QuoteManager quoteManager;
 
     @Autowired
     private SocketIOServer server;
@@ -25,6 +25,6 @@ public class QuoteSubscriptionListener implements DataListener<QuoteRequest> {
     public void onData(SocketIOClient client, QuoteRequest data, AckRequest ackRequest) {
         quoteSubscribers.removeSubscriber(client.getSessionId());
         quoteSubscribers.addSubscriber(data.getSymbol(), client.getSessionId());
-        server.getClient(client.getSessionId()).sendEvent("quoteResponse", queryServer.searchAllOffers(data.getSymbol()));
+        server.getClient(client.getSessionId()).sendEvent("quoteResponse", quoteManager.searchAllOffers(data.getSymbol()));
     }
 }

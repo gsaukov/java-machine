@@ -15,14 +15,14 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Service
-public class QueryServer {
+public class QuoteManager {
 
     private static QuoteResponse EMPTY_RESPONSE = new QuoteResponse(new ArrayList<>(), new ArrayList<>());
 
     private AskContainer askContainer;
     private BidContainer bidContainer;
 
-    public QueryServer(BidContainer bidContainer, AskContainer askContainer) {
+    public QuoteManager(BidContainer bidContainer, AskContainer askContainer) {
         this.bidContainer = bidContainer;
         this.askContainer = askContainer;
     }

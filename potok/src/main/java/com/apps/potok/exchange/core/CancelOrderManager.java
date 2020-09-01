@@ -2,8 +2,7 @@ package com.apps.potok.exchange.core;
 
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
-import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
-import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class CancelOrderManager {
     private AccountManager accountManager;
 
     @Autowired
-    private BalanceNotifierServer balanceNotifier;
+    private BalanceNotifier balanceNotifier;
 
     public CancelOrderManager(AskContainer askContainer, BidContainer bidContainer) {
         this.askContainer = askContainer;

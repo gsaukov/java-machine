@@ -1,6 +1,6 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifier;
 import com.apps.potok.exchange.account.Account;
 
 import static com.apps.potok.exchange.core.Route.BUY;
@@ -10,9 +10,9 @@ public class CancelOrderBalanceReturnTask implements Runnable {
 
     private final Order canceledOrder;
     private final Account account;
-    private final BalanceNotifierServer balanceNotifier;
+    private final BalanceNotifier balanceNotifier;
 
-    public CancelOrderBalanceReturnTask(Order canceledOrder, Account account, BalanceNotifierServer balanceNotifier) {
+    public CancelOrderBalanceReturnTask(Order canceledOrder, Account account, BalanceNotifier balanceNotifier) {
         this.canceledOrder = canceledOrder;
         this.account = account;
         this.balanceNotifier = balanceNotifier;

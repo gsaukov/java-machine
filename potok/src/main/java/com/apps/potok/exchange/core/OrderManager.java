@@ -1,6 +1,6 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifier;
 import com.apps.potok.soketio.model.order.NewOrder;
 import com.apps.potok.exchange.account.Account;
 import com.apps.potok.exchange.account.AccountManager;
@@ -27,7 +27,7 @@ public class OrderManager {
     private AccountManager accountManager;
 
     @Autowired
-    private BalanceNotifierServer balanceNotifier;
+    private BalanceNotifier balanceNotifier;
 
     @Autowired
     private Exchange exchange;

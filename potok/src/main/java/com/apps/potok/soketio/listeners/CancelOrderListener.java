@@ -2,7 +2,7 @@ package com.apps.potok.soketio.listeners;
 
 import com.apps.potok.exchange.core.CancelOrderManager;
 import com.apps.potok.exchange.core.Order;
-import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.QuoteNotifier;
 import com.apps.potok.soketio.model.order.CancelOrder;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -19,7 +19,7 @@ import static com.apps.potok.soketio.config.SessionUtil.getOrderUuid;
 public class CancelOrderListener implements DataListener<CancelOrder> {
 
     @Autowired
-    private QuoteNotifierServer quoteNotifier;
+    private QuoteNotifier quoteNotifier;
 
     @Autowired
     private CancelOrderManager cancelOrderManager;

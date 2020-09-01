@@ -3,10 +3,10 @@ package com.apps.potok.exchange.config;
 import com.apps.potok.exchange.account.BalanceCalculator;
 import com.apps.potok.exchange.core.Exchange;
 import com.apps.potok.exchange.core.OrderManager;
-import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
-import com.apps.potok.exchange.notifiers.ExecutionNotifierServer;
-import com.apps.potok.exchange.notifiers.PositionNotifierServer;
-import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifier;
+import com.apps.potok.exchange.notifiers.ExecutionNotifier;
+import com.apps.potok.exchange.notifiers.PositionNotifier;
+import com.apps.potok.exchange.notifiers.QuoteNotifier;
 import com.apps.potok.exchange.core.AskContainer;
 import com.apps.potok.exchange.core.BidContainer;
 import com.apps.potok.exchange.randombehavior.AccountServerExecutor;
@@ -51,7 +51,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     private Exchange exchange;
 
     @Autowired
-    private MkMakerServer mkDataServer;
+    private MkMakerServer mkMakerServer;
 
     @Autowired
     private AccountServerExecutor accountServerExecutor;
@@ -60,16 +60,16 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     private OrderManager orderManager;
 
     @Autowired
-    private QuoteNotifierServer quoteNotifierServer;
+    private QuoteNotifier quoteNotifier;
 
     @Autowired
-    private ExecutionNotifierServer executionNotifierServer;
+    private ExecutionNotifier executionNotifier;
 
     @Autowired
-    private BalanceNotifierServer balanceNotifierServer;
+    private BalanceNotifier balanceNotifier;
 
     @Autowired
-    private PositionNotifierServer positionNotifierServer;
+    private PositionNotifier positionNotifier;
 
     @Autowired
     private BalanceCalculator balanceCalculator;
@@ -77,7 +77,7 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
         initiator.initiate();
-        runQuoteNotifierServer();
+        runQuoteNotifier();
         runMkDataServer();
         runAccountServers();
         runExecutionNotifier();
@@ -87,27 +87,27 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     }
 
     public void runMkDataServer() {
-        executor.execute(mkDataServer);
+        executor.execute(mkMakerServer);
     }
 
     public void runAccountServers() {
         accountServerExecutor.runAccountServers();
     }
 
-    public void runQuoteNotifierServer() {
-        executor.execute(quoteNotifierServer);
+    public void runQuoteNotifier() {
+        executor.execute(quoteNotifier);
     }
 
     public void runExecutionNotifier() {
-        executor.execute(executionNotifierServer);
+        executor.execute(executionNotifier);
     }
 
     public void runBalanceNotifier() {
-        executor.execute(balanceNotifierServer);
+        executor.execute(balanceNotifier);
     }
 
     private void runPositionNotifier() {
-        executor.execute(positionNotifierServer);
+        executor.execute(positionNotifier);
     }
 
     private void addGraceShutdown() {
@@ -122,8 +122,8 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
     public void shutDownHook(){
         logger.info("Starting potok shutdown.");
         accountServerExecutor.stopAccountServers();
-        mkDataServer.stopExchangeServer();
-        quoteNotifierServer.stopExchangeServer();
+        mkMakerServer.stopExchangeServer();
+        quoteNotifier.stopExchangeServer();
 
         try {
             Thread.sleep(20000);
@@ -131,9 +131,9 @@ public class ServerConfigurator implements ApplicationListener<ApplicationReadyE
             e.printStackTrace();
         }
 
-        executionNotifierServer.stopExchangeServer();
-        balanceNotifierServer.stopExchangeServer();
-        positionNotifierServer.stopExchangeServer();
+        executionNotifier.stopExchangeServer();
+        balanceNotifier.stopExchangeServer();
+        positionNotifier.stopExchangeServer();
 
         balanceCalculator.calculateBalance();
     }

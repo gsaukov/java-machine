@@ -11,13 +11,13 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Service
-public class BalanceNotifierServer extends AbstractExchangeServer {
+public class BalanceNotifier extends AbstractExchangeServer {
     private SocketIOServer server;
     private final ConcurrentLinkedDeque<Account> eventQueue = new ConcurrentLinkedDeque<>();
 //    private final BlockingDeque<Account> eventQueue = new LinkedBlockingDeque<>();
 
-    public BalanceNotifierServer(SocketIOServer server) {
-        super.setName("BalanceNotifierServer");
+    public BalanceNotifier(SocketIOServer server) {
+        super.setName("BalanceNotifier");
         this.server = server;
     }
 

@@ -1,9 +1,9 @@
 package com.apps.potok.config;
 
-import com.apps.potok.exchange.notifiers.BalanceNotifierServer;
-import com.apps.potok.exchange.notifiers.ExecutionNotifierServer;
-import com.apps.potok.exchange.notifiers.PositionNotifierServer;
-import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.BalanceNotifier;
+import com.apps.potok.exchange.notifiers.ExecutionNotifier;
+import com.apps.potok.exchange.notifiers.PositionNotifier;
+import com.apps.potok.exchange.notifiers.QuoteNotifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
@@ -15,38 +15,38 @@ public class ServerTestConfigurator {
     private TaskExecutor executor = new SimpleAsyncTaskExecutor();
 
     @Autowired
-    QuoteNotifierServer quoteNotifierServer;
+    QuoteNotifier quoteNotifier;
 
     @Autowired
-    PositionNotifierServer positionNotifierServer;
+    PositionNotifier positionNotifier;
 
     @Autowired
-    ExecutionNotifierServer executionNotifierServer;
+    ExecutionNotifier executionNotifier;
 
     @Autowired
-    BalanceNotifierServer balanceNotifierServer;
+    BalanceNotifier balanceNotifier;
 
     public void runServers() {
-        runQuoteNotifierServer();
+        runQuoteNotifier();
         runExecutionNotifier();
         runBalanceNotifier();
         runPositionNotifier();
     }
 
-    public void runQuoteNotifierServer() {
-        executor.execute(quoteNotifierServer);
+    public void runQuoteNotifier() {
+        executor.execute(quoteNotifier);
     }
 
     public void runExecutionNotifier() {
-        executor.execute(executionNotifierServer);
+        executor.execute(executionNotifier);
     }
 
     public void runBalanceNotifier() {
-        executor.execute(balanceNotifierServer);
+        executor.execute(balanceNotifier);
     }
 
     private void runPositionNotifier() {
-        executor.execute(positionNotifierServer);
+        executor.execute(positionNotifier);
     }
 
 }

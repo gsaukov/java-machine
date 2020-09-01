@@ -1,7 +1,7 @@
 package com.apps.potok.exchange.core;
 
-import com.apps.potok.exchange.notifiers.ExecutionNotifierServer;
-import com.apps.potok.exchange.notifiers.QuoteNotifierServer;
+import com.apps.potok.exchange.notifiers.ExecutionNotifier;
+import com.apps.potok.exchange.notifiers.QuoteNotifier;
 import com.apps.potok.soketio.model.execution.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +21,10 @@ public class Exchange {
     private final BidContainer bidContainer;
 
     @Autowired
-    private QuoteNotifierServer quoteNotifierServer;
+    private QuoteNotifier quoteNotifier;
 
     @Autowired
-    private ExecutionNotifierServer executionNotifierServer;
+    private ExecutionNotifier executionNotifier;
 
     public Exchange(BidContainer bidContainer, AskContainer askContainer){
         this.askContainer = askContainer;
@@ -37,7 +37,7 @@ public class Exchange {
         } else {
             fireSell(order); //or short
         }
-        quoteNotifierServer.pushQuote(order.getSymbol());
+        quoteNotifier.pushQuote(order.getSymbol());
     }
 
     //TODO i think after part fill incoming orders should refired ot fireBuy/fireSell since market could have changed.
@@ -133,8 +133,8 @@ public class Exchange {
 
         Execution partFilledExecution = new Execution(partFilledExecutionUuid, filledExecutionUuid, partFilledOrder, executionPrice, executionVolume, partFilledLeftQuantity, false);
         Execution filledExecution  = new Execution(filledExecutionUuid, partFilledExecutionUuid, filledOrder, executionPrice, executionVolume, 0,true);
-        executionNotifierServer.pushExecution(partFilledExecution);
-        executionNotifierServer.pushExecution(filledExecution);
+        executionNotifier.pushExecution(partFilledExecution);
+        executionNotifier.pushExecution(filledExecution);
     }
 
     private void executionsFilledFilled(Order filledOrder1, Order filledOrder2, Integer fillPrice, Integer quantity){
@@ -143,7 +143,7 @@ public class Exchange {
 
         Execution filledExecution1 = new Execution(filledExecution1Uuid, filledExecution2Uuid, filledOrder1, fillPrice, quantity, 0,true);
         Execution filledExecution2  = new Execution(filledExecution2Uuid, filledExecution1Uuid, filledOrder2, fillPrice, quantity, 0, true);
-        executionNotifierServer.pushExecution(filledExecution1);
-        executionNotifierServer.pushExecution(filledExecution2);
+        executionNotifier.pushExecution(filledExecution1);
+        executionNotifier.pushExecution(filledExecution2);
     }
 }

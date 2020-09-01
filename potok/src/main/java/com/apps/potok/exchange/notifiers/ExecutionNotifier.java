@@ -17,7 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Service
-public class ExecutionNotifierServer extends AbstractExchangeServer {
+public class ExecutionNotifier extends AbstractExchangeServer {
 
     private SocketIOServer server;
     private ExecutionMessageProducer executionMessageProducer;
@@ -26,8 +26,8 @@ public class ExecutionNotifierServer extends AbstractExchangeServer {
     private final ConcurrentLinkedDeque<Execution> eventQueue = new ConcurrentLinkedDeque<>();
 //    private final BlockingDeque<Execution> eventQueue = new LinkedBlockingDeque<>();
 
-    public ExecutionNotifierServer(SocketIOServer server, AccountManager accountManager, ExecutionManager executionManager,
-                                   ExecutionMessageProducer executionMessageProducer){
+    public ExecutionNotifier(SocketIOServer server, AccountManager accountManager, ExecutionManager executionManager,
+                             ExecutionMessageProducer executionMessageProducer){
         super.setName("ExecutionNotifierThread");
         this.server = server;
         this.executionMessageProducer = executionMessageProducer;

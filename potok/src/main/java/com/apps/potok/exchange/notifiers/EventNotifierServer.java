@@ -1,6 +1,6 @@
 package com.apps.potok.exchange.notifiers;
 
-import com.apps.potok.exchange.query.QueryServer;
+import com.apps.potok.exchange.query.QuoteManager;
 import com.apps.potok.soketio.listeners.QuoteSubscribers;
 import com.apps.potok.soketio.model.quote.QuoteResponse;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -18,13 +18,13 @@ public class EventNotifierServer extends Thread  {
     private final ConcurrentLinkedDeque<String> eventQueue;
 
     private QuoteSubscribers quoteSubscribers;
-    private QueryServer queryServer;
+    private QuoteManager quoteManager;
     private SocketIOServer server;
 
-    public EventNotifierServer(QuoteSubscribers quoteSubscribers, QueryServer queryServer, SocketIOServer server){
+    public EventNotifierServer(QuoteSubscribers quoteSubscribers, QuoteManager quoteManager, SocketIOServer server){
         super.setName("EventNotifierThread");
         this.quoteSubscribers = quoteSubscribers;
-        this.queryServer = queryServer;
+        this.quoteManager = quoteManager;
         this.server = server;
         eventQueue = new ConcurrentLinkedDeque<>();
     }
@@ -34,7 +34,7 @@ public class EventNotifierServer extends Thread  {
         while (true){
             String symbol = eventQueue.poll();
             if(symbol != null){
-                QuoteResponse response = queryServer.searchAllOffers(symbol);
+                QuoteResponse response = quoteManager.searchAllOffers(symbol);
                 Map<UUID, String> subscribers = quoteSubscribers.getSubscribers(symbol);
                 if(subscribers != null) {
                     subscribers.forEach( (key, value) -> {
