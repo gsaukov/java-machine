@@ -37,8 +37,8 @@ ENV LANG en_US.UTF-8
 # Environment variables for the builder image.  
 # Required to validate that you are using the correct file
 
-ENV JAVA_PKG=jdk-14.0.1_linux-x64_bin.tar.gz \
-	JAVA_SHA256=927cfcfff502c5e73db33bb6fee7f29f62bd0e831233fd78cd58a5b998bc73be \
+ENV JAVA_PKG=jdk-14.0.2_linux-x64_bin.tar.gz \
+	JAVA_SHA256=cb811a86926cc0f529d16bec7bd2e25fb73e75125bbd1775cdb9a96998593dde \
 	JAVA_HOME=/usr/java/jdk-14
 
 ##
