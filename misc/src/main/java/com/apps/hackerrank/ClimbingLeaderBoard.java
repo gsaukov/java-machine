@@ -1,7 +1,5 @@
 package com.apps.hackerrank;
 
-import jnr.ffi.annotations.In;
-
 import java.util.*;
 
 public class ClimbingLeaderBoard {
