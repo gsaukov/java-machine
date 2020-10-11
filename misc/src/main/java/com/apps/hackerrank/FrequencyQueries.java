@@ -11,6 +11,7 @@ public class FrequencyQueries {
 
     private static Map<Integer, Integer> intFreq = new HashMap<>();
     private static Map<Integer, Set<Integer>> freqInt = new HashMap<>();
+    static {freqInt.put(0, new HashSet<>());} //zero may appear on deletion.
 
     static List<Integer> freqQuery(List<List<Integer>> queries) {
 
@@ -28,7 +29,7 @@ public class FrequencyQueries {
             } else if (command == 2) {//delete
                 deleteFrequencies(val);
             } else if (command == 3) {//sho
-                if(freqInt.get(val) != null){
+                if(freqInt.get(val) != null && freqInt.get(val).size() > 0){
 //                    int ints = freqInt.get(val).size();
                     res.add(1);
                 } else {
@@ -56,7 +57,7 @@ public class FrequencyQueries {
             int oldFrequency = intFreq.get(val);
             int newFrequency = intFreq.get(val) - 1;
             freqInt.get(oldFrequency).remove(val);
-            if(newFrequency > 0){
+            if(newFrequency >= 0){
                 intFreq.put(val, newFrequency);
                 freqInt.get(newFrequency).add(val); //we always have new frequency because we had it once before.
             }
@@ -85,7 +86,7 @@ public class FrequencyQueries {
             // read line by line
             String line;
             while ((line = br.readLine()) != null) {
-               String [] s = line.split(" ");
+                String [] s = line.split(" ");
                 A.add(addToA(Integer.valueOf(s[0]), Integer.valueOf(s[1])));
             }
 
@@ -107,7 +108,10 @@ public class FrequencyQueries {
 //        A.add(addToA(1, 16));
 //        A.add(addToA(3, 1));
 
-        System.out.println(Arrays.toString(freqQuery(A).toArray()));
+        for(Integer el : freqQuery(A)){
+            System.out.println(el);
+        }
+//        System.out.println(Arrays.toString(freqQuery(A).toArray()));
     }
 
     public static List<Integer> addToA(int c,int v){
@@ -116,5 +120,6 @@ public class FrequencyQueries {
         B.add(v);
         return B;
     }
+
 
 }
