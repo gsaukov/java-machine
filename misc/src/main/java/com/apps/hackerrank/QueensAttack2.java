@@ -70,7 +70,7 @@ public class QueensAttack2 {
         int dxl = Q.x - p.x;
         int dyl = Q.y - p.y;
 
-        if ((dxc * dyl - dyc * dxl) != 0)
+        if ((dxc * dyl - dyc * dxl) != 0) //collinear
             return false;
 
         if (Math.abs(dxl) >= Math.abs(dyl))
