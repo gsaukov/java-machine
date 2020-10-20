@@ -4,6 +4,9 @@ package com.apps.hackerrank;
 //- k: an integer, the number of obstacles on the board
 //- r_q: integer, the row number of the queen's position
 //- c_q: integer, the column number of the queen's position
+// https://www.hackerrank.com/challenges/queens-attack-2/problem
+
+import java.util.Objects;
 
 public class QueensAttack2 {
 
@@ -21,44 +24,46 @@ public class QueensAttack2 {
         Q = new P(qX, qY);
         initBorders(n);
         applyObstacles(obstacles);
-        return 0;
+        return calculateMoves();
     }
 
-    static void initBorders(int n){
+    static void initBorders(int n) {
         NN = new P(Q.x, n);
-        int min_NE = Math.min((n-Q.x), (n-Q.y));
+        int min_NE = Math.min((n - Q.x), (n - Q.y));
         NE = new P(Q.x + min_NE, Q.y + min_NE);
         EE = new P(n, Q.y);
-        int min_ES = Math.min((n-Q.x), (Q.y - 1));
+        int min_ES = Math.min((n - Q.x), (Q.y - 1));
         ES = new P(Q.x + min_ES, Q.y - min_ES);
         SS = new P(Q.x, 1);
         int min_SW = Math.min((Q.x - 1), (Q.y - 1));
-        SW = new P(Q.x - min_ES, Q.y - min_ES);
+        SW = new P(Q.x - min_SW, Q.y - min_SW);
         WW = new P(1, Q.y);
-        int min_WN = Math.min((Q.x - 1), (n-Q.y));
-        WN = new P(Q.x - min_ES, Q.y + min_ES);
+        int min_WN = Math.min((Q.x - 1), (n - Q.y));
+        WN = new P(Q.x - min_WN, Q.y + min_WN);
     }
 
 
     static void applyObstacles(int[][] obstacles) {
-        for(int i = 0; i < obstacles.length; i++) {
+        if(obstacles == null)
+            return;
+        for (int i = 0; i < obstacles.length; i++) {
             P o = new P(obstacles[i][1], obstacles[i][0]);
             if (isBetween(NN, o)) {
-                NN = o;
+                NN = new P(o.x, o.y - 1);
             } else if (isBetween(NE, o)) {
-                NE = o;
+                NE = new P(o.x - 1, o.y - 1);
             } else if (isBetween(EE, o)) {
-                EE = o;
+                EE = new P(o.x - 1, o.y);
             } else if (isBetween(ES, o)) {
-                ES = o;
+                ES = new P(o.x - 1, o.y + 1);
             } else if (isBetween(SS, o)) {
-                SS = o;
+                SS = new P(o.x, o.y + 1);
             } else if (isBetween(SW, o)) {
-                SW = o;
+                SW = new P(o.x + 1, o.y + 1);
             } else if (isBetween(WW, o)) {
-                WW = o;
+                WW = new P(o.x + 1, o.y);
             } else if (isBetween(WN, o)) {
-                WN = o;
+                WN = new P(o.x + 1, o.y - 1);
             }
         }
     }
@@ -87,24 +92,45 @@ public class QueensAttack2 {
         return (y1 - y2) * (x1 - x3) == (y1 - y3) * (x1 - x2);
     }
 
+    static int calculateMoves() {
+        int res = 0;
+        res = res + distance(NN, SS);
+        res = res + distance(NE, SW);
+        res = res + distance(EE, WW);
+        res = res + distance(ES, WN);
+        return res;
+    }
 
-
-    public static void main(String[] args)  {
-        int[][] obs = {{3, 5}, {6, 4}, {6, 4}, {4, 5}, {7, 7}, {6, 6}};
-        System.out.println(queensAttack(8,obs.length, 4,4, obs));
-//        System.out.println(collinear(50,30,70,10,40,40));
-//        Q = new P(40, 40);
-//        P p = new P(50,30);
-//        P o = new P(70,10);
-//        System.out.println(isBetween(p, o));
+    static int distance(P p1, P p2) {
+        return Math.max(Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y));
     }
 
     public static class P {
         int x;
         int y;
-        P(int x, int y){
+
+        P(int x, int y) {
             this.x = x;
             this.y = y;
         }
+
+    }
+
+    public static void main(String[] args) {
+        int[][] obs = {
+                {20001, 20002},
+                {20001, 20004},
+                {20000, 20003},
+                {20002, 20003},
+                {20000, 20004},
+                {20000, 20002},
+                {20002, 20004},
+                {20002, 20002},
+                {564, 323}};
+//        int[][] obs2 = {{5, 5}, {4, 2}, {2, 3}};
+        System.out.println(queensAttack(88587, obs.length, 20001, 20003, obs));
+
+//        System.out.println(queensAttack(5, obs.length, 2, 4, null));
+
     }
 }
