@@ -42,7 +42,6 @@ public class QueensAttack2 {
         WN = new P(Q.x - min_WN, Q.y + min_WN);
     }
 
-
     static void applyObstacles(int[][] obstacles) {
         if(obstacles == null)
             return;
@@ -69,26 +68,19 @@ public class QueensAttack2 {
     }
 
     private static boolean isBetween(P p, P o) {
-        int dxc = o.x - p.x;
-        int dyc = o.y - p.y;
-
-        int dxl = Q.x - p.x;
-        int dyl = Q.y - p.y;
-
-        if ((dxc * dyl - dyc * dxl) != 0) //collinear
+        if (!isCollinear(p.x, p.y, o.x, o.y, Q.x, Q.y)) //collinear
             return false;
-
-        if (Math.abs(dxl) >= Math.abs(dyl))
-            return dxl > 0 ?
-                    p.x <= o.x && o.x <= Q.x :
-                    Q.x <= o.x && o.x <= p.x;
-        else
-            return dyl > 0 ?
-                    p.y <= o.y && o.y <= Q.y :
-                    Q.y <= o.y && o.y <= p.y;
+        return (p.x<o.x && o.x<Q.x && p.y<o.y && o.y<Q.y) || //SW
+                (p.x>o.x && o.x>Q.x && p.y>o.y && o.y>Q.y) || //NE
+                (p.x==o.x && o.x==Q.x && p.y>o.y && o.y>Q.y) || //NN
+                (p.x==o.x && o.x==Q.x && p.y<o.y && o.y<Q.y) || //SS
+                (p.x>o.x && o.x>Q.x && p.y==o.y && o.y==Q.y) || //EE
+                (p.x<o.x && o.x<Q.x && p.y==o.y && o.y==Q.y) || //WW
+                (p.x<o.x && o.x<Q.x && p.y>o.y && o.y>Q.y) || //WN
+                (p.x>o.x && o.x>Q.x && p.y<o.y && o.y<Q.y); // SE
     }
 
-    static boolean collinear(int x1, int y1, int x2, int y2, int x3, int y3) {
+    static boolean isCollinear(int x1, int y1, int x2, int y2, int x3, int y3) {
         return (y1 - y2) * (x1 - x3) == (y1 - y3) * (x1 - x2);
     }
 
@@ -117,18 +109,18 @@ public class QueensAttack2 {
     }
 
     public static void main(String[] args) {
+        //obs [[y, x]...]
         int[][] obs = {
-                {20001, 20002},
-                {20001, 20004},
-                {20000, 20003},
-                {20002, 20003},
-                {20000, 20004},
-                {20000, 20002},
-                {20002, 20004},
-                {20002, 20002},
-                {564, 323}};
+                {11, 12},
+                {11, 14},
+                {10, 13},
+                {12, 13},
+                {10, 14},
+                {10, 12},
+                {12, 14},
+                {12, 12}};
 //        int[][] obs2 = {{5, 5}, {4, 2}, {2, 3}};
-        System.out.println(queensAttack(88587, obs.length, 20001, 20003, obs));
+        System.out.println(queensAttack(20, obs.length, 11, 13, obs));
 
 //        System.out.println(queensAttack(5, obs.length, 2, 4, null));
 
