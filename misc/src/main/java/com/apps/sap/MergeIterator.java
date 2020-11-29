@@ -1,8 +1,5 @@
-package com.apps.hackerrank;
+package com.apps.sap;
 
-import com.sun.source.tree.BreakTree;
-
-import java.lang.reflect.Array;
 import java.util.*;
 // reimplement with duplicates, using priority que.
 /**

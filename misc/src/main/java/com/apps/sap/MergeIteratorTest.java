@@ -1,4 +1,4 @@
-package com.apps.hackerrank;
+package com.apps.sap;
 
 
 import java.util.Arrays;

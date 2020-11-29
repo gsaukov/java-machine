@@ -30,7 +30,7 @@ public class MaxDoubleSliceSum {
             if((maxRight+A[i])>0){ //not really working if array is total sum is negative
                 maxRight = maxRight+A[i];
             } else {
-                maxLeft = 0;
+                maxRight = 0;
                 cutPosRight = i;
             }
         }
