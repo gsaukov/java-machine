@@ -6,20 +6,24 @@ public class Solution2 {
 
     public static void main(String[] args) {
         int[] A = {0, 9, 0, 2, 6, 8, 0, 8, 3, 0};
+        int[] B = {0, 0, 0, 1, 6, 1, 0, 0};
         Solution2 s = new Solution2();
-        Node n = s.createGraph(A);
-        System.out.println(s.getRouteLength(n, 1));
+        Node a = s.createGraph(A);
+        Node b = s.createGraph(B);
+        System.out.println(s.getRouteLength(a, 1));
+        System.out.println(s.getRouteLength(b, 1));
     }
 
     private int getRouteLength(Node root, int tickets) {
         int maxRoute = 0;
+
         if (root.getVal() % 2 != 0) {
             tickets = tickets - 1;
-            if (tickets < 0) {
-                return 0;
-            }
         }
-        if (root.getChildren().isEmpty()) {
+
+        if (tickets < 0) {
+            return 0; //we didnt visited the node
+        } else if (root.getChildren().isEmpty()) {
             return 1;
         } else {
             for (Node node : root.getChildren()) {
