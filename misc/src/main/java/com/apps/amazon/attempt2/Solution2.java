@@ -30,8 +30,8 @@ public class Solution2 {
                 int curRoute = getRouteLength(node, tickets) + 1;
                 maxRoute = Math.max(maxRoute, curRoute);
             }
+            return maxRoute;
         }
-        return maxRoute;
     }
 
     public Node createGraph(int[] T) {
