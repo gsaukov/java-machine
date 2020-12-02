@@ -24,26 +24,30 @@ public class Solution2 {
         if (tickets < 0) {
             return 0; //we didnt visited the node
         } else if (root.getChildren().isEmpty()) {
-            return 1;
+            return 1; //we have visited this node
         } else {
             for (Node node : root.getChildren()) {
-                int curRoute = getRouteLength(node, tickets) + 1;
+                int curRoute = getRouteLength(node, tickets) + 1; //increment value on transit.
                 maxRoute = Math.max(maxRoute, curRoute);
             }
             return maxRoute;
         }
     }
 
-    public Node createGraph(int[] T) {
-        Node[] nodes = new Node[T.length];
-        for (int i = 0; i < T.length; i++) {
+    public Node createGraph(int[] A) {
+        //if C[X] = Y and Y != 0, then there is a path between nodes X and Y
+        //1. Number of graph nodes equal to number of array elements.
+        //2. One Array element is one graph node.
+        //3. Array element index represent value of a node.
+        //4. Array element value represent Index or reference of its parent node. This creates link between nodes in graph.
+        Node[] nodes = new Node[A.length];
+        for (int i = 0; i < A.length; i++) {
             nodes[i] = new Node(i);
         }
-        //if C[X] = Y and Y != 0, then there is a path between nodes X and Y
         Node root = nodes[0];
-        for (int i = 0; i < T.length; ++i) {
-            if (T[i] != i) {
-                nodes[T[i]].addChild(nodes[i]);
+        for (int i = 0; i < A.length; ++i) {
+            if (A[i] != i) { //you can not attach node to itself
+                nodes[A[i]].addChild(nodes[i]);
             }
         }
         return root;
