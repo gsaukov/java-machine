@@ -5,37 +5,30 @@ import java.util.*;
 public class Solution2 {
 
     public static void main(String[] args) {
-        int [] A = {0, 9, 0, 2, 6, 8, 0, 8, 3, 0};
+        int[] A = {0, 9, 0, 2, 6, 8, 0, 8, 3, 0};
         Solution2 s = new Solution2();
         Node n = s.createGraph(A);
-        System.out.println(n);
+        System.out.println(s.getRouteLength(n, 1));
     }
 
-//    private static Set<String> dfsRouteLength(Node root) {
-//        int tickets = getTickets(root);
-//        Set<Node> visited = new HashSet<>();
-//        Stack<Node> stack = new Stack<>();
-//        stack.push(root);
-//        visited.add(root);
-//        while (!stack.empty()){
-//            Node node = stack.pop();
-//            List<Node> nodes = node.getChildren();
-//            for(Node childNode : nodes) {
-//                if(!visited.contains(childNode)) {
-//                    stack.push(childNode);
-//                    visited.add(childNode);
-//                }
-//            }
-//            //do what you need here with the node
-////            System.out.println(elem);
-//        }
-//        return visited;
-//    }
-//
-//    private static int getTickets(Node root) {
-//        return root.getVal() % 2 == 0? 1 : 0;
-//    }
-
+    private int getRouteLength(Node root, int tickets) {
+        int maxRoute = 0;
+        if (root.getVal() % 2 != 0) {
+            tickets = tickets - 1;
+            if (tickets < 0) {
+                return 0;
+            }
+        }
+        if (root.getChildren().isEmpty()) {
+            return 1;
+        } else {
+            for (Node node : root.getChildren()) {
+                int curRoute = getRouteLength(node, tickets) + 1;
+                maxRoute = Math.max(maxRoute, curRoute);
+            }
+        }
+        return maxRoute;
+    }
 
     public Node createGraph(int[] T) {
         Node[] nodes = new Node[T.length];
