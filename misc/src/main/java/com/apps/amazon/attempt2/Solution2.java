@@ -39,7 +39,7 @@ public class Solution2 {
         for (int i = 0; i < T.length; i++) {
             nodes[i] = new Node(i);
         }
-        //if C[P] = Q and Q != 0, then there is a direct road between cities P and Q
+        //if C[X] = Y and Y != 0, then there is a path between nodes X and Y
         Node root = nodes[0];
         for (int i = 0; i < T.length; ++i) {
             if (T[i] != i) {
