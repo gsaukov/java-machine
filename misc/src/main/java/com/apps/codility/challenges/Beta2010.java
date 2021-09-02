@@ -41,30 +41,6 @@ public class Beta2010 {
     }
 
     public static int solution(int[] A) {
-        int totalIntersecions = 0;
-        // J ≠ K so first array element radius will be reduced on one.
-        totalIntersecions = getIntersectionsNumberForPoint(Math.max(0, A[0] - 1), 0, A);
-        for (int i = 1; i < A.length; i++) { //start with 2nd element since 1st already calculated.
-            if (totalIntersecions > 10000000) {
-                return -1;
-            }
-            totalIntersecions += getIntersectionsNumberForPoint(A[i], i, A);
-        }
-
-        return totalIntersecions;
-    }
-
-    public static int getIntersectionsNumberForPoint(int radius, int center, int[] A) {
-        int start = Math.max(0, center - radius); // positive Left
-        int end = Math.min(A.length - 1, center + radius); // bounded right
-//        for(int i = start; i < end; i++) {
-//            if(A[i] )
-//        }
-        int len = Math.max(0, (end - start) - 1); // -1 not counting self.
-        return len;
-    }
-
-    public static int solution2(int[] A) {
 
         int N = A.length;
         int[] sum = new int[N];
