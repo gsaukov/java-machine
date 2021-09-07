@@ -74,4 +74,47 @@ public class Beta2010 {
 
         return result;
     }
+
+    public static int intersectionCounter(int[] A) {
+
+        int N = A.length;
+        int[] leftSum = new int[N];
+        // place the left borders
+        for (int i = 0; i < N; i++) {
+            int left;
+            if (i - A[i] > 0) {
+                left = i - A[i];
+            } else {
+                left = 0;
+            }
+            leftSum[left]++;
+        }
+        // aggregated trailing sum
+        for (int i = 1; i < N; i++) {
+            leftSum[i] += leftSum[i - 1];
+        }
+
+        int[] rightSum = new int[N];
+        // place the right borders
+        for (int i = 0; i < N; i++) {
+            int right;
+            if (i + A[i] < N - 1) {
+                right = i + A[i];
+            } else {
+                right = N - 1;
+            }
+            rightSum[right]++;
+        }
+        // aggregated trailing sum
+        for (int i = 1; i < N; i++) {
+            rightSum[i] += rightSum[i - 1];
+        }
+
+        int[] intersectionsSum = new int[N];
+        for (int i = 1; i < N; i++) {
+            intersectionsSum[i] = leftSum[i] - rightSum[i];
+        }
+
+        return 0;
+    }
 }
