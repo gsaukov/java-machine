@@ -37,6 +37,7 @@ public class Beta2010 {
 
     public static void main(String[] args) {
         int[] A = new int[]{1, 5, 2, 1, 4, 0};
+        intersectionCounter(A);
         System.out.println(solution(A));
     }
 
@@ -89,7 +90,7 @@ public class Beta2010 {
             }
             leftSum[left]++;
         }
-        // aggregated trailing sum
+        // aggregated trailing left sum
         for (int i = 1; i < N; i++) {
             leftSum[i] += leftSum[i - 1];
         }
@@ -105,14 +106,14 @@ public class Beta2010 {
             }
             rightSum[right]++;
         }
-        // aggregated trailing sum
-        for (int i = 1; i < N; i++) {
-            rightSum[i] += rightSum[i - 1];
+        // aggregated trailing right sum
+        for (int i = N - 2; i >= 0; i--) {
+            rightSum[i] += rightSum[i + 1];
         }
 
         int[] intersectionsSum = new int[N];
-        for (int i = 1; i < N; i++) {
-            intersectionsSum[i] = leftSum[i] - rightSum[i];
+        for (int i = 0; i < N; i++) {
+            intersectionsSum[i] = Math.max(0, leftSum[i] - rightSum[i]); //Take only higher than 0
         }
 
         return 0;
