@@ -48,7 +48,7 @@ public class Gamma2011 {
         char[] A = S.toCharArray();
         int palindromeCount = 0;
         for(int i = 0; i < A.length; i++) {
-            if(queue.getLast().equals(A[i])) {
+            if(!queue.isEmpty() && queue.getLast().equals(A[i])) {
                 queue.pollLast();
                 palindromeCount++;
             } else {
@@ -59,7 +59,7 @@ public class Gamma2011 {
         queue = new LinkedList<>();
 
         for(int i = A.length - 1; i >= 0 ; i--) {
-            if(queue.getLast().equals(A[i])) {
+            if(!queue.isEmpty() && queue.getLast().equals(A[i])) {
                 queue.pollLast();
                 palindromeCount++;
             } else {
