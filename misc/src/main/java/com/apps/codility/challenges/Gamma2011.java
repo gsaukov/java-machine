@@ -60,7 +60,7 @@ public class Gamma2011 {
 
         for(int i = A.length - 1; i >= 0 ; i--) {
             if(!queue.isEmpty() && queue.getLast().equals(A[i])) {
-                queue.pollLast();
+                queue.pollFirst();
                 palindromeCount++;
             } else {
                 queue.add(A[i]);
