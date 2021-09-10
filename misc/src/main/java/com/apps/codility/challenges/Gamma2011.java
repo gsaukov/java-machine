@@ -34,6 +34,8 @@ string S consists only of lowercase letters (a−z).
 *
 */
 
+import java.util.LinkedList;
+
 public class Gamma2011 {
 
     public static void main(String[] args) {
@@ -42,7 +44,29 @@ public class Gamma2011 {
     }
 
     public static int solution(String S) {
-        // write your code in Java SE 8
-        return 0;
+        LinkedList<Character> queue = new LinkedList<>();
+        char[] A = S.toCharArray();
+        int palindromeCount = 0;
+        for(int i = 0; i < A.length; i++) {
+            if(queue.getLast().equals(A[i])) {
+                queue.pollLast();
+                palindromeCount++;
+            } else {
+                queue.add(A[i]);
+            }
+        }
+
+        queue = new LinkedList<>();
+
+        for(int i = A.length - 1; i >= 0 ; i--) {
+            if(queue.getLast().equals(A[i])) {
+                queue.pollLast();
+                palindromeCount++;
+            } else {
+                queue.add(A[i]);
+            }
+        }
+
+        return palindromeCount;
     }
 }
