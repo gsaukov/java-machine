@@ -7,43 +7,43 @@ public class BallSwitchBoardZeta2011 {
     private static final int DIRECTION_RIGHT = 1;
 
     public static void main(String[] args) {
-        int[][] A = new int[][]{{-1, 0, -1}, {-1, 0, 0}};
+        int[][] A = new int[][]{
+                {-1, 0, -1},
+                {-1, 0, 0} };
         System.out.println(solution(A, 4));
     }
 
     public static int solution(int[][] A, int K) {
         int bottom = 0;
-        BOTTOM_BORDER = A.length;
-        RIGHT_BORDER = A[0].length;
+        BOTTOM_BORDER = A.length - 1;
+        RIGHT_BORDER = A[0].length - 1;
         int x = 0;
         int y = 0;
-        for (int i = 0; i <= K; i++) {
-            bottom += move(A, x, y, DIRECTION_BOTTOM);
+        for (int i = 0; i < K; i++) {
+            bottom += move(A, y, x, DIRECTION_BOTTOM);
         }
         return bottom;
     }
 
-    private static int move(int[][] A, int x, int y, int direction) {
-        while (true) {
-            if (y > BOTTOM_BORDER) {
-                return 1;
-            }
-            if (x > RIGHT_BORDER) {
-                return 0;
-            }
+    private static int move(int[][] A, int y, int x, int direction) {
+        if (y >= BOTTOM_BORDER) {
+            return 1;
+        }
+        if (x >= RIGHT_BORDER) {
+            return 0;
+        }
 
-            if (A[x][y] == DIRECTION_BOTTOM) {
-                A[x][y] = DIRECTION_RIGHT;
-                move(A, x, y + 1, DIRECTION_BOTTOM);
-            } else if (A[x][y] == DIRECTION_RIGHT) {
-                A[x][y] = DIRECTION_BOTTOM;
-                move(A, x + 1, y, DIRECTION_BOTTOM);
+        if (A[y][x] == DIRECTION_BOTTOM) {
+            A[y][x] = DIRECTION_RIGHT;
+            return move(A, y + 1, x, DIRECTION_BOTTOM);
+        } else if (A[y][x] == DIRECTION_RIGHT) {
+            A[y][x] = DIRECTION_BOTTOM;
+            return move(A, y, x + 1, DIRECTION_RIGHT);
+        } else {
+            if (direction == DIRECTION_BOTTOM) {
+                return move(A, y + 1, x, direction);
             } else {
-                if (direction == DIRECTION_BOTTOM) {
-                    move(A, x + 1, y, direction);
-                } else {
-                    move(A, x, y + 1, direction);
-                }
+                return move(A, y, x + 1, direction);
             }
         }
     }
