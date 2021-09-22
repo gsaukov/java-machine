@@ -9,7 +9,7 @@ public class BallSwitchBoardZeta2011 {
     public static void main(String[] args) {
         int[][] A = new int[][]{
                 {-1, 0, -1},
-                {-1, 0, 0} };
+                {1, 0, 0} };
         System.out.println(solution(A, 4));
     }
 
@@ -26,10 +26,21 @@ public class BallSwitchBoardZeta2011 {
     }
 
     private static int move(int[][] A, int y, int x, int direction) {
-        if (y >= BOTTOM_BORDER) {
+        if (y > BOTTOM_BORDER && x == RIGHT_BORDER) {
+            printMatrix(A);
+            System.out.println(y + " " + x);
             return 1;
         }
-        if (x >= RIGHT_BORDER) {
+
+        if (y > BOTTOM_BORDER && x < RIGHT_BORDER) {
+            printMatrix(A);
+            System.out.println(y + " " + x);
+            return 0;
+        }
+
+        if (x > RIGHT_BORDER) {
+            printMatrix(A);
+            System.out.println(y + " " + x);
             return 0;
         }
 
@@ -46,6 +57,17 @@ public class BallSwitchBoardZeta2011 {
                 return move(A, y, x + 1, direction);
             }
         }
+    }
+
+    private static void printMatrix(int A[][]) {
+        System.out.print("############################");
+        for(int row[] : A) {
+            System.out.println();
+            for(int n : row) {
+                System.out.print(n + " ");
+            }
+        }
+        System.out.println();
     }
 
 }
