@@ -37,7 +37,13 @@ public class BallSwitchBoardZeta2011 {
                 move(A, x, y + 1, DIRECTION_BOTTOM);
             } else if (A[x][y] == DIRECTION_RIGHT) {
                 A[x][y] = DIRECTION_BOTTOM;
-                move(A, x, y + 1, DIRECTION_BOTTOM);
+                move(A, x + 1, y, DIRECTION_BOTTOM);
+            } else {
+                if (direction == DIRECTION_BOTTOM) {
+                    move(A, x + 1, y, direction);
+                } else {
+                    move(A, x, y + 1, direction);
+                }
             }
         }
     }
