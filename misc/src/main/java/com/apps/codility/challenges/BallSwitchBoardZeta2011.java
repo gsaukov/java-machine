@@ -1,5 +1,7 @@
 package com.apps.codility.challenges;
 
+//Could be solved with log, redesign with finding the path tree;
+
 public class BallSwitchBoardZeta2011 {
     private static int BOTTOM_BORDER;
     private static int RIGHT_BORDER;
