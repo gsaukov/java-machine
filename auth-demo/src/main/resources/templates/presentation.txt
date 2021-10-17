@@ -304,6 +304,8 @@ o	CORS, CSRF.
 o	Security Headers.
 o	JS compilers.
 o	Site pulse, vulnerability trace.
+o	IPsec and VPNs
+o	DNSSec AnyCast and routing safety.
 
 Why this can be interesting for you:
 
