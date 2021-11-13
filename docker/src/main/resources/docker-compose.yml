@@ -79,6 +79,10 @@ services:
     networks:
       - front-tier
       - back-tier
+    environment:
+      POTOK_REDIS_HOST: redis
+      POTOK_DISCOVERY_URL: http://discovery:8761/eureka/
+      POTOK_KAFKA_CLUSTER: kafka:9092
 
   redis:
     image: redis:alpine
@@ -91,7 +95,7 @@ services:
   db:
     image: mysql:latest
     container_name: mysqldb
-    restart: always
+#    restart: always
     expose:
       - 55555
     environment:
@@ -129,7 +133,7 @@ services:
     environment:
       - "MAX_HEAP_SIZE=256M"
       - "HEAP_NEWSIZE=128M"
-    restart: always
+#    restart: always
     volumes:
       - cassandra-data:/var/lib/cassandra
     networks:

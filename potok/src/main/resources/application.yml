@@ -1,8 +1,8 @@
 ####### OVERRIDE OPTION ########
 # override via WM option: -Dmysql.host=localhost
 
-param.redis.host: redis
-param.discovery.host: discovery
+param.redis.host: redis #localhost
+param.discovery.host: discovery #localhost
 param.kafka.address: kafka:9092 #localhost:19092
 
 #######
@@ -10,7 +10,7 @@ param.kafka.address: kafka:9092 #localhost:19092
 spring:
   application:
     name: potok
-  redis.host: ${param.redis.host}
+  redis.host: ${POTOK_REDIS_HOST:localhost}
   redis.port: 6379
 
 management:
@@ -27,7 +27,7 @@ eureka:
     registryFetchIntervalSeconds: 3
     shouldDisableDelta: true
     serviceUrl:
-      defaultZone: http://${param.discovery.host}:8761/eureka/
+      defaultZone: ${POTOK_DISCOVERY_URL:http://localhost:8761/eureka/}
 
 socket-io-server:
   port: 9092
@@ -40,7 +40,7 @@ certificate:
 session.test-mode-authentication: true
 
 kafka:
-  clusterAddress: ${param.kafka.address}
+  clusterAddress: ${POTOK_KAFKA_CLUSTER:localhost:19092}
   topic.executions: executions
   topic.deposits: deposits
   acknowledgement: all # 0 - none; 1 - leader; all - leader and replicas.
