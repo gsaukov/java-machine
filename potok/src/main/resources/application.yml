@@ -55,7 +55,7 @@ exchange:
   cancel-balance-return-delay: 10
   accountServer:
     threads: 4
-  speed: FAST #programm argument: --exchange.speed=NORMAL
+  speed: ${POTOK_EXCHANGE_SPEED:FAST} #programm argument: --exchange.speed=NORMAL
   #speed available options:
     #MAX production mode no thread sleep almost 100% CPU consupmtion. Mostly used for no functional testing to reveal concurrent issues.
     #FAST 1 ms OrderCreator 300 ms MkDataServer thread sleep

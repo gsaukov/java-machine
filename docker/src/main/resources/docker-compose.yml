@@ -83,6 +83,7 @@ services:
       POTOK_REDIS_HOST: redis
       POTOK_DISCOVERY_URL: http://discovery:8761/eureka/
       POTOK_KAFKA_CLUSTER: kafka:9092
+      POTOK_EXCHANGE_SPEED: FAST
 
   redis:
     image: redis:alpine
