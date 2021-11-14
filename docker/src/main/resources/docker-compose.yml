@@ -79,6 +79,7 @@ services:
     networks:
       - front-tier
       - back-tier
+      - kafka-cluster-network
     environment:
       POTOK_REDIS_HOST: redis
       POTOK_DISCOVERY_URL: http://discovery:8761/eureka/
@@ -158,3 +159,6 @@ volumes:
 networks:
   front-tier:
   back-tier:
+  kafka-cluster-network:
+    external:
+      name: kafka-cluster-network
