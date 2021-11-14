@@ -1,14 +1,3 @@
-####### OVERRIDE OPTION ########
-# override via WM option: -Dmysql.host=localhost
-
-param.mysql.host: mysqldb
-param.redis.host: redis
-param.discovery.host: discovery
-param.justitia.host: justitia
-param.cassandra.host: cassandra
-param.cartographer.host: cartographer
-
-#######
 
 server:
   port: 8081
@@ -26,13 +15,13 @@ spring:
   mvc.static-path-pattern: /static/**
   sleuth.sampler.probability: 1.0
   zipkin:
-    baseUrl: http://localhost:9411/
+    baseUrl: ${SDA_ZIPKIN_URL:http://localhost:9411/}
 
 #---
 #spring:changelog-master.yaml
 #  profiles: h2
   datasource:
-    url: jdbc:mysql://${param.mysql.host}:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: ${SDA_DATA_SOURCE_URL:jdbc:mysql://localhost:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC}
     username: sdapplication
     password: password
     driver-class-name: com.mysql.jdbc.Driver
@@ -50,7 +39,7 @@ spring:
   liquibase:
     change-log: classpath:db/changelog-master.yaml
   #Session persistence
-  redis.host: ${param.redis.host}
+  redis.host: ${SDA_REDIS_HOST:localhost}
   redis.port: 6379
 
 #  jpa:
@@ -71,19 +60,19 @@ eureka:
     registryFetchIntervalSeconds: 3
     shouldDisableDelta: true
     serviceUrl:
-      defaultZone: http://${param.discovery.host}:8761/eureka/
+      defaultZone: ${SDA_DISCOVERY_HOST:http://localhost:8761/eureka/}
 
 logging.level.org.springframework: DEBUG
 logging.level.org.hibernate: ERROR
 
 cassandra:
-  host: ${param.cassandra.host}
+  host: ${SDA_CASSANDRA_HOST:localhost}
   port: 9042
 
 data-creation:
   address-store: classpath:db/addresses-us-all.json #use file: to specify absolute/relative location on the file system.
 
 cartographer:
-  origin-map-cartographer-url: http://${param.cartographer.host}:8510/originmap
-  value-map-cartographer-url: http://${param.cartographer.host}:8510/valuemap
-  pollution-map-cartographer-url: http://${param.cartographer.host}:8510/pollutionmap
+  origin-map-cartographer-url: ${SDA_CARTOGRAPHER_ORIGIN_MAP_URL:http://localhost:8510/originmap}
+  value-map-cartographer-url: ${SDA_CARTOGRAPHER_VALUE_MAP_URL:http://localhost:8510/valuemap}
+  pollution-map-cartographer-url: ${SDA_CARTOGRAPHER_POLLUTION_MAP_URL:http://localhost:8510/pollutionmap}
