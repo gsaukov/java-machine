@@ -1,12 +1,10 @@
 package com.apps.leetcode;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class DiagonalSumOfBT {
 
-    public static List<Integer> diagonals = new ArrayList<>();
+    public static Map<Integer, Integer> diagonals = new HashMap();
 
     public static void main(String[] args) {
         Node root = new Node(1);
@@ -18,23 +16,26 @@ public class DiagonalSumOfBT {
         root.right.left.left = new Node(7);
         root.right.left.right = new Node(8);
 
-        diagonals.add(root.val);
         diagonalSum(root, 0);
 
-        for (Integer sum : diagonals) {
+        for (Integer sum : diagonals.values()) {
             System.out.println(sum + ", ");
         }
     }
 
     private static void diagonalSum(Node root, int diagonal) {
+        if(diagonals.containsKey(diagonal)) {
+            int incVal = diagonals.get(diagonal) + root.val;
+            diagonals.put(diagonal, incVal);
+        } else {
+            diagonals.put(diagonal, root.val);
+        }
+
         if(root.left != null) {
-            diagonals.add(root.left.val);
             diagonalSum(root.left, diagonal + 1);
         }
 
         if(root.right != null) {
-            int incVal = diagonals.get(diagonal) + root.right.val;
-            diagonals.set(diagonal, incVal);
             diagonalSum(root.right, diagonal);
         }
     }
