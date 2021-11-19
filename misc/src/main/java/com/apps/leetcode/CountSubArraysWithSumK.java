@@ -8,8 +8,8 @@ public class CountSubArraysWithSumK {
     private static Map<Integer, Integer> prefSum = new HashMap<>();
 
     public static void main(String[] args) {
-        int[] arr = {1,2,3};
-        System.out.println(subarraySum(arr, 1));
+        int[] arr = {-1,-1,1};
+        System.out.println(subarraySum(arr, 0));
     }
 
     public static int subarraySum(int[] nums, int k) {
@@ -20,17 +20,18 @@ public class CountSubArraysWithSumK {
             return 1;
         }
 
-        for (int i = 0; i < nums.length; i++) {
-            curSum = curSum + nums[i];
-            addToPrefSum(curSum);
-        }
-
         curSum = 0;
         for (int i = 0; i < nums.length; i++) {
             curSum = curSum + nums[i];
-            if(prefSum.containsKey(curSum - nums[i]) ){
+            if (curSum == k) {
                 res++;
             }
+
+            if(prefSum.containsKey(curSum - k) ){
+                res += prefSum.get(curSum - k);
+            }
+
+            addToPrefSum(curSum);
         }
         return res;
     }
