@@ -12,6 +12,6 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
-    testCompile 'org.testng:testng:6.9.10'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    testImplementation 'org.testng:testng:6.9.10'
 }

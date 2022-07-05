@@ -3,8 +3,8 @@ group "com.apps.cloud"
 apply plugin: "java"
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
 }
 
 repositories {

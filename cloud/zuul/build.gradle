@@ -12,26 +12,26 @@ dependencyManagement {
 }
 
 dependencies {
-    compile project(':cloud:common-data')
+    implementation project(':cloud:common-data')
     
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
-    compile "org.springframework.cloud:spring-cloud-starter-openfeign"
-    compile "org.springframework.cloud:spring-cloud-starter-zipkin"
-    compile "org.springframework.boot:spring-boot-starter-security"
-    compile 'org.springframework.security:spring-security-oauth2-core'
-    compile "org.springframework.security:spring-security-oauth2-client:${springOauthClientVersion}"
-    compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
-    compile "org.springframework.security:spring-security-jwt:${springJwtVersion}"
-    compile "org.springframework.session:spring-session-data-redis"
-    compile "redis.clients:jedis:${jedisVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation "org.springframework.cloud:spring-cloud-starter-zipkin"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'org.springframework.security:spring-security-oauth2-core'
+    implementation "org.springframework.security:spring-security-oauth2-client:${springOauthClientVersion}"
+    implementation "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
+    implementation "org.springframework.security:spring-security-jwt:${springJwtVersion}"
+    implementation "org.springframework.session:spring-session-data-redis"
+    implementation "redis.clients:jedis:${jedisVersion}"
     
-    runtime "mysql:mysql-connector-java:${mySqlVersion}"
-    runtime "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
-    runtime "com.h2database:h2:${h2Version}"
+    runtimeOnly "mysql:mysql-connector-java:${mySqlVersion}"
+    runtimeOnly "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
+    runtimeOnly "com.h2database:h2:${h2Version}"
 }
 
 sourceSets {

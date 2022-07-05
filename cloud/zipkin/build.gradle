@@ -13,17 +13,17 @@ dependencyManagement {
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
 
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    compile "io.zipkin.java:zipkin-server:${zipkinVersion}"
-    compile "io.zipkin.java:zipkin-autoconfigure-storage-mysql:${zipkinVersion}"
-    compile "mysql:mysql-connector-java:${mySqlVersion}"
-    compile "org.springframework.boot:spring-boot-starter-jdbc"
-    runtime "io.zipkin.java:zipkin-autoconfigure-ui:${zipkinVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "io.zipkin.java:zipkin-server:${zipkinVersion}"
+    implementation "io.zipkin.java:zipkin-autoconfigure-storage-mysql:${zipkinVersion}"
+    implementation "mysql:mysql-connector-java:${mySqlVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc"
+    runtimeOnly "io.zipkin.java:zipkin-autoconfigure-ui:${zipkinVersion}"
 }
 
 configurations {
-    compile.exclude module: 'log4j-to-slf4j'
-    compile.exclude module: 'logback-classic'
+    implementation.exclude module: 'log4j-to-slf4j'
+    implementation.exclude module: 'logback-classic'
 }
 
 repositories {

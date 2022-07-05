@@ -11,25 +11,25 @@ dependencyManagement {
 }
 
 dependencies {
-    compile project(':cloud:common-data')
-    compile project(':cloud:common-rest')
+    implementation project(':cloud:common-data')
+    implementation project(':cloud:common-rest')
 
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
 
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
 
-    compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
-    compile "org.springframework.security:spring-security-jwt:${springJwtVersion}"
+    implementation "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
+    implementation "org.springframework.security:spring-security-jwt:${springJwtVersion}"
 
-    runtime "net.logstash.logback:logstash-logback-encoder:${logstashEncoderVersion}"
-    runtime "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
-    runtime "mysql:mysql-connector-java:${mySqlVersion}"
-    runtime "org.liquibase:liquibase-core:${liquibaseVersion}"
-//    runtime "com.h2database:h2:${h2Version}"
+    runtimeOnly "net.logstash.logback:logstash-logback-encoder:${logstashEncoderVersion}"
+    runtimeOnly "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
+    runtimeOnly "mysql:mysql-connector-java:${mySqlVersion}"
+    runtimeOnly "org.liquibase:liquibase-core:${liquibaseVersion}"
+//    runtimeOnly "com.h2database:h2:${h2Version}"
 }
 
 task copyResources (dependsOn: clean) {

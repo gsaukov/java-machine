@@ -19,14 +19,14 @@ dependencyManagement {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    compile "org.springframework.kafka:spring-kafka:${springKafka}"
-    compile "com.oracle.ojdbc:ojdbc8:19.3.0.0"
-    compile 'com.google.guava:guava:29.0-jre'
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "org.springframework.kafka:spring-kafka:${springKafka}"
+    implementation "com.oracle.ojdbc:ojdbc8:19.3.0.0"
+    implementation 'com.google.guava:guava:29.0-jre'
 
-    runtime "org.liquibase:liquibase-core:${liquibaseVersion}"
+    runtimeOnly "org.liquibase:liquibase-core:${liquibaseVersion}"
 }
 
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile

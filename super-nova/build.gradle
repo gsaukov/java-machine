@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    testCompile "org.testng:testng:${testngVersion}"
+    testImplementation "org.testng:testng:${testngVersion}"
 }
 
 task testng(type: Test) {

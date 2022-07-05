@@ -24,48 +24,48 @@ dependencyManagement {
 }
 
 dependencies {
-    compile project(':misc')
+    implementation project(':misc')
     
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.liquibase:liquibase-core"
-    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.springframework.cloud:spring-cloud-starter-zipkin"
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.session:spring-session-data-redis"
-    compile "redis.clients:jedis:${jedisVersion}"
-    compile 'org.springframework.security:spring-security-oauth2-core'
-    compile "org.springframework.security:spring-security-oauth2-client:${springOauthClientVersion}"
-    compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
-    compile "org.springframework.security:spring-security-jwt:${springJwtVersion}"
-    compile "org.springframework.cloud:spring-cloud-starter-task"
-    compile "javax.persistence:javax.persistence-api"
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    compile "org.springframework.data:spring-data-commons"
-    compile "org.springframework.data:spring-data-cassandra"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.liquibase:liquibase-core"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.cloud:spring-cloud-starter-zipkin"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.session:spring-session-data-redis"
+    implementation "redis.clients:jedis:${jedisVersion}"
+    implementation 'org.springframework.security:spring-security-oauth2-core'
+    implementation "org.springframework.security:spring-security-oauth2-client:${springOauthClientVersion}"
+    implementation "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
+    implementation "org.springframework.security:spring-security-jwt:${springJwtVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-task"
+    implementation "javax.persistence:javax.persistence-api"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "org.springframework.data:spring-data-commons"
+    implementation "org.springframework.data:spring-data-cassandra"
 
-    compile "org.cassandraunit:cassandra-unit-spring:${cassandraUnitVersion}"
-    compile "org.cassandraunit:cassandra-unit-shaded:${cassandraUnitVersion}"
-    compile "com.datastax.cassandra:cassandra-driver-core:${cassandraDriverCoreVersion}"
-    compile "com.datastax.cassandra:cassandra-driver-mapping:${cassandraDriverMappingVersion}"
+    implementation "org.cassandraunit:cassandra-unit-spring:${cassandraUnitVersion}"
+    implementation "org.cassandraunit:cassandra-unit-shaded:${cassandraUnitVersion}"
+    implementation "com.datastax.cassandra:cassandra-driver-core:${cassandraDriverCoreVersion}"
+    implementation "com.datastax.cassandra:cassandra-driver-mapping:${cassandraDriverMappingVersion}"
 
-    compile "org.hectorclient:hector-core:${hectorCoreVersion}"
-    compile "io.dropwizard.metrics:metrics-core:${dropWizardMetricsCoreVersion}"
-    compile "org.jsoup:jsoup:${jsoupVersion}"
-    compile "org.joda:joda-money:${jodaMoneyVersion}"
-    compile "fr.dudie:nominatim-api:${nominatimApiVersion}"
-    compile "org.codehaus.jettison:jettison:1.4.1"
+    implementation "org.hectorclient:hector-core:${hectorCoreVersion}"
+    implementation "io.dropwizard.metrics:metrics-core:${dropWizardMetricsCoreVersion}"
+    implementation "org.jsoup:jsoup:${jsoupVersion}"
+    implementation "org.joda:joda-money:${jodaMoneyVersion}"
+    implementation "fr.dudie:nominatim-api:${nominatimApiVersion}"
+    implementation "org.codehaus.jettison:jettison:1.4.1"
 
-//    runtime "com.h2database:h2:${h2Version}"
-    runtime "mysql:mysql-connector-java:${mySqlVersion}"
+//    runtimeOnly "com.h2database:h2:${h2Version}"
+    runtimeOnly "mysql:mysql-connector-java:${mySqlVersion}"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testCompile "org.testng:testng:${testngVersion}"
+    testImplementation "org.testng:testng:${testngVersion}"
 
     annotationProcessor('org.hibernate:hibernate-jpamodelgen')
 }
 
-// comment this if it does not compile and you do no use nginx as resource server (localhost:9020)
+// comment this if it does not implementation and you do no use nginx as resource server (localhost:9020)
 task copyResources (dependsOn: clean) {
 //    delete '${nginxPath}html/static'
 //

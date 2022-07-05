@@ -15,12 +15,12 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    compile 'org.springframework.data:spring-data-commons'
-    compile group: 'org.apache.commons', name: 'commons-lang3'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.data:spring-data-commons'
+    implementation group: 'org.apache.commons', name: 'commons-lang3'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.testng:testng:6.9.10'
+    testImplementation 'org.testng:testng:6.9.10'
 }
 
 

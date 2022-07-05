@@ -12,12 +12,12 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.python', name: 'jython', version: '2.7.0'
-    compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
-    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
-    compile group: 'org.joda', name: 'joda-money', version: '1.0.1'
-    testCompile 'org.testng:testng:6.9.10'
+    implementation group: 'org.python', name: 'jython', version: '2.7.0'
+    implementation group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+    implementation group: 'org.joda', name: 'joda-money', version: '1.0.1'
+    testImplementation 'org.testng:testng:6.9.10'
 }
 
 

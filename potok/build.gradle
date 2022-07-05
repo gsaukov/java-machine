@@ -18,19 +18,19 @@ dependencyManagement {
 }
 
 dependencies {
-    compile 'org.apache.commons:commons-lang3:3.8.1'
-    compile 'com.google.guava:guava:29.0-jre'
-    compile 'org.springframework.boot:spring-boot-starter-data-redis'
-    compile 'org.springframework.session:spring-session-data-redis'
-    compile 'org.springframework.security:spring-security-core' //needed for Auth deserialization must be on classpath. 
-    compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}" //needed for Auth deserialization must be on classpath. 
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-websocket"
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    compile "org.springframework.kafka:spring-kafka:${springKafka}"
-    compile "com.corundumstudio.socketio:netty-socketio:${nettySocketio}"
-    testCompile "org.springframework.boot:spring-boot-starter-test"
-    testCompile "org.testng:testng:${testngVersion}"
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.session:spring-session-data-redis'
+    implementation 'org.springframework.security:spring-security-core' //needed for Auth deserialization must be on classpath. 
+    implementation "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}" //needed for Auth deserialization must be on classpath. 
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-websocket"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "org.springframework.kafka:spring-kafka:${springKafka}"
+    implementation "com.corundumstudio.socketio:netty-socketio:${nettySocketio}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.testng:testng:${testngVersion}"
 }
 
 sourceSets {

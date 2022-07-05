@@ -44,7 +44,7 @@ def static getArchString() {
     osArch = osArch.toLowerCase(Locale.ENGLISH);
     if ("i386" == osArch || "x86" == osArch || "i686" == osArch) {
         return "x86";
-    } else if (osArch.startsWith("amd64") || osArch.startsWith("x86_64")) {
+    } else if (osArch.startsWith("amd64") || osArch.startsWith("x86_64") || osArch.startsWith("aarch64")) {
         return "x86_64";
     } else if (osArch.startsWith("arm64")) {
         return "arm64";
@@ -67,11 +67,11 @@ def static getArchString() {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Add your other dependencies here:
 
-    compile 'com.github.wendykierp:JTransforms:3.1:with-dependencies'
+    implementation 'com.github.wendykierp:JTransforms:3.1:with-dependencies'
 
     // JCuda dependencies are below
 
@@ -91,47 +91,47 @@ dependencies {
 
     // JCuda Java libraries
 
-    compile(group: 'org.jcuda', name: 'jcuda', version: jCudaVersion) {
+    implementation(group: 'org.jcuda', name: 'jcuda', version: jCudaVersion) {
         transitive = false
     }
-    compile(group: 'org.jcuda', name: 'jcublas', version: jCudaVersion) {
+    implementation(group: 'org.jcuda', name: 'jcublas', version: jCudaVersion) {
         transitive = false
     }
-    compile(group: 'org.jcuda', name: 'jcufft', version: jCudaVersion) {
+    implementation(group: 'org.jcuda', name: 'jcufft', version: jCudaVersion) {
         transitive = false
     }
-    compile(group: 'org.jcuda', name: 'jcusparse', version: jCudaVersion) {
+    implementation(group: 'org.jcuda', name: 'jcusparse', version: jCudaVersion) {
         transitive = false
     }
-    compile(group: 'org.jcuda', name: 'jcurand', version: jCudaVersion) {
+    implementation(group: 'org.jcuda', name: 'jcurand', version: jCudaVersion) {
         transitive = false
     }
-    compile(group: 'org.jcuda', name: 'jcusolver', version: jCudaVersion) {
+    implementation(group: 'org.jcuda', name: 'jcusolver', version: jCudaVersion) {
         transitive = false
     }
-    compile(group: 'org.jcuda', name: 'jnvgraph', version: jCudaVersion) {
+    implementation(group: 'org.jcuda', name: 'jnvgraph', version: jCudaVersion) {
         transitive = false
     }
-    compile(group: 'org.jcuda', name: 'jcudnn', version: jCudaVersion) {
+    implementation(group: 'org.jcuda', name: 'jcudnn', version: jCudaVersion) {
         transitive = false
     }
 
     // JCuda native libraries
 
-    compile group: 'org.jcuda', name: 'jcuda-natives',
+    implementation group: 'org.jcuda', name: 'jcuda-natives',
             classifier: classifier, version: jCudaVersion
-    compile group: 'org.jcuda', name: 'jcublas-natives',
+    implementation group: 'org.jcuda', name: 'jcublas-natives',
             classifier: classifier, version: jCudaVersion
-    compile group: 'org.jcuda', name: 'jcufft-natives',
+    implementation group: 'org.jcuda', name: 'jcufft-natives',
             classifier: classifier, version: jCudaVersion
-    compile group: 'org.jcuda', name: 'jcusparse-natives',
+    implementation group: 'org.jcuda', name: 'jcusparse-natives',
             classifier: classifier, version: jCudaVersion
-    compile group: 'org.jcuda', name: 'jcurand-natives',
+    implementation group: 'org.jcuda', name: 'jcurand-natives',
             classifier: classifier, version: jCudaVersion
-    compile group: 'org.jcuda', name: 'jcusolver-natives',
+    implementation group: 'org.jcuda', name: 'jcusolver-natives',
             classifier: classifier, version: jCudaVersion
-    compile group: 'org.jcuda', name: 'jnvgraph-natives',
+    implementation group: 'org.jcuda', name: 'jnvgraph-natives',
             classifier: classifier, version: jCudaVersion
-    compile group: 'org.jcuda', name: 'jcudnn-natives',
+    implementation group: 'org.jcuda', name: 'jcudnn-natives',
             classifier: classifier, version: jCudaVersion
 }
