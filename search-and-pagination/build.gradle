@@ -10,7 +10,7 @@ apply plugin: "io.spring.dependency-management"
 group 'com.apps'
 version '1.0'
 
-sourceCompatibility = 13
+sourceCompatibility = 17
 
 repositories {
     mavenCentral()
@@ -67,20 +67,20 @@ dependencies {
 
 // comment this if it does not compile and you do no use nginx as resource server (localhost:9020)
 task copyResources (dependsOn: clean) {
-    delete '${nginxPath}html/static'
-
-    copy {
-        from './src/main/resources/static/'
-        into "${nginxPath}html/static"
-    }
-
-    delete '${nginxPath}conf/nginx.conf'
-
-    copy {
-        from './src/main/resources/'
-        into "${nginxPath}conf/"
-        include "nginx.conf"
-    }
+//    delete '${nginxPath}html/static'
+//
+//    copy {
+//        from './src/main/resources/static/'
+//        into "${nginxPath}html/static"
+//    }
+//
+//    delete '${nginxPath}conf/nginx.conf'
+//
+//    copy {
+//        from './src/main/resources/'
+//        into "${nginxPath}conf/"
+//        include "nginx.conf"
+//    }
 }
 
 compileJava.dependsOn copyResources
