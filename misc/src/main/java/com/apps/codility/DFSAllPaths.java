@@ -26,7 +26,10 @@ public class DFSAllPaths {
 
         List<String> path = new ArrayList<>();
 //        path = dfsReq("A", "K", new HashSet<>());
-        dfsReq2("A", "K", new HashSet<>(), path);
+        Set<String> visited = new HashSet<>();
+        visited.add("A");
+        path.add("A");
+        dfsReq2("A", "K", visited, path);
 //        for(String node : path) {
 //            System.out.println(node);
 //        }
@@ -53,21 +56,22 @@ public class DFSAllPaths {
     }
 
     private static boolean dfsReq2(String current, String end, Set<String> visited, List<String> path) {
-        path.add(current);
         Set<String> nodes = new HashSet<>(graph.get(current));
         nodes.removeAll(visited);
         boolean found = false;
         for(String node: nodes) {
             if(node.equals(end)) {
-                path.add(end);
                 found = true;
+                path.add(node);
                 System.out.println("----------------------------");
                 for(String nodeP : path) {
                     System.out.println(nodeP);
                 }
             } else {
                 visited.add(node);
-                if(dfsReq2(node, end, visited, new ArrayList<>(path))) {
+                List<String> currentPath = new ArrayList<>(path);
+                currentPath.add(node);
+                if(dfsReq2(node, end, visited, new ArrayList<>(currentPath))) {
                     found = true;
                 }
             }
