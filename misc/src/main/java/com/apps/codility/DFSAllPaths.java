@@ -25,37 +25,13 @@ public class DFSAllPaths {
         graph.put("F2", new HashSet<>(asList("F", "F1")));
 
         List<String> path = new ArrayList<>();
-//        path = dfsReq("A", "K", new HashSet<>());
         Set<String> visited = new HashSet<>();
         visited.add("A");
         path.add("A");
-        dfsReq2("A", "K", visited, path);
-//        for(String node : path) {
-//            System.out.println(node);
-//        }
+        dfsReq("A", "K", visited, path);
     }
 
-    private static List<String> dfsReq(String current, String end, Set<String> visited) {
-        Set<String> nodes = new HashSet<>(graph.get(current));
-        nodes.removeAll(visited);
-        for(String node: nodes) {
-            visited.add(node);
-            if(node.equals(end)) {
-                List<String> res = new ArrayList<>();
-                res.add(end);
-                return res;
-            } else {
-                List<String> res = dfsReq(node, end, visited);
-                if(res!=null) {
-                    res.add(node);
-                }
-                return res;
-            }
-        }
-        return null;
-    }
-
-    private static boolean dfsReq2(String current, String end, Set<String> visited, List<String> path) {
+    private static boolean dfsReq(String current, String end, Set<String> visited, List<String> path) {
         Set<String> nodes = new HashSet<>(graph.get(current));
         nodes.removeAll(visited);
         boolean found = false;
@@ -68,10 +44,11 @@ public class DFSAllPaths {
                     System.out.println(nodeP);
                 }
             } else {
-                visited.add(node);
+                Set<String> currentVisited = new HashSet<>(visited);
+                currentVisited.add(node);
                 List<String> currentPath = new ArrayList<>(path);
                 currentPath.add(node);
-                if(dfsReq2(node, end, visited, new ArrayList<>(currentPath))) {
+                if(dfsReq(node, end, currentVisited, currentPath)) {
                     found = true;
                 }
             }
