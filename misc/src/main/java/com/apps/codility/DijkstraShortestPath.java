@@ -64,12 +64,12 @@ public class DijkstraShortestPath {
 
     public static Graph calculateShortestPathFromSource(Graph graph, Node source) {
         Set<Node> settledNodes = new HashSet<>();
-        TreeSet<Node> sortedSet = new TreeSet<>();
+        Queue<Node> sortedSet = new PriorityQueue<>();
         source.distance = 0;
         sortedSet.add(source);
 
         while (sortedSet.size() != 0) {
-            Node currentNode = sortedSet.pollFirst();
+            Node currentNode = sortedSet.poll();
             for (Map.Entry<Node, Integer> adjacencyPair : currentNode.adjacentNodes.entrySet()) {
                 Node adjacentNode = adjacencyPair.getKey();
                 Integer edgeWeight = adjacencyPair.getValue();
