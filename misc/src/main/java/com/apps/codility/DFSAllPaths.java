@@ -17,12 +17,13 @@ public class DFSAllPaths {
         graph.put("E", new HashSet<>(asList("B", "F", "G")));             //  |  D   E--G----I
         graph.put("F", new HashSet<>(asList("C", "E", "F1")));            //  |     /    \    \
         graph.put("G", new HashSet<>(asList("E", "H", "J", "I")));        //   \   /      J----K
-        graph.put("H", new HashSet<>(asList("G", "I")));                  //     F---F1
-        graph.put("I", new HashSet<>(asList("H", "G", "K")));             //          \
-        graph.put("J", new HashSet<>(asList("G", "K")));                  //           F2
-        graph.put("K", new HashSet<>(asList("J", "I")));
+        graph.put("H", new HashSet<>(asList("G", "I")));                  //     F---F1       /
+        graph.put("I", new HashSet<>(asList("H", "G", "K")));             //          \      /
+        graph.put("J", new HashSet<>(asList("G", "K")));                  //           F2--F3
+        graph.put("K", new HashSet<>(asList("J", "I", "F3")));
         graph.put("F1", new HashSet<>(asList("F", "F2")));
-        graph.put("F2", new HashSet<>(asList("F", "F1")));
+        graph.put("F2", new HashSet<>(asList("F1", "F3")));
+        graph.put("F3", new HashSet<>(asList("F2", "K")));
 
         List<String> path = new ArrayList<>();
         Set<String> visited = new HashSet<>();
