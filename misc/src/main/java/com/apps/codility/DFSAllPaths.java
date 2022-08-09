@@ -31,29 +31,30 @@ public class DFSAllPaths {
         dfsReq("A", "K", visited, path);
     }
 
-    private static boolean dfsReq(String current, String end, Set<String> visited, List<String> path) {
+    private static void dfsReq(String current, String end, Set<String> visited, List<String> path) {
         Set<String> nodes = new HashSet<>(graph.get(current));
         nodes.removeAll(visited);
-        boolean found = false;
         for(String node: nodes) {
             if(node.equals(end)) {
-                found = true;
                 path.add(node);
-                System.out.println("----------------------------");
-                for(String nodeP : path) {
-                    System.out.println(nodeP);
-                }
+                printPath(path); // you have the full found path here
             } else {
+                //Every node's branch (route) has its own pathand list of visited nodes.
                 Set<String> currentVisited = new HashSet<>(visited);
                 currentVisited.add(node);
                 List<String> currentPath = new ArrayList<>(path);
                 currentPath.add(node);
-                if(dfsReq(node, end, currentVisited, currentPath)) {
-                    found = true;
-                }
+                dfsReq(node, end, currentVisited, currentPath);
             }
         }
-        return found;
+    }
+
+    private static void printPath(List<String> path) {
+        for(String nodeP : path) {
+            System.out.print(" " + nodeP);
+        }
+        System.out.println();
+        System.out.println("----------------------------");
     }
 
 
