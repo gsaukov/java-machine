@@ -1,7 +1,5 @@
 package com.apps.codility;
 
-import org.python.antlr.ast.Str;
-
 import java.util.*;
 
 import static java.util.Arrays.asList;
