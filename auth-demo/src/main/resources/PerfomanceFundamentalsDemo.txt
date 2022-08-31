@@ -1,0 +1,33 @@
+Preflight: https://camo.githubusercontent.com/77f72259e1eb58596b564d1ad823af1853bc60a3/687474703a2f2f692e696d6775722e636f6d2f6b307431652e706e67
+0.000000001 Nano
+0.000001 Micro
+0.001 Milli
+
+1. Performance fundamentals:
+   -Algorithmic complexity,
+   -Environmental limitations (memory hierarchy),
+   -Distance (Latency).
+   Understanding this will help you do better predictions.
+
+2. Algorithmic complexity https://www.bigocheatsheet.com/. Not really a use case in enterprise. (Hashing, Encryption, Compression).
+   No deep math calculations, no or very limited combinatorics, matrixes or graphs. Search and index based operation are usually granted/backed by the databases.
+
+3. Memory hierarchy. Processes(Fully loaded into memory) and I/O (network and permanent memory).
+   CPU & RAM design https://en.wikipedia.org/wiki/Memory_hierarchy . Harddrive design (Solid state(Rapid small) and Hard disk drives(lon sequential)).
+   Concept of a network port that it is just a memory block allocated by OS.
+   A little about databases that they are mediators between main memory and permanent storage i.e hard drives and should grant D (Durability in ACID principles).
+   Also dataBases keeps indexes in the main memory that has a reference to a particular file and event read it form arbitrary byte position.
+
+4. Concept of OS Swapping and Hybernate.
+
+5. Networking and latency. When you go to the network, things run at the microsecond level.
+   "4KB remote page access takes close to 40 microseconds"
+   https://cse.engin.umich.edu/stories/hiding-network-latency-for-fast-memory-in-data-centers
+
+6. Application servers(Tomcat) and thread parking (intended performance degradation to avoid excessive CPU usage).
+   Surprisingly Tomcat likes to Thread.sleep, tomcat-embed-core has more than 10 sleep invocation from 1 ms to 50 ms or even 1 second.
+   Check for instance org.apache.tomcat.util.net.Acceptor.
+
+7. Process communication: REST vs WebSockets vs gRPC(RMI).
+   https://www.moesif.com/blog/api-guide/comparisons-of-api-architectural-styles/
+   https://medium.com/@safvan.kothawala/performance-test-grpc-vs-socket-vs-rest-api-9b9ac25ca3e5.
