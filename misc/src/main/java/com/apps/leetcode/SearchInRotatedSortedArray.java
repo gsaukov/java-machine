@@ -2,12 +2,14 @@ package com.apps.leetcode;
 
 import java.util.Arrays;
 
+//https://leetcode.com/problems/search-in-rotated-sorted-array/
+
 public class SearchInRotatedSortedArray {
 
     public static void main(String[] args) {
         int[] A = {4, 5, 8, 9, 10, 11, 0, 1, 2, 3};
         SearchInRotatedSortedArray s = new SearchInRotatedSortedArray();
-        s.search(A, 10);
+        s.search(A, 7);
     }
 
     public int search(int[] nums, int target) {
@@ -28,7 +30,7 @@ public class SearchInRotatedSortedArray {
         }
 
         int mid = (left + right) / 2;
-        while (left < right) {
+        while (left < right - 1) {
 
             if (nums[mid] == target){
                 return mid;
@@ -42,10 +44,10 @@ public class SearchInRotatedSortedArray {
                 return right;
             }
 
-            if (nums[left] > nums[mid]) { //on the left
+            if (nums[mid] > target) { //target on the left
                 right = mid;
                 mid = (left + right) / 2;
-            } else { // breach is on the right
+            } else { // target is on the right
                 left = mid;
                 mid = (left + right) / 2;
             }
@@ -54,18 +56,12 @@ public class SearchInRotatedSortedArray {
         return -1;
     }
 
-
-    public int findInRange(int target, int[] nums, int left, int right) {
-
-        return 0;
-    }
-
     public int breachPoint(int[] nums) {
         int left = 0;
         int right = nums.length - 1;
         int mid = (left + right) / 2;
         if(nums[left] < nums[right]){
-            return -1; // already sorted.
+            return -1; // already sorted. no breach.
         }
 
         while (left < right) {
@@ -88,6 +84,5 @@ public class SearchInRotatedSortedArray {
 
         return mid;
     }
-
 
 }
