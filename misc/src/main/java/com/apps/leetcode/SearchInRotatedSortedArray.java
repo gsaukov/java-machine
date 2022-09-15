@@ -8,11 +8,25 @@ public class SearchInRotatedSortedArray {
 
     public static void main(String[] args) {
         int[] A = {4, 5, 8, 9, 10, 11, 0, 1, 2, 3};
+        int[] A1 = {9,1,2,3,4,5,6,7,8};
         SearchInRotatedSortedArray s = new SearchInRotatedSortedArray();
-        s.search(A, 7);
+        s.search(A1, 9);
     }
 
     public int search(int[] nums, int target) {
+        if(nums.length == 0){
+            return -1;
+        }
+
+        if(nums.length < 4){
+            for(int i = 0; i < nums.length; i++){
+                if(nums[i] == target) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         int breach = breachPoint(nums);
 
         int left;
@@ -30,7 +44,7 @@ public class SearchInRotatedSortedArray {
         }
 
         int mid = (left + right) / 2;
-        while (left < right - 1) {
+        while (left <= right) {
 
             if (nums[mid] == target) {
                 return mid;
@@ -42,6 +56,10 @@ public class SearchInRotatedSortedArray {
 
             if (nums[right] == target) {
                 return right;
+            }
+
+            if (right - left < 3) {
+                return -1;
             }
 
             if (nums[mid] > target) { //target on the left
