@@ -18,15 +18,6 @@ public class SearchInRotatedSortedArray {
             return -1;
         }
 
-        if(nums.length < 4){
-            for(int i = 0; i < nums.length; i++){
-                if(nums[i] == target) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
         int breach = breachPoint(nums);
 
         int left;
