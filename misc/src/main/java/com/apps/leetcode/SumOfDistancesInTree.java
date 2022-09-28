@@ -41,11 +41,15 @@ public class SumOfDistancesInTree {
     }
 
     private void addReferenceFromTo(int from, int to) {
-        tree.get(from).addChild(tree.get(to));
+        Node parent = tree.get(from);
+        Node child = tree.get(to);
+        parent.addChild(child);
+        child.addParent(parent);
     }
 
     private static class Node {
         int val;
+        Node parent;
         List<Node> children;
 
         public Node(int val) {
@@ -57,6 +61,10 @@ public class SumOfDistancesInTree {
                 this.children = new ArrayList<>();
             }
             children.add(child);
+        }
+
+        public void addParent(Node parent) {
+            this.parent = parent;
         }
     }
 
