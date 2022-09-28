@@ -1,14 +1,12 @@
 package com.apps.leetcode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //https://leetcode.com/problems/sum-of-distances-in-tree/
 public class SumOfDistancesInTree {
 
     Map<Integer, Node> tree = new HashMap<>();
+    Set<Integer> visited = new HashSet<>();
 
     public static void main(String[] args) {
         int[][] A = {{0, 1}, {0, 2}, {2, 3}, {2, 4}, {2, 5}};
@@ -19,9 +17,31 @@ public class SumOfDistancesInTree {
     public int[] sumOfDistancesInTree(int n, int[][] edges) {
         toTree(edges);
         int[] res = new int[tree.size()];
+        int i = 0;
         for(Integer nodeId : tree.keySet()) {
+            res[i] = sumOfNodeDistances(tree.get(nodeId));
+            i++;
+            visited = new HashSet<>();
         }
-        return null;
+        return res;
+    }
+
+    private int sumOfNodeDistances(Node node) {
+        Node parent = node.parent;
+        visited.add(node.val);
+        if (node.children == null && visited.contains(parent.val)) {
+            return 0;
+        }
+        int res = 0;
+        if(node.children != null) {
+            for(Node child : node.children){
+                res = res + sumOfNodeDistances(child) + 1;
+            }
+        }
+        if(parent != null && !visited.contains(parent.val)) {
+            res = res + sumOfNodeDistances(parent) + 1;
+        }
+        return res;
     }
 
     private void toTree(int[][] edges) {
