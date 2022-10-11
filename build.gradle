@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'org.springframework.boot' version '2.7.4'
     id 'com.bmuschko.docker-remote-api' version '6.4.0'
     id 'java'
 }
@@ -21,11 +21,11 @@ dependencies {
 }
 
 bootJar {
-    mainClassName = 'com.apps.lakescalculator.LakesCalculatorApplication'
+    mainClass = 'com.apps.lakescalculator.LakesCalculatorApplication'
 }
 
 springBoot {
-    mainClassName = 'com.apps.lakescalculator.LakesCalculatorApplication'
+    mainClass = 'com.apps.lakescalculator.LakesCalculatorApplication'
 }
 
 task testng(type: Test) {
