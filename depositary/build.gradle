@@ -55,42 +55,42 @@ def containerName = 'depositary'
 //}
 
 
-task stopContainer(type: DockerStopContainer) {
-    targetContainerId("$containerName")
-    onError { exc ->
-        if (exc.message!=null && !exc.message.contains('No such container')) {
-            println "$containerName Container not found"
-        }
-    }
-}
-
-task removeContainer(type: DockerRemoveContainer) {
-    dependsOn stopContainer
-    targetContainerId("$containerName")
-    onError { exc ->
-        if (exc.message!=null && !exc.message.contains('No such container')) {
-            println "$containerName Container not found"
-        }
-    }
-}
-
-task removeImage(type: DockerRemoveImage) {
-    dependsOn removeContainer
-    targetImageId("$imageName")
-    onError { exc ->
-        if (exc.message!=null && !exc.message.contains('No such image')) {
-            println "$imageName Image not found"
-        }
-    }
-}
-
-task buildImage(type: DockerBuildImage) {
-    dependsOn removeImage
-    inputDir = project.file(dockerBuildDir)
-    images.add("$imageName")
-}
-
-build.finalizedBy(buildImage)
+//task stopContainer(type: DockerStopContainer) {
+//    targetContainerId("$containerName")
+//    onError { exc ->
+//        if (exc.message!=null && !exc.message.contains('No such container')) {
+//            println "$containerName Container not found"
+//        }
+//    }
+//}
+//
+//task removeContainer(type: DockerRemoveContainer) {
+//    dependsOn stopContainer
+//    targetContainerId("$containerName")
+//    onError { exc ->
+//        if (exc.message!=null && !exc.message.contains('No such container')) {
+//            println "$containerName Container not found"
+//        }
+//    }
+//}
+//
+//task removeImage(type: DockerRemoveImage) {
+//    dependsOn removeContainer
+//    targetImageId("$imageName")
+//    onError { exc ->
+//        if (exc.message!=null && !exc.message.contains('No such image')) {
+//            println "$imageName Image not found"
+//        }
+//    }
+//}
+//
+//task buildImage(type: DockerBuildImage) {
+//    dependsOn removeImage
+//    inputDir = project.file(dockerBuildDir)
+//    images.add("$imageName")
+//}
+//
+//build.finalizedBy(buildImage)
 
 //task createContainer(type: DockerCreateContainer) {
 //    dependsOn buildImage, removeContainer
