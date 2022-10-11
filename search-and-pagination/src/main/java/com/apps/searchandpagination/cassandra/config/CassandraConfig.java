@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
+import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
 
 @Configuration
 public class CassandraConfig extends AbstractCassandraConfiguration {
@@ -21,9 +21,9 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
     }
 
     @Bean
-    public CassandraClusterFactoryBean cluster() {
-        CassandraClusterFactoryBean cluster =
-                new CassandraClusterFactoryBean();
+    public CqlSessionFactoryBean cluster() {
+        CqlSessionFactoryBean cluster =
+                new CqlSessionFactoryBean();
         //can be more than one contact point
         cluster.setContactPoints(cassandraHost);
         cluster.setPort(cassandraPort);

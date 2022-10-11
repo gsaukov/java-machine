@@ -1,15 +1,14 @@
 package com.apps.searchandpagination.cassandra.entity;
 
-import com.datastax.driver.core.DataType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 @UserDefinedType("polygon")
 public class Polygon {
 
-    @CassandraType(type = DataType.Name.DOUBLE)
+    @CassandraType(type = CassandraType.Name.DOUBLE)
     private Double latitude;
-    @CassandraType(type = DataType.Name.DOUBLE)
+    @CassandraType(type = CassandraType.Name.DOUBLE)
     private Double longitude;
 
     public Polygon() {
