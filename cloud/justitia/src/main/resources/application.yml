@@ -1,5 +1,5 @@
 ####### OVERRIDE OPTION ########
-# override via WM option: -Dmysql.host=localhost
+# override via WM option: -Dparam.mysql.host=localhost
 
 param.mysql.host: mysqldb
 param.discovery.host: discovery
@@ -17,7 +17,7 @@ spring:
     baseUrl: http://localhost:9411/
 
   datasource:
-    url: jdbc:mysql://${param.mysql.host}:55555/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://${param.mysql.host}:55551/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
     username: justitia
     password: password
     driver-class-name: com.mysql.jdbc.Driver
@@ -83,5 +83,5 @@ eureka:
     serviceUrl:
       defaultZone: http://${param.discovery.host}:8761/eureka/
 
-logging.level.org.springframework: DEBUG
+#logging.level.org.springframework: DEBUG
 
