@@ -24,7 +24,7 @@ Preflight: https://camo.githubusercontent.com/77f72259e1eb58596b564d1ad823af1853
    "4KB remote page access takes close to 40 microseconds"
    https://cse.engin.umich.edu/stories/hiding-network-latency-for-fast-memory-in-data-centers
 
-6. intended performance degradation to avoid excessive CPU usage and Application servers(Tomcat thread parking).
+6. Intended performance degradation to avoid excessive CPU usage and Application servers(Tomcat thread parking).
    Surprisingly Tomcat likes to Thread.sleep, tomcat-embed-core has more than 10 sleep invocation from 1 ms to 50 ms or even 1 second.
    Check for instance org.apache.tomcat.util.net.Acceptor.
 

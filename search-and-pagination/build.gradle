@@ -30,7 +30,7 @@ dependencies {
     implementation "org.liquibase:liquibase-core"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-    implementation "org.springframework.cloud:spring-cloud-starter-zipkin"
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.session:spring-session-data-redis"
@@ -55,7 +55,7 @@ dependencies {
     implementation "org.jsoup:jsoup:${jsoupVersion}"
     implementation "org.joda:joda-money:${jodaMoneyVersion}"
     implementation "fr.dudie:nominatim-api:${nominatimApiVersion}"
-    implementation "org.codehaus.jettison:jettison:1.4.1"
+    implementation "org.codehaus.jettison:jettison:${jettisonVersion}"
 
 //    runtimeOnly "com.h2database:h2:${h2Version}"
     runtimeOnly "mysql:mysql-connector-java:${mySqlVersion}"

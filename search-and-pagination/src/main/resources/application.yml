@@ -21,7 +21,7 @@ spring:
 #spring:changelog-master.yaml
 #  profiles: h2
   datasource:
-    url: ${SDA_DATA_SOURCE_URL:jdbc:mysql://localhost:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC}
+    url: ${SDA_DATA_SOURCE_URL:jdbc:mysql://localhost:55551/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC}
     username: sdapplication
     password: password
     driver-class-name: com.mysql.jdbc.Driver
