@@ -71,7 +71,7 @@ services:
       - back-tier
     environment:
       SDA_ZIPKIN_URL: http://zipkin:9411/
-      SDA_DATA_SOURCE_URL: jdbc:mysql://mysqldb:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
+      SDA_DATA_SOURCE_URL: jdbc:mysql://mysqldb:55551/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
       SDA_REDIS_HOST: redis
       SDA_DISCOVERY_URL: http://discovery:8761/eureka/
       SDA_CASSANDRA_HOST: cassandra
@@ -108,14 +108,14 @@ services:
     container_name: mysqldb
 #    restart: always
     expose:
-      - 55555
+      - 55551
     environment:
-      MYSQL_TCP_PORT: 55555
-      MYSQL_USER: 'root'
+      MYSQL_TCP_PORT: 55551
+#      MYSQL_USER: 'root'
       MYSQL_PASSWORD: 'root'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
-      - "55555:55555"
+      - "55551:55551"
     volumes:
       - "db-data:/var/lib/mysql"
     networks:

@@ -31,7 +31,7 @@ is a resource server intended to generate various content for frontend Single Pa
 To run SearchDataApplication requires:
 MySql dabase @ datasource:
 
-       url: jdbc:mysql://localhost:55555/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
+       url: jdbc:mysql://localhost:55551/sdapplication?useLegacyDatetimeCode=false&serverTimezone=UTC
        username: sdapplication
        password: password
        Schema:
@@ -91,7 +91,7 @@ Spring boot oauth2 server implementation inteded to keep sensetive credential da
 Justitia setup requires:
 MySql dabase @ datasource:
 
-        url: jdbc:mysql://localhost:55555/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
+        url: jdbc:mysql://localhost:55551/justitia?useLegacyDatetimeCode=false&serverTimezone=UTC
         username: justitia
         password: password
        Schema:
