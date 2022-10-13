@@ -1,5 +1,5 @@
 ####### OVERRIDE OPTION ########
-# override via WM option: -Dmysql.host=localhost
+# override via WM option: -Dparam.redis.host=localhost
 
 param.redis.host: redis
 param.discovery.host: discovery
@@ -8,6 +8,8 @@ param.justitia.host: justitia
 #######
 
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: zuul
   mvc.throw-exception-if-no-handler-found: true
@@ -21,7 +23,7 @@ spring:
   redis.port: 6379
 
 #  datasource:
-#    url: jdbc:mysql://localhost:55555/justitia
+#    url: jdbc:mysql://localhost:55551/justitia
 #    username: justitia
 #    password: password
 #    driver-class-name: com.mysql.jdbc.Driver
@@ -137,4 +139,4 @@ jwt:
 
 login-page-url: https://localhost:8002/oauth/authorize?response_type=code&client_id=sdapplication&scope=openid domains rights
 
-logging.level.org.springframework: DEBUG
+#logging.level.org.springframework: DEBUG
