@@ -1,6 +1,6 @@
 # oracle/jdk:11 https://github.com/oracle/docker-images/tree/master/OracleJava
 
-FROM oracle/jdk:14
+FROM amazoncorretto:17
 EXPOSE 9092
 #ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
 ARG JAR_FILE=/build/libs/potok-1.0.jar
