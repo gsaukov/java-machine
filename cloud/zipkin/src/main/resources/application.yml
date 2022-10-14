@@ -14,11 +14,13 @@ spring:
   main:
     web-application-type: none
   datasource:
-    url: jdbc:mysql://localhost:55555/zipkin?useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:55551/zipkin?useLegacyDatetimeCode=false&serverTimezone=UTC
     username: zipkin
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
-    continue-on-error: true
+  sql:
+    init:
+      continue-on-error: true
 
 zipkin:
   storage:
