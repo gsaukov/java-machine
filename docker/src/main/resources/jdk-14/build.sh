@@ -1,1 +1,2 @@
-docker build -t oracle/jdk:14 .
+docker build -t amazoncorretto:17
+ .
