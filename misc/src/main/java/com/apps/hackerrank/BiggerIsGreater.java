@@ -9,8 +9,18 @@ public class BiggerIsGreater {
 
 
     public static String biggerIsGreater(String w) {
+
+        if(w == null || w.isEmpty() || w.length() == 1){
+            return "no answer";
+        }
+
         char[] arr = w.toCharArray();
         int arrBreak = findBreak(arr);
+
+        if(arrBreak == -1) {
+            return "no answer";
+        }
+
         replace(arr, arrBreak);
         char[] beforeBreak = Arrays.copyOfRange(arr, 0, arrBreak + 1);
         char[] afterBreak = Arrays.copyOfRange(arr, arrBreak + 1, arr.length);
@@ -44,8 +54,11 @@ public class BiggerIsGreater {
     public static void main(String[] args)  {
         biggerIsGreater("dkhc");
         biggerIsGreater("abdeeeddklm");
+        biggerIsGreater("fedcbabcd");
     }
 
 }
 //cdhk
 //hcdk - correct
+//fedcbabdc
+//fedcbabdc
