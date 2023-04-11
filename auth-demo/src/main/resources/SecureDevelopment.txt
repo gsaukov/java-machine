@@ -9,7 +9,7 @@ OWASP - https://owasp.org/
 
 OSVS - Open Source Vulnerability Scanner. Checks for vulnerabilities in your and dependencies including operating systems, OSVS Tools: WhiteSource|BlackDuck Binary Analysis|BlackDuck|SVM (Google https://osv.dev/)
 SAST - Static Application Security Testing. Non running, code scans and reviews of source code and code functions. Includes OSVS related to application. SAST Tools: Fortify|Checkmarx|Coverity|CVA|MASTorm.
-DAST - Dynamic Application Security Testing. Running app weaknesses and vulnerabilities finding from outside, unit/component/integration & pen(manual & semi manual) testing. DAST Tools: DASTer|WebInspect|MASTorm
+DAST - Dynamic Application Security Testing. Running app weaknesses and vulnerabilities finding from outside, unit/component/integration & pen(manual & semi manual) testing. DAST Tools: DASTer|WebInspect|MASTorm|OWASP Zap
 IAST - Interactive Application Security Testing. Works inside running app analyzing weaknesses and vulnerabilities finding.
 
 Fortify - Java app static code scanning.
