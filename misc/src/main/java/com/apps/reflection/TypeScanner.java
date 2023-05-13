@@ -18,6 +18,11 @@ public class TypeScanner {
         return scanner.scanClass(clazz.getSimpleName(), clazz, new HashSet<>());
     }
 
+    public static Map<String, Object> scan(String parentName, Class targetClass, Class clazz) {
+        TypeScanner scanner = new TypeScanner(targetClass);
+        return scanner.scanClass(parentName, clazz, new HashSet<>());
+    }
+
     public static Map<String, Object> toFlatMap(Map<String, Object> map) {
         Map<String, Object> flattenedMap = flatten(map)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
