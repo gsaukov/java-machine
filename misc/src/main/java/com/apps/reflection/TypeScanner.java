@@ -16,6 +16,26 @@ public class TypeScanner {
         return scanner.scanClass(clazz.getSimpleName(), clazz, new HashSet<>());
     }
 
+    public static Map<String, Object> toFlatMap(Map<String, Object> map) {
+        Map<String, Object> flattenedMap = flatten(map)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return flattenedMap;
+    }
+
+    private static Stream<Map.Entry<String, Object>> flatten(Map<String, Object> map) {
+        return map.entrySet()
+                .stream()
+                .flatMap(TypeScanner::extractValue);
+    }
+
+    private static Stream<Map.Entry<String, Object>> extractValue(Map.Entry<String, Object> entry) {
+        if (entry.getValue() instanceof Map) {
+            return flatten((Map<String, Object>) entry.getValue());
+        } else {
+            return Stream.of(entry);
+        }
+    }
+
     private Class targetClass;
 
     private TypeScanner(final Class targetClass) {
