@@ -2,6 +2,10 @@ package com.apps.reflection;
 
 import java.lang.reflect.Field;
 
+/*
+ * Merger represents a generic merge operation between two objects of the same type.
+ * Null remotes are ignored. no null if primitive are merged into a local.
+ * */
 public class Merger {
 
     public <T> T merge(T local, T remote) throws IllegalAccessException, InstantiationException {
