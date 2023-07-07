@@ -1,4 +1,7 @@
 package com.apps.reflection;
+
+import java.lang.reflect.Field;
+
 public class Merger {
 
     public <T> T merge(T local, T remote) throws IllegalAccessException, InstantiationException {
