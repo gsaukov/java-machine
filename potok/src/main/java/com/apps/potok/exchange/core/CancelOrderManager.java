@@ -48,7 +48,7 @@ public class CancelOrderManager {
             } else {
                 bidContainer.removeBid(orderToRemove);
             }
-            executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), cancelBalanceReturnDelay, TimeUnit.SECONDS);
+            executorService.schedule(createCancelOrderBalanceReturnTask(orderToRemove, account), cancelBalanceReturnDelay, TimeUnit.MILLISECONDS);
         }
         return orderToRemove;
     }
