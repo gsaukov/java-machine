@@ -60,6 +60,7 @@ public class Account {
     }
 
     //could be optimised with LongUnaryOperator
+    //risk is only to make sure we have some money(10%) on account, only change is applied to the balance.
     public boolean doNegativeOrderBalance(long risk, long change) {
         long prev, next;
         do {
