@@ -21,13 +21,11 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
     }
 
     @Bean
-    public CqlSessionFactoryBean cluster() {
-        CqlSessionFactoryBean cluster =
-                new CqlSessionFactoryBean();
-        //can be more than one contact point
-        cluster.setContactPoints(cassandraHost);
-        cluster.setPort(cassandraPort);
-        return cluster;
+    public CqlSessionFactoryBean cassandraSession() {
+        CqlSessionFactoryBean bean = super.cassandraSession();
+        bean.setContactPoints(cassandraHost);
+        bean.setPort(cassandraPort);
+        return bean;
     }
 
 }
